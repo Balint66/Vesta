@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:vesta/Data.dart';
+import 'package:vesta/StudentData.dart';
 import 'package:vesta/Vesta.dart';
+import 'package:vesta/messageDisplay.dart';
+import 'package:vesta/webServices.dart';
 
 class MainProgram extends StatefulWidget
 {
@@ -15,13 +19,15 @@ class MainProgram extends StatefulWidget
 
 class MainProgramState extends State<MainProgram> {
   @override
-  void initState() {
+  void initState()
+  {
     // TODO: implement initState
     super.initState();
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+  {
 
     Vesta.showSnackbar = (Widget widget){
       if(widget == null)
@@ -31,10 +37,12 @@ class MainProgramState extends State<MainProgram> {
     };
 
     // TODO: implement build
-    return Center(
+    return MessageDisplay();
+
+    /*Center(
         child: FlatButton(
             onPressed: (){ mainController.sink.add(ProgramHolder.auth);},
-            child: Text("Hello!")));
+            child: Text("Hello!")));// */
   }
 
 }

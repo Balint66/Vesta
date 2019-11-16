@@ -1,21 +1,69 @@
 import 'package:flutter/material.dart';
 import 'package:vesta/Data.dart';
 import 'package:vesta/SchoolSelectioButton.dart';
+import 'package:vesta/StudentData.dart';
 import 'package:vesta/loginButton.dart';
 import 'package:vesta/schoolList.dart';
+import 'package:vesta/webServices.dart';
 
 import 'Vesta.dart';
 
-class Authorization extends StatelessWidget
+class Authorization extends StatefulWidget
 {
 
-  final Future<SchoolList> post;
+  const  Authorization({Key key}) : super(key: key);
+
+
+  @override
+  State<StatefulWidget> createState()
+  {
+    return new AuthorizationState();
+  }
+
+}
+
+class AuthorizationState extends State<Authorization>
+{
+  Future<SchoolList> _post;
 
   final TextEditingController userName = new TextEditingController();
   final TextEditingController password = new TextEditingController();
   final LoginButton login = new LoginButton();
 
-  Authorization(this.post,{Key key}) : super(key: key);
+  @override
+  void initState() {
+    super.initState();
+    _post = WebServices.fetchSchools();
+
+    clearData();
+  }
+
+  void clearData()
+  {
+    if(Data.password != null || Data.password != null){
+
+      if(Data.password.isNotEmpty || Data.username.isNotEmpty ||
+          Data.school != null)
+      {
+        Data.password = "";
+        Data.username = "";
+        Data.school = null;
+      }
+    }
+
+    if(StudentData.Instance != null){
+
+      if(StudentData.Instance.username != null ||
+          StudentData.Instance.password != null ||
+          StudentData.Instance.training.isNotEmpty)
+      {
+
+        if(StudentData.Instance.password.isNotEmpty ||
+            StudentData.Instance.username.isNotEmpty)
+          StudentData.setInstance("", "", null);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context)
@@ -28,12 +76,15 @@ class Authorization extends StatelessWidget
 
     };
 
+    if(_post == null)
+      _post = WebServices.fetchSchools();
+
     return Center(
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               FutureBuilder(
-                future: post,
+                future: _post,
                 builder: (context,snapshot)
                 {
 
@@ -47,7 +98,12 @@ class Authorization extends StatelessWidget
                   {
 
                     Vesta.showSnackbar(new Text("${snapshot.error}"));
-                    return Text("${snapshot.error}");
+                    return new MaterialButton(
+                      onPressed: ()
+                        {
+                          this.reassemble();
+                        },
+                      child: Text("Újra próbálkozás"),);
 
                   }
 
@@ -59,7 +115,9 @@ class Authorization extends StatelessWidget
                 child: TextField(
                   autocorrect: false,
                   autofocus: true,
-                  decoration: const InputDecoration(labelText: "Username",hintText: "Neptun Code",),
+                  decoration: const InputDecoration(
+                    labelText: "Username",
+                    hintText: "Neptun Code",),
                   maxLines: 1,
                   controller: userName,
                   onChanged: (str)
@@ -75,9 +133,9 @@ class Authorization extends StatelessWidget
                     maxLines: 1,
                     controller: password,
                     onChanged: (str)
-                  {
-                    Data.password = password.text;
-                  },),
+                    {
+                      Data.password = password.text;
+                    },),
                   width: 300.0),
               login,
             ]
@@ -85,5 +143,4 @@ class Authorization extends StatelessWidget
     );
 
   }
-
 }

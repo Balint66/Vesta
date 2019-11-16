@@ -4,22 +4,24 @@ import 'dart:io';
 import 'package:flutter/widgets.dart';
 import 'package:http/io_client.dart';
 import 'package:http/http.dart' as http;
+import 'package:vesta/StudentData.dart';
 import 'package:vesta/Vesta.dart';
-
 import 'package:vesta/schoolList.dart';
+import 'package:html_unescape/html_unescape.dart';
 
 class WebServices
 {
 
   static final http.Client client = testWeb();
 
+  static final HtmlUnescape unescape = new HtmlUnescape();
 
   static Future<SchoolList> fetchSchools() async
   {
 
-    String url = Uri.https("mobilecloudservice.cloudapp.net", "/MobileServiceLib/MobileCloudService.svc/GetAllNeptunMobileUrls").toString();
-
-    print("here");
+    String url = Uri.https("mobilecloudservice.cloudapp.net",
+        "/MobileServiceLib/MobileCloudService.svc/GetAllNeptunMobileUrls")
+        .toString();
 
     http.Response resp;
     try{
@@ -48,7 +50,7 @@ class WebServices
     }
 
 
-    return SchoolList.fromJson(utf8.decode(resp.bodyBytes));
+    return SchoolList.fromJson(resp.body);
 
   }
 
@@ -61,29 +63,31 @@ class WebServices
     if(userName == null || userName.isEmpty)
       throw "Please give a valid username!";
     if(password == null || password.isEmpty)
-      throw "Invalid password!";
+      throw "Please type in a valid password!";
 
-    String body = json.encode({"OnlyLogin":false, "TotalRowCount":-1,"ExceptionsEnum":0,"UserLogin":userName,"Password":password,
+    String body = json.encode({"OnlyLogin":false, "TotalRowCount":-1,
+      "ExceptionsEnum":0,"UserLogin":userName,"Password":password,
       "Neptuncode":null,"CurrentPage":0, "StudentTrainingID":null,
-      "LCID":37,"ErrorMessage":null,"MobileVersion":"1.5","MobileServiceVersion":0,});
+      "LCID":1038,"ErrorMessage":null,"MobileVersion":"1.5",
+      "MobileServiceVersion":0,});
 
-    http.Response resp = await client.post(school.Url + "/GetTrainings",headers: {"content-type":"application/json"},body: body);//*/
-
-    print(resp.body);
+    http.Response resp = await client.post(school.Url + "/GetTrainings",
+        headers: {"content-type":"application/json"},body: body);
 
     Map<String, dynamic> respBody = json.decode(resp.body);
 
-    if(respBody["ExceptionData"] != null || respBody["ErrorMessage"] != null)
-    {
-      if(respBody["ExceptionData"] == null)
-        throw respBody["ErrorMessage"];
-      throw respBody["ExceptionData"];
-    }
+    _testResponse(respBody);
 
-    if(respBody["StudentTrainingID"]==null)
+    if(respBody["TrainingList"]==null)
       throw "There isn' any associated training for this student";
 
+
+
+    StudentData.setInstance(userName, password,
+        TrainingData.listFromJsonString(json.encode(respBody["TrainingList"])));
+
     return true;
+
     }
     catch(e)
     {
@@ -91,6 +95,40 @@ class WebServices
     }
     
     return false;
+
+  }
+
+  static Future getMessages(School school, StudentData student) async
+  {
+
+    String body = json.encode({"OnlyLogin":false, "TotalRowCount":-1,
+      "ExceptionsEnum":0,"UserLogin":student.username,
+      "Password":student.password,
+      "Neptuncode":student.username,"CurrentPage":0,
+      "StudentTrainingID":student.currentTraining.id,
+      "LCID":1038,"ErrorMessage":null,"MobileVersion":"1.5",
+      "MobileServiceVersion":0,});
+
+    http.Response resp = await client.post(school.Url + "/GetMessages",
+        headers: {"content-type":"application/json"},body: body);
+
+
+    Map<String,dynamic> jsonBody = json.decode(resp.body);
+
+    print(DateTime.fromMillisecondsSinceEpoch(int.parse(((jsonBody["MessagesList"][0] as Map<String,dynamic>)["SendDate"] as String).substring(6).split(')')[0])));
+
+    return true;
+
+  }
+
+  static void _testResponse(Map<String, dynamic> jsonBody)
+  {
+    if(jsonBody["ExceptionData"] != null || jsonBody["ErrorMessage"] != null)
+    {
+      if(jsonBody["ExceptionData"] == null)
+        throw jsonBody["ErrorMessage"];
+      throw jsonBody["ExceptionData"];
+    }
 
   }
 

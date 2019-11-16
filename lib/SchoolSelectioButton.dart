@@ -27,8 +27,8 @@ class SchoolButtonState extends State<SchoolSelectionButton>
   SchoolButtonState(this.schools,{Key key});
 
   @override
-  void initState() {
-    // TODO: implement initState
+  void initState()
+  {
     text = "Iskolák...";
     super.initState();
   }
@@ -82,11 +82,9 @@ class SchoolButtonState extends State<SchoolSelectionButton>
               Navigator.pop(context,item);
             },
             child:
-              Container( child:
                 Text(item.Name,
                   textScaleFactor: 1.5,
                 ),
-              )
         )
       );
 

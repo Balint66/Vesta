@@ -20,6 +20,19 @@ dependencies:
   flutter:
     sdk: flutter
   http: ^0.12.0+2
+  background_fetch:
+    git:
+      url: https://github.com/transistorsoft/flutter_background_fetch
+  flutter_local_notifications:
+    git:
+      url: https://github.com/MaikuB/flutter_local_notifications
+  flutter_launcher_icons:
+    git:
+      url: https://github.com/fluttercommunity/flutter_launcher_icons
+  html_unescape:
+    git:
+      url: https://github.com/filiph/html_unescape
+  charts_flutter: ^0.8.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -30,6 +43,12 @@ dev_dependencies:
     sdk: flutter
 
 
+flutter_icons:
+  android: "launcher_icon"
+  ios: "launcher_icon"
+  adaptive_icon_background: "#ffffff"
+  image_pathadaptive_icon_foreground: "assets/icon/vesta.svg"
+  image_path: "assets/icon/vesta.png"
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

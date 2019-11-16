@@ -23,12 +23,7 @@ class LoginBtnState extends State<LoginButton>
 {
 
   StreamController controller = new StreamController<Widget>();
-  MaterialButton get btn =>  MaterialButton(
-    onPressed:  /*btnfnc()*/ (){controller.sink.add(login);},
-    child: Text("Login",maxLines: 1,),
-    color: Colors.red,
-    minWidth: 150.0 ,
-  );
+  MaterialButton btn;
 
   FutureBuilder get login => new FutureBuilder<bool>(future: WebServices.login(Data.username, Data.password, Data.school),
       builder: (context,snapshot)
@@ -59,13 +54,20 @@ class LoginBtnState extends State<LoginButton>
 
   @override
   void initState() {
+    btn = new MaterialButton(
+      onPressed: (){controller.sink.add(login);},
+      child: Text("Login",maxLines: 1,),
+      color: Colors.red,
+      minWidth: 150.0 ,
+    );
     super.initState();
   }
 
   @override
   Widget build(BuildContext context)
   {
-    return StreamBuilder(initialData: btn,stream: controller.stream,builder: (context,snapshot)
+    return StreamBuilder(initialData: btn,stream: controller.stream,
+      builder: (context,snapshot)
     {
       if(snapshot.hasData)
         return snapshot.data;

@@ -16,7 +16,7 @@ class ProgramHolder
 
   ProgramHolder(this.widget,this.appbar);
 
-  static final ProgramHolder auth = new ProgramHolder(Authorization(WebServices.fetchSchools()), null);
+  static final ProgramHolder auth = new ProgramHolder(const Authorization(), null);
   static final ProgramHolder mainProg = new ProgramHolder(const MainProgram(), AppBar(title: Text("Vesta"),));
 
 }
