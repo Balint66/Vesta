@@ -33,7 +33,7 @@ class MainProgramState extends State<MainProgram> {
     // TODO: implement build
     return Center(
         child: FlatButton(
-            onPressed: (){ mainController.sink.add(auth);},
+            onPressed: (){ mainController.sink.add(ProgramHolder.auth);},
             child: Text("Hello!")));
   }
 

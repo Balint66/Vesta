@@ -25,9 +25,9 @@ class StudentData
 class TrainingData
 {
 
-  final String Name;
-  final String ID;
+  final String name;
+  final String id;
 
-  TrainingData(this.Name, this.ID);
+  TrainingData(this.name, this.id);
 
 }

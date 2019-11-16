@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-//import 'package:http/browser_client.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/io_client.dart';
 import 'package:http/http.dart' as http;
@@ -17,9 +16,6 @@ class WebServices
 
   static Future<SchoolList> fetchSchools() async
   {
-    //HttpClientRequest req = await client.postUrl(Uri.https("mobilecloudservice.cloudapp.net", "/MobileServiceLib/MobileCloudService.svc/GetAllNeptunMobileUrls"));
-    //req.headers.add("Content-Type", "Application/json");
-    //var resp = await req.close();
 
     String url = Uri.https("mobilecloudservice.cloudapp.net", "/MobileServiceLib/MobileCloudService.svc/GetAllNeptunMobileUrls").toString();
 
@@ -33,8 +29,6 @@ class WebServices
     }
     catch(e)
     {
-
-      //Error error = e;
 
       if(e is SocketException)
       {
@@ -62,22 +56,17 @@ class WebServices
   {
     try{
 
-    /*http.Request request = new http.Request("POST", Uri.parse(school.Url));
-    request.body = ({"OnlyLogin":true, "TotalRowCount":-1,"ExceptionsEnum":0,"UserLogin":userName,"Password":password,"Neptuncode":null,"CurrentPage":0, "StudentTrainingID":null,
-      "LCID":1038,"ErrorMessage":null,"MobileVersion":1.5,"MobileServiceVersion":0}).toString();
-
-    request.headers.addAll({"Content-Type":"Application/json"});*/
-
-    /*await client.send(request);*/
-
     if(school == null)
       throw "Please chose a school!";
     if(userName == null || userName.isEmpty)
       throw "Please give a valid username!";
     if(password == null || password.isEmpty)
       throw "Invalid password!";
-    String body = json.encode({"OnlyLogin":false, "TotalRowCount":-1,"ExceptionsEnum":0,"UserLogin":userName,"Password":password,"Neptuncode":null,"CurrentPage":0, "StudentTrainingID":null,
-      "LCID":0,"ErrorMessage":null,"MobileVersion":"1.5","MobileServiceVersion":0,});
+
+    String body = json.encode({"OnlyLogin":false, "TotalRowCount":-1,"ExceptionsEnum":0,"UserLogin":userName,"Password":password,
+      "Neptuncode":null,"CurrentPage":0, "StudentTrainingID":null,
+      "LCID":37,"ErrorMessage":null,"MobileVersion":"1.5","MobileServiceVersion":0,});
+
     http.Response resp = await client.post(school.Url + "/GetTrainings",headers: {"content-type":"application/json"},body: body);//*/
 
     print(resp.body);
@@ -88,8 +77,11 @@ class WebServices
     {
       if(respBody["ExceptionData"] == null)
         throw respBody["ErrorMessage"];
-      throw respBody["ExceptionData"] != null;
+      throw respBody["ExceptionData"];
     }
+
+    if(respBody["StudentTrainingID"]==null)
+      throw "There isn' any associated training for this student";
 
     return true;
     }

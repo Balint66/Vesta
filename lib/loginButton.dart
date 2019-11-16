@@ -22,21 +22,21 @@ class LoginButton extends StatefulWidget
 class LoginBtnState extends State<LoginButton>
 {
 
-  static final StreamController controller = new StreamController<Widget>();
-  static MaterialButton get btn =>  MaterialButton(
+  StreamController controller = new StreamController<Widget>();
+  MaterialButton get btn =>  MaterialButton(
     onPressed:  /*btnfnc()*/ (){controller.sink.add(login);},
     child: Text("Login",maxLines: 1,),
     color: Colors.red,
     minWidth: 150.0 ,
   );
 
-  static FutureBuilder get login => new FutureBuilder<bool>(future: WebServices.login(Data.username, Data.password, Data.school),
+  FutureBuilder get login => new FutureBuilder<bool>(future: WebServices.login(Data.username, Data.password, Data.school),
       builder: (context,snapshot)
       {
         if(snapshot.hasData){
           controller.sink.add(btn);
           if(snapshot.data)
-            mainController.sink .add(mainProg);
+            mainController.sink .add(ProgramHolder.mainProg);
           return btn;
         }
 
@@ -58,6 +58,11 @@ class LoginBtnState extends State<LoginButton>
   }
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context)
   {
     return StreamBuilder(initialData: btn,stream: controller.stream,builder: (context,snapshot)
@@ -68,13 +73,13 @@ class LoginBtnState extends State<LoginButton>
     },);
   }
 
-  static Function btnfnc()
+  Function btnfnc()
   {
     if(Data.school == null|| Data.password == null || Data.password.isEmpty|| Data.username == null || Data.username.isEmpty)
       return null;
     else
     {
-         return (){controller.sink.add(login);};
+         return (){mainController.sink.add(login);};
     }
   }
 
