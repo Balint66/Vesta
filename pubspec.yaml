@@ -23,16 +23,19 @@ dependencies:
   background_fetch:
     git:
       url: https://github.com/transistorsoft/flutter_background_fetch
-  flutter_local_notifications:
-    git:
-      url: https://github.com/MaikuB/flutter_local_notifications
+  flutter_local_notifications: ^1.1.3
   flutter_launcher_icons:
     git:
       url: https://github.com/fluttercommunity/flutter_launcher_icons
-  html_unescape:
+  fluro:
     git:
-      url: https://github.com/filiph/html_unescape
-  charts_flutter: ^0.8.1
+      url: git://github.com/theyakka/fluro.git
+      ref: v2.0.0
+  url_launcher: ^4.0.3
+  flutter_linkify: ^1.0.3
+  logger: ^0.6.0
+  overlay_support: ^1.0.0
+  path_provider: ^1.6.5
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
