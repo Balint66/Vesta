@@ -1,5 +1,5 @@
-#Vesta
-Unoffical, alternative neptun app
+# Vesta
+unoffical, alternative neptun app
 
-##Demo
+## Demo
 ![Vesta app demo](repository_assets/vesta_output.gif)
