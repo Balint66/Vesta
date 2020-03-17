@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 
 import 'package:vesta/datastorage/data.dart';
+import 'package:vesta/datastorage/studentData.dart';
+import 'package:vesta/settings/settingsData.dart';
 
 class FileManager
 {
@@ -21,22 +25,78 @@ class FileManager
       file = await file.create();
     }
     
-    file.writeAsString(Data.toJsonString());
+    Map<String, dynamic> map = <String, dynamic>
+    {
+      "studentData": StudentData.toJsonMap(StudentData.Instance),
+      "school": Data.school.asJson()
+    };
+    
+    file.writeAsString(json.encode(map));
 
   }
 
   static Future<bool> readData() async
   {
-    String str = await loadFile();
-    return Data.fromJson(str);
+    String str = await loadLoginFile();
+    Map<String, dynamic> map = json.decode(str);
+
+    if(!(map.containsKey("studentData")&&map.containsKey("school")))
+      return false;
+
+    StudentData std = StudentData.fromJsondata(map["studentData"]);
+
+    StudentData.setInstance(std.username, std.password, std.training);
+
+    Map<String, dynamic> data = <String, dynamic>
+    {
+      "username":StudentData.Instance.username,
+      "password":StudentData.Instance.password,
+      "school":map["school"]
+    };
+    return Data.fromJson(json.encode(data));
   }
 
-  static Future<String> loadFile() async
+  static Future<void> clearFileData() async
+  {
+    await init();
+
+    File file = File(directory.path + "login_data.json");
+
+    await file.writeAsString("{}");
+
+  }
+
+  static Future<String> loadLoginFile() async
   {
     await init();
     File file = File(directory.path + "login_data.json");
 
-    return file.readAsString();
+    if(await file.exists())
+      return file.readAsString();
+    else
+      return "{}";
+
+  }
+
+  static Future<void> saveSettings(SettingsData data) async
+  {
+
+    await init();
+    File file = File(directory.path+"settings.json");
+
+    file.writeAsString(data.toJsonString());
+
+  }
+
+  static Future<SettingsData> loadSettings() async
+  {
+    await init();
+    File file = File(directory.path +"settings.json");
+
+    if(! (await file.exists()))
+      return new SettingsData();
+
+    return SettingsData.fromJsonString(await file.readAsString());
 
   }
 
@@ -44,6 +104,8 @@ class FileManager
   {
     if(directory == null)
       directory = await getApplicationDocumentsDirectory();
+
+
   }
 
 }

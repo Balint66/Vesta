@@ -4,11 +4,15 @@ import 'dart:io';
 import 'package:flutter/widgets.dart';
 import 'package:http/io_client.dart';
 import 'package:http/http.dart' as http;
+import 'package:vesta/datastorage/local/fileManager.dart';
 import 'package:vesta/datastorage/studentData.dart';
 import 'package:vesta/Vesta.dart';
 import 'package:vesta/datastorage/school/schoolList.dart';
 import 'package:vesta/web/webdata/webDataBase.dart';
+import 'package:vesta/web/webdata/webDataCalendarRequest.dart';
+import 'package:vesta/web/webdata/webDataCalendarResponse.dart';
 import 'package:vesta/web/webdata/webDataLogin.dart';
+import 'package:vesta/web/webdata/webDataMessageRead.dart';
 import 'package:vesta/web/webdata/webDataMessages.dart';
 
 class WebServices
@@ -82,11 +86,25 @@ class WebServices
     StudentData.setInstance(userName, password,
         TrainingData.listFromJsonString(json.encode(respBody["TrainingList"])));
 
+    try
+    {
+
+    await FileManager.saveData();
+
+    }
+
+    catch(e)
+    {
+      Vesta.logger.d("Seems like we have problems with saving data...");
+      Vesta.logger.e(e);
+    }
+
     return true;
 
     }
     catch(e)
     {
+      Vesta.logger.e(e);
       Vesta.showSnackbar(new Text("$e"));
     }
     
@@ -97,7 +115,8 @@ class WebServices
   static Future<WebDataMessages> getMessages(School school, StudentData student) async
   {
 
-    WebDataBase body = WebDataBase.simplified(student.username, student.password, student.username, student.currentTraining.id);
+    WebDataBase body = WebDataBase.simplified(student.username, student.password,
+        student.username, student.currentTraining.id.toString());
 
     http.Response resp = await client.post(school.Url + "/GetMessages",
         headers: {"content-type":"application/json"},body: body.toJson());
@@ -121,13 +140,7 @@ class WebServices
 
   static Future<bool> setRead(School school, StudentData student, String id) async
   {
-    String body = json.encode({"PersonMessageId":id,"TotalRowCount":-1,
-      "ExceptionsEnum":0,"UserLogin":student.username,
-      "Password":student.password,
-      "Neptuncode":student.username,"CurrentPage":0,
-      "StudentTrainingID":student.currentTraining.id,
-      "LCID":1038,"ErrorMessage":null,"MobileVersion":"1.5",
-      "MobileServiceVersion":0,});
+    String body = new WebDataMessageRead(student, id).toJson();
 
     try{
 
@@ -148,6 +161,29 @@ class WebServices
 
     }
 
+  }
+
+  static Future<WebDataCalendarResponse> getCalendarData(School school,StudentData data, ) async
+  {
+
+    WebDataCalendarRequest request = new WebDataCalendarRequest(data);
+
+    try
+    {
+      
+      http.Response resp = await client.post(school.Url + "/GetCalendarData",body: request.toJson(), headers: {"content-type":"application/json"});
+
+      Map<String, dynamic> jsonMap = json.decode(resp.body);
+
+      _testResponse(jsonMap);
+
+      return WebDataCalendarResponse.fromJson(jsonMap);
+    }
+    catch(e)
+    {
+      Vesta.logger.e(e);
+      return null;
+    }
   }
 
   static void _testResponse(Map<String, dynamic> jsonBody)

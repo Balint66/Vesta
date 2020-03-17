@@ -1,16 +1,28 @@
-# vesta
+<div id="bc" ></div>
 
-Not offical, alternative neptun app
+<script id="script">
+    var something = 10;
+    //alert(something);
+    var ddiv = document.getElementById("bc");
+    var myDiv = ddiv.parentElement;
+    var button = document.createElement("button");
+    button.innerHTML = "Change color";
+    button.onclick = function()
+    {
+        if(myDiv.style["background-color"] === "black")
+            myDiv.style["background-color"] = "";
+        else
+            myDiv.style["background-color"] = "black";
+    }
+    myDiv.prepend(button);
+    
+    myDiv.removeChild(ddiv)
+    myDiv.removeChild(document.getElementById("script"))
+    
+</script>
 
-## Getting Started
+#Vesta
+Unoffical, alternative neptun app
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+##Demo
+![Vesta app demo](repository_assets/vesta_output.gif)

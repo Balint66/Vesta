@@ -3,36 +3,62 @@ import 'package:flutter/widgets.dart';
 class ReplacementObserver extends NavigatorObserver
 {
 
+  static final ReplacementObserver Instance = new ReplacementObserver();
+
   Map<String,Set<ReplacementAware>> _listeners = new Map<String,Set<ReplacementAware>>();
+
+  String currentPath = "";
 
   void subscribe(ReplacementAware aware, String route)
   {
     assert(route!=null);
     assert(aware!=null);
-    //assert(route.isEmpty);
+    assert(route.isNotEmpty);
 
-    final Set<ReplacementAware> set = _listeners.putIfAbsent(route, () => <ReplacementAware>{}); // ignore: sdk_version_set_literal
+    Set<ReplacementAware> set = new Set();
+
+    set.add(aware);
+
+    if(_listeners.containsKey(route))
+      set.addAll(_listeners.remove(route));
+
+      _listeners.putIfAbsent(route, () => set); // ignore: sdk_version_set_literal
 
 
+  }
+
+  @override
+  void didPush(Route route, Route previousRoute) {
+    this.didReplace(newRoute: route, oldRoute: previousRoute);
+    super.didPush(route, previousRoute);
   }
 
   @override
   void didReplace({Route newRoute, Route oldRoute})
   {
 
-    Set<ReplacementAware> subs = _listeners[newRoute.settings.name];
+    if(newRoute != null && oldRoute != null && newRoute.settings.name == oldRoute.settings.name)
+      return super.didReplace(newRoute:newRoute,oldRoute:oldRoute);
+
+    Set<ReplacementAware> subs;
+
+    if(newRoute != null)
+    {
+      currentPath = newRoute.settings.name;
+      subs = _listeners[newRoute.settings.name];
+    }
 
     if(subs != null)
     {
       for(ReplacementAware i in subs)
         i.didReplaceOther(oldRoute: oldRoute);
     }
-    else
-    {
 
+    if(oldRoute != null)
       subs = _listeners[oldRoute.settings.name];
 
-      if(subs != null)
+    if(subs != null)
+    {
         for(ReplacementAware i in subs)
           i.wasReplacedBy(otherRoute: newRoute);
 

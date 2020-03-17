@@ -30,8 +30,10 @@ dependencies:
   fluro:
     git:
       url: git://github.com/theyakka/fluro.git
-      ref: v2.0.0
-  url_launcher: ^4.0.3
+  url_launcher:
+    git:
+      url: https://github.com/flutter/plugins.git
+      path: packages/url_launcher/url_launcher/
   flutter_linkify: ^1.0.3
   logger: ^0.6.0
   overlay_support: ^1.0.0

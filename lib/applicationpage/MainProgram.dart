@@ -1,11 +1,7 @@
-import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:vesta/applicationpage/messageListDisplay.dart';
+import 'package:vesta/applicationpage/innerMainProgRouter.dart';
 import 'package:vesta/applicationpage/sidebar.dart';
 import 'package:vesta/routing/replacementObserver.dart';
-import 'package:vesta/routing/router.dart';
-
-final ReplacementObserver observer = new ReplacementObserver();
 
 class MainProgram extends StatefulWidget
 {
@@ -13,67 +9,10 @@ class MainProgram extends StatefulWidget
   MainProgram({Key key}) :super(key: key);
 
   static final GlobalKey<NavigatorState> navKey = new GlobalKey<NavigatorState>();
-  static final GlobalKey<MainProgramState> mainKey = new GlobalKey<MainProgramState>();
 
-  static final Router _mainProgRouter = new Router();
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  static void registerRoutes()
-  {
-
-    VestaRouter.router.define("/app/:inner", handler: _appNestedHandler);
-
-    define("/messages", handler: _messageHandler);
-
-  }
-
-  static void define(String innerPath, {Handler handler})
-  {
-    _mainProgRouter.define("/app$innerPath", handler: handler);
-  }
-
-  static Route route(RouteSettings settings)
-  {
-
-    if(settings.name == "/app/home")
-      settings = new RouteSettings(name: defaultRoute,
-          //isInitialRoute: settings.isInitialRoute,
-          arguments: settings.arguments);
-
-    return _mainProgRouter.generator(settings);
-  }
-
-  static String defaultRoute = "/app/messages";
-
-  static final Handler _messageHandler = new Handler(handlerFunc: (BuildContext ctx, Map<String, dynamic> query)
-  {
-    return MessageListDisplay();
-  });
-
-  static final Handler _appNestedHandler = new Handler(handlerFunc: (BuildContext ctx, Map<String, List<String>> query)
-  {
-    MainProgram main;
-
-    if(mainKey.currentWidget == null)
-    {
-      main = new MainProgram(key:mainKey);
-      main.createState();
-    }
-    else
-      main = mainKey.currentWidget;
-
-    waitThenNavigate(query["inner"][0].toString());
-
-    return main;
-  });
-
-   static void waitThenNavigate(String path) async
-  {
-
-    while(navKey.currentState == null);
-
-    navKey.currentState.pushReplacementNamed(path);
-
-  }
+  final UniqueKey sidebarKey = new UniqueKey();
 
   @override
   State<StatefulWidget> createState()
@@ -85,6 +24,13 @@ class MainProgram extends StatefulWidget
 class MainProgramState extends State<MainProgram>
 {
 
+  NavigatorState _parentNavigator;
+
+  static NavigatorState of(BuildContext context)
+  {
+    return context.findAncestorStateOfType<MainProgramState>()._parentNavigator;
+  }
+
   @override
   void initState()
   {
@@ -95,19 +41,25 @@ class MainProgramState extends State<MainProgram>
   Widget build(BuildContext context)
   {
 
+    _parentNavigator = Navigator.of(context);
+
     final Navigator _navigator = new Navigator(
       key: MainProgram.navKey,
-      onGenerateRoute: MainProgram.route,
-      initialRoute: "/app/home",
-      observers: [observer],
+      onGenerateRoute: MainProgRouter.route,
+      initialRoute: "${MainProgRouter.defaultRoute}",
+      observers: [ReplacementObserver.Instance],
     );
 
 
     return Scaffold(
+      key: widget._scaffoldKey,
       body: _navigator,
-      appBar: AppBar(title: Text("Vesta")),
-      drawer: Sidebar(),
-      //endDrawer: null, TODO: create rightSideBar
+      appBar: AppBar(title: Text("Vesta"),actions: <Widget>[
+        new IconButton(icon: new Icon(Icons.more_vert), onPressed: ()=> widget.
+        _scaffoldKey.currentState.openEndDrawer())
+      ],),
+      drawer: Sidebar(key: widget.sidebarKey),
+      endDrawer: new FlatButton.icon(onPressed: null, icon: new Icon(Icons.keyboard_arrow_down), label: new Text("Text"),),
     );
   }
 

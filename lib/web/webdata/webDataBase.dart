@@ -48,7 +48,8 @@ class WebDataBase
   WebDataBase.simplified(String User, String Password, String NeptunCode, String TrainingData)
       : this(-1, 0, null, User, Password, NeptunCode, 0, TrainingData, 1038, 1.5,0);
 
-  WebDataBase.studentSimplified(StudentData data) : this.simplified(data.username, data.password, data.username, data.currentTraining.id);
+  WebDataBase.studentSimplified(StudentData data) : this.simplified(data.username,
+      data.password, data.username, data.currentTraining?.id.toString());
 
   WebDataBase.loginSimplified(StudentData data) : this.simplified(data.username, data.password, null, null);
 
@@ -84,6 +85,6 @@ class WebDataBase
   WebDataBase.fromJson(Map<String, dynamic> json)
   : this(json["TotalRowCount"], json["ExceptionsEnum"], json["ErrorMessage"],
         json["UserLogin"], json["Password"], json["Neptuncode"], json["CurrentPage"],
-        json["StudentTrainingID"] as String, json["LCID"], double.parse(json["MobileVersion"]), (json["MobileServiceVersion"] as int).toDouble());
+        json["StudentTrainingID"].toString(), json["LCID"], double.parse(json["MobileVersion"]), (json["MobileServiceVersion"] as int).toDouble());
 
 }

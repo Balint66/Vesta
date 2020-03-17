@@ -9,7 +9,10 @@ class FetchManager
   static void register(BackgroundFetchingServiceMixin mixin)
   {
     if(!_services.contains(mixin))
+    {
       _services.add(mixin);
+      mixin.onUpdate();
+    }
   }
 
   static Future<void> fetch() async

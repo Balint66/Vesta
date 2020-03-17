@@ -77,11 +77,11 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "v2.0.0"
-      resolved-ref: "2c06f63e19e4f12199f2e5be4b62cab2dec37088"
+      ref: HEAD
+      resolved-ref: "337d864b62d9672c4e45a215e395fa0b02838e2d"
       url: "git://github.com/theyakka/fluro.git"
     source: git
-    version: "1.6.0-dev"
+    version: "1.6.1"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -109,7 +109,7 @@ packages:
       name: flutter_local_notifications
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.1"
+    version: "1.2.2"
   flutter_local_notifications_platform_interface:
     dependency: transitive
     description:
@@ -119,6 +119,11 @@ packages:
     version: "1.0.1"
   flutter_test:
     dependency: "direct dev"
+    description: flutter
+    source: sdk
+    version: "0.0.0"
+  flutter_web_plugins:
+    dependency: transitive
     description: flutter
     source: sdk
     version: "0.0.0"
@@ -170,7 +175,7 @@ packages:
       name: overlay_support
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.2"
+    version: "1.0.3"
   path:
     dependency: transitive
     description:
@@ -291,10 +296,33 @@ packages:
   url_launcher:
     dependency: "direct main"
     description:
-      name: url_launcher
+      path: "packages/url_launcher/url_launcher/"
+      ref: HEAD
+      resolved-ref: ad6fd0d0408bfd3a2f0d422f77015c789cb6bd95
+      url: "https://github.com/flutter/plugins.git"
+    source: git
+    version: "5.4.4"
+  url_launcher_macos:
+    dependency: transitive
+    description:
+      name: url_launcher_macos
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.2.0+3"
+    version: "0.0.1+4"
+  url_launcher_platform_interface:
+    dependency: transitive
+    description:
+      name: url_launcher_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.6"
+  url_launcher_web:
+    dependency: transitive
+    description:
+      name: url_launcher_web
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.1+1"
   vector_math:
     dependency: transitive
     description:
@@ -318,4 +346,4 @@ packages:
     version: "2.2.0"
 sdks:
   dart: ">=2.6.0 <3.0.0"
-  flutter: ">=1.13.0 <1.16.0"
+  flutter: ">=1.12.13+hotfix.5 <1.16.0"

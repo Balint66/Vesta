@@ -8,6 +8,8 @@ class Sidebar extends StatefulWidget
 
   Sidebar({Key key}) : super(key:key);
 
+  final List<UniqueKey> keys = List.generate(7, (index) => new UniqueKey());
+
   @override
   State<StatefulWidget> createState()
   {
@@ -28,7 +30,11 @@ class SideBarState extends State<Sidebar>
             ),
             bottomNavigationBar: BottomAppBar(
               child: MaterialButton(
-                  onPressed: () => Navigator.pushReplacementNamed(context, "/login"),
+                  onPressed: ()
+                  {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, "/settings");
+                  },
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -42,16 +48,16 @@ class SideBarState extends State<Sidebar>
                   )),
               shape: CircularNotchedRectangle(),
             ),
-            //TODO: implement routing and button functions
+            //TODO: implement missing buttons
             body: ListView(
               children: <Widget>[
-                MenuButtons("Üzenetek",Icons.message,"/app/messages"),
-                MenuButtons("Fórum",Icons.wrap_text,""),
-                MenuButtons("Naptár",Icons.calendar_today,""),
-                MenuButtons("Tárgyak",Icons.book,""),
-                MenuButtons("Vizsgák",Icons.school,""),
-                MenuButtons("Lecke Könyv",Icons.local_library,""),
-                MenuButtons("Időszakok",Icons.hourglass_empty,""),
+                MenuButtons("Üzenetek",Icons.message,"/app/messages", key: widget.keys[0],),
+                MenuButtons("Fórum",Icons.wrap_text,"",key: widget.keys[1],),
+                MenuButtons("Naptár",Icons.calendar_today,"/app/calendar",key: widget.keys[2],),
+                MenuButtons("Tárgyak",Icons.book,"",key: widget.keys[3],),
+                MenuButtons("Vizsgák",Icons.school,"",key: widget.keys[4],),
+                MenuButtons("Lecke Könyv",Icons.local_library,"",key: widget.keys[5],),
+                MenuButtons("Időszakok",Icons.hourglass_empty,"",key: widget.keys[6],),
               ],
             )
         )
@@ -60,23 +66,46 @@ class SideBarState extends State<Sidebar>
 
 }
 
-class MenuButtons extends StatefulWidget
+class MenuButtons extends StatefulWidget with ReplacementAware
 {
 
   final String text;
   final IconData icon;
   final String path;
 
-  MenuButtons(this.text,this.icon, String path, {Key key}) :this.path = path, super(key: key);
+  MenuButtonState state;
+
+
+  MenuButtons(this.text,this.icon, String path, {Key key}) :this.path = path, super(key: key)
+  {
+    if(path.isNotEmpty)
+      ReplacementObserver.Instance.subscribe(this, path);
+  }
 
   @override
   State<StatefulWidget> createState()
   {
-    return new MenuButtonState();
+    state = new MenuButtonState();
+    return state;
   }
+
+  @override
+  didReplaceOther({Route oldRoute})
+  {
+    if(state.mounted)
+      state.didReplaceOther(oldRoute: oldRoute);
+  }
+
+  @override
+  wasReplacedBy({Route otherRoute})
+  {
+    if(state.mounted)
+      state.wasReplacedBy(otherRoute: otherRoute);
+  }
+
 }
 
-class MenuButtonState extends State<MenuButtons> with ReplacementAware
+class MenuButtonState extends State<MenuButtons>
 {
 
   bool enabled = true;
@@ -92,7 +121,7 @@ class MenuButtonState extends State<MenuButtons> with ReplacementAware
   void initState() {
     super.initState();
 
-    if(widget.path.isEmpty||widget.path == MainProgram.defaultRoute)
+    if(widget.path.isEmpty || widget.path == ReplacementObserver.Instance.currentPath)
       setState(() {
         this.enabled = false;
       });
@@ -103,12 +132,9 @@ class MenuButtonState extends State<MenuButtons> with ReplacementAware
   Widget build(BuildContext context)
   {
 
-    if(widget.path.isNotEmpty)
-      observer.subscribe(this, widget.path);
-
     return new Align( alignment: Alignment.centerLeft,
         child: new FlatButton.icon(onPressed: enabled ?
-            () => MainProgram.navKey.currentState.pushNamed(widget.path) :
+            () => MainProgram.navKey.currentState.pushReplacementNamed(widget.path) :
             null,
           icon: new  Padding(padding: EdgeInsets.symmetric(horizontal: 1.0),
               child: new Icon(widget.icon)),
@@ -117,13 +143,12 @@ class MenuButtonState extends State<MenuButtons> with ReplacementAware
     );
   }
 
-  @override
+
   didReplaceOther({Route oldRoute})
   {
     setStatusEnabled(false);
   }
 
-  @override
   wasReplacedBy({Route otherRoute})
   {
     setStatusEnabled(true);

@@ -11,7 +11,7 @@ class Data
 
   factory()=> null;
 
-  _(){}
+  Data._();
 
   static String toJsonString()
   {
@@ -28,14 +28,14 @@ class Data
 
   static bool fromJson(String jsonString)
   {
-    Map<String, String> map = json.decode(jsonString);
+    Map<String, dynamic> map = json.decode(jsonString);
 
     if(map.keys.isEmpty || !map.containsKey("username") || !map.containsKey("password")
         || !map.containsKey("school"))
       return false;
 
-    username = map["username"];
-    password = map["password"];
+    username = map["username"].toString();
+    password = map["password"].toString();
     school = School.fromJson(map["school"].toString());
 
     return true;

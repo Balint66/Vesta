@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:vesta/datastorage/data.dart';
 import 'package:vesta/Vesta.dart';
+import 'package:vesta/loginpage/loginForm.dart';
 import 'package:vesta/web/webServices.dart';
 
 class LoginButton extends StatefulWidget
@@ -25,23 +26,12 @@ class LoginBtnState extends State<LoginButton>
 
   bool _loggingIn=false;
 
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context)
   {
 
     return Stack(children: <Widget>[
-      button(),
+      button(context),
       loading(),
     ],);
 
@@ -63,14 +53,9 @@ class LoginBtnState extends State<LoginButton>
         _loggingIn = false;
       });
 
-      //MessageManager.showToast("Hola!");
-
       if(res)
       {
-
-        var home = "home";
-
-        Navigator.pushReplacementNamed(context, "/app/$home");
+        Navigator.pushReplacementNamed(context, "/app/home");
         return;
       }
 
@@ -95,13 +80,15 @@ class LoginBtnState extends State<LoginButton>
     return Container(width: 0.0,height: 0.0,);
   }
 
-  Widget button()
+  Widget button(BuildContext context)
   {
     if(!_loggingIn)
-      return new MaterialButton(onPressed: ()=>startLogin(),
+      return new MaterialButton(onPressed: LoginForm.of(context).ableToLogin
+            ? () => startLogin() : null,
           child: Text("Login",maxLines: 1,),
-          color: Colors.red,
-          minWidth: 150.0);
+          color: Theme.of(context).primaryColor,
+          minWidth: 150.0,
+      );
     return Container(width: 0.0,height: 0.0,);
   }
 

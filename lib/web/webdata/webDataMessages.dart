@@ -6,6 +6,10 @@ class WebDataMessages extends WebDataBase
 
   final List<Message> MessagesList;
 
+  factory()=> null;
+
+  WebDataMessages._(): this.MessagesList = null, super.studentSimplified(null); // ignore: unused_element
+
   WebDataMessages.fromJson(Map<String, dynamic> json) :
         this.MessagesList = List<Map<String,dynamic>>.from(json["MessagesList"])
             .expand((i)=>[Message.fromJson(i)]).toList(),

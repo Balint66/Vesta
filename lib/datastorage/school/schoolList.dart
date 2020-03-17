@@ -71,9 +71,17 @@ class School
 
   static String toJson(School sch)
   {
-    return "{\"Languages\":\"${sch.Languages}\",\"Name\":\"${sch.Name}\","
-        "\"NeptunMobileServiceVersion\":\"${sch.NeptunMobileServiceVersion}\","
-        "\"OMCode\":\"${sch.OMCode}\",\"Url\":\"${sch.Url}\"";
+
+    Map<String,dynamic> map = <String,dynamic>
+    {
+      "Languages":sch.Languages,
+      "Name":sch.Name,
+      "NeptunMobileServiceVersion":sch.NeptunMobileServiceVersion,
+      "OMCode":sch.OMCode,
+      "Url":sch.Url
+    };
+
+    return json.encode(map);
   }
 
   String asJson()

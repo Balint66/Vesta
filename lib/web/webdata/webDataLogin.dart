@@ -24,15 +24,17 @@ class WebDataLogin extends WebDataBase
   WebDataLogin.fromJson(Map<String, dynamic> json) : this.OnlyLogin = json["OnlyLogin"], super.fromJson(remove<String, dynamic>(json, "OnlyLogin"));
 
   @override
-  Map<String, dynamic> toJsonMap() {
+  Map<String, dynamic> toJsonMap()
+  {
 
-    Map<String, dynamic> sup = super.toJsonMap();
-
-    sup.addAll(<String,dynamic>{
+    Map<String, dynamic> map = <String,dynamic>{
       "OnlyLogin":OnlyLogin
-    });
+    };
 
-    return sup;
+    map.addAll(super.toJsonMap());
+
+    return map;
+
   }
 
 }

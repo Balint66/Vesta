@@ -1,20 +1,24 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:vesta/applicationpage/MainProgram.dart';
+import 'package:vesta/applicationpage/innerMainProgRouter.dart';
 import 'package:vesta/loginpage/Authorization.dart';
+import 'package:vesta/settings/MainSettingsPage.dart';
 
 class VestaRouter
 {
 
-  static Router router = new Router();
+  static final Router router = new Router();
+
+  static final GlobalKey<MainProgramState> mainKey = new GlobalKey<MainProgramState>();
 
   static void registerRoutes()
   {
 
     router.define("/login", handler: _loginHandler);
-    //router.define("/app", handler: _appHandler);
+    router.define("/settings", handler: _settingsHandler);
 
-    MainProgram.registerRoutes();
+    MainProgRouter.registerRoutes();
 
   }
 
@@ -25,9 +29,9 @@ class VestaRouter
 
   });
 
-  static Handler _appHandler = new Handler(handlerFunc: (BuildContext ctx, Map<String, dynamic> query)
+  static Handler _settingsHandler = new Handler(handlerFunc: (BuildContext ctx, Map<String, dynamic> query)
   {
-    return MainProgram(key: MainProgram.mainKey,);
+    return MainSettingsPage();
   });
 
 }

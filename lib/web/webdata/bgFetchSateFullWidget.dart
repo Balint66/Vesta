@@ -4,6 +4,9 @@ import 'package:vesta/web/fetchManager.dart';
 
 abstract class BgFetchSateFullWidget extends StatefulWidget
 {
+
+  BgFetchSateFullWidget({Key key}) : super(key:key);
+
   @override
   BgFetchState createState();
 
