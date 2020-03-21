@@ -49,7 +49,7 @@ class WebServices
         print(e.toString());
       }
 
-      throw e;
+      Vesta.logger.e(e);
 
     }
 
@@ -58,7 +58,7 @@ class WebServices
 
   }
 
-  static Future<bool> login(String userName, String password, School school) async
+  static Future<bool> login(String userName, String password, School school, bool keepLoggedIn) async
   {
     try{
 
@@ -89,7 +89,8 @@ class WebServices
     try
     {
 
-    await FileManager.saveData();
+      if(keepLoggedIn)
+        await FileManager.saveData();
 
     }
 
@@ -156,7 +157,7 @@ class WebServices
     catch(e)
     {
 
-      Vesta.logger.e(e);
+      Vesta.logger.e(body + "\n\n" + e.toString());
       return false;
 
     }

@@ -12,6 +12,9 @@ class VestaRouter
 
   static final GlobalKey<MainProgramState> mainKey = new GlobalKey<MainProgramState>();
 
+  static final Authorization _authorization = new Authorization();
+  static final MainSettingsPage _mainSettingsPage = new MainSettingsPage();
+
   static void registerRoutes()
   {
 
@@ -25,13 +28,13 @@ class VestaRouter
   static Handler _loginHandler = new Handler(handlerFunc: (BuildContext ctx, Map<String, dynamic> query)
   {
 
-    return new Authorization();
+    return _authorization;
 
   });
 
   static Handler _settingsHandler = new Handler(handlerFunc: (BuildContext ctx, Map<String, dynamic> query)
   {
-    return MainSettingsPage();
+    return _mainSettingsPage;
   });
 
 }

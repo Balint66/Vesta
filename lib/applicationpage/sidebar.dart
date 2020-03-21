@@ -66,6 +66,8 @@ class SideBarState extends State<Sidebar>
 
 }
 
+//TODO: Should we rethink this class?
+// ignore: must_be_immutable
 class MenuButtons extends StatefulWidget with ReplacementAware
 {
 

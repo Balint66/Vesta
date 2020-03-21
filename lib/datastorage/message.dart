@@ -19,8 +19,8 @@ class Message
 
   void setReadState()
   {
-    if(!_isNew)
-      _isNew = true;
+    if(_isNew)
+      _isNew = false;
   }
 
   Map<String,dynamic> toJson()

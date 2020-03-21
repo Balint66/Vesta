@@ -1,10 +1,12 @@
 import 'package:vesta/datastorage/message.dart';
+import 'package:vesta/datastorage/messagesList.dart';
 import 'webDataBase.dart';
 
 class WebDataMessages extends WebDataBase
 {
 
-  final List<Message> MessagesList;
+  // ignore: non_constant_identifier_names
+  final MessageList MessagesList;
 
   factory()=> null;
 

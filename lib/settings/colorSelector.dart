@@ -71,11 +71,11 @@ class _ColorSelectorState extends State<ColorSelector>
         
         List<Widget> children = new List();
         
-        if(Colors.primaries[(i*sqrtt).floor() + j] == _chosenColor)
+        if(Colors.primaries[(i*sqrtt).floor() + j].value == _chosenColor.value)
         {
           children.add(new Container(
-              width: 35*width/800,
-              height: 35*height/600,
+              width: 35,
+              height: 35,
               decoration: new BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.primaries[(i*sqrtt).floor() + j],
@@ -83,8 +83,8 @@ class _ColorSelectorState extends State<ColorSelector>
             ),
           );
           children.add(new Container(
-              width: 35*width/800,
-              height: 35*height/600,
+              width: 35,
+              height: 35,
               decoration: new BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.black.withAlpha(127),
@@ -97,8 +97,8 @@ class _ColorSelectorState extends State<ColorSelector>
         {
           children.add( new InkWell(
               child:new Container(
-                width: 35*width/800,
-                height: 35*height/600,
+                width: 35,
+                height: 35,
                 decoration: new BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.primaries[(i*sqrtt).floor() + j],

@@ -2,12 +2,16 @@ import 'dart:async';
 
 import 'package:background_fetch/background_fetch.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
+import 'package:vesta/applicationpage/innerMainProgRouter.dart';
 import 'package:vesta/datastorage/local/fileManager.dart';
 import 'package:vesta/datastorage/studentData.dart';
 import 'package:vesta/messaging/messageManager.dart';
 import 'package:vesta/routing/router.dart';
 import 'package:vesta/settings/settingsData.dart';
+import 'package:vesta/utils/ColorUtils.dart';
+import 'package:vesta/utils/ColoredThemeData.dart';
 import 'package:vesta/web/fetchManager.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:overlay_support/overlay_support.dart';
@@ -80,9 +84,9 @@ class VestaState extends State<Vesta>
 
   SettingsData _settings = new SettingsData();
 
-  void updateSettings({Color mainColor, bool isDarkTheme})
+  void updateSettings({Color mainColor, bool isDarkTheme, bool keepMeLogged, String route})
   {
-    if(mainColor == null && isDarkTheme == null)
+    if(mainColor == null && isDarkTheme == null && keepMeLogged == null && route == null)
       return;
 
     setState(() {
@@ -90,6 +94,13 @@ class VestaState extends State<Vesta>
         _settings.mainColor = mainColor;
       if(isDarkTheme != null)
         _settings.isDarkTheme = isDarkTheme;
+      if(keepMeLogged != null)
+        settings.stayLogged = keepMeLogged;
+      if(route!= null)
+      {
+        settings.appHomePage = "/" + route.split('/')[2];
+        MainProgRouter.defaultRoute = route;
+      }
       FileManager.saveSettings(_settings);
     });
 
@@ -135,7 +146,7 @@ class VestaState extends State<Vesta>
             if(!snapshot.hasData && !snapshot.hasError)
               return new CircularProgressIndicator();
 
-            if(snapshot.hasError)
+            if(snapshot.hasError && !(snapshot.error is MissingPluginException))
               Vesta.logger.e(snapshot.error);
 
             if(!snapshot.hasError && snapshot.data){
@@ -148,16 +159,12 @@ class VestaState extends State<Vesta>
                 data: this,
                 child: new MaterialApp(
                   title: "Vesta",
-                  theme: new ThemeData(
-                        primarySwatch: settings.mainColor,
-                        primaryColor: settings.mainColor,
-                        accentColor: settings.mainColor,
+                  theme: ColoredThemeData.create(
+                        primarySwatch: MaterialColor(settings.mainColor.value, genSwatch()),
                         brightness: settings.isDarkTheme ? Brightness.dark : Brightness.light,
                     ),
-                    darkTheme: new ThemeData(
-                      primarySwatch: settings.mainColor,
-                      primaryColor: settings.mainColor,
-                      accentColor: settings.mainColor,
+                    darkTheme: ColoredThemeData.create(
+                      primarySwatch: MaterialColor(settings.mainColor.value, genSwatch()),
                       brightness: settings.isDarkTheme ? Brightness.dark : Brightness.light,
                     ),
                     onGenerateRoute: Vesta.generateRoutes,
@@ -167,6 +174,28 @@ class VestaState extends State<Vesta>
               )
           ;}
       );
+
+  }
+
+  Map<int, Color> genSwatch()
+  {
+      List<String> stringSwatch = ColorUtils.swatchColor(ColorUtils.intToHex(settings.mainColor.value));
+
+      Map<int, Color> map = Map<int, Color>();
+
+      for(int i = 0; i < stringSwatch.length; i++)
+      {
+        if(i == 0)
+        {
+          map.putIfAbsent(50, () => Color(ColorUtils.hexToInt(stringSwatch[i])));
+        }
+        else
+        {
+          map.putIfAbsent(100 * i, () => Color(ColorUtils.hexToInt(stringSwatch[i])));
+        }
+      }
+
+      return map;
 
   }
 

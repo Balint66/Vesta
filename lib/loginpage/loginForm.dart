@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vesta/datastorage/data.dart';
 import 'package:vesta/datastorage/school/schoolList.dart';
+import 'package:vesta/loginpage/keepMeLoggedInButton.dart';
 import 'package:vesta/loginpage/loginButton.dart';
 import 'package:vesta/loginpage/schoolSelectioButton.dart';
 import 'package:vesta/web/webServices.dart';
@@ -194,7 +195,11 @@ class LoginFormState extends State<LoginForm>
                     },
                   ),
                   width: 300.0),
-              _login,
+              new KeepMeLoggedInButton(),
+              new Container(
+                child: _login,
+                padding: EdgeInsets.only(top: 20),
+              ),
             ],
           ),
         ),

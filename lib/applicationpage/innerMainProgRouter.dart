@@ -1,7 +1,7 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/widgets.dart';
 import 'package:vesta/applicationpage/MainProgram.dart';
-import 'package:vesta/applicationpage/lessons/LessonDisplay.dart';
+import 'package:vesta/applicationpage/lessons/lessonDisplay.dart';
 import 'package:vesta/applicationpage/messages/messageListDisplay.dart';
 import 'package:vesta/routing/router.dart';
 
@@ -38,15 +38,18 @@ class MainProgRouter
   }
 
   static String defaultRoute = "/app/messages";
+  static final MainProgram _mainProgram = new MainProgram(key:VestaRouter.mainKey);
+  static final MessageListDisplay _messageListDisplay = MessageListDisplay(key: keys[0],);
+  static final LessonDisplayer _lessonDisplayer = LessonDisplayer(key: keys[1]);
 
   static final Handler _messageHandler = new Handler(handlerFunc: (BuildContext ctx, Map<String, dynamic> query)
   {
-    return MessageListDisplay(key: keys[0],);
+    return _messageListDisplay;
   });
 
   static final Handler _calendarHandler = new Handler(handlerFunc: (BuildContext ctx, Map<String, dynamic> querry)
   {
-    return LessonDisplayer(key: keys[1]);
+    return _lessonDisplayer;
   });
 
   static final Handler _appNestedHandler = new Handler(handlerFunc: (BuildContext ctx, Map<String, List<String>> query)
@@ -55,7 +58,7 @@ class MainProgRouter
 
     if( VestaRouter.mainKey.currentWidget == null)
     {
-      main = new MainProgram(key:VestaRouter.mainKey);
+      main = _mainProgram;
       main.createState();
     }
     else

@@ -15,8 +15,8 @@ class WebDataLogin extends WebDataBase
       double MobileServiceVersion) : super(TotalRowCount, ExceptionsEnum, ErrorMessage, UserLogin, // ignore: non_constant_identifier_names
       Password, Neptuncode, CurrentPage, StudentTrainingID, LCID, MobileVersion, MobileServiceVersion);
 
-  WebDataLogin.simplified(String User, String Password, this.OnlyLogin) : super.simplified(User,Password,null,null);
-  WebDataLogin.simplifiedOnly(String User, String Password) : this.simplified(User,Password,false);
+  WebDataLogin.simplified(String User, String Password, this.OnlyLogin) : super.simplified(User,Password,null,null); // ignore: non_constant_identifier_names
+  WebDataLogin.simplifiedOnly(String User, String Password) : this.simplified(User,Password,false); // ignore: non_constant_identifier_names
   WebDataLogin.loginSimplified(StudentData data, this.OnlyLogin) : super.loginSimplified(data);
   WebDataLogin.loginOnlySimplified(StudentData data): this.loginSimplified(data, false);
   WebDataLogin.studentOnlySimplified(StudentData data): this.studentSimplified(data, false);

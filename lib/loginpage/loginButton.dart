@@ -37,7 +37,7 @@ class LoginBtnState extends State<LoginButton>
 
   }
 
-  Future<void> startLogin() async
+  Future<void> startLogin(BuildContext context) async
   {
 
     setState(() {
@@ -47,7 +47,8 @@ class LoginBtnState extends State<LoginButton>
     try
     {
 
-      var res = await WebServices.login(Data.username, Data.password, Data.school);
+      var res = await WebServices.login(Data.username, Data.password, Data.school,
+          Vesta.of(context).settings.stayLogged);
 
       setState(() {
         _loggingIn = false;
@@ -84,7 +85,7 @@ class LoginBtnState extends State<LoginButton>
   {
     if(!_loggingIn)
       return new MaterialButton(onPressed: LoginForm.of(context).ableToLogin
-            ? () => startLogin() : null,
+            ? () => startLogin(context) : null,
           child: Text("Login",maxLines: 1,),
           color: Theme.of(context).primaryColor,
           minWidth: 150.0,

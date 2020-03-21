@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 class ReplacementObserver extends NavigatorObserver
 {
 
-  static final ReplacementObserver Instance = new ReplacementObserver();
+  static final ReplacementObserver Instance = new ReplacementObserver(); // ignore: non_constant_identifier_names
 
   Map<String,Set<ReplacementAware>> _listeners = new Map<String,Set<ReplacementAware>>();
 

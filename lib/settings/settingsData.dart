@@ -8,12 +8,16 @@ class SettingsData
 
   Color mainColor = Colors.red;
   bool isDarkTheme = false;
+  bool stayLogged = false;
+  String appHomePage = "/messages";
 
   String toJsonString()
   {
     return json.encode(<String,dynamic>
     {
       "isDarkTheme":isDarkTheme,
+      "stayLogged": stayLogged,
+      "appHomePage":appHomePage,
       "mainColor":<String,dynamic>
       {
         "r":mainColor.red,
@@ -32,6 +36,8 @@ class SettingsData
     SettingsData data = new SettingsData();
 
     data.isDarkTheme = map["isDarkTheme"];
+    data.stayLogged = map["stayLogged"];
+    data.appHomePage = map["appHomePage"];
     data.mainColor = Color.fromARGB(colormap["a"], colormap["r"], colormap["g"], colormap["b"]);
 
     return data;

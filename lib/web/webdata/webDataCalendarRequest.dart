@@ -5,12 +5,12 @@ class WebDataCalendarRequest extends WebDataBase
 {
 
   final bool needAllDayLong;
-  final bool Time;
-  final bool Exam;
-  final bool Task;
-  final bool Apointment;
-  final bool RegisterList;
-  final bool Consulation;
+  final bool Time; // ignore: non_constant_identifier_names
+  final bool Exam; // ignore: non_constant_identifier_names
+  final bool Task; // ignore: non_constant_identifier_names
+  final bool Apointment; // ignore: non_constant_identifier_names
+  final bool RegisterList; // ignore: non_constant_identifier_names
+  final bool Consulation; // ignore: non_constant_identifier_names
   final DateTime startDate;
   final DateTime endDate;
   final int entityLimit;
