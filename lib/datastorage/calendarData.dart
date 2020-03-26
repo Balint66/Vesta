@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:vesta/utils/DateUtil.dart';
 
 class CalendarData
 {
@@ -29,7 +30,8 @@ class CalendarData
 
   CalendarData.fromJson(Map<String, dynamic> jsonMap)
       : this(isAllDay: jsonMap["allDayLong"], description: jsonMap["description"],
-      end: DateTime.fromMicrosecondsSinceEpoch(
+      end: _getEndDate(
+          int.tryParse(jsonMap["start"].toString().split("(")[1].split(")")[0]),
           int.tryParse(jsonMap["end"].toString().split("(")[1].split(")")[0])),
       color: Color.fromARGB( (jsonMap["eventColor"] as Map<String, dynamic>)["a"],
           (jsonMap["eventColor"] as Map<String, dynamic>)["r"],
@@ -39,5 +41,18 @@ class CalendarData
       start:DateTime.fromMillisecondsSinceEpoch(
           int.tryParse(jsonMap["start"].toString().split("(")[1].split(")")[0])),
       title:jsonMap["title"], type: jsonMap["type"].toString());
+
+  static DateTime _getEndDate(int start, int neptunEnd)
+  {
+    DateTime startTime = DateTime.fromMillisecondsSinceEpoch(start);
+    DateTime neptunEndTime = DateTime.fromMillisecondsSinceEpoch(neptunEnd);
+
+    int realEnd = DateUtil.epochFlooredToDays(startTime)
+      + (neptunEndTime.millisecondsSinceEpoch
+            - DateUtil.epochFlooredToDays(neptunEndTime));
+
+    return DateTime.fromMillisecondsSinceEpoch(realEnd);
+
+  }
 
 }

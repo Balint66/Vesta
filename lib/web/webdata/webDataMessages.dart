@@ -1,5 +1,5 @@
 import 'package:vesta/datastorage/message.dart';
-import 'package:vesta/datastorage/messagesList.dart';
+import 'package:vesta/datastorage/Lists/messagesList.dart';
 import 'webDataBase.dart';
 
 class WebDataMessages extends WebDataBase
@@ -13,8 +13,8 @@ class WebDataMessages extends WebDataBase
   WebDataMessages._(): this.MessagesList = null, super.studentSimplified(null); // ignore: unused_element
 
   WebDataMessages.fromJson(Map<String, dynamic> json) :
-        this.MessagesList = List<Map<String,dynamic>>.from(json["MessagesList"])
-            .expand((i)=>[Message.fromJson(i)]).toList(),
+        this.MessagesList = new MessageList(other: List<Map<String,dynamic>>.from(json["MessagesList"])
+            .expand((i)=>[Message.fromJson(i)]).toList()),
         super.fromJson(remove<String, dynamic>(json, "MessagesList"));
 
   @override

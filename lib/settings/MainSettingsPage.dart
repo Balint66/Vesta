@@ -4,6 +4,7 @@ import 'package:vesta/Vesta.dart';
 import 'package:vesta/datastorage/local/fileManager.dart';
 import 'package:vesta/settings/colorSelector.dart';
 import 'package:vesta/settings/settingsData.dart';
+import 'package:vesta/web/fetchManager.dart';
 
 class MainSettingsPage extends StatefulWidget
 {
@@ -30,6 +31,7 @@ class _MainSettingsPageState extends State<MainSettingsPage>
           onTap: ()
           {
             FileManager.clearFileData();
+            FetchManager.clearRegistered();
             Navigator.pushReplacementNamed(context, "/login");
           },),
           new ListTile(

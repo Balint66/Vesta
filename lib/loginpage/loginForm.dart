@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vesta/datastorage/data.dart';
-import 'package:vesta/datastorage/school/schoolList.dart';
+import 'package:vesta/datastorage/Lists/schoolList.dart';
 import 'package:vesta/loginpage/keepMeLoggedInButton.dart';
 import 'package:vesta/loginpage/loginButton.dart';
 import 'package:vesta/loginpage/schoolSelectioButton.dart';

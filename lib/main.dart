@@ -11,4 +11,7 @@ void main() async
 
   runApp(new Vesta());
   BackgroundFetch.registerHeadlessTask(FetchManager.fetch);
+
+  FetchManager.stopFrontFetch();
+
 }

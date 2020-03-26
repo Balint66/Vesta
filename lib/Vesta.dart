@@ -139,6 +139,8 @@ class VestaState extends State<Vesta>
       return FileManager.readData();
     });
 
+    FetchManager.init();
+
       return new FutureBuilder(future:_post,
           builder: (BuildContext ctx, AsyncSnapshot<bool> snapshot)
           {

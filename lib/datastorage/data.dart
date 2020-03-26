@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:vesta/datastorage/school/schoolList.dart';
+import 'package:vesta/datastorage/Lists/schoolList.dart';
 
 class Data
 {

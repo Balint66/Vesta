@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:vesta/datastorage/local/fileManager.dart';
 import 'package:vesta/datastorage/studentData.dart';
 import 'package:vesta/Vesta.dart';
-import 'package:vesta/datastorage/school/schoolList.dart';
+import 'package:vesta/datastorage/Lists/schoolList.dart';
 import 'package:vesta/web/webdata/webDataBase.dart';
 import 'package:vesta/web/webdata/webDataCalendarRequest.dart';
 import 'package:vesta/web/webdata/webDataCalendarResponse.dart';
@@ -113,11 +113,8 @@ class WebServices
 
   }
 
-  static Future<WebDataMessages> getMessages(School school, StudentData student) async
+  static Future<WebDataMessages> getMessages(School school, WebDataBase body) async
   {
-
-    WebDataBase body = WebDataBase.simplified(student.username, student.password,
-        student.username, student.currentTraining.id.toString());
 
     http.Response resp = await client.post(school.Url + "/GetMessages",
         headers: {"content-type":"application/json"},body: body.toJson());
@@ -139,13 +136,13 @@ class WebServices
 
   }
 
-  static Future<bool> setRead(School school, StudentData student, String id) async
+  static Future<bool> setRead(School school, WebDataMessageRead body) async
   {
-    String body = new WebDataMessageRead(student, id).toJson();
 
     try{
 
-    http.Response resp = await client.post(school.Url + "/SetReadedMessage",body: body,headers: {"content-type":"application/json"},);
+    http.Response resp = await client.post(school.Url + "/SetReadedMessage",
+      body: body.toJson(),headers: {"content-type":"application/json"},);
 
     Map<String,dynamic> jsonBody = json.decode(resp.body);
 
@@ -157,32 +154,48 @@ class WebServices
     catch(e)
     {
 
-      Vesta.logger.e(body + "\n\n" + e.toString());
+      Vesta.logger.e(body.toJson() + "\n\n" + e.toString());
       return false;
 
     }
 
   }
 
-  static Future<WebDataCalendarResponse> getCalendarData(School school,StudentData data, ) async
+  static Future<WebDataCalendarResponse> getCalendarData(School school,
+      WebDataCalendarRequest body) async
   {
-
-    WebDataCalendarRequest request = new WebDataCalendarRequest(data);
 
     try
     {
+
+      Vesta.logger.d("Never gonna give you up.");
       
-      http.Response resp = await client.post(school.Url + "/GetCalendarData",body: request.toJson(), headers: {"content-type":"application/json"});
+      http.Response resp = await client.post(school.Url + "/GetCalendarData",body: body.toJson(), headers: {"content-type":"application/json"});
+
+      Vesta.logger.d("Never gonna let you down.");
 
       Map<String, dynamic> jsonMap = json.decode(resp.body);
 
+      Vesta.logger.d("Never gonna turn around...");
+
       _testResponse(jsonMap);
+
+      Vesta.logger.d("To hurt ya'!.");
 
       return WebDataCalendarResponse.fromJson(jsonMap);
     }
     catch(e)
     {
-      Vesta.logger.e(e);
+
+      //Sometimes Neptun is idiot and can't handle the connection :P
+      if(e is String)
+        if(e.contains("Connection must be open for this operation")
+            || e.contains("Object reference not set to an instance of an object")
+            || e.contains("OracleConnection"))
+          return await Future.delayed(new Duration(seconds: 1),
+                  () async => await getCalendarData(school, body));
+
+      Vesta.logger.e("Something went wrong...\n" + e.toString(),e);
       return null;
     }
   }
@@ -192,8 +205,8 @@ class WebServices
     if(jsonBody["ExceptionData"] != null || jsonBody["ErrorMessage"] != null)
     {
       if(jsonBody["ExceptionData"] == null)
-        throw jsonBody["ErrorMessage"];
-      throw jsonBody["ExceptionData"];
+        throw jsonBody["ErrorMessage"] as String;
+      throw jsonBody["ExceptionData"] as String;
     }
 
   }

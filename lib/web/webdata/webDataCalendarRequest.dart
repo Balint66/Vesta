@@ -1,4 +1,5 @@
 import 'package:vesta/datastorage/studentData.dart';
+import 'package:vesta/utils/DateUtil.dart';
 import 'package:vesta/web/webdata/webDataBase.dart';
 
 class WebDataCalendarRequest extends WebDataBase
@@ -22,7 +23,7 @@ class WebDataCalendarRequest extends WebDataBase
         this.Apointment = appointment, this.needAllDayLong = needAllDayLong,
         this.RegisterList = registerList, this.Consulation = consulation,
         this.startDate = starDate != null ? starDate: DateTime.now(),
-        this.endDate = endDate != null? starDate : DateTime.now().add(Duration(days: 7)),
+        this.endDate = endDate != null ? endDate : DateTime.now().add(Duration(days: 7)),
         this.entityLimit = entityLimit,
         super.studentSimplified(data);
 
@@ -34,8 +35,10 @@ class WebDataCalendarRequest extends WebDataBase
       "needAllDayLong":needAllDayLong, "Time":Time,
       "Exam":Exam, "Task": Task, "Apointment":Apointment,
       "RegisterList": RegisterList,
-      "Consulation": Consulation, "startDate": "\/Date(" + startDate.millisecondsSinceEpoch.toString() + ")\/",
-      "endDate": "\/Date(" + endDate.millisecondsSinceEpoch.toString() + ")\/"
+      "Consulation": Consulation, "startDate": "\/Date("
+          + DateUtil.epochFlooredToDays(startDate).toString() + ")\/",
+      "endDate": "\/Date("
+          + DateUtil.epochFlooredToDays(endDate).toString() + ")\/"
     };
     map.addAll(super.toJsonMap());
     return map;

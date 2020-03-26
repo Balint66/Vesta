@@ -3,75 +3,14 @@ import 'package:flutter/widgets.dart';
 import 'package:vesta/Vesta.dart';
 import 'package:vesta/applicationpage/MainProgram.dart';
 import 'package:vesta/applicationpage/lessons/lessonDetailedDisplay.dart';
-import 'package:vesta/datastorage/data.dart';
-import 'package:vesta/datastorage/studentData.dart';
-import 'package:vesta/web/backgroundFetchingServiceMixin.dart';
-import 'package:vesta/web/fetchManager.dart';
-import 'package:vesta/web/webServices.dart';
+import 'package:vesta/applicationpage/refreshExecuter.dart';
+import 'package:vesta/datastorage/Lists/calendarDataList.dart';
 import 'package:vesta/web/webdata/bgFetchSateFullWidget.dart';
-import 'package:vesta/web/webdata/webDataCalendarResponse.dart';
 
-//TODO: inspect this case further
-// ignore: must_be_immutable
-class LessonDisplayer extends InheritedWidget with BackgroundFetchingServiceMixin
+class LessonDisplayer extends BgFetchSateFullWidget
 {
 
-  final Duration timespan;
-
-  LessonDisplayer({Key key}) : this.timespan = new Duration(seconds: 30),
-        super(key:key, child: new _LessonDisplayer())
-  {
-    FetchManager.register(this);
-  }
-
-  WebDataCalendarResponse _calendarData;
-  Future<WebDataCalendarResponse> get calendarData async
-  {
-
-    await Future.doWhile(() async
-    {
-
-      await Future.delayed(new Duration(seconds: 1));
-
-      return _calendarData == null && _calendarData.calendarData.length == null;
-    });
-
-    return _calendarData;
-
-  }
-
-  @override
-  Future<void> onUpdate() async
-  {
-
-    WebDataCalendarResponse resp = await WebServices.getCalendarData(Data.school,
-        StudentData.Instance);
-
-    if(resp == null)
-      return;
-
-      _calendarData = resp;
-
-  }
-
-  @override
-  bool updateShouldNotify(InheritedWidget oldWidget)
-  {
-    return true;
-  }
-
-  static LessonDisplayer of(BuildContext context)
-  {
-    return context.dependOnInheritedWidgetOfExactType<LessonDisplayer>();
-  }
-
-}
-
-class _LessonDisplayer extends BgFetchSateFullWidget
-{
-
-
-  _LessonDisplayer({Key key}) : super(key:key);
+  LessonDisplayer({Key key}) : super(key:key);
 
   @override
   BgFetchState<BgFetchSateFullWidget> createState()
@@ -81,15 +20,46 @@ class _LessonDisplayer extends BgFetchSateFullWidget
 
 }
 
-class LessonDisplayerState extends BgFetchState<_LessonDisplayer>
+class LessonDisplayerState extends BgFetchState<LessonDisplayer>
 {
+
+  DateTime _nextEnd;
+
+  static Future _testingFuture;
+
+  @override
+  void initState()
+  {
+    super.initState();
+
+    if(_testingFuture != null)
+      _testingFuture.timeout(new Duration(milliseconds: 1),onTimeout: ()=>null);
+
+    _testingFuture = Future.delayed(new Duration(seconds: 1),() async
+    {
+      while(true)
+      {
+
+        do
+        {
+
+          await Future.delayed(new Duration(seconds: 1));
+
+        }while(_nextEnd == null || _nextEnd.isAfter(DateTime.now()));
+
+        setState(() {});
+
+        await Future.delayed(new Duration(seconds: 1));
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context )
   {
 
-    return new FutureBuilder(future: LessonDisplayer.of(context).calendarData,
-        builder: (BuildContext ctx, AsyncSnapshot<WebDataCalendarResponse> snap)
+    return new StreamBuilder( stream: MainProgramState.of(context).calendarList.getData(),
+        builder: (BuildContext ctx, AsyncSnapshot<CalendarDataList> snap)
       {
         if(snap.hasError)
         {
@@ -98,7 +68,7 @@ class LessonDisplayerState extends BgFetchState<_LessonDisplayer>
         }
         else if(snap.hasData)
         {
-          return drawWithMode(CalendarDisplayModes.LISTVIEW, snap.data, context);
+          return _drawWithMode(CalendarDisplayModes.LISTVIEW, snap.data, context);
         }
 
 
@@ -108,28 +78,45 @@ class LessonDisplayerState extends BgFetchState<_LessonDisplayer>
     );
   }
 
-  Widget drawWithMode(CalendarDisplayModes mode, WebDataCalendarResponse response, BuildContext context)
+  Widget _drawWithMode(CalendarDisplayModes mode, CalendarDataList response, BuildContext context)
   {
     switch(mode)
     {
       
       case CalendarDisplayModes.LISTVIEW:
       default:
-        return ListView.builder(itemBuilder: (BuildContext ctx, int index)
-        {
-          if(index>= response.calendarData.length)
-          {
-            return null;
-          }
-
-          return new Card(child: new ListTile(
-                title: new Text( response.calendarData[index].title),
-                onTap: ()=> MainProgramState.of(context).parentNavigator.push(new MaterialPageRoute(
-                    builder: (BuildContext context){
-                      return new LessonDetailedDisplay(response.calendarData[index]);
-                    })),),);
-        });
+        return _drawList(response, context);
     }
+  }
+
+  Widget _drawList(CalendarDataList response, BuildContext context)
+  {
+    
+    response = new CalendarDataList(other: response
+        .where((element) => element.end.isAfter(DateTime.now()) ).toList());
+
+    _nextEnd = response[0].end;
+    
+    return new RefreshExecuter(
+        asyncCallback: MainProgramState.of(context).calendarList.incrementWeeks,
+        child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: response.length,
+            itemBuilder: (BuildContext ctx, int index)
+            {
+              return new Card(child: new ListTile(
+                title: new Text( response[index].title),
+                  onTap: ()=> MainProgramState.of(context).parentNavigator.push(new MaterialPageRoute(
+                  builder: (BuildContext context){
+                return new LessonDetailedDisplay(response[index]);
+                })),
+                ),
+              );
+            }
+        )
+    );
+
+
   }
 
 }

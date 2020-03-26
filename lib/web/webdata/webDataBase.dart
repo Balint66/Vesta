@@ -45,8 +45,8 @@ class WebDataBase
       this.MobileServiceVersion);
 
   // ignore: non_constant_identifier_names
-  WebDataBase.simplified(String User, String Password, String NeptunCode, String TrainingData)
-      : this(-1, 0, null, User, Password, NeptunCode, 0, TrainingData, 1038, 1.5,0);
+  WebDataBase.simplified(String User, String Password, String NeptunCode, String TrainingData, {int currentPage = 0})
+      : this(-1, 0, null, User, Password, NeptunCode, currentPage, TrainingData, 1038, 1.5,0);
 
   WebDataBase.studentSimplified(StudentData data) : this.simplified(data.username,
       data.password, data.username, data.currentTraining?.id.toString());

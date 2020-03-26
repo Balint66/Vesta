@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:vesta/Vesta.dart';
 import 'package:vesta/applicationpage/innerMainProgRouter.dart';
+import 'package:vesta/datastorage/Lists/holder/listHolder.dart';
 import 'package:vesta/applicationpage/popupSettings.dart';
 import 'package:vesta/applicationpage/sidebar.dart';
 import 'package:vesta/routing/replacementObserver.dart';
+import 'package:vesta/web/fetchManager.dart';
 
 class MainProgram extends StatefulWidget
 {
@@ -26,6 +28,12 @@ class MainProgramState extends State<MainProgram>
 
   NavigatorState _parentNavigator;
   NavigatorState get parentNavigator => _parentNavigator;
+
+  CalendarListHolder _calendarList = new CalendarListHolder();
+  CalendarListHolder get calendarList => _calendarList;
+
+  MessageListHolder _messageList = new MessageListHolder();
+  MessageListHolder get messageList => _messageList;
   
   static MainProgramState of(BuildContext context)
   {
@@ -35,7 +43,12 @@ class MainProgramState extends State<MainProgram>
   @override
   void initState()
   {
+
     super.initState();
+
+    FetchManager.register(_calendarList);
+    FetchManager.register(_messageList);
+
   }
 
   @override

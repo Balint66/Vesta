@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vesta/datastorage/data.dart';
-import 'package:vesta/datastorage/school/schoolList.dart';
+import 'package:vesta/datastorage/Lists/schoolList.dart';
 
 class SchoolSelectionButton extends StatefulWidget
 {
