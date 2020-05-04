@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vesta/datastorage/data.dart';
 import 'package:vesta/datastorage/Lists/schoolList.dart';
+import 'package:vesta/i18n/appTranslations.dart';
 
 class SchoolSelectionButton extends StatefulWidget
 {
@@ -26,7 +27,7 @@ class SchoolButtonState extends State<SchoolSelectionButton>
   @override
   void initState()
   {
-    text = "Iskolák...";
+    text = AppTranslations.of(context).translate("login_schools_button");
     super.initState();
   }
 
@@ -76,7 +77,7 @@ class SchoolButtonState extends State<SchoolSelectionButton>
       builder: (BuildContext context)
       {
         return SimpleDialog(
-          title: const Text("Iskolák:"),
+          title: new Text(AppTranslations.of(context).translate("login_schools")),
           children: getChoosableSchools(widget._schools),
           elevation: 1,
         );
@@ -88,7 +89,7 @@ class SchoolButtonState extends State<SchoolSelectionButton>
     {
       widget._formState.didChange(chosen);
       Data.school = chosen;
-      text = chosen != null ? chosen.Name : "Iskolák..";
+      text = chosen != null ? chosen.Name : AppTranslations.of(context).translate("login_schools_button");
     });
 
 

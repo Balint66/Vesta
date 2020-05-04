@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:vesta/Vesta.dart';
+import 'package:vesta/i18n/appTranslations.dart';
 
 class KeepMeLoggedInButton extends StatefulWidget
 {
@@ -27,7 +28,7 @@ class _KeepMeLoggedInButtonState extends State<KeepMeLoggedInButton>
         ),
         new Container(
           padding: EdgeInsets.only(top: 15),
-          child: new Text("Keep me logged in"),
+          child: new Text(AppTranslations.of(context).translate("login_keepmeloggedin")),
         ),
       ],
     );

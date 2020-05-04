@@ -2,6 +2,7 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:vesta/applicationpage/MainProgram.dart';
 import 'package:vesta/applicationpage/innerMainProgRouter.dart';
+import 'package:vesta/eulapage/Eulapage.dart';
 import 'package:vesta/loginpage/Authorization.dart';
 import 'package:vesta/settings/MainSettingsPage.dart';
 
@@ -20,6 +21,7 @@ class VestaRouter
 
     router.define("/login", handler: _loginHandler);
     router.define("/settings", handler: _settingsHandler);
+    router.define("/eula", handler: _eulaHandler);
 
     MainProgRouter.registerRoutes();
 
@@ -35,6 +37,11 @@ class VestaRouter
   static Handler _settingsHandler = new Handler(handlerFunc: (BuildContext ctx, Map<String, dynamic> query)
   {
     return _mainSettingsPage;
+  });
+
+  static Handler _eulaHandler = new Handler(handlerFunc: (BuildContext ctx, Map<String,dynamic> query)
+  {
+    return new Eula();
   });
 
 }

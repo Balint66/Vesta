@@ -1,6 +1,6 @@
 import 'package:vesta/web/backgroundFetchingServiceMixin.dart';
 
-class FetchManager
+abstract class FetchManager
 {
   static List<BackgroundFetchingServiceMixin> _services = new List<BackgroundFetchingServiceMixin>();
 
@@ -10,7 +10,7 @@ class FetchManager
   static Future<void> _loop = Future.doWhile(() async
   {
 
-    await Future.delayed(new Duration(seconds: 15));
+    await Future.delayed(new Duration(minutes: 5));
 
     await fetch();
 
@@ -25,6 +25,7 @@ class FetchManager
   static void init()
   {
     _inFront = true; //Just to be safe
+    _loop.then((value) => null);
   }
 
   static void register(BackgroundFetchingServiceMixin mixin)
@@ -46,8 +47,8 @@ class FetchManager
 
   static void clearRegistered()
   {
-    for(var mixin in _services)
-      _services.remove(mixin);
+    for(var i = 0; i< _services.length; i++)
+      _services.removeAt(i);
   }
 
   static Future<void> fetch() async

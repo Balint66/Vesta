@@ -3,10 +3,14 @@ import 'dart:async';
 import 'package:background_fetch/background_fetch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:logger/logger.dart';
 import 'package:vesta/applicationpage/innerMainProgRouter.dart';
 import 'package:vesta/datastorage/local/fileManager.dart';
 import 'package:vesta/datastorage/studentData.dart';
+import 'package:vesta/i18n/appTranslations.dart';
+import 'package:vesta/i18n/appTranslationsDelegate.dart';
+import 'package:vesta/i18n/localizedApp.dart';
 import 'package:vesta/messaging/messageManager.dart';
 import 'package:vesta/routing/router.dart';
 import 'package:vesta/settings/settingsData.dart';
@@ -24,7 +28,7 @@ class Vesta extends StatefulWidget
 
   static final Logger logger = new Logger();
 
-  static Function showSnackbar = (Widget widget)=>MessageManager.showSnackBar(widget);
+  static final Function showSnackbar = (Widget widget)=>MessageManager.showSnackBar(widget);
 
   static String home = "/login";
 
@@ -34,7 +38,6 @@ class Vesta extends StatefulWidget
     {
 
       settings = new RouteSettings(name: home,
-          //isInitialRoute: settings.isInitialRoute,
           arguments: settings.arguments);
 
     }
@@ -78,15 +81,25 @@ class VestaState extends State<Vesta>
   {
 
     super.initState();
+    application.addListener(onLocaleChanged);
     initPlatform();
 
   }
 
+  void onLocaleChanged()
+  {
+    setState(() {
+      AppTranslations.load(application.appDelegate.newLocale);
+    });
+  }
+
   SettingsData _settings = new SettingsData();
 
-  void updateSettings({Color mainColor, bool isDarkTheme, bool keepMeLogged, String route})
+  void updateSettings({Color mainColor, bool isDarkTheme, bool keepMeLogged,
+    String route, bool eulaWasAccepted, String language})
   {
-    if(mainColor == null && isDarkTheme == null && keepMeLogged == null && route == null)
+    if(mainColor == null && isDarkTheme == null && keepMeLogged == null
+        && route == null && eulaWasAccepted == null)
       return;
 
     setState(() {
@@ -95,18 +108,24 @@ class VestaState extends State<Vesta>
       if(isDarkTheme != null)
         _settings.isDarkTheme = isDarkTheme;
       if(keepMeLogged != null)
-        settings.stayLogged = keepMeLogged;
+        _settings.stayLogged = keepMeLogged;
+      if(eulaWasAccepted != null)
+        _settings.eulaAccepted = eulaWasAccepted;
       if(route!= null)
       {
-        settings.appHomePage = "/" + route.split('/')[2];
+        _settings.appHomePage = "/" + route.split('/')[2];
         MainProgRouter.defaultRoute = route;
+      }
+      if(language != null)
+      {
+        _settings.language = language;
       }
       FileManager.saveSettings(_settings);
     });
 
   }
 
-  SettingsData get settings => _settings;
+  SettingsData get settings => SettingsData.copyOf(_settings);
 
   Future<void> initPlatform() async
   {
@@ -170,7 +189,17 @@ class VestaState extends State<Vesta>
                       brightness: settings.isDarkTheme ? Brightness.dark : Brightness.light,
                     ),
                     onGenerateRoute: Vesta.generateRoutes,
-                    initialRoute: "/home",
+                    initialRoute: _settings.eulaAccepted ? "/home" : "/eula",
+                    localizationsDelegates: 
+                    [
+                      application.appDelegate,
+                      GlobalMaterialLocalizations.delegate,
+                      GlobalWidgetsLocalizations.delegate
+                    ],
+                    supportedLocales: [
+                      Locale("en"),
+                      Locale("hu")
+                    ],
                   )
                 )
               )

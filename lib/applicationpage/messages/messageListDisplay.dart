@@ -5,14 +5,11 @@ import 'package:vesta/datastorage/data.dart';
 import 'package:vesta/applicationpage/messages/messageDisplay.dart';
 import 'package:vesta/datastorage/Lists/messagesList.dart';
 import 'package:vesta/datastorage/studentData.dart';
-import 'package:vesta/web/backgroundFetchingServiceMixin.dart';
 import 'package:vesta/datastorage/message.dart';
-import 'package:vesta/web/fetchManager.dart';
+import 'package:vesta/i18n/appTranslations.dart';
 import 'package:vesta/web/webServices.dart';
 import 'package:vesta/web/webdata/bgFetchSateFullWidget.dart';
-import 'package:vesta/web/webdata/webDataBase.dart';
 import 'package:vesta/web/webdata/webDataMessageRead.dart';
-import 'package:vesta/web/webdata/webDataMessages.dart';
 
 class MessageListDisplay extends BgFetchSateFullWidget
 {
@@ -40,8 +37,8 @@ class MessageListDisplayState extends BgFetchState<MessageListDisplay>
             title: TabBar(
                 tabs: <Widget>
                 [
-                  Tab(text: "Olvasatlan",),
-                  Tab(text: "Olvasott",)
+                  Tab(text: AppTranslations.of(context).translate("messages_read"),),
+                  Tab(text: AppTranslations.of(context).translate("messages_unread"),)
                 ]
             ),
             primary: false,

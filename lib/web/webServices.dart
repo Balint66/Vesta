@@ -83,7 +83,6 @@ abstract class WebServices
 
     await Future.doWhile(() async
     {
-
       await Future.delayed(new Duration(milliseconds: 50));
 
       return obj == null;

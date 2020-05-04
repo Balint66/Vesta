@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:vesta/datastorage/data.dart';
 import 'package:vesta/Vesta.dart';
+import 'package:vesta/i18n/appTranslations.dart';
 import 'package:vesta/loginpage/loginForm.dart';
 import 'package:vesta/web/webServices.dart';
 
@@ -61,7 +62,7 @@ class LoginBtnState extends State<LoginButton>
       }
 
 
-      Vesta.showSnackbar(new Text("Unable to login"));
+      Vesta.showSnackbar(new Text(AppTranslations.of(context).translate("login_login_error")));
 
     }
     catch(e)
@@ -86,7 +87,7 @@ class LoginBtnState extends State<LoginButton>
     if(!_loggingIn)
       return new MaterialButton(onPressed: LoginForm.of(context).ableToLogin
             ? () => startLogin(context) : null,
-          child: Text("Login",maxLines: 1,),
+          child: Text(AppTranslations.of(context).translate("login_login_button"),maxLines: 1,),
           color: Theme.of(context).primaryColor,
           minWidth: 150.0,
       );

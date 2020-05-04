@@ -10,6 +10,8 @@ class SettingsData
   bool isDarkTheme = false;
   bool stayLogged = false;
   String appHomePage = "/messages";
+  bool eulaAccepted = false;
+  String language = "en";
 
   String toJsonString()
   {
@@ -18,6 +20,8 @@ class SettingsData
       "isDarkTheme":isDarkTheme,
       "stayLogged": stayLogged,
       "appHomePage":appHomePage,
+      "eulaAccepted": eulaAccepted,
+      "language":language,
       "mainColor":<String,dynamic>
       {
         "r":mainColor.red,
@@ -35,10 +39,37 @@ class SettingsData
 
     SettingsData data = new SettingsData();
 
-    data.isDarkTheme = map["isDarkTheme"];
-    data.stayLogged = map["stayLogged"];
-    data.appHomePage = map["appHomePage"];
-    data.mainColor = Color.fromARGB(colormap["a"], colormap["r"], colormap["g"], colormap["b"]);
+    data.isDarkTheme = map["isDarkTheme"] == null ? false : map["isDarkTheme"];
+    data.stayLogged = map["stayLogged"] == null ? false : map["stayLogged"];
+    data.appHomePage = map["appHomePage"] == null ? "/messages" : map["appHomePage"];
+    data.eulaAccepted = map["eulaAccepted"] == null ? false : map["eulaAccepted"];
+    data.language = map["language"] == null ? "en" : map["language"];
+    if(colormap != null)
+    {
+    data.mainColor = Color.fromARGB(colormap["a"] == null ? 255 : colormap["a"],
+      colormap["r"] == null ? 255 : colormap["r"],
+      colormap["g"] == null ? 0 : colormap["g"],
+      colormap["b"] == null ? 0 : colormap["b"]);
+    }
+    else
+    {
+      data.mainColor = Colors.red;
+    }
+
+    return data;
+
+  }
+
+  static SettingsData copyOf(SettingsData other)
+  {
+    SettingsData data = new SettingsData();
+
+    data.eulaAccepted = other.eulaAccepted;
+    data.isDarkTheme = other.isDarkTheme;
+    data.appHomePage = other.appHomePage;
+    data.mainColor = other.mainColor;
+    data.stayLogged = other.stayLogged;
+    data.language = other.language;
 
     return data;
 

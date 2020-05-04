@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:vesta/Vesta.dart';
 
 class ColorSelector extends StatefulWidget
@@ -42,6 +43,10 @@ class _ColorSelectorState extends State<ColorSelector>
           )
       ),
       actions:  <Widget>[
+        new MaterialButton(
+            child: new Text("Custom"),
+            onPressed: () => showDialog(context: context,
+                builder: _customColorSelector())),
         new MaterialButton(
           onPressed: () => Navigator.pop(context),
           child: new Text("Cancel"),
@@ -131,6 +136,73 @@ class _ColorSelectorState extends State<ColorSelector>
     }
 
     return list;
+
+  }
+
+  WidgetBuilder _customColorSelector()
+  {
+    return (BuildContext context)
+    {
+
+      TextEditingController _r = new TextEditingController(text: this._chosenColor.red.toString());
+      TextEditingController _g = new TextEditingController(text: this._chosenColor.green.toString());
+      TextEditingController _b = new TextEditingController(text: this._chosenColor.blue.toString());
+
+      return new AlertDialog(
+        title:  new Text("Custom"),
+        content: new Center(
+          child: new Wrap(
+              alignment: WrapAlignment.center,
+              children: <Widget>[
+                TextField(
+                  autocorrect: false,
+                  keyboardType: TextInputType.number,
+                  controller: _r,
+                  decoration: new InputDecoration(labelText: "Red"),
+                  onChanged: (str) =>setState(() {})
+                ),
+                TextField(
+                  autocorrect: false,
+                  keyboardType: TextInputType.number,
+                  controller: _g,
+                  decoration: new InputDecoration(labelText: "Green"),
+                  onChanged: (str) =>setState(() {}),
+                ),
+                TextField(
+                  autocorrect: false,
+                  keyboardType: TextInputType.number,
+                  controller: _b,
+                  decoration: new InputDecoration(labelText: "Blue"),
+                  onChanged: (str) =>setState(() {})
+                ),
+              ],
+          ),
+        ),
+        actions: <Widget>[
+          new MaterialButton(onPressed: ()=>Navigator.of(context).pop(),
+          child: new Text("Cancel"),),
+
+          new MaterialButton(onPressed: ()
+          {
+
+            Color col = new Color.fromARGB(255,
+                int.tryParse(_r.value.text),
+                int.tryParse(_g.value.text),
+                int.tryParse(_b.value.text));
+
+            setState(() {
+              this._chosenColor = col;
+            });
+
+            Vesta.of(context).updateSettings(mainColor: col);
+            Navigator.of(context).pop();
+          },
+            child: new Text("Apply"),
+          ),
+        ],
+      );
+
+    };
 
   }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vesta/Vesta.dart';
+import 'package:vesta/i18n/appTranslations.dart';
 import 'package:vesta/routing/replacementObserver.dart';
 
 class PopupSettings extends StatefulWidget
@@ -66,7 +67,7 @@ class PopupSettingsState extends State<PopupSettings>
       entries.add(new CheckedPopupMenuItem<int>(
         value: 0,
         checked: ("/" + _currentPath.split('/')[2]) == Vesta.of(context).settings.appHomePage,
-        child: new Text("Home"),
+        child: new Text(AppTranslations.of(context).translate("popup_app_home")),
         )
       );
 

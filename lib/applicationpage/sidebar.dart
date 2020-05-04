@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:vesta/applicationpage/MainProgram.dart';
+import 'package:vesta/datastorage/studentData.dart';
+import 'package:vesta/i18n/appTranslations.dart';
 import 'package:vesta/routing/replacementObserver.dart';
 
 class Sidebar extends StatefulWidget
@@ -22,11 +24,15 @@ class SideBarState extends State<Sidebar>
 {
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) 
+  {
+
+    var translator = AppTranslations.of(context);
+
     return Drawer(
         child: Scaffold(
             appBar: AppBar(
-              title: Text("User"),
+              title: Text(StudentData.Instance.username),
             ),
             bottomNavigationBar: BottomAppBar(
               child: MaterialButton(
@@ -38,10 +44,10 @@ class SideBarState extends State<Sidebar>
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const <Widget>[
+                    children: <Widget>[
                       Icon(Icons.settings, size: 20),
                       Text(
-                        "Settings",
+                        translator.translate("sidebar_settings"),
                         style: TextStyle(fontSize: 20),
                       ),
                     ],
@@ -51,13 +57,13 @@ class SideBarState extends State<Sidebar>
             //TODO: implement missing buttons
             body: ListView(
               children: <Widget>[
-                MenuButtons("Üzenetek",Icons.message,"/app/messages", key: widget.keys[0],),
-                MenuButtons("Fórum",Icons.wrap_text,"",key: widget.keys[1],),
-                MenuButtons("Naptár",Icons.calendar_today,"/app/calendar",key: widget.keys[2],),
-                MenuButtons("Tárgyak",Icons.book,"",key: widget.keys[3],),
-                MenuButtons("Vizsgák",Icons.school,"",key: widget.keys[4],),
-                MenuButtons("Lecke Könyv",Icons.local_library,"",key: widget.keys[5],),
-                MenuButtons("Időszakok",Icons.hourglass_empty,"",key: widget.keys[6],),
+                MenuButtons(translator.translate("sidebar_messages"),Icons.message,"/app/messages", key: widget.keys[0],),
+                MenuButtons(translator.translate("sidebar_forums"),Icons.wrap_text,"",key: widget.keys[1],),
+                MenuButtons(translator.translate("sidebar_calendar"),Icons.calendar_today,"/app/calendar",key: widget.keys[2],),
+                MenuButtons(translator.translate("sidebar_subjects"),Icons.book,"",key: widget.keys[3],),
+                MenuButtons(translator.translate("sidebar_exams"),Icons.school,"",key: widget.keys[4],),
+                MenuButtons(translator.translate("sidebar_student_book"),Icons.local_library,"",key: widget.keys[5],),
+                MenuButtons(translator.translate("sidebar_semesters"),Icons.hourglass_empty,"",key: widget.keys[6],),
               ],
             )
         )

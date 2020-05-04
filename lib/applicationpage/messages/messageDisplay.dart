@@ -3,6 +3,7 @@ import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:vesta/Vesta.dart';
+import 'package:vesta/i18n/appTranslations.dart';
 
 class MessageDisplay extends StatelessWidget
 {
@@ -28,7 +29,7 @@ class MessageDisplay extends StatelessWidget
               if(await canLaunch(url))
                 await launch(url);
               else
-                Vesta.showSnackbar(Text("Could not launch url: $url"));
+                Vesta.showSnackbar(Text("${AppTranslations.of(context).translate("message_urllaunch_error")} $url"));
             },
           factoryBuilder: (config)=> new MyFactory(config),
         ),
@@ -44,36 +45,49 @@ class MessageDisplay extends StatelessWidget
 class MyFactory extends WidgetFactory
 {
 
-  final HtmlWidgetConfig _conf;
+  final HtmlConfig _conf;
 
-  MyFactory(HtmlWidgetConfig config) : this._conf = config, super(config);
+  MyFactory(HtmlConfig config) : this._conf = config, super(config);
 
   @override
-  Iterable<Widget> buildText(BuilderContext bc, Iterable<Widget> _, TextBlock block) {
-    List<Widget> ws = List.of(super.buildText(bc, _, block));
-    for(int i = 0; i< ws.length; i++)
+  Widget buildText(TextBits bits) 
+  {
+
+    WidgetPlaceholder superWidget = super.buildText(bits) as WidgetPlaceholder
+    ..wrapWith((BuildContext ctx, Iterable<Widget> children, input)
     {
-      if(ws[i] is RichText)
+
+      List<Widget> nextChildren = List.of(children);
+
+      for(var i = 0; i < children.length; i++)
       {
+        if(nextChildren[i] is RichText)
+        {
 
-          RichText rt = ws[i] as RichText;
+            RichText rt = nextChildren[i] as RichText;
 
-          Color cl = !Vesta.of(bc.context).settings.isDarkTheme ? hyperlinkColor
-              : Color.fromARGB(255, 255 - hyperlinkColor.red, 255 - hyperlinkColor.green,
-              255 - hyperlinkColor.blue);
+            Color cl = !Vesta.of(ctx).settings.isDarkTheme ? hyperlinkColor
+                : Color.fromARGB(255, 255 - hyperlinkColor.red, 255 - hyperlinkColor.green,
+                255 - hyperlinkColor.blue);
 
-          if(rt.text.children?.length != 0 || rt.text.text.contains("http") || rt.text.text.contains("www"))
-          {
-              ws[i] = new Linkify(text: rt.text.text,
-              style: _conf.textStyle, linkStyle: _conf.textStyle.copyWith(color: cl),
-                onOpen: _conf.onTapUrl);
-          }
+            if(rt.text.children?.length != 0 || rt.text.text.contains("http") || rt.text.text.contains("www"))
+            {
+                nextChildren[i] = new Linkify(text: rt.text.text,
+                style: _conf.textStyle, linkStyle: _conf.textStyle.copyWith(color: cl),
+                  onOpen: _conf.onTapUrl);
+
+            }
+
+        }
 
       }
 
-    }
+    return nextChildren;
 
-    return ws;
+    });
+
+    return superWidget;
+      
   }
 
 }

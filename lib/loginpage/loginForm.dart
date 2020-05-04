@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vesta/datastorage/data.dart';
 import 'package:vesta/datastorage/Lists/schoolList.dart';
+import 'package:vesta/i18n/appTranslations.dart';
 import 'package:vesta/loginpage/keepMeLoggedInButton.dart';
 import 'package:vesta/loginpage/loginButton.dart';
 import 'package:vesta/loginpage/schoolSelectioButton.dart';
@@ -87,6 +88,8 @@ class LoginFormState extends State<LoginForm>
   Widget build(BuildContext context)
   {
 
+    var translate = AppTranslations.of(context);
+
     if(_post == null)
       _post = WebServices.fetchSchools();
 
@@ -117,7 +120,7 @@ class LoginFormState extends State<LoginForm>
                         onPressed: () => setState(() {
                           _post = null;
                         }),
-                        child: Text("Újra próbálkozás"),);
+                        child: Text(translate.translate("login_retry")),);
 
                     }
 
@@ -136,7 +139,7 @@ class LoginFormState extends State<LoginForm>
                   {
                     if(_validSchool)
                       _validSchool = false;
-                    return "Please select school!";
+                    return translate.translate("login_select_school");
                   }
                   if(!_validSchool)
                     _validSchool = true;
@@ -147,9 +150,9 @@ class LoginFormState extends State<LoginForm>
                 child: TextFormField(
                   autocorrect: false,
                   autofocus: true,
-                  decoration: const InputDecoration(
-                    labelText: "Username",
-                    hintText: "Neptun Code",),
+                  decoration: InputDecoration(
+                    labelText: translate.translate("login_username"),
+                    hintText: translate.translate("login_username_hint"),),
                   maxLines: 1,
                   controller: _userName,
                   onChanged: (str)
@@ -162,7 +165,7 @@ class LoginFormState extends State<LoginForm>
                     {
                       if(_validUsername)
                         _validUsername = false;
-                      return "Username must be at least 6 character long!";
+                      return translate.translate("login_username_character_error");
                     }
                     if(!_validUsername)
                       _validUsername = true;
@@ -173,7 +176,7 @@ class LoginFormState extends State<LoginForm>
               Container(
                   child: TextFormField(
                     autocorrect: false,
-                    decoration: const InputDecoration(labelText: "password"),
+                    decoration: new InputDecoration(labelText: translate.translate("login_password")),
                     obscureText: true,
                     maxLines: 1,
                     controller: _password,
@@ -187,7 +190,7 @@ class LoginFormState extends State<LoginForm>
                       {
                         if(_validPassword)
                           _validPassword = false;
-                        return "Password must not be empty!";
+                        return translate.translate("login_password_error");
                       }
                       if(!_validPassword)
                         _validPassword = true;
