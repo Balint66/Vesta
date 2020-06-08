@@ -31,6 +31,24 @@
     "sidebar_settings":"Beállítások",
     "popup_app_home":"Indító lap",
     "messages_read":"Olvasott",
-    "messages_unread":"olvasatlan",
-    "message_urllaunch_error":"Nem lehetett megnyitni a következő url-t:"
+    "messages_unread":"Olvasatlan",
+    "message_urllaunch_error":"Nem lehetett megnyitni a következő url-t:",
+    "settings":"Beállítások",
+    "settings_logout":"Kijelentkezés",
+    "settings_color":"Szín",
+    "settings_dark_theme":"Sötét Téma",
+    "settings_lang":"Nyelv:",
+    "settings_lang_tooltip": "Válts nyelvet",
+    "settings_cuteness":"Kedves üzenetecske",
+    "cute_messages":
+    [
+        "Találtam egy kis hibát. 🐛",
+        "Mindenkinek vannak rossz napjai. Tessék itt egy süti, hogy jobb kedved legyen. 🍪",
+        "Esetleg hiányoztam neked? ❤️",
+        "Nézzük a tenni valóimat: megölelni valakit: ✔️\nfagylaltot enni:✔️\nJó jegyet adni:\nCsináljuk meg a következőt! Tessék, egy itt egy 5-ös!",
+        "Úgy érzed kiccsit nehezen mennek a dolgok? Nyugodj meg, te nekem mindig a kedvenc diákom leszel!",
+        "Gyere, had adjak egy ölelést! 🤍🤍🤍",
+        "Semmi jó nem származik abből, ha túl stresszeled magad. Ülj le, és nyugodtan igyál meg egy meleg teát. 🍵",
+        "Lehet, hogy én csak egy program vagyok, de mindig van lehetőséged a barátaiddal összeüllni! Hajrá, találkozz velük egy sör mellett! 🍻"
+    ]
 }

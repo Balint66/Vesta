@@ -1,4 +1,6 @@
 
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:vesta/applicationpage/MainProgram.dart';
 import 'package:vesta/datastorage/studentData.dart';
@@ -58,7 +60,7 @@ class SideBarState extends State<Sidebar>
             body: ListView(
               children: <Widget>[
                 MenuButtons(translator.translate("sidebar_messages"),Icons.message,"/app/messages", key: widget.keys[0],),
-                MenuButtons(translator.translate("sidebar_forums"),Icons.wrap_text,"",key: widget.keys[1],),
+                MenuButtons(translator.translate("sidebar_forum"),Icons.wrap_text,"",key: widget.keys[1],),
                 MenuButtons(translator.translate("sidebar_calendar"),Icons.calendar_today,"/app/calendar",key: widget.keys[2],),
                 MenuButtons(translator.translate("sidebar_subjects"),Icons.book,"",key: widget.keys[3],),
                 MenuButtons(translator.translate("sidebar_exams"),Icons.school,"",key: widget.keys[4],),
@@ -72,43 +74,48 @@ class SideBarState extends State<Sidebar>
 
 }
 
-//TODO: Should we rethink this class?
-// ignore: must_be_immutable
-class MenuButtons extends StatefulWidget with ReplacementAware
+typedef ReplaceFn = void Function({Route route});
+
+class _ReplaceDetector with ReplacementAware
 {
 
-  final String text;
-  final IconData icon;
-  final String path;
-
-  MenuButtonState state;
-
-
-  MenuButtons(this.text,this.icon, String path, {Key key}) :this.path = path, super(key: key)
-  {
-    if(path.isNotEmpty)
-      ReplacementObserver.Instance.subscribe(this, path);
-  }
-
-  @override
-  State<StatefulWidget> createState()
-  {
-    state = new MenuButtonState();
-    return state;
-  }
+  ReplaceFn replace = ({Route route}){};
+  ReplaceFn replaced = ({Route route}){};
 
   @override
   didReplaceOther({Route oldRoute})
   {
-    if(state.mounted)
-      state.didReplaceOther(oldRoute: oldRoute);
+    replace.call(route: oldRoute);
   }
 
   @override
   wasReplacedBy({Route otherRoute})
   {
-    if(state.mounted)
-      state.wasReplacedBy(otherRoute: otherRoute);
+    replaced.call(route: otherRoute);
+  }
+  
+}
+
+class MenuButtons extends StatefulWidget
+{
+
+  final String text;
+  final IconData icon;
+  final _ReplaceDetector observer;
+  final String path;
+
+
+  MenuButtons(this.text,this.icon, String path, {Key key}) :this.observer = _ReplaceDetector(),this.path = path , super(key: key)
+  {
+
+    if(path.isNotEmpty)
+      ReplacementObserver.Instance.subscribe(observer, path);
+  }
+
+  @override
+  State<StatefulWidget> createState()
+  {
+    return new MenuButtonState();
   }
 
 }
@@ -120,6 +127,7 @@ class MenuButtonState extends State<MenuButtons>
 
   void setStatusEnabled(bool enabled)
   {
+    if(mounted)
     setState(() {
       this.enabled = enabled;
     });
@@ -129,10 +137,12 @@ class MenuButtonState extends State<MenuButtons>
   void initState() {
     super.initState();
 
-    if(widget.path.isEmpty || widget.path == ReplacementObserver.Instance.currentPath)
-      setState(() {
-        this.enabled = false;
-      });
+    if(widget.path == null || widget.path.isEmpty || widget.path == ReplacementObserver.Instance.currentPath)
+      enabled = false;
+
+    widget.observer.replace =  ({Route route}) => didReplaceOther(oldRoute: route);
+
+    widget.observer.replaced = ({Route route}) => wasReplacedBy(otherRoute: route);
 
   }
 
@@ -151,15 +161,14 @@ class MenuButtonState extends State<MenuButtons>
     );
   }
 
-
-  didReplaceOther({Route oldRoute})
-  {
-    setStatusEnabled(false);
-  }
-
-  wasReplacedBy({Route otherRoute})
+  void didReplaceOther({Route oldRoute})
   {
     setStatusEnabled(true);
+  }
+
+  void wasReplacedBy({Route otherRoute})
+  {
+    setStatusEnabled(false);
   }
 
 }

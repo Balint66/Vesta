@@ -31,7 +31,7 @@ class MessageDisplay extends StatelessWidget
               else
                 Vesta.showSnackbar(Text("${AppTranslations.of(context).translate("message_urllaunch_error")} $url"));
             },
-          factoryBuilder: (config)=> new MyFactory(config),
+          factoryBuilder: ()=> new MyFactory(),
         ),
       ],
       ),
@@ -45,9 +45,7 @@ class MessageDisplay extends StatelessWidget
 class MyFactory extends WidgetFactory
 {
 
-  final HtmlConfig _conf;
-
-  MyFactory(HtmlConfig config) : this._conf = config, super(config);
+  MyFactory() : super();
 
   @override
   Widget buildText(TextBits bits) 
@@ -66,7 +64,8 @@ class MyFactory extends WidgetFactory
 
             RichText rt = nextChildren[i] as RichText;
 
-            Color cl = !Vesta.of(ctx).settings.isDarkTheme ? hyperlinkColor
+            //TODO:Make the coloring correct
+            /*Color cl = !Vesta.of(ctx).settings.isDarkTheme ? hyperlinkColor
                 : Color.fromARGB(255, 255 - hyperlinkColor.red, 255 - hyperlinkColor.green,
                 255 - hyperlinkColor.blue);
 
@@ -76,7 +75,7 @@ class MyFactory extends WidgetFactory
                 style: _conf.textStyle, linkStyle: _conf.textStyle.copyWith(color: cl),
                   onOpen: _conf.onTapUrl);
 
-            }
+            }*/
 
         }
 

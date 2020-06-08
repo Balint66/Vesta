@@ -13,8 +13,6 @@ class ColorSelector extends StatefulWidget
     return _ColorSelectorState();
   }
 
-
-
 }
 
 class _ColorSelectorState extends State<ColorSelector>
@@ -150,7 +148,7 @@ class _ColorSelectorState extends State<ColorSelector>
 
       return new AlertDialog(
         title:  new Text("Custom"),
-        content: new Center(
+        content: SingleChildScrollView(child: new Center(
           child: new Wrap(
               alignment: WrapAlignment.center,
               children: <Widget>[
@@ -177,7 +175,7 @@ class _ColorSelectorState extends State<ColorSelector>
                 ),
               ],
           ),
-        ),
+        )),
         actions: <Widget>[
           new MaterialButton(onPressed: ()=>Navigator.of(context).pop(),
           child: new Text("Cancel"),),

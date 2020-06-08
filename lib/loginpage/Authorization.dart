@@ -58,8 +58,10 @@ class AuthorizationState extends State<Authorization>
   {
     return Scaffold(
         body:Center(
+            child: SingleChildScrollView(
           child: new LoginForm(),
-        ),
+          ),
+      )
     );
 
   }

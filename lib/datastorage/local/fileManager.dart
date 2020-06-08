@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:path_provider/path_provider.dart';
+import 'package:vesta/Vesta.dart';
 import 'dart:io';
 
 import 'package:vesta/datastorage/data.dart';
@@ -17,6 +18,11 @@ class FileManager
   {
 
     await init();
+    if(directory == null)
+    {
+      Vesta.logger.i("Init wasn't successful. Maybe we are on an unsupported platform? (directory was null)");
+      return;
+    }
 
     File file = File(directory.path + "login_data.json");
 
@@ -59,6 +65,11 @@ class FileManager
   static Future<void> clearFileData() async
   {
     await init();
+    if(directory == null)
+    {
+      Vesta.logger.i("Init wasn't successful. Maybe we are on an unsupported platform? (directory was null)");
+      return;
+    }
 
     File file = File(directory.path + "login_data.json");
 
@@ -69,6 +80,11 @@ class FileManager
   static Future<String> loadLoginFile() async
   {
     await init();
+    if(directory == null)
+    {
+      Vesta.logger.i("Init wasn't successful. Maybe we are on an unsupported platform? (directory was null)");
+      return "{}";
+    }
     File file = File(directory.path + "login_data.json");
 
     if(await file.exists())
@@ -82,6 +98,11 @@ class FileManager
   {
 
     await init();
+    if(directory == null)
+    {
+      Vesta.logger.i("Init wasn't successful. Maybe we are on an unsupported platform? (directory was null)");
+      return;
+    }
     File file = File(directory.path+"settings.json");
 
     file.writeAsString(data.toJsonString());
@@ -91,6 +112,13 @@ class FileManager
   static Future<SettingsData> loadSettings() async
   {
     await init();
+
+    if(directory == null)
+    {
+      Vesta.logger.i("Init wasn't successful. Maybe we are on an unsupported platform? (directory was null)");
+      return null;
+    }
+
     File file = File(directory.path +"settings.json");
 
     if(! (await file.exists()))
@@ -103,7 +131,15 @@ class FileManager
   static Future<void> init() async
   {
     if(directory == null)
+    try
+    {
       directory = await getApplicationDocumentsDirectory();
+    }
+    catch(e)
+    {
+      Vesta.logger.w("Error happened on platform: ${Platform.operatingSystem}\n error was $e");
+      //throw e;
+    }
 
 
   }

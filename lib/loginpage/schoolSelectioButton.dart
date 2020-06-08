@@ -21,19 +21,21 @@ class SchoolSelectionButton extends StatefulWidget
 class SchoolButtonState extends State<SchoolSelectionButton>
 {
 
-  String text = "Iskolák...";
+  String text;
   School chosen;
 
   @override
   void initState()
   {
-    text = AppTranslations.of(context).translate("login_schools_button");
     super.initState();
   }
 
   @override
   Widget build(BuildContext context)
   {
+
+    text = Data.school == null ? AppTranslations.of(context).translate("login_schools_button"): Data.school.Name;
+
     return new Column(
       children: getErrorTextedButton(context),
     );
@@ -41,6 +43,7 @@ class SchoolButtonState extends State<SchoolSelectionButton>
 
   List<Widget> getErrorTextedButton(BuildContext context)
   {
+    
     List<Widget> list = new List<Widget>();
 
     list.add(new MaterialButton

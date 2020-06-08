@@ -27,10 +27,10 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: e912b66d302d965de22495acf18cc04501f95572
+      resolved-ref: "97e1e6eb064fe6c6dc51ff329928b9a938204f5c"
       url: "https://github.com/transistorsoft/flutter_background_fetch"
     source: git
-    version: "0.5.5"
+    version: "0.5.6"
   boolean_selector:
     dependency: transitive
     description:
@@ -79,7 +79,7 @@ packages:
       name: crypto
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.4"
+    version: "2.1.5"
   csslib:
     dependency: transitive
     description:
@@ -115,6 +115,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
+  file:
+    dependency: transitive
+    description:
+      name: file
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.1.0"
   fluro:
     dependency: "direct main"
     description:
@@ -130,7 +137,7 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_launcher_icons:
-    dependency: "direct main"
+    dependency: "direct dev"
     description:
       path: "."
       ref: HEAD
@@ -151,7 +158,7 @@ packages:
       name: flutter_local_notifications
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.4.2"
+    version: "1.4.3"
   flutter_local_notifications_platform_interface:
     dependency: transitive
     description:
@@ -179,7 +186,7 @@ packages:
     description:
       path: "packages/core"
       ref: HEAD
-      resolved-ref: "17df7d9ebc4935212054ad5df513d121382a7614"
+      resolved-ref: a33ed4ec3adc79fbb9b547bc43e4c8d3ff548059
       url: "https://github.com/daohoangson/flutter_widget_from_html"
     source: git
     version: "0.3.2+2"
@@ -203,7 +210,7 @@ packages:
       name: image
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.12"
+    version: "2.1.13"
   intl:
     dependency: transitive
     description:
@@ -211,13 +218,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.16.1"
-  js:
-    dependency: transitive
-    description:
-      name: js
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.6.1+1"
   logger:
     dependency: "direct main"
     description:
@@ -244,10 +244,10 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "8aba967fc16459dd620c667462304a6da2905c0b"
+      resolved-ref: "97a596870fe23dd5a50b11f7a3f72d4728f3b992"
       url: "https://github.com/boyan01/overlay_support"
     source: git
-    version: "1.0.3"
+    version: "1.0.4"
   path:
     dependency: transitive
     description:
@@ -260,31 +260,40 @@ packages:
     description:
       path: "packages/path_provider/path_provider"
       ref: HEAD
-      resolved-ref: "58f5b7af0bab9f151fcf2b795088c3405a1b2a9b"
+      resolved-ref: "68fab2d220e2ba5dfa6b2cda4945d9a1acad515f"
       url: "https://github.com/flutter/plugins"
     source: git
-    version: "1.6.7"
+    version: "1.6.9"
+  path_provider_linux:
+    dependency: "direct main"
+    description:
+      path: "packages/path_provider/path_provider_linux"
+      ref: HEAD
+      resolved-ref: "68fab2d220e2ba5dfa6b2cda4945d9a1acad515f"
+      url: "https://github.com/flutter/plugins"
+    source: git
+    version: "0.0.1"
   path_provider_macos:
     dependency: transitive
     description:
       name: path_provider_macos
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.4+1"
+    version: "0.0.4+3"
   path_provider_platform_interface:
     dependency: transitive
     description:
       name: path_provider_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.1"
+    version: "1.0.2"
   petitparser:
     dependency: transitive
     description:
       name: petitparser
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.2"
+    version: "3.0.4"
   platform:
     dependency: transitive
     description:
@@ -292,6 +301,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.1"
+  platform_detect:
+    dependency: transitive
+    description:
+      name: platform_detect
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.4.0"
   plugin_platform_interface:
     dependency: transitive
     description:
@@ -299,6 +315,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
+  process:
+    dependency: transitive
+    description:
+      name: process
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.13"
+  pub_semver:
+    dependency: transitive
+    description:
+      name: pub_semver
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.4.4"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -345,7 +375,7 @@ packages:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.15"
+    version: "0.2.16"
   typed_data:
     dependency: transitive
     description:
@@ -358,31 +388,31 @@ packages:
     description:
       path: "packages/url_launcher/url_launcher/"
       ref: HEAD
-      resolved-ref: "58f5b7af0bab9f151fcf2b795088c3405a1b2a9b"
+      resolved-ref: "68fab2d220e2ba5dfa6b2cda4945d9a1acad515f"
       url: "https://github.com/flutter/plugins.git"
     source: git
-    version: "5.4.5"
+    version: "5.4.10"
   url_launcher_macos:
     dependency: transitive
     description:
       name: url_launcher_macos
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.1+5"
+    version: "0.0.1+7"
   url_launcher_platform_interface:
     dependency: transitive
     description:
       name: url_launcher_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.6"
+    version: "1.0.7"
   url_launcher_web:
     dependency: transitive
     description:
       name: url_launcher_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.1+2"
+    version: "0.1.1+6"
   vector_math:
     dependency: transitive
     description:
@@ -390,6 +420,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.8"
+  xdg_directories:
+    dependency: transitive
+    description:
+      name: xdg_directories
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.0"
   xml:
     dependency: transitive
     description:

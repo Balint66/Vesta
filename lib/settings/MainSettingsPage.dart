@@ -1,7 +1,11 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:vesta/Vesta.dart';
 import 'package:vesta/datastorage/local/fileManager.dart';
+import 'package:vesta/i18n/appTranslations.dart';
+import 'package:vesta/i18n/localizedApp.dart';
 import 'package:vesta/settings/colorSelector.dart';
 import 'package:vesta/settings/settingsData.dart';
 import 'package:vesta/web/fetchManager.dart';
@@ -18,16 +22,21 @@ class MainSettingsPage extends StatefulWidget
 
 class _MainSettingsPageState extends State<MainSettingsPage>
 {
+
+  Random rnd = new Random();
+
   @override
   Widget build(BuildContext context)
   {
 
     SettingsData data = Vesta.of(context).settings;
+    var translator = AppTranslations.of(context);
+    List cuteMessages = translator.translateRaw("cute_messages");
 
     return new Scaffold(
-        appBar: new AppBar(title: new Text("Settings"),),
+        appBar: new AppBar(title: new Text(translator.translate("settings")),),
         body: new ListView(children: <Widget>[
-          new ListTile(title: new Text("Logout"),
+          new ListTile(title: new Text(translator.translate("settings_logout")),
           onTap: ()
           {
             FileManager.clearFileData();
@@ -35,7 +44,7 @@ class _MainSettingsPageState extends State<MainSettingsPage>
             Navigator.pushReplacementNamed(context, "/login");
           },),
           new ListTile(
-            title: new Text("Color"),
+            title: new Text(translator.translate("settings_color")),
             onTap: ()=>showDialog(context: context, builder: (BuildContext ctx) => ColorSelector()),
             trailing: new Container(
               width: 35.5,
@@ -49,7 +58,26 @@ class _MainSettingsPageState extends State<MainSettingsPage>
            new CheckboxListTile(
                value: data.isDarkTheme,
                onChanged:  (bool value){Vesta.of(context).updateSettings(isDarkTheme: value);},
-                title: new Text("Dark theme"),
+                title: new Text(translator.translate("settings_dark_theme")),
+           ),
+           new  PopupMenuButton(itemBuilder: (context) 
+           {
+              return application.supportedLanguages.map((e) => new PopupMenuItem<int>(child: new Text(e), value: application.supportedLanguages.indexOf(e),)).toList();
+           },
+           padding: const EdgeInsets.all(0),
+           onSelected: (value)
+           {
+             application.changeLocal(new Locale(application.supportedLanguagesCodes[value]));
+           },
+           child: ListTile(title: new Text("${translator.translate("settings_lang")} ${application.supportedLanguages[application.supportedLanguagesCodes.indexOf(
+             application.appDelegate.newLocale == null ? Localizations.localeOf(context).languageCode : application.appDelegate.newLocale.languageCode
+             )]}"),
+           ),
+           tooltip: translator.translate("settings_lang_tooltip"),
+           ),
+           new ListTile(
+             title: new Text(translator.translate("settings_cuteness")),
+             onTap:()=>Vesta.showSnackbar(new Text(cuteMessages[rnd.nextInt(cuteMessages.length)]))
            )
         ],)
     );

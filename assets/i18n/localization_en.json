@@ -32,5 +32,23 @@
     "popup_app_home":"Home",
     "messages_read":"Read",
     "messages_unread":"Unread",
-    "message_urllaunch_error":"Unable to launch url:"
+    "message_urllaunch_error":"Unable to launch url:",
+    "settings":"Settings",
+    "settings_logout":"Logout",
+    "settings_color":"Color",
+    "settings_dark_theme":"Dark Theme",
+    "settings_lang":"Language:",
+    "settings_lang_tooltip": "Switch languages",
+    "settings_cuteness":"Random cute message",
+    "cute_messages":
+    [
+        "I've found a bug. 🐛",
+        "We all have bad days. Here, have a cookie. 🍪",
+        "Were you missing me? ❤️",
+        "Lets see my check list: Hugging someone: ✔️\nHaving an icecream:✔️\nGiving out good grades:\nLet's do the next one! Here, have an A!",
+        "Are you feeling a bit down? Don't worry! for me you'll always be an A-class student!",
+        "Come here, let me hug you! 🤍🤍🤍",
+        "Nothing good comes from stressing your self. Sit down, and have a tea. 🍵",
+        "Maybe I'm just a program, but you can hang out with your friends! Let's go, have a drink with them! 🍻"
+    ]
 }

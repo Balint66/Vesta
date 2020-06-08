@@ -29,5 +29,6 @@ class AppTranslations {
   get currentLanguage => locale.languageCode;
 
   String translate(String key) => _localisedValues[key] ?? "$key not found";
+  dynamic translateRaw(String key) => _localisedValues[key] ?? "$key not found";
   
 }

@@ -25,6 +25,23 @@ class Vesta extends StatefulWidget
 {
 
   static final FlutterLocalNotificationsPlugin notificationPlugin = new FlutterLocalNotificationsPlugin();
+  static final NotificationDetails notificationDetails = initDetails();
+
+  static NotificationDetails initDetails()
+  {
+    var androidD = AndroidNotificationDetails("vesta_main", "Vesta", "Vesta notifications", importance: Importance.High, priority: Priority.High, ticker: "ticker");
+    var iosD = IOSNotificationDetails();
+    return NotificationDetails(androidD, iosD);
+  }
+
+  Vesta()
+  {
+    var android = AndroidInitializationSettings("app_icon");
+    var ios = IOSInitializationSettings();
+    var init = InitializationSettings(android, ios);
+    notificationPlugin.initialize(init);
+    
+  }
 
   static final Logger logger = new Logger();
 
@@ -83,6 +100,15 @@ class VestaState extends State<Vesta>
     super.initState();
     application.addListener(onLocaleChanged);
     initPlatform();
+    _post = Future.delayed(new Duration(milliseconds: 1),() async
+    {
+
+      SettingsData newSettings = await FileManager.loadSettings();
+      if(newSettings != null)
+        _settings = newSettings;
+
+      return FileManager.readData();
+    });
 
   }
 
@@ -129,6 +155,8 @@ class VestaState extends State<Vesta>
 
   Future<void> initPlatform() async
   {
+    try
+    {
     BackgroundFetch.configure(BackgroundFetchConfig(
       minimumFetchInterval: 15,
       stopOnTerminate: false,
@@ -140,23 +168,20 @@ class VestaState extends State<Vesta>
       await FetchManager.fetch();
       BackgroundFetch.finish(id);
     });
-    if(!mounted)
-      return;
+    }
+    catch(e)
+    {
+      Vesta.logger.w("Dabiri-dabirido! What does this button do?\n Unable to configure background fetch. Something is not implemented? \n error:$e");
+    }
   }
+
+  Future<bool> _post;
 
   @override
   Widget build(BuildContext context)
   {
 
     VestaRouter.registerRoutes();
-
-    Future<bool> _post = Future.delayed(new Duration(milliseconds: 1),() async
-    {
-
-      _settings = await FileManager.loadSettings();
-
-      return FileManager.readData();
-    });
 
     FetchManager.init();
 
@@ -174,6 +199,8 @@ class VestaState extends State<Vesta>
               Vesta.home = "/app/home";
               StudentData.Instance;
             }
+
+            Vesta.notificationPlugin.show(0, "test", "Test", Vesta.notificationDetails);
 
            return new OverlaySupport(
               child: new _VestaInherited(
