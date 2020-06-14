@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'package:universal_io/io.dart';
 
 import 'package:background_fetch/background_fetch.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +12,7 @@ void main() async
 
   try
   {
-    if(!(Platform.isAndroid || Platform.isIOS))
+    if(!(Platform.isAndroid || Platform.isIOS || Platform.isFuchsia))
     {
       debugDefaultTargetPlatformOverride = TargetPlatform.android;
     }
@@ -26,16 +26,11 @@ void main() async
   try
   {
 
-    if(Platform.isAndroid || Platform.isIOS)
+    if(Platform.isAndroid)
     {
       BackgroundFetch.registerHeadlessTask(FetchManager.fetch);
     }
 
   }
   catch(e){}
-  finally
-  {
-    FetchManager.stopFrontFetch();
-  }
-
 }

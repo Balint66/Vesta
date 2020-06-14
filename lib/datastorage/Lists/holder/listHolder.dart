@@ -2,6 +2,7 @@ import 'dart:collection';
 
 import 'package:vesta/datastorage/Lists/calendarDataList.dart';
 import 'package:vesta/datastorage/Lists/messagesList.dart';
+import 'package:vesta/datastorage/Lists/studentBookDataList.dart';
 import 'package:vesta/datastorage/data.dart';
 import 'package:vesta/datastorage/studentData.dart';
 import 'package:vesta/web/backgroundFetchingServiceMixin.dart';
@@ -14,6 +15,7 @@ import 'package:vesta/web/webdata/webDataMessages.dart';
 //only use these to stay organised!
 part 'calendarListHolder.dart';
 part 'messageListHolder.dart';
+part 'studentBookListHolder.dart';
 
 typedef ListDataHolderCallback<K> =
 Future<K> Function<K extends ListBase>(ListDataHolder<K> self);

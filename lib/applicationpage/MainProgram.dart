@@ -34,6 +34,9 @@ class MainProgramState extends State<MainProgram>
 
   MessageListHolder _messageList = new MessageListHolder();
   MessageListHolder get messageList => _messageList;
+
+  StudentBookListHolder _studentBook = new StudentBookListHolder();
+  StudentBookListHolder get studentBook => _studentBook;
   
   static MainProgramState of(BuildContext context)
   {
@@ -48,6 +51,7 @@ class MainProgramState extends State<MainProgram>
 
     FetchManager.register(_calendarList);
     FetchManager.register(_messageList);
+    FetchManager.register(_studentBook);
 
   }
 

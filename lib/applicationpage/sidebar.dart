@@ -1,6 +1,3 @@
-
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:vesta/applicationpage/MainProgram.dart';
 import 'package:vesta/datastorage/studentData.dart';
@@ -64,7 +61,7 @@ class SideBarState extends State<Sidebar>
                 MenuButtons(translator.translate("sidebar_calendar"),Icons.calendar_today,"/app/calendar",key: widget.keys[2],),
                 MenuButtons(translator.translate("sidebar_subjects"),Icons.book,"",key: widget.keys[3],),
                 MenuButtons(translator.translate("sidebar_exams"),Icons.school,"",key: widget.keys[4],),
-                MenuButtons(translator.translate("sidebar_student_book"),Icons.local_library,"",key: widget.keys[5],),
+                MenuButtons(translator.translate("sidebar_student_book"),Icons.local_library,"/app/student_book",key: widget.keys[5],),
                 MenuButtons(translator.translate("sidebar_semesters"),Icons.hourglass_empty,"",key: widget.keys[6],),
               ],
             )
@@ -105,7 +102,7 @@ class MenuButtons extends StatefulWidget
   final String path;
 
 
-  MenuButtons(this.text,this.icon, String path, {Key key}) :this.observer = _ReplaceDetector(),this.path = path , super(key: key)
+  MenuButtons(this.text,this.icon, String path, {Key key}) : this.observer = _ReplaceDetector(),this.path = path , super(key: key)
   {
 
     if(path.isNotEmpty)
@@ -152,8 +149,12 @@ class MenuButtonState extends State<MenuButtons>
 
     return new Align( alignment: Alignment.centerLeft,
         child: new FlatButton.icon(onPressed: enabled ?
-            () => MainProgram.navKey.currentState.pushReplacementNamed(widget.path) :
-            null,
+            () 
+            {
+                MainProgram.navKey.currentState.pushReplacementNamed(widget.path);
+                Navigator.of(context).pop();
+            }
+            : null,
           icon: new  Padding(padding: EdgeInsets.symmetric(horizontal: 1.0),
               child: new Icon(widget.icon)),
           label: new Text(widget.text),

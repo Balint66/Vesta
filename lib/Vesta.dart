@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'package:universal_io/io.dart';
 
 import 'package:background_fetch/background_fetch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:logger/logger.dart';
+import 'package:universal_io/prefer_universal/io.dart';
 import 'package:vesta/applicationpage/innerMainProgRouter.dart';
 import 'package:vesta/datastorage/local/fileManager.dart';
 import 'package:vesta/datastorage/studentData.dart';
@@ -36,10 +38,17 @@ class Vesta extends StatefulWidget
 
   Vesta()
   {
-    var android = AndroidInitializationSettings("app_icon");
-    var ios = IOSInitializationSettings();
-    var init = InitializationSettings(android, ios);
-    notificationPlugin.initialize(init);
+    try
+    {
+      if(Platform.isAndroid || Platform.isIOS)
+      {
+        var android = AndroidInitializationSettings("app_icon");
+        var ios = IOSInitializationSettings();
+        var init = InitializationSettings(android, ios);
+        notificationPlugin.initialize(init);
+      }
+    }
+    catch(e){}
     
   }
 
@@ -90,7 +99,7 @@ class _VestaInherited extends InheritedWidget
 
 }
 
-class VestaState extends State<Vesta>
+class VestaState extends State<Vesta> with WidgetsBindingObserver
 {
 
   @override
@@ -109,6 +118,34 @@ class VestaState extends State<Vesta>
 
       return FileManager.readData();
     });
+
+    WidgetsBinding.instance.addObserver(this);
+
+  }
+
+  @override
+  dispose()
+  {
+    super.dispose();
+    WidgetsBinding.instance.removeObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) 
+  {
+    super.didChangeAppLifecycleState(state);
+
+    switch(state)
+    {
+      case AppLifecycleState.paused:
+        FetchManager.stopFrontFetch();
+        break;
+      case AppLifecycleState.resumed:
+        FetchManager.startFrontFetch();
+        break;
+      default:
+        return;
+    }
 
   }
 
@@ -157,7 +194,8 @@ class VestaState extends State<Vesta>
   {
     try
     {
-    BackgroundFetch.configure(BackgroundFetchConfig(
+      if( Platform.isAndroid || Platform.isIOS)
+      BackgroundFetch.configure(BackgroundFetchConfig(
       minimumFetchInterval: 15,
       stopOnTerminate: false,
       startOnBoot: true,
@@ -190,7 +228,7 @@ class VestaState extends State<Vesta>
           {
 
             if(!snapshot.hasData && !snapshot.hasError)
-              return new CircularProgressIndicator();
+              return new Center(child: new CircularProgressIndicator());
 
             if(snapshot.hasError && !(snapshot.error is MissingPluginException))
               Vesta.logger.e(snapshot.error);
@@ -200,7 +238,8 @@ class VestaState extends State<Vesta>
               StudentData.Instance;
             }
 
-            Vesta.notificationPlugin.show(0, "test", "Test", Vesta.notificationDetails);
+            if(Platform.isAndroid || Platform.isIOS)
+              Vesta.notificationPlugin.show(0, "test", "Test", Vesta.notificationDetails);
 
            return new OverlaySupport(
               child: new _VestaInherited(

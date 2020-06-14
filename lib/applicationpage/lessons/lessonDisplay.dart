@@ -72,7 +72,18 @@ class LessonDisplayerState extends BgFetchState<LessonDisplayer>
         }
 
 
-        return new Center(child: new CircularProgressIndicator());
+        return new FutureBuilder(builder: (BuildContext cont, AsyncSnapshot<bool> shot)
+        {  
+          
+            return Center(child: shot.hasData 
+            ? new RichText(textAlign: TextAlign.center, text: TextSpan(text:"You have got nothing new here pal.\n", 
+              children:[
+                new TextSpan(text: "¯\\_(ツ)_/¯", style: new TextStyle(fontSize: 25, ))
+              ])) 
+            : new CircularProgressIndicator());
+        },
+        future: Future.delayed(new Duration(seconds: 5), () async => true)
+        );
 
       }
     );

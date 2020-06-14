@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vesta/Vesta.dart';
 import 'package:vesta/applicationpage/MainProgram.dart';
 import 'package:vesta/applicationpage/refreshExecuter.dart';
 import 'package:vesta/datastorage/data.dart';
@@ -37,8 +38,8 @@ class MessageListDisplayState extends BgFetchState<MessageListDisplay>
             title: TabBar(
                 tabs: <Widget>
                 [
-                  Tab(text: AppTranslations.of(context).translate("messages_read"),),
-                  Tab(text: AppTranslations.of(context).translate("messages_unread"),)
+                  Tab(text: AppTranslations.of(context).translate("messages_unread"),),
+                  Tab(text: AppTranslations.of(context).translate("messages_read"),)
                 ]
             ),
             primary: false,
@@ -62,14 +63,16 @@ class MessageListDisplayState extends BgFetchState<MessageListDisplay>
                       .where((item)=>item.isNew).toList()
                       ..sort((Message a, Message b)=>-1*a.time.compareTo(b.time))),
                         (item) {
-                        setState(() {
-                          item.setReadState();
-                        });
-                        MainProgramState.of(context).parentNavigator.push(MaterialPageRoute(builder: (ctx)=>MessageDisplay
-                          (item.senderName,item.subject,item.detail)));
-                        WebDataMessageRead body = new WebDataMessageRead(StudentData.Instance,
-                            item.personMessageId);
-                        WebServices.setRead(Data.school, body);
+                          Vesta.logger.d("Ohy, ya' wanna see th' neww stuff?");
+                          setState(() 
+                          {
+                            item.setReadState();
+                          });
+                          MainProgramState.of(context).parentNavigator.push(MaterialPageRoute(builder: (ctx)=>MessageDisplay
+                            (item.senderName,item.subject,item.detail)));
+                          WebDataMessageRead body = new WebDataMessageRead(StudentData.Instance,
+                              item.personMessageId);
+                          WebServices.setRead(Data.school, body);
                       });
 
                 return new RefreshExecuter(icon: Icons.message,

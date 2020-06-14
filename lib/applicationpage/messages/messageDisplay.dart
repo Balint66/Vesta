@@ -62,7 +62,7 @@ class MyFactory extends WidgetFactory
         if(nextChildren[i] is RichText)
         {
 
-            RichText rt = nextChildren[i] as RichText;
+            //RichText rt = nextChildren[i] as RichText;
 
             //TODO:Make the coloring correct
             /*Color cl = !Vesta.of(ctx).settings.isDarkTheme ? hyperlinkColor

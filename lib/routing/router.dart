@@ -6,8 +6,10 @@ import 'package:vesta/eulapage/Eulapage.dart';
 import 'package:vesta/loginpage/Authorization.dart';
 import 'package:vesta/settings/MainSettingsPage.dart';
 
-class VestaRouter
+abstract class VestaRouter 
 {
+
+  factory VestaRouter()=>null;
 
   static final Router router = new Router();
 

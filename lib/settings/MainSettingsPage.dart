@@ -3,12 +3,14 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:vesta/Vesta.dart';
+import 'package:vesta/datastorage/data.dart';
 import 'package:vesta/datastorage/local/fileManager.dart';
 import 'package:vesta/i18n/appTranslations.dart';
 import 'package:vesta/i18n/localizedApp.dart';
 import 'package:vesta/settings/colorSelector.dart';
 import 'package:vesta/settings/settingsData.dart';
 import 'package:vesta/web/fetchManager.dart';
+import 'package:vesta/web/webServices.dart';
 
 class MainSettingsPage extends StatefulWidget
 {
@@ -78,6 +80,23 @@ class _MainSettingsPageState extends State<MainSettingsPage>
            new ListTile(
              title: new Text(translator.translate("settings_cuteness")),
              onTap:()=>Vesta.showSnackbar(new Text(cuteMessages[rnd.nextInt(cuteMessages.length)]))
+           ),
+           new ListTile(
+             title: new Text(translator.translate("settings_schools_privacy")),
+             onTap: ()=>showDialog(context: context, builder:(ctx)=>new Dialog(child: new FutureBuilder(
+               future: WebServices.getSchoolsPrivacyPolicy(Data.school),
+               builder: (context, snapshot) 
+               {
+                  if(snapshot.hasError)
+                    return new SingleChildScrollView(child: new Center(child: new Text(snapshot.error)));
+
+                  if(!snapshot.hasData)
+                    return new Center(child: new CircularProgressIndicator());
+
+                  return new Text("${snapshot.data}");
+
+               },
+             ))),
            )
         ],)
     );

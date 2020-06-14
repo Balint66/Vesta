@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
+import 'package:universal_io/io.dart';
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
@@ -16,6 +16,7 @@ import 'package:vesta/web/webdata/webDataLogin.dart';
 import 'package:vesta/web/webdata/webDataMessageRead.dart';
 import 'package:vesta/web/webdata/webDataMessages.dart';
 import 'package:cookie_jar/cookie_jar.dart';
+import 'package:vesta/web/webdata/webDataStudentBook.dart';
 
 typedef _ServicesCallback = Future<Object> Function<T extends WebDataBase>(School school ,T request);
 typedef _VoidFutureCallback = Future<void> Function();
@@ -32,8 +33,7 @@ abstract class WebServices
   static Dio _getClient()
   {
     Dio client = new Dio(new BaseOptions(
-      headers: {"Content-Type":"Application/json"
-      },
+      headers: {"Content-Type":"Application/json"},
 
     ));
 
@@ -57,8 +57,13 @@ abstract class WebServices
 
     if(_callbacks.length != 0)
     {
+
+      Vesta.logger.d("${_callbacks.length} bottles are on the shelf.\n The nearest bottle is: ${_callbacks[0]} \n You Remove one sou you got...", null, null );
+
       await _callbacks[0]();
       _callbacks.removeAt(0);
+
+      Vesta.logger.d("${_callbacks.length} bottles on the shelf!", null, null );
     }
 
     return true;
@@ -172,7 +177,7 @@ abstract class WebServices
 
     catch(e)
     {
-      Vesta.logger.d("Seems like we have problems with saving data...");
+      Vesta.logger.d("Seems like we have problems with saving data...", null, null );
       Vesta.logger.e(e);
     }
 
@@ -268,15 +273,15 @@ abstract class WebServices
       Response resp = await client.post(school.Url + "/GetCalendarData",
           data: body.toJson(),);
 
-      Vesta.logger.d("Never gonna let you down.");
+      Vesta.logger.d("Never gonna let you down.", null, null);
 
       Map<String, dynamic> jsonMap = resp.data;
 
-      Vesta.logger.d("Never gonna turn around...");
+      Vesta.logger.d("Never gonna turn around...", null, null );
 
       _testResponse(jsonMap);
 
-      Vesta.logger.d("To hurt ya'!.");
+      Vesta.logger.d("To hurt ya'!." , null, null );
 
       return WebDataCalendarResponse.fromJson(jsonMap);
     }
@@ -306,5 +311,61 @@ abstract class WebServices
     }
 
   }
+
+  static Future<String> getSchoolsPrivacyPolicy(School school) async
+  {
+    return await _callFunction<String>(_getSchoolsPrivacyPolicy, school, null);
+  }
+
+  static Future<String> _getSchoolsPrivacyPolicy<T extends WebDataBase>(School school, T body) async
+  {
+
+    Response resp = await client.post(school.Url + "/GetPrivacyStatement");
+
+    Map<String, dynamic> json = resp.data;
+
+    var url = json["URL"] as String;
+
+    if(url == null)
+      return "No data to display";
+
+    return (await client.get(url)).data.toString();
+
+  }
+
+  static Future<WebDataStudentBook> getStudentBookData(School school, WebDataBase body) async 
+  {
+    return await _callFunction<WebDataStudentBook>(_getStudentBookData, school, body);
+  }
+
+  static Future<WebDataStudentBook> _getStudentBookData<T extends WebDataBase>(School school, T body) async
+  {
+
+    Map<String, dynamic> jBody = <String, dynamic>
+    {
+      "filter": <String, dynamic>
+      {
+        "TermID":0
+      }
+    };
+
+    jBody.addAll(body.toJsonMap());
+
+    try{
+
+      Response resp = await client.post(school.Url + "/GetMarkbookData", data: json.encode(jBody));
+      Map<String, dynamic> jsonData = resp.data;
+
+      _testResponse(jsonData);
+
+      return WebDataStudentBook.fromJson(jsonData);
+
+    }
+    catch(e)
+    {
+      Vesta.logger.e(body.toJson() + "\n\n$e",e);
+    }
+  }
+
 
 }

@@ -24,13 +24,18 @@ class PopupSettingsState extends State<PopupSettings>
     "/app/calendar": (BuildContext context)
     {
       return null;
+    },
+    "/app/student_book": (BuildContext context)
+    {
+      return null;
     }
   };
 
   Map<String, PopupMenuItemSelected<int>> selectors = <String, PopupMenuItemSelected<int>>
   {
     "/app/messages": (int value){},
-    "/app/calendar" : (int value){}
+    "/app/calendar" : (int value){},
+    "/app/student_book": (int value){}
   };
 
   String _currentPath = ReplacementObserver.Instance.currentPath;

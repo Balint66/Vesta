@@ -22,6 +22,19 @@ abstract class FetchManager
     _inFront = false;
   }
 
+  static void startFrontFetch()
+  {
+    _inFront = true;
+    _loop = Future.doWhile(() async
+    {
+      await Future.delayed(new Duration(minutes: 5));
+
+      await fetch();
+
+      return _inFront;
+    });
+  }
+
   static void init()
   {
     _inFront = true; //Just to be safe

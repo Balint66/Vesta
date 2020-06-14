@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:vesta/applicationpage/MainProgram.dart';
 import 'package:vesta/applicationpage/lessons/lessonDisplay.dart';
 import 'package:vesta/applicationpage/messages/messageListDisplay.dart';
+import 'package:vesta/applicationpage/studentBook/studentBookDisplay.dart';
 import 'package:vesta/routing/router.dart';
 
 class MainProgRouter
@@ -10,7 +11,7 @@ class MainProgRouter
 
   static final Router _mainProgRouter = new Router();
 
-  static final List<UniqueKey> keys = List.of([new UniqueKey(), new UniqueKey()],growable: false);
+  static final List<UniqueKey> keys = List.of([new UniqueKey(), new UniqueKey(), new UniqueKey()],growable: false);
 
   static void registerRoutes()
   {
@@ -19,6 +20,7 @@ class MainProgRouter
 
     define("/messages", handler: _messageHandler);
     define("/calendar", handler: _calendarHandler);
+    define("/student_book", handler: _studentBookHandler);
 
   }
 
@@ -41,6 +43,7 @@ class MainProgRouter
   static final MainProgram _mainProgram = new MainProgram(key:VestaRouter.mainKey);
   static final MessageListDisplay _messageListDisplay = MessageListDisplay(key: keys[0],);
   static final LessonDisplayer _lessonDisplayer = LessonDisplayer(key: keys[1]);
+  static final StudentBookDisplay _studentBookDisplayer = StudentBookDisplay(key: keys[2]);
 
   static final Handler _messageHandler = new Handler(handlerFunc: (BuildContext ctx, Map<String, dynamic> query)
   {
@@ -50,6 +53,11 @@ class MainProgRouter
   static final Handler _calendarHandler = new Handler(handlerFunc: (BuildContext ctx, Map<String, dynamic> querry)
   {
     return _lessonDisplayer;
+  });
+
+  static final Handler _studentBookHandler = new Handler(handlerFunc: (BuildContext ctx, Map<String,dynamic> querry)
+  {
+    return _studentBookDisplayer;
   });
 
   static final Handler _appNestedHandler = new Handler(handlerFunc: (BuildContext ctx, Map<String, List<String>> query)
