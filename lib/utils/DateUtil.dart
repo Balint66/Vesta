@@ -70,4 +70,9 @@ class DateUtil
             microseconds: time.microsecond)).millisecondsSinceEpoch;
   }
 
+  static int stripFromMSDateFormat(String formattedString)
+  {
+    return int.tryParse(formattedString.split("(")[1].split(")")[0]);
+  }
+
 }

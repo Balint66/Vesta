@@ -70,6 +70,7 @@ class _MainSettingsPageState extends State<MainSettingsPage>
            onSelected: (value)
            {
              application.changeLocal(new Locale(application.supportedLanguagesCodes[value]));
+             Vesta.of(context).updateSettings(language: application.supportedLanguagesCodes[value]);
            },
            child: ListTile(title: new Text("${translator.translate("settings_lang")} ${application.supportedLanguages[application.supportedLanguagesCodes.indexOf(
              application.appDelegate.newLocale == null ? Localizations.localeOf(context).languageCode : application.appDelegate.newLocale.languageCode

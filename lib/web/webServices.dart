@@ -16,7 +16,11 @@ import 'package:vesta/web/webdata/webDataLogin.dart';
 import 'package:vesta/web/webdata/webDataMessageRead.dart';
 import 'package:vesta/web/webdata/webDataMessages.dart';
 import 'package:cookie_jar/cookie_jar.dart';
+import 'package:vesta/web/webdata/webDataSemesters.dart';
+import 'package:vesta/web/webdata/webDataSemestersRequest.dart';
 import 'package:vesta/web/webdata/webDataStudentBook.dart';
+import 'package:vesta/web/webdata/webDataSubjectRequest.dart';
+import 'package:vesta/web/webdata/webDataSubjectResponse.dart';
 
 typedef _ServicesCallback = Future<Object> Function<T extends WebDataBase>(School school ,T request);
 typedef _VoidFutureCallback = Future<void> Function();
@@ -364,7 +368,120 @@ abstract class WebServices
     catch(e)
     {
       Vesta.logger.e(body.toJson() + "\n\n$e",e);
+      return null;
     }
+  }
+
+  static Future<WebDataSemesters> getSemestersData(School school, WebDataSemestersRequest body) async
+  {
+    return await _callFunction<WebDataSemesters>(_getSemestersData, school, body);
+  }
+
+  static Future<WebDataSemesters> _getSemestersData<T extends WebDataBase>(School school, T body) async 
+  {
+
+    try{
+
+      var b = body.toJsonMap();
+
+      Response resp = await client.post(school.Url + "/GetPeriods", data: json.encode(b));
+      Map<String, dynamic> jsonData = resp.data;
+      List<Map<String,dynamic>> periodlist = new List<Map<String,dynamic>>();
+
+      while(jsonData["PeriodList"] != null && (jsonData["PeriodList"] as List<dynamic>).length != 0)
+      {
+
+        _testResponse(jsonData);
+        periodlist.addAll((jsonData["PeriodList"] as List<dynamic>).cast());
+
+        b["CurrentPage"] += 1;
+
+        resp = await client.post(school.Url + "/GetPeriods", data: json.encode(b));
+
+        jsonData = resp.data;
+
+      }
+
+      jsonData["PeriodList"] = periodlist;
+
+
+      return WebDataSemesters.fromJson(jsonData);
+
+    }
+    catch(e)
+    {
+      Vesta.logger.e(body.toJson() + "\n\n$e",e);
+      return null;
+    }
+  }
+
+  static Future<List<Map<String, dynamic>>> getPeriodTerms(School school, WebDataBase body) async
+  {
+    return await _callFunction(_getPeriodTerms, school, body);
+  }
+
+  static Future<List<Map<String, dynamic>>> _getPeriodTerms<T extends WebDataBase>(School school, T body) async
+  {
+
+    Response resp = await client.post(school.Url + "/GetPeriodTerms", data: body.toJson());
+
+    return ((resp.data as Map<String, dynamic>)["PeriodTermsList"] as List<dynamic>).cast<Map<String, dynamic>>();
+
+  }
+
+  static Future<WebDataSubjectResponse> getSubjects(School school, WebDataSubjectRequest body) async 
+  {
+    return await _callFunction(_getSubjects, school, body);
+  }
+
+  static Future<WebDataSubjectResponse> _getSubjects<T extends WebDataBase>(School school, T body) async
+  {
+
+     try{
+
+      Map<String, dynamic> respBody = body.toJsonMap();
+
+      if(respBody["CurrentPage"] == 0) respBody["CurrentPage"] = 1;
+
+      var begin = respBody["CurrentPage"];
+
+      Response resp = await client.post(school.Url + "/GetSubjects",
+        data: json.encode(respBody));
+
+      Map<String,dynamic> jsonBody = resp.data;
+
+      _testResponse(jsonBody);
+
+      while(respBody["CurrentPage"] - begin < 16 && (resp.data["SubjectList"] != null || (resp.data["SubjectList"] as List<dynamic>).isNotEmpty))
+      {
+
+        respBody["CurrentPage"] += 1;
+
+        resp = await client.post(school.Url + "/GetSubjects",
+        data: json.encode(respBody));
+
+        (resp.data["SubjectList"] as List<dynamic>).addAll(jsonBody["SubjectList"]);
+
+        Vesta.logger.d(respBody["CurrentPage"]);
+
+        jsonBody = resp.data;
+
+        _testResponse(jsonBody);
+
+      }
+
+      return WebDataSubjectResponse.fromJson(jsonBody);
+
+    }
+    catch(e)
+    {
+
+      Vesta.logger.e(body.toJson() + "\n\n" + e.toString());
+      return null;
+
+    }
+
+
   }
 
 

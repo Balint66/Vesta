@@ -3,10 +3,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:vesta/applicationpage/MainProgram.dart';
 import 'package:vesta/datastorage/data.dart';
 import 'package:vesta/Vesta.dart';
 import 'package:vesta/i18n/appTranslations.dart';
 import 'package:vesta/loginpage/loginForm.dart';
+import 'package:vesta/routing/router.dart';
 import 'package:vesta/web/webServices.dart';
 
 class LoginButton extends StatefulWidget
@@ -57,6 +59,12 @@ class LoginBtnState extends State<LoginButton>
 
       if(res)
       {
+
+        if(VestaRouter.mainKey.currentContext != null)
+        {
+          (VestaRouter.mainKey.currentState as MainProgramState).refreshListHolders();
+        }
+
         Navigator.pushReplacementNamed(context, "/app/home");
         return;
       }

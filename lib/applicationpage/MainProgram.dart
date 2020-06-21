@@ -37,10 +37,31 @@ class MainProgramState extends State<MainProgram>
 
   StudentBookListHolder _studentBook = new StudentBookListHolder();
   StudentBookListHolder get studentBook => _studentBook;
+
+  SemesterListHolder _semesterList = new SemesterListHolder();
+  SemesterListHolder get semesterList => _semesterList;
+
+  SubjectDataListHolder _subjectList = new SubjectDataListHolder();
+  SubjectDataListHolder get subject => _subjectList;
   
   static MainProgramState of(BuildContext context)
   {
     return context.findAncestorStateOfType<MainProgramState>();
+  }
+
+  void refreshListHolders()
+  {
+
+    setState(() {
+    FetchManager.clearRegistered();
+
+    _calendarList = new CalendarListHolder();
+    _messageList = new MessageListHolder();
+    _studentBook = new StudentBookListHolder();
+    _semesterList = new SemesterListHolder();
+    _subjectList = new SubjectDataListHolder();}
+    );
+
   }
 
   @override
@@ -52,6 +73,8 @@ class MainProgramState extends State<MainProgram>
     FetchManager.register(_calendarList);
     FetchManager.register(_messageList);
     FetchManager.register(_studentBook);
+    FetchManager.register(_semesterList);
+    FetchManager.register(_subjectList);
 
   }
 

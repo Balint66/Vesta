@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:vesta/applicationpage/innerMainProgRouter.dart';
 
 class ReplacementObserver extends NavigatorObserver
 {
@@ -36,6 +37,13 @@ class ReplacementObserver extends NavigatorObserver
   @override
   void didReplace({Route newRoute, Route oldRoute})
   {
+
+    if(!(newRoute is PageRoute && oldRoute is PageRoute))
+    {
+      if(currentPath.isEmpty)
+        currentPath = MainProgRouter.defaultRoute;
+      return;
+    }
 
     if(newRoute != null && oldRoute != null && newRoute.settings.name == oldRoute.settings.name)
       return super.didReplace(newRoute:newRoute,oldRoute:oldRoute);

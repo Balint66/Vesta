@@ -115,6 +115,8 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
       SettingsData newSettings = await FileManager.loadSettings();
       if(newSettings != null)
         _settings = newSettings;
+        Vesta.logger.d(_settings.language);
+        application.changeLocal(application.supportedLocales().where((element) => element.languageCode == _settings.language).first);
 
       return FileManager.readData();
     });
@@ -162,7 +164,7 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
     String route, bool eulaWasAccepted, String language})
   {
     if(mainColor == null && isDarkTheme == null && keepMeLogged == null
-        && route == null && eulaWasAccepted == null)
+        && route == null && eulaWasAccepted == null && language == null)
       return;
 
     setState(() {

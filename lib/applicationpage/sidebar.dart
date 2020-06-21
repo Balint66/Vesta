@@ -59,10 +59,10 @@ class SideBarState extends State<Sidebar>
                 MenuButtons(translator.translate("sidebar_messages"),Icons.message,"/app/messages", key: widget.keys[0],),
                 MenuButtons(translator.translate("sidebar_forum"),Icons.wrap_text,"",key: widget.keys[1],),
                 MenuButtons(translator.translate("sidebar_calendar"),Icons.calendar_today,"/app/calendar",key: widget.keys[2],),
-                MenuButtons(translator.translate("sidebar_subjects"),Icons.book,"",key: widget.keys[3],),
+                MenuButtons(translator.translate("sidebar_subjects"),Icons.book,"/app/subjects",key: widget.keys[3],),
                 MenuButtons(translator.translate("sidebar_exams"),Icons.school,"",key: widget.keys[4],),
                 MenuButtons(translator.translate("sidebar_student_book"),Icons.local_library,"/app/student_book",key: widget.keys[5],),
-                MenuButtons(translator.translate("sidebar_semesters"),Icons.hourglass_empty,"",key: widget.keys[6],),
+                MenuButtons(translator.translate("sidebar_semesters"),Icons.hourglass_empty,"/app/semester_info",key: widget.keys[6],),
               ],
             )
         )

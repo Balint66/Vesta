@@ -93,12 +93,12 @@ class RefreshExecuterState extends State<RefreshExecuter> with SingleTickerProvi
       ),
       new Positioned(
         child: new Card(
-          child:  new Container(
+          child: new Container(
             width: _size,
             height: _size,
             padding: EdgeInsets.all(5),
-            child: !_animate ? Icon( widget._icon != null ? widget._icon : Icons.add,
-                color: Theme.of(context).primaryColor,)
+            child: !_animate ? new Center(child: new Icon( widget._icon != null ? widget._icon : Icons.add,
+                color: Theme.of(context).primaryColor,),)
                 : CircularProgressIndicator(strokeWidth: 2.5,),),
           shape: CircleBorder(),),
         bottom: _animate
