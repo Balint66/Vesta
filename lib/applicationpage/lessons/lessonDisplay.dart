@@ -58,35 +58,38 @@ class LessonDisplayerState extends BgFetchState<LessonDisplayer>
   Widget build(BuildContext context )
   {
 
-    return new StreamBuilder( stream: MainProgramState.of(context).calendarList.getData(),
-        builder: (BuildContext ctx, AsyncSnapshot<CalendarDataList> snap)
-      {
-        if(snap.hasError)
+    var list = MainProgramState.of(context).calendarList;
+
+    if(list.maxItemCount > 0)
+    {
+      return new StreamBuilder( stream: list.getData(),
+          builder: (BuildContext ctx, AsyncSnapshot<CalendarDataList> snap)
         {
-          Vesta.logger.e(snap.error);
-          return Text("${snap.error}");
-        }
-        else if(snap.hasData)
-        {
-          return _drawWithMode(CalendarDisplayModes.LISTVIEW, snap.data, context);
-        }
+          if(snap.hasError)
+          {
+            Vesta.logger.e(snap.error);
+            return Text("${snap.error}");
+          }
+          else if(snap.hasData)
+          {
+            return _drawWithMode(CalendarDisplayModes.LISTVIEW, snap.data, context);
+          }
 
 
-        return new FutureBuilder(builder: (BuildContext cont, AsyncSnapshot<bool> shot)
-        {  
-          
-            return Center(child: shot.hasData 
-            ? new RichText(textAlign: TextAlign.center, text: TextSpan(text:"You have got nothing new here pal.\n", 
+            
+            
+              return Center(child: new CircularProgressIndicator());
+
+        }
+      );
+    }
+    else
+    {
+      return new Center(child: new RichText(textAlign: TextAlign.center, text: TextSpan(text:"You have got nothing new here pal.\n", 
               children:[
                 new TextSpan(text: "¯\\_(ツ)_/¯", style: new TextStyle(fontSize: 25, ))
-              ])) 
-            : new CircularProgressIndicator());
-        },
-        future: Future.delayed(new Duration(seconds: 5), () async => true)
-        );
-
-      }
-    );
+              ])));
+    }
   }
 
   Widget _drawWithMode(CalendarDisplayModes mode, CalendarDataList response, BuildContext context)

@@ -66,8 +66,8 @@ class _StudentBookDisplayState extends State<StudentBookDisplay>
             (snap.data.map((e)=> e.Credit).fold(0,(prev, e) => prev + e)).toDouble();
 
         return new Column(children: [
-          new Row(children:[new Text("Average: $average"), new Text("Credit Index: $credIndex"), new Text("KKI: ${ credIndex * credPercent}")],
-           mainAxisAlignment: MainAxisAlignment.spaceEvenly),
+          new Column(children:[new Text("Average: $average"), new Text("Credit Index: $credIndex"), new Text("KKI: ${ credIndex * credPercent}")],
+           mainAxisAlignment: MainAxisAlignment.center),
           new Expanded( child: new ListView(children: snap.data.expand((element) => [new Card(child: new ListTile(
           leading: new Icon(element.Completed ? Icons.check : Icons.close, color: element.Completed ? Colors.green : Colors.red),
           title: new Text(element.SubjectName), 

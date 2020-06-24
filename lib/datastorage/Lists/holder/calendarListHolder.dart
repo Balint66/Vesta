@@ -18,6 +18,8 @@ class CalendarListHolder extends ListDataHolder<CalendarDataList>
     WebDataCalendarResponse resp = await WebServices.getCalendarData(Data.school,
         body);
 
+    ListDataHolder._updateItemCount(resp, holder);
+
     return resp.calendarData as ListBase;
   }
 

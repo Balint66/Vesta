@@ -388,7 +388,8 @@ abstract class WebServices
       Map<String, dynamic> jsonData = resp.data;
       List<Map<String,dynamic>> periodlist = new List<Map<String,dynamic>>();
 
-      while(jsonData["PeriodList"] != null && (jsonData["PeriodList"] as List<dynamic>).length != 0)
+      while(jsonData["PeriodList"] != null && (jsonData["PeriodList"] as List<dynamic>).length != 0 
+      && (resp.data["PeriodList"] as List<dynamic>).length < jsonData["TotalRowCount"])
       {
 
         _testResponse(jsonData);
@@ -452,7 +453,8 @@ abstract class WebServices
 
       _testResponse(jsonBody);
 
-      while(respBody["CurrentPage"] - begin < 16 && (resp.data["SubjectList"] != null || (resp.data["SubjectList"] as List<dynamic>).isNotEmpty))
+      while(respBody["CurrentPage"] < 25 &&(resp.data["SubjectList"] != null || (resp.data["SubjectList"] as List<dynamic>).isNotEmpty ) 
+      && (resp.data["SubjectList"] as List<dynamic>).length < jsonBody["TotalRowCount"])
       {
 
         respBody["CurrentPage"] += 1;
@@ -463,6 +465,8 @@ abstract class WebServices
         (resp.data["SubjectList"] as List<dynamic>).addAll(jsonBody["SubjectList"]);
 
         Vesta.logger.d(respBody["CurrentPage"]);
+        Vesta.logger.d(jsonBody["TotalRowCount"]);
+        Vesta.logger.d((resp.data["SubjectList"] as List<dynamic>).length);
 
         jsonBody = resp.data;
 

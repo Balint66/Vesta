@@ -12,6 +12,8 @@ class StudentBookListHolder extends ListDataHolder<StudentBookDataList>
 
     var resp = await WebServices.getStudentBookData(Data.school, base);
 
+    ListDataHolder._updateItemCount(resp, holder);
+
     return resp.list as ListBase;
 
   }

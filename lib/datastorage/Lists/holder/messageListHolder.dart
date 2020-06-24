@@ -16,6 +16,8 @@ class MessageListHolder extends ListDataHolder<MessageList>
   WebDataMessages resp = await WebServices
       .getMessages(Data.school, body);
 
+  ListDataHolder._updateItemCount(resp, holder);
+
   return resp.MessagesList as ListBase;
   }
 

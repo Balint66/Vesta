@@ -34,6 +34,14 @@ class ListDataHolder<T extends ListBase> with BackgroundFetchingServiceMixin
   final ListDataHolderCallback<T> _callback;
   bool _wasData = false;
 
+  int _maxItemCount = 0;
+  int get maxItemCount => _maxItemCount;
+
+  static void _updateItemCount(WebDataBase base, ListDataHolder holder)
+  {
+    holder._maxItemCount = base.TotalRowCount;
+  } 
+
   ListDataHolder(T data, ListDataHolderCallback<T> callback) : this._list = data,
         this._callback = callback;
 

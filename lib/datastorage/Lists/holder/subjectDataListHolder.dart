@@ -10,6 +10,8 @@ class SubjectDataListHolder extends ListDataHolder<SubjectDataList>
 
     var resp = await WebServices.getSubjects(Data.school, base);
 
+    ListDataHolder._updateItemCount(resp, holder);
+
     return resp.list as ListBase;
 
   }

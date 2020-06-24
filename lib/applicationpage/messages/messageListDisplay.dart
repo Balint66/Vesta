@@ -31,7 +31,10 @@ class MessageListDisplayState extends BgFetchState<MessageListDisplay>
   Widget build(BuildContext context)
   {
 
-    return DefaultTabController(
+    var messages = MainProgramState.of(context).messageList;
+
+    return new Column(children:[
+      new Expanded(child: DefaultTabController(
         length: 2,
         child: Scaffold(
           appBar: AppBar(
@@ -45,7 +48,7 @@ class MessageListDisplayState extends BgFetchState<MessageListDisplay>
             primary: false,
           ),
           body: StreamBuilder(
-              stream: MainProgramState.of(context).messageList.getData(),
+              stream: messages.getData(),
               builder: (BuildContext context, AsyncSnapshot<MessageList> snap)
               {
                 if(snap.hasData)
@@ -76,7 +79,7 @@ class MessageListDisplayState extends BgFetchState<MessageListDisplay>
                       });
 
                 return new RefreshExecuter(icon: Icons.message,
-                      asyncCallback: MainProgramState.of(context).messageList.incrementWeeks,
+                      asyncCallback: messages.incrementWeeks,
                       child: new TabBarView(children: <Widget>[
                           unread,
                           read,
@@ -90,7 +93,9 @@ class MessageListDisplayState extends BgFetchState<MessageListDisplay>
                 }
           )
         ),
-    );
+    )),
+      new Center(child: new Text("Max amount of messages: " + "${messages.maxItemCount}"))
+    ]);
   }
 
 }

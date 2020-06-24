@@ -22,6 +22,8 @@ class SemesterListHolder extends ListDataHolder<SemestersDataList>
 
     var resp = await WebServices.getSemestersData(Data.school, base);
 
+    ListDataHolder._updateItemCount(resp, holder);
+
     return resp.list as ListBase;
 
   }
