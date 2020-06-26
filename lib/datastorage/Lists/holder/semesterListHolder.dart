@@ -35,7 +35,7 @@ class SemesterListHolder extends ListDataHolder<SemestersDataList>
     _periodtermList = null;
   }
 
-  SemesterListHolder() : super(new SemestersDataList(), _updateList);
+  SemesterListHolder() : super(new SemestersDataList(), _updateList, timespan: new Duration(days: 1));
 
   @override
   Future<void> incrementWeeks() async{}

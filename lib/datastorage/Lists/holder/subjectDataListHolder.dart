@@ -17,6 +17,6 @@ class SubjectDataListHolder extends ListDataHolder<SubjectDataList>
   }
 
 
-  SubjectDataListHolder() : super(new SubjectDataList(), _updateList);
+  SubjectDataListHolder() : super(new SubjectDataList(), _updateList, timespan: new Duration(days:1));
 
 }

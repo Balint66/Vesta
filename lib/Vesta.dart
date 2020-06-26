@@ -240,9 +240,6 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
               StudentData.Instance;
             }
 
-            if(Platform.isAndroid || Platform.isIOS)
-              Vesta.notificationPlugin.show(0, "test", "Test", Vesta.notificationDetails);
-
            return new OverlaySupport(
               child: new _VestaInherited(
                 data: this,

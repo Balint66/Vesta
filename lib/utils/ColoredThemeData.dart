@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ColoredThemeData
+abstract class ColoredThemeData
 {
 
   factory ColoredThemeData() => null ;

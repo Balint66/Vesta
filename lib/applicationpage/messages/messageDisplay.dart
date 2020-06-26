@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:vesta/Vesta.dart';
@@ -31,7 +30,8 @@ class MessageDisplay extends StatelessWidget
               else
                 Vesta.showSnackbar(Text("${AppTranslations.of(context).translate("message_urllaunch_error")} $url"));
             },
-          factoryBuilder: ()=> new MyFactory(),
+            factoryBuilder: ()=> new MyFactory(),
+            buildAsync: true,
         ),
       ],
       ),
@@ -55,27 +55,44 @@ class MyFactory extends WidgetFactory
     ..wrapWith((BuildContext ctx, Iterable<Widget> children, input)
     {
 
+      var isDark = Theme.of(ctx).brightness == Brightness.dark;
+
       List<Widget> nextChildren = List.of(children);
 
       for(var i = 0; i < children.length; i++)
       {
+
+
         if(nextChildren[i] is RichText)
         {
 
-            //RichText rt = nextChildren[i] as RichText;
+          var rt = nextChildren[i] as RichText;
 
-            //TODO:Make the coloring correct
-            /*Color cl = !Vesta.of(ctx).settings.isDarkTheme ? hyperlinkColor
-                : Color.fromARGB(255, 255 - hyperlinkColor.red, 255 - hyperlinkColor.green,
-                255 - hyperlinkColor.blue);
+          var reg = RegExp(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)");
+          if(reg.hasMatch(rt.text.toPlainText()))
+          {
 
-            if(rt.text.children?.length != 0 || rt.text.text.contains("http") || rt.text.text.contains("www"))
+            bool found = false;
+
+            rt.text.visitChildren((span)
             {
-                nextChildren[i] = new Linkify(text: rt.text.text,
-                style: _conf.textStyle, linkStyle: _conf.textStyle.copyWith(color: cl),
-                  onOpen: _conf.onTapUrl);
 
-            }*/
+              if(span is TextSpan)
+              {
+                var text = span as TextSpan;
+
+                text.text.padLeft(text.text.length + 7);
+                text.text.replaceFirst("       ", "mailto:");
+
+                Vesta.logger.d(text.recognizer);
+
+                found = !found;
+
+              }
+
+              return !found;
+            });
+          }
 
         }
 

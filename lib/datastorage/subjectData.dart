@@ -26,7 +26,7 @@ class SubjectData
 
     SubjectData.fromJson(Map<String, dynamic> json) 
     : this(Completed: json["Completed"], Credit: int.tryParse(json["Credit"].toString()), CurriculumTemplateID: json["CurriculumTemplateID"],
-      CurriculumTemplatelineID: json["CurriculumTemplateLineID"], IsOnSubject: json["IsOnSubject"], SubjectCode: json["SubjectCode"],
+      CurriculumTemplatelineID: json["CurriculumTemplatelineID"], IsOnSubject: json["IsOnSubject"], SubjectCode: json["SubjectCode"],
       SubjectId: json["SubjectId"], SubjectName: json["SubjectName"], SubjectRequirement: json["SubjectRequirement"], 
       SubjectSignupType: json["SubjectSignupType"], TermID: json["TermID"]);
 

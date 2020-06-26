@@ -23,6 +23,6 @@ class CalendarListHolder extends ListDataHolder<CalendarDataList>
     return resp.calendarData as ListBase;
   }
 
-  CalendarListHolder() : super(new CalendarDataList(), _updateList);
+  CalendarListHolder() : super(new CalendarDataList(), _updateList, timespan: new Duration(minutes: 10));
 
 }

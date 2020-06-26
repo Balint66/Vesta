@@ -8,7 +8,7 @@ abstract class BackgroundFetchingServiceMixin
 
   Future<void> onUpdate();
 
-  final Duration timespan = new Duration();
+  Duration get timespan;
   DateTime lastFetch;
 
   int get timespanInSec => timespan.inSeconds;

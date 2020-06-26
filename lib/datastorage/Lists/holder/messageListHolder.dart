@@ -21,5 +21,5 @@ class MessageListHolder extends ListDataHolder<MessageList>
   return resp.MessagesList as ListBase;
   }
 
-  MessageListHolder() : super(new MessageList(), _listUpdater);
+  MessageListHolder() : super(new MessageList(), _listUpdater, timespan: new Duration(minutes:30));
 }

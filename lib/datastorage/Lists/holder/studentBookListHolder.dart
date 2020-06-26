@@ -18,7 +18,7 @@ class StudentBookListHolder extends ListDataHolder<StudentBookDataList>
 
   }
 
-  StudentBookListHolder() : super(new StudentBookDataList(), _updateList);
+  StudentBookListHolder() : super(new StudentBookDataList(), _updateList, timespan: new Duration(days:1));
   
   @override
   Future<void> incrementWeeks() async{}

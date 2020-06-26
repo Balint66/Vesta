@@ -9,9 +9,12 @@ import 'package:vesta/datastorage/local/fileManager.dart';
 import 'package:vesta/datastorage/studentData.dart';
 import 'package:vesta/Vesta.dart';
 import 'package:vesta/datastorage/Lists/schoolList.dart';
+import 'package:vesta/utils/PlatformHelper.dart';
 import 'package:vesta/web/webdata/webDataBase.dart';
 import 'package:vesta/web/webdata/webDataCalendarRequest.dart';
 import 'package:vesta/web/webdata/webDataCalendarResponse.dart';
+import 'package:vesta/web/webdata/webDataCourseRequest.dart';
+import 'package:vesta/web/webdata/webDataCourseResponse.dart';
 import 'package:vesta/web/webdata/webDataLogin.dart';
 import 'package:vesta/web/webdata/webDataMessageRead.dart';
 import 'package:vesta/web/webdata/webDataMessages.dart';
@@ -21,6 +24,7 @@ import 'package:vesta/web/webdata/webDataSemestersRequest.dart';
 import 'package:vesta/web/webdata/webDataStudentBook.dart';
 import 'package:vesta/web/webdata/webDataSubjectRequest.dart';
 import 'package:vesta/web/webdata/webDataSubjectResponse.dart';
+import 'package:vesta/web/webdata/webDataSubjectSignup.dart';
 
 typedef _ServicesCallback = Future<Object> Function<T extends WebDataBase>(School school ,T request);
 typedef _VoidFutureCallback = Future<void> Function();
@@ -37,7 +41,9 @@ abstract class WebServices
   static Dio _getClient()
   {
     Dio client = new Dio(new BaseOptions(
-      headers: {"Content-Type":"Application/json"},
+      headers: {"Content-Type":
+      PlatformHelper.isWeb() ? "text/plain" : "Application/json"
+      },
 
     ));
 
@@ -121,6 +127,7 @@ abstract class WebServices
     catch(e)
     {
 
+      //TODO: Better checks for internet?
       if(e is SocketException)
       {
         SocketException exp = e;
@@ -488,5 +495,65 @@ abstract class WebServices
 
   }
 
+  static Future<WebDataCourseResponse> getCourses(School school, WebDataCourseRequest body) async 
+  {
+    return await _callFunction(_getCourses, school, body);
+  }
+    
+    
+    
+  static Future<WebDataCourseResponse> _getCourses<T extends WebDataBase>(School school, T body) async
+  {
+    try{
+
+      Response resp = await client.post(school.Url + "/GetCourses",
+        data: body.toJson(),);
+
+      Map<String,dynamic> jsonBody = resp.data;
+
+      _testResponse(jsonBody);
+
+      return WebDataCourseResponse.fromJson(jsonBody);
+
+    }
+    catch(e)
+    {
+
+      Vesta.logger.e(body.toJson() + "\n\n" + e.toString());
+      return null;
+
+    }
+  }
+
+
+  static Future<WebDataBase> saveSubject(School school, WebDataSubjectSignupRequest body) async 
+  {
+    return await _callFunction(_saveSubject, school, body);
+  }
+    
+    
+    
+  static Future<WebDataBase> _saveSubject<T extends WebDataBase>(School school, T body) async
+  {
+    try{
+
+      Response resp = await client.post(school.Url + "/SaveSubject",
+        data: body.toJson(),);
+
+      Map<String,dynamic> jsonBody = resp.data;
+
+      _testResponse(jsonBody);
+
+      return null;
+
+    }
+    catch(e)
+    {
+
+      Vesta.logger.e("${body.toJson()}\n\n$e");
+      Vesta.showSnackbar(new Text("$e"));
+
+    }
+  }
 
 }

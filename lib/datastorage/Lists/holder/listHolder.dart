@@ -32,6 +32,7 @@ class ListDataHolder<T extends ListBase> with BackgroundFetchingServiceMixin
 
   final T _list;
   final ListDataHolderCallback<T> _callback;
+  final Duration _timespan;
   bool _wasData = false;
 
   int _maxItemCount = 0;
@@ -42,8 +43,8 @@ class ListDataHolder<T extends ListBase> with BackgroundFetchingServiceMixin
     holder._maxItemCount = base.TotalRowCount;
   } 
 
-  ListDataHolder(T data, ListDataHolderCallback<T> callback) : this._list = data,
-        this._callback = callback;
+  ListDataHolder(T data, ListDataHolderCallback<T> callback, {Duration timespan}) : this._list = data,
+        this._callback = callback, this._timespan = timespan == null ? new Duration() : timespan;
 
    Stream<T> getData() async*
   {
@@ -96,6 +97,9 @@ class ListDataHolder<T extends ListBase> with BackgroundFetchingServiceMixin
     _neededWeek++;
     await onUpdate();
   }
+
+  @override
+  Duration get timespan => _timespan;
 
 
 }

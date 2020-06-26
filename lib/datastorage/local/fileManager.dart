@@ -2,11 +2,13 @@ import 'dart:convert';
 
 import 'package:path_provider/path_provider.dart';
 import 'package:vesta/Vesta.dart';
-import 'package:universal_io/io.dart';
+import 'package:universal_io/io.dart' as io;
+import 'package:universal_html/html.dart';
 
 import 'package:vesta/datastorage/data.dart';
 import 'package:vesta/datastorage/studentData.dart';
 import 'package:vesta/settings/settingsData.dart';
+import 'package:vesta/utils/PlatformHelper.dart';
 
 class FileManager
 {
@@ -14,30 +16,100 @@ class FileManager
 
   static dynamic _directory;
 
+  static Future<String> _readAsString(String fileName) async 
+  {
+    if(PlatformHelper.isWeb())
+    {
+
+      var key = fileName.substring(0,fileName.length - 5);
+
+      if(window.localStorage.containsKey(key))
+      {
+
+        return window.localStorage[key];
+
+      }
+      else
+      {
+
+        return "{}";
+
+      }
+
+    }
+    else
+    {
+
+      if(_directory == null)
+      {
+        Vesta.logger.i("Init wasn't successful. Maybe we are on an unsupported platform? (directory was null)");
+        return "{}";
+      }
+
+      io.File file = io.File(_directory.path + fileName);
+
+      if(await file.exists())
+        return file.readAsString();
+      else
+        return "{}";
+
+    }
+  }
+
+  static Future<void> _writeAsString(String string, String fileName) async
+  {
+
+    if(PlatformHelper.isWeb())
+    {
+      var key = fileName.substring(0,fileName.length - 5);
+
+      if(window.localStorage.containsKey(key))
+      {
+
+        window.localStorage[key] = string;
+
+      }
+      else
+      {
+
+        window.localStorage.putIfAbsent(key, () => string);
+
+      }
+    }
+    else
+    {
+
+      if(_directory == null)
+      {
+        Vesta.logger.i("Init wasn't successful. Maybe we are on an unsupported platform? (directory was null)");
+        return;
+      }
+
+      io.File file = io.File(_directory.path + fileName);
+
+      if(!(await file.exists()))
+      {
+        file = await file.create();
+      }
+
+      file.writeAsString(string);
+
+    }
+
+  }
+
   static Future<void> saveData() async
   {
 
     await init();
-    if(_directory == null)
-    {
-      Vesta.logger.i("Init wasn't successful. Maybe we are on an unsupported platform? (directory was null)");
-      return;
-    }
-
-    File file = File(_directory.path + "login_data.json");
-
-    if(!(await file.exists()))
-    {
-      file = await file.create();
-    }
     
     Map<String, dynamic> map = <String, dynamic>
     {
       "studentData": StudentData.toJsonMap(StudentData.Instance),
       "school": Data.school.asJson()
     };
-    
-    file.writeAsString(json.encode(map));
+
+    await _writeAsString(json.encode(map), "login_data.json");
 
   }
 
@@ -65,32 +137,16 @@ class FileManager
   static Future<void> clearFileData() async
   {
     await init();
-    if(_directory == null)
-    {
-      Vesta.logger.i("Init wasn't successful. Maybe we are on an unsupported platform? (directory was null)");
-      return;
-    }
 
-    File file = File(_directory.path + "login_data.json");
-
-    await file.writeAsString("{}");
+    await _writeAsString("{}", "login_data.json");
 
   }
 
   static Future<String> loadLoginFile() async
   {
     await init();
-    if(_directory == null)
-    {
-      Vesta.logger.i("Init wasn't successful. Maybe we are on an unsupported platform? (directory was null)");
-      return "{}";
-    }
-    File file = File(_directory.path + "login_data.json");
-
-    if(await file.exists())
-      return file.readAsString();
-    else
-      return "{}";
+    
+    return await _readAsString("login_data.json");
 
   }
 
@@ -98,14 +154,8 @@ class FileManager
   {
 
     await init();
-    if(_directory == null)
-    {
-      Vesta.logger.i("Init wasn't successful. Maybe we are on an unsupported platform? (directory was null)");
-      return;
-    }
-    File file = File(_directory.path+"settings.json");
 
-    file.writeAsString(data.toJsonString());
+    await _writeAsString(data.toJsonString(), "settings.json");
 
   }
 
@@ -113,18 +163,13 @@ class FileManager
   {
     await init();
 
-    if(_directory == null)
-    {
-      Vesta.logger.i("Init wasn't successful. Maybe we are on an unsupported platform? (directory was null)");
-      return null;
-    }
 
-    File file = File(_directory.path +"settings.json");
+    String str = await _readAsString("settings.json");
 
-    if(! (await file.exists()))
+    if(str == "{}")
       return new SettingsData();
 
-    return SettingsData.fromJsonString(await file.readAsString());
+    return SettingsData.fromJsonString(str);
 
   }
 
@@ -133,11 +178,12 @@ class FileManager
     if(_directory == null)
     try
     {
-      _directory = await getApplicationDocumentsDirectory();
+      if(!PlatformHelper.isWeb())
+        _directory = await getApplicationDocumentsDirectory();
     }
     catch(e)
     {
-      Vesta.logger.w("Error happened on platform: ${Platform.operatingSystem}\n error was $e");
+      Vesta.logger.w("Error happened on platform: ${io.Platform.operatingSystem}\n error was $e");
       //throw e;
     }
 

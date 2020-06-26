@@ -121,7 +121,7 @@ packages:
       name: file
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.1.0"
+    version: "5.2.1"
   fluro:
     dependency: "direct main"
     description:
@@ -145,13 +145,6 @@ packages:
       url: "https://github.com/fluttercommunity/flutter_launcher_icons"
     source: git
     version: "0.7.5"
-  flutter_linkify:
-    dependency: "direct main"
-    description:
-      name: flutter_linkify
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.1"
   flutter_local_notifications:
     dependency: "direct main"
     description:
@@ -186,10 +179,10 @@ packages:
     description:
       path: "packages/core"
       ref: HEAD
-      resolved-ref: b5e5ecd2c1ea557cce7dd1e5f0db2f54a91bb341
+      resolved-ref: c91270961579132922933ad7006520592558a737
       url: "https://github.com/daohoangson/flutter_widget_from_html"
     source: git
-    version: "0.3.2+2"
+    version: "0.4.1"
   html:
     dependency: transitive
     description:
@@ -260,10 +253,10 @@ packages:
     description:
       path: "packages/path_provider/path_provider"
       ref: HEAD
-      resolved-ref: "90462df1c11a47ffa3d31793d0a8c5f5179c92a6"
+      resolved-ref: a0e880653458e27bb4afc988e18bf2e996491067
       url: "https://github.com/flutter/plugins"
     source: git
-    version: "1.6.10"
+    version: "1.6.11"
   path_provider_linux:
     dependency: transitive
     description:
@@ -381,6 +374,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.6"
+  universal_html:
+    dependency: "direct main"
+    description:
+      name: universal_html
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.3"
   universal_io:
     dependency: "direct main"
     description:
@@ -393,10 +393,10 @@ packages:
     description:
       path: "packages/url_launcher/url_launcher/"
       ref: HEAD
-      resolved-ref: "90462df1c11a47ffa3d31793d0a8c5f5179c92a6"
+      resolved-ref: a0e880653458e27bb4afc988e18bf2e996491067
       url: "https://github.com/flutter/plugins.git"
     source: git
-    version: "5.4.10"
+    version: "5.4.11"
   url_launcher_macos:
     dependency: transitive
     description:
