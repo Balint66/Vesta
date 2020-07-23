@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:vesta/Vesta.dart';
 import 'package:vesta/applicationpage/MainProgram.dart';
+import 'package:vesta/applicationpage/common/clickableCard.dart';
+import 'package:vesta/applicationpage/common/popupOptionProvider.dart';
 import 'package:vesta/applicationpage/refreshExecuter.dart';
 import 'package:vesta/datastorage/data.dart';
 import 'package:vesta/applicationpage/messages/messageDisplay.dart';
@@ -27,11 +29,14 @@ class MessageListDisplay extends BgFetchSateFullWidget
 class MessageListDisplayState extends BgFetchState<MessageListDisplay>
 {
 
+  static final PopupOptionData data = new PopupOptionData(
+    builder:(BuildContext ctx){ return null; }, selector: (int value){}
+  );
+
   @override
   Widget build(BuildContext context)
   {
-
-    var messages = MainProgramState.of(context).messageList;
+    var messages = MainProgram.of(context).messageList;
 
     return new Column(children:[
       new Expanded(child: DefaultTabController(
@@ -58,7 +63,7 @@ class MessageListDisplayState extends BgFetchState<MessageListDisplay>
                       .where((item)=>!item.isNew).toList()
                       ..sort((Message a, Message b)=>-1*a.time.compareTo(b.time))),
                     (item){
-                      MainProgramState.of(context).parentNavigator.push(MaterialPageRoute(builder: (ctx)=>MessageDisplay
+                      MainProgram.of(context).parentNavigator.push(MaterialPageRoute(builder: (ctx)=>MessageDisplay
                       (item.senderName,item.subject,item.detail)));
                   });
 
@@ -71,7 +76,7 @@ class MessageListDisplayState extends BgFetchState<MessageListDisplay>
                           {
                             item.setReadState();
                           });
-                          MainProgramState.of(context).parentNavigator.push(MaterialPageRoute(builder: (ctx)=>MessageDisplay
+                          MainProgram.of(context).parentNavigator.push(MaterialPageRoute(builder: (ctx)=>MessageDisplay
                             (item.senderName,item.subject,item.detail)));
                           WebDataMessageRead body = new WebDataMessageRead(StudentData.Instance,
                               item.personMessageId);
@@ -115,15 +120,14 @@ class SortedMessages extends StatelessWidget
   Widget build(BuildContext context)
   {
     return new ListView(
-      children: List.of( _messages.map  ((item) => new Card(child:
-          new ListTile(title: new Text(item.subject),
+      children: List.of( _messages.map  ((item) => 
+        new ClickableCard(child: new ListTile(title: new Text(item.subject),
             subtitle: new Text(item.senderName),
             onTap: () => _ontap(item),
-          ),
-            elevation: 1,
-          ),
-        )
-      )
+            ),
+          )
+        )  
+      ),
     );
   }
 

@@ -142,11 +142,19 @@ class FileManager
 
   }
 
+  static Future<void> clearAllFileData() async
+  {
+    await clearFileData();
+
+    await _writeAsString("{}", "login_data.json");
+
+  }
+
   static Future<String> loadLoginFile() async
   {
     await init();
     
-    return await _readAsString("login_data.json");
+    return await _readAsString("settings.json");
 
   }
 

@@ -146,9 +146,45 @@ class _ColorSelectorState extends State<ColorSelector>
       TextEditingController _g = new TextEditingController(text: this._chosenColor.green.toString());
       TextEditingController _b = new TextEditingController(text: this._chosenColor.blue.toString());
 
+      int r = int.tryParse(_r.value.text), g = int.tryParse(_g.value.text), b = int.tryParse(_b.value.text);
+
       return new AlertDialog(
         title:  new Text("Custom"),
-        content: SingleChildScrollView(child: new Center(
+        content: new StatefulBuilder(builder: ( BuildContext context, StateSetter setInnerState)
+        {
+
+          _r.addListener(() { setInnerState(()
+          {
+            if(_r.value.text != null && _r.value.text.isNotEmpty)
+              r = int.tryParse(_r.value.text);
+            else
+              r = 0;
+          }); });
+
+          _g.addListener(() { setInnerState(()
+          {
+            if(_g.value.text != null && _g.value.text.isNotEmpty)
+              g = int.tryParse(_g.value.text);
+            else
+              g = 0;
+          }); });
+
+          _b.addListener(() { setInnerState(()
+          {
+            if(_b.value.text != null && _b.value.text.isNotEmpty)
+              b = int.tryParse(_b.value.text);
+            else
+              b = 0;
+          }); });
+
+          return new Column(children: [ new Container(width: 35,
+            height: 35,
+            decoration: new BoxDecoration(
+              shape: BoxShape.circle,
+              color: new Color.fromARGB(255, r, g, b),
+          ),
+        ), 
+        new SingleChildScrollView(child: new Center(
           child: new Wrap(
               alignment: WrapAlignment.center,
               children: <Widget>[
@@ -157,25 +193,23 @@ class _ColorSelectorState extends State<ColorSelector>
                   keyboardType: TextInputType.number,
                   controller: _r,
                   decoration: new InputDecoration(labelText: "Red"),
-                  onChanged: (str) =>setState(() {})
                 ),
                 TextField(
                   autocorrect: false,
                   keyboardType: TextInputType.number,
                   controller: _g,
                   decoration: new InputDecoration(labelText: "Green"),
-                  onChanged: (str) =>setState(() {}),
                 ),
                 TextField(
                   autocorrect: false,
                   keyboardType: TextInputType.number,
                   controller: _b,
                   decoration: new InputDecoration(labelText: "Blue"),
-                  onChanged: (str) =>setState(() {})
                 ),
               ],
           ),
         )),
+        ]);}),
         actions: <Widget>[
           new MaterialButton(onPressed: ()=>Navigator.of(context).pop(),
           child: new Text("Cancel"),),
@@ -193,7 +227,9 @@ class _ColorSelectorState extends State<ColorSelector>
             });
 
             Vesta.of(context).updateSettings(mainColor: col);
-            Navigator.of(context).pop();
+            var nav = Navigator.of(context);
+            nav.pop();
+            nav.pop();
           },
             child: new Text("Apply"),
           ),

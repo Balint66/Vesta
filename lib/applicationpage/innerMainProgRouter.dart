@@ -1,6 +1,8 @@
 import 'package:fluro/fluro.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:vesta/applicationpage/MainProgram.dart';
+import 'package:vesta/applicationpage/common/popupOptionProvider.dart';
 import 'package:vesta/applicationpage/lessons/lessonDisplay.dart';
 import 'package:vesta/applicationpage/messages/messageListDisplay.dart';
 import 'package:vesta/applicationpage/semesters/semesterDisplayer.dart';
@@ -36,15 +38,14 @@ class MainProgRouter
   static Route route(RouteSettings settings)
   {
 
-    if(settings.name == "/app/home")
+    /*if(settings.name == "/app/home")
       settings = new RouteSettings(name: defaultRoute,
-          arguments: settings.arguments);
+          arguments: settings.arguments);*/
 
     return _mainProgRouter.generator(settings);
   }
 
   static String defaultRoute = "/app/messages";
-  static final MainProgram _mainProgram = new MainProgram(key:VestaRouter.mainKey);
   static final MessageListDisplay _messageListDisplay = MessageListDisplay(key: keys[0],);
   static final LessonDisplayer _lessonDisplayer = LessonDisplayer(key: keys[1]);
   static final StudentBookDisplay _studentBookDisplayer = StudentBookDisplay(key: keys[2]);
@@ -53,40 +54,71 @@ class MainProgRouter
 
   static final Handler _messageHandler = new Handler(handlerFunc: (BuildContext ctx, Map<String, dynamic> query)
   {
-    return _messageListDisplay;
+    return _wrapinFutureBuilder(ctx, _messageListDisplay, (context) => null, (value) { });
   });
 
   static final Handler _calendarHandler = new Handler(handlerFunc: (BuildContext ctx, Map<String, dynamic> querry)
   {
-    return _lessonDisplayer;
+    return _wrapinFutureBuilder(ctx, _lessonDisplayer, (context) => null, (value) { });
   });
 
   static final Handler _studentBookHandler = new Handler(handlerFunc: (BuildContext ctx, Map<String,dynamic> querry)
   {
-    return _studentBookDisplayer;
+    return _wrapinFutureBuilder(ctx, _studentBookDisplayer, (context) => null, (value) { });
   });
 
   static final Handler _semesterInfoHandler = new Handler(handlerFunc: (BuildContext ctx, Map<String,dynamic> querry)
   {
-    return _semesterInfoDisplayer;
+    return _wrapinFutureBuilder(ctx, _semesterInfoDisplayer, (context) => null, (value) { });
   });
 
   static final Handler _subjectHandler = new Handler(handlerFunc: (BuildContext ctx, Map<String,dynamic> querry)
-  {
-    return _subjectInfoDisplayer;
+  {  
+    return _wrapinFutureBuilder(ctx, _subjectInfoDisplayer, (context) => null, (value) { });
   });
 
-  static final Handler _appNestedHandler = new Handler(handlerFunc: (BuildContext ctx, Map<String, List<String>> query)
+  static final Handler _appNestedHandler = new Handler(handlerFunc: (BuildContext ctx, Map<String, dynamic> query)
   {
-    MainProgram main;
 
-    if( VestaRouter.mainKey.currentWidget == null)
+    String path = query["inner"][0];
+
+    if(path == "home" || path == null || path.isEmpty)
+      path = defaultRoute;
+
+    return new MainProgram(key:VestaRouter.mainKey, route: path,);
+  });
+
+  static Widget _wrapinFutureBuilder(BuildContext ctx ,Widget child, PopupMenuItemBuilder<int> builder, PopupMenuItemSelected<int> selector)
+  {
+    return new FutureBuilder(future: () async
     {
-      main = _mainProgram;
-      main.createState();
-    }
-    else
-      main = VestaRouter.mainKey.currentWidget;
-    return main;
-  });
+      PopupOptionProvider prov;
+      var func = PopupOptionProviderWidget.of(ctx, rebuild: false);
+
+      await Future.doWhile(() async
+      {
+        prov = func();
+
+        if(prov == null)
+        {
+          await Future.delayed(new Duration(seconds: 5));
+          return true;
+        }
+
+        return false;
+
+      });
+
+      prov.setOptions(builder, selector);
+
+      return true;
+
+
+    }(), builder: (ctx, snap)
+    {
+      if(snap.hasData)
+        return child;
+      return new Center(child: new CircularProgressIndicator());
+    });
+  }
 }

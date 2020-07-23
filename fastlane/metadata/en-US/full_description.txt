@@ -1,0 +1,10 @@
+Vesta is an unoffical application for the Neptun echosystem. It's fast and responsible.
+
+Main features:
+
+	🔥 Customisable theme!
+	💯 Better (if not the same) performance!
+	⛔ No logging!
+	🧮 Native performance!
+
+Right now it provides the same features as the Neptun app in the Play Store but some additional features are in the roadmap!

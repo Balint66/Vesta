@@ -19,10 +19,16 @@ class CoursesDisplayer extends StatelessWidget
         body: new ListView.builder(itemBuilder: (BuildContext context, int index)
     {
 
-      if(index >= _datas.length)
+      if(index == 0)
+        return new Container(padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        child: new FlatButton(child: new Text("None"),
+         onPressed: ()=> _setter(-1))
+       );
+
+      if(index - 1 >= _datas.length)
         return new Text("Unkown Index value!");
 
-      var item = _datas[index];
+      var item = _datas[index-1];
 
       return new Container(padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         child: new FlatButton(child: new Column(children: 
@@ -33,10 +39,10 @@ class CoursesDisplayer extends StatelessWidget
           new Text("Tutor: ${item.CourseTutor}"),
           new Text("Rank point :P : ${item.RangsorPontszamok}")
         ]),
-         onPressed: ()=> _setter(index))
+         onPressed: ()=> _setter(index-1))
        );
 
-    }, itemCount: _datas.length,));
+    }, itemCount: _datas.length + 1,));
     
   }
 

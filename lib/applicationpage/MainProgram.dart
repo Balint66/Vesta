@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vesta/Vesta.dart';
+import 'package:vesta/applicationpage/common/popupOptionProvider.dart';
 import 'package:vesta/applicationpage/innerMainProgRouter.dart';
 import 'package:vesta/datastorage/Lists/holder/listHolder.dart';
 import 'package:vesta/applicationpage/popupSettings.dart';
@@ -10,7 +11,13 @@ import 'package:vesta/web/fetchManager.dart';
 class MainProgram extends StatefulWidget
 {
 
-  MainProgram({Key key}) :super(key: key);
+  final String startingRoute;
+
+  MainProgram({Key key, String route}) : this.startingRoute = route == null || route.isEmpty ? MainProgRouter.defaultRoute : route, super(key: key)
+  {
+    if(ReplacementObserver.Instance != null && (route != null && route.isNotEmpty))
+      ReplacementObserver.Instance.currentPath = route;
+  }
 
   static final GlobalKey<NavigatorState> navKey = new GlobalKey<NavigatorState>();
 
@@ -21,10 +28,19 @@ class MainProgram extends StatefulWidget
   {
     return MainProgramState();
   }
+
+  static MainProgramState of(BuildContext context)
+  {
+    return context.dependOnInheritedWidgetOfExactType<_MainProgramInherited>().data;
+  }
+
+
 }
 
 class MainProgramState extends State<MainProgram>
 {
+
+  static final GlobalKey<PopupSettingsState> _popupSettingsKey = new GlobalKey<PopupSettingsState>();
 
   NavigatorState _parentNavigator;
   NavigatorState get parentNavigator => _parentNavigator;
@@ -44,11 +60,6 @@ class MainProgramState extends State<MainProgram>
   SubjectDataListHolder _subjectList = new SubjectDataListHolder();
   SubjectDataListHolder get subject => _subjectList;
   
-  static MainProgramState of(BuildContext context)
-  {
-    return context.findAncestorStateOfType<MainProgramState>();
-  }
-
   void refreshListHolders()
   {
 
@@ -59,7 +70,15 @@ class MainProgramState extends State<MainProgram>
     _messageList = new MessageListHolder();
     _studentBook = new StudentBookListHolder();
     _semesterList = new SemesterListHolder();
-    _subjectList = new SubjectDataListHolder();}
+    _subjectList = new SubjectDataListHolder();
+    
+    FetchManager.register(_calendarList);
+    FetchManager.register(_messageList);
+    FetchManager.register(_studentBook);
+    FetchManager.register(_semesterList);
+    FetchManager.register(_subjectList);
+    
+    }
     );
 
   }
@@ -78,6 +97,8 @@ class MainProgramState extends State<MainProgram>
 
   }
 
+  final PopupSettings _popupSettings = new PopupSettings(key: _popupSettingsKey);
+
   @override
   Widget build(BuildContext context)
   {
@@ -89,18 +110,36 @@ class MainProgramState extends State<MainProgram>
     final Navigator _navigator = new Navigator(
       key: MainProgram.navKey,
       onGenerateRoute: MainProgRouter.route,
-      initialRoute: "${MainProgRouter.defaultRoute}",
+      initialRoute: "${widget.startingRoute}",
       observers: [ReplacementObserver.Instance],
     );
 
-    return Scaffold(
-      body: _navigator,
-      appBar: AppBar(title: Text("Vesta"),
-        actions: <Widget>[
-              new PopupSettings()
-      ],),
-      drawer: Sidebar(key: widget.sidebarKey),
-    );
+    return new PopupOptionProviderWidget(data: ()=> _popupSettingsKey.currentState, child: new _MainProgramInherited(data: this,
+      child: new Scaffold(
+        body: _navigator,
+        appBar: AppBar(title: Text("Vesta"),
+          actions: <Widget>[
+                _popupSettings
+        ],),
+        drawer: Sidebar(key: widget.sidebarKey),
+      ),
+    ));
   }
 
+}
+
+class _MainProgramInherited extends InheritedWidget
+{
+
+  final MainProgramState data;
+
+  _MainProgramInherited({Key key, @required Widget child, @required MainProgramState data}) :
+        this.data = data ,super(key: key, child: child);
+
+  @override
+  bool updateShouldNotify(InheritedWidget oldWidget)
+  {
+    return true;  
+  }
+  
 }

@@ -5,7 +5,7 @@ class SemesterListHolder extends ListDataHolder<SemestersDataList>
   static Future<K> _updateList<K extends ListBase>(ListDataHolder<K> holder) async
   {
 
-    if((holder as SemesterListHolder)._periodtermList == null)
+    if((holder as SemesterListHolder)._periodtermList == null || (holder as SemesterListHolder)._periodtermList.isEmpty)
     {
 
       Vesta.logger.d("So, the list is null? Okay then!");
@@ -28,11 +28,11 @@ class SemesterListHolder extends ListDataHolder<SemestersDataList>
 
   }
 
-  List<Map<String, dynamic>> _periodtermList;
+  List<Map<String, dynamic>> _periodtermList = new List<Map<String, dynamic>>();
 
   void resetPeridtermList()
   {
-    _periodtermList = null;
+    _periodtermList = new List<Map<String, dynamic>>();
   }
 
   SemesterListHolder() : super(new SemestersDataList(), _updateList, timespan: new Duration(days: 1));
@@ -40,9 +40,43 @@ class SemesterListHolder extends ListDataHolder<SemestersDataList>
   @override
   Future<void> incrementWeeks() async{}
 
-  List<String> getPeriodTerms() => _periodtermList.map<String>((e)=>e["TermName"].toString()).toList();
+  Future<List<String>> getPeriodTerms() async
+  { 
+    
+    await Future.doWhile(() async
+    {
 
-  String getCurrentPeriod() => _periodtermList[_neededWeek]["TermName"];
+      if(_periodtermList != null && _periodtermList.isNotEmpty)
+        return false;
+      
+      await Future.delayed(new Duration(milliseconds: 50));
+
+      return true;
+
+    });
+    
+    return _periodtermList.map<String>((e)=>e["TermName"].toString()).toList();
+
+  }
+
+  Future<String> getCurrentPeriod() async
+  {
+
+    await Future.doWhile(() async
+    {
+
+      if(_periodtermList != null && _periodtermList.isNotEmpty)
+        return false;
+      
+      await Future.delayed(new Duration(milliseconds: 50));
+
+      return true;
+
+    });
+    
+    return _periodtermList[_neededWeek]["TermName"];
+
+  }
 
   void setPeriodTermIndex(int index)
   {

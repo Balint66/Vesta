@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:vesta/Vesta.dart';
+import 'package:vesta/applicationpage/common/popupOptionProvider.dart';
 import 'package:vesta/i18n/appTranslations.dart';
 import 'package:vesta/routing/replacementObserver.dart';
 
 class PopupSettings extends StatefulWidget
 {
+
+  PopupSettings({Key key}) : super(key:key);
+
   @override
   State<StatefulWidget> createState()
   {
@@ -13,69 +17,16 @@ class PopupSettings extends StatefulWidget
   
 }
 
-class PopupSettingsState extends State<PopupSettings>
+class PopupSettingsState extends State<PopupSettings> with PopupOptionProvider
 {
-
-  Map<String, PopupMenuItemBuilder<int>> builders = <String, PopupMenuItemBuilder<int>>{
-    "/app/messages": (BuildContext context)
-    {
-      return null;
-    },
-    "/app/calendar": (BuildContext context)
-    {
-      return null;
-    },
-    "/app/student_book": (BuildContext context)
-    {
-      return null;
-    },
-    "/app/semester_info": (BuildContext context)
-    {
-      return null;
-    },
-    "/app/subjects": (BuildContext context)
-    {
-      return null;
-    },
-  };
-
-  Map<String, PopupMenuItemSelected<int>> selectors = <String, PopupMenuItemSelected<int>>
-  {
-    "/app/messages": (int value){},
-    "/app/calendar" : (int value){},
-    "/app/student_book": (int value){},
-    "/app/semester_info": (int value){},
-    "/app/subjects" : (int value){},
-  };
-
-  String _currentPath = ReplacementObserver.Instance.currentPath;
-
-  @override
-  void initState()
-  {
-    super.initState();
-
-    Future.doWhile(() async
-    {
-      await Future.delayed(new Duration(seconds: 1));
-
-      if(_currentPath != ReplacementObserver.Instance.currentPath)
-      {
-        setState(()
-        {
-          _currentPath = ReplacementObserver.Instance.currentPath;
-        });
-      }
-
-      return true;
-
-    } );
-
-  }
 
   @override
   Widget build(BuildContext context)
   {
+
+    Vesta.logger.d("May I get a rebuild?");
+
+    var _currentPath = ReplacementObserver.Instance.currentPath;
 
       List<PopupMenuEntry<int>> entries = new List();
 
@@ -86,10 +37,10 @@ class PopupSettingsState extends State<PopupSettings>
         )
       );
 
-      List<PopupMenuEntry<int>> fromBuilder = builders[_currentPath].call(context);
+    var external = _popupData.builder.call(context);
 
-      if(fromBuilder != null)
-        entries.addAll(fromBuilder);
+    if(external != null)
+      entries.addAll(external);
 
       PopupMenuItemSelected<int> selected = (int value)
       {
@@ -101,7 +52,7 @@ class PopupSettingsState extends State<PopupSettings>
               });
               break;
             default:
-              this.selectors[_currentPath].call(value);
+              _popupData.selector.call(value);
               break;
           }
       };
@@ -109,7 +60,23 @@ class PopupSettingsState extends State<PopupSettings>
       return new PopupMenuButton(
         itemBuilder: (BuildContext ctx) => entries,
         onSelected: selected,
-      );
+      );      
+  }
+
+  PopupOptionData _popupData = new PopupOptionData(builder: (BuildContext context)=> null, selector: (int i)=> null);
+
+  @override
+  PopupOptionData getOptions() 
+  {
+    return _popupData;
+  }
+
+  @override
+  void setOptions(builder, selector) 
+  {
+    setState(() {
+      _popupData = new PopupOptionData(builder: builder, selector: selector);  
+    });  
   }
 
 }

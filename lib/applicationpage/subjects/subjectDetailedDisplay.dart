@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:vesta/Vesta.dart';
 import 'package:vesta/applicationpage/subjects/coursesDisplayer.dart';
+import 'package:vesta/applicationpage/subjects/subjectDetailItem.dart';
 import 'package:vesta/datastorage/courseData.dart';
 import 'package:vesta/datastorage/data.dart';
 import 'package:vesta/datastorage/studentData.dart';
@@ -29,16 +30,12 @@ class SubjectDetailedDisplay extends StatelessWidget
         body: new Center(child: new Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children:[
-            new Text("Subject name", style: new TextStyle(color: Colors.grey, fontSize: 9)),
-            new Text(data.SubjectName),
-            new Text("Subject Code", style: new TextStyle(color: Colors.grey, fontSize: 9)),
-            new Text(data.SubjectCode),
-            new Text("Subject Requirements", style: new TextStyle(color: Colors.grey, fontSize: 9)),
-            new Text(data.SubjectRequirement),
-            new Text("Subject Type", style: new TextStyle(color: Colors.grey, fontSize: 9)),
-            new Text(data.SubjectSignupType),
-            new Text("Credits", style: new TextStyle(color: Colors.grey, fontSize: 9)),
-            new Text("${data.Credit}"),
+
+            new SubjectDetailItem("Subject name", data.SubjectName),
+            new SubjectDetailItem("Subject Code", data.SubjectCode),
+            new SubjectDetailItem("Subject Requirements", data.SubjectRequirement),
+            new SubjectDetailItem("Subject Type", data.SubjectSignupType),
+            new SubjectDetailItem("Credits", "${data.Credit}"),
             //Here was the moment I decided not to make another statful widget just for displaying the buttons.
             //It was a really fun time and I like the solution I came up with.
             //(Future me pls don't kill me)
@@ -69,7 +66,7 @@ class SubjectDetailedDisplay extends StatelessWidget
                             Navigator.pop(context);
                         }),)),
                         subtitle: new Center(child: new Text("${courses[index] < 0 ? 'None' : entries[index].value[courses[index]].CourseCode}"))),
-                    color: Theme.of(context).primaryColor, ), padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10));
+                    color: Theme.of(context).primaryColor, ), padding: EdgeInsets.symmetric(vertical: 7.5, horizontal: 15));
 
                 }));
 
@@ -108,7 +105,7 @@ class SubjectDetailedDisplay extends StatelessWidget
                             Vesta.showSnackbar(new Text("$e"));
                           }
                         }),
-                    color: Theme.of(context).primaryColor, ), padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10));
+                    color: Theme.of(context).primaryColor, ), padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 15));
 
             })]);
             },)

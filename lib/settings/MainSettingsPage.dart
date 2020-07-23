@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:vesta/Vesta.dart';
+import 'package:vesta/applicationpage/MainProgram.dart';
 import 'package:vesta/datastorage/data.dart';
 import 'package:vesta/datastorage/local/fileManager.dart';
 import 'package:vesta/i18n/appTranslations.dart';
@@ -35,15 +36,13 @@ class _MainSettingsPageState extends State<MainSettingsPage>
     var translator = AppTranslations.of(context);
     List cuteMessages = translator.translateRaw("cute_messages");
 
-    return new Scaffold(
-        appBar: new AppBar(title: new Text(translator.translate("settings")),),
-        body: new ListView(children: <Widget>[
+    List<Widget> options = <Widget>[
           new ListTile(title: new Text(translator.translate("settings_logout")),
           onTap: ()
           {
             FileManager.clearFileData();
             FetchManager.clearRegistered();
-            Navigator.pushReplacementNamed(context, "/login");
+            Navigator.of(context).pushNamedAndRemoveUntil("/login", (route) => false);
           },),
           new ListTile(
             title: new Text(translator.translate("settings_color")),
@@ -98,8 +97,65 @@ class _MainSettingsPageState extends State<MainSettingsPage>
 
                },
              ))),
-           )
-        ],)
+           ),
+          new CheckboxListTile(value: Vesta.of(context).settings.devMode,
+            onChanged: (value) async 
+            {
+              if(value)
+              {
+                bool val = false;
+                await showDialog<bool>(builder: (BuildContext context)
+                {
+                  return new AlertDialog(
+                    content: new Text("Are you sure?\nAfter setting this setting to true\nevery developer action you'll make is inreversable!"),
+                    actions: [
+                      new MaterialButton(onPressed: ()
+                      {
+                        val = false;
+                        Navigator.pop(context);
+                      },
+                      child: new Text("Cancel"),
+                      ),
+                      new MaterialButton(onPressed: ()
+                      {
+                        val = true;
+                        Navigator.pop(context);
+                      },
+                      child: new Text("Understood Captian!"),
+                      )
+                    ],
+                    );
+                }, context: context);
+
+                if(val)
+                  Vesta.of(context).updateSettings(devMode: val);
+              }
+              else
+                Vesta.of(context).updateSettings(devMode: value);
+            },
+            title: new Text("Dev Mode"),)
+        ];
+
+        if(Vesta.of(context).settings.devMode)
+        options.addAll(<Widget>[
+          new ListTile(title: new Text("Clear cache"),
+            onTap: ()
+            {
+              //MainProgramState.of(context).refreshListHolders();
+            },),
+          new ListTile(title: new Text("Hard reset"),
+          onTap: ()
+          {
+            Vesta.of(context).resetSettings();
+            FileManager.clearAllFileData();
+            FetchManager.clearRegistered();
+            Navigator.of(context).pushNamedAndRemoveUntil("/eula", (route) => false);
+          }),
+        ]);
+
+    return new Scaffold(
+        appBar: new AppBar(title: new Text(translator.translate("settings")),),
+        body: new ListView(children: options)
     );
   }
 

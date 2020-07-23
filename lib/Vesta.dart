@@ -160,11 +160,21 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
 
   SettingsData _settings = new SettingsData();
 
+  void resetSettings()
+  {
+
+    setState(()
+    {
+      _settings = new SettingsData();
+    });
+
+  }
+
   void updateSettings({Color mainColor, bool isDarkTheme, bool keepMeLogged,
-    String route, bool eulaWasAccepted, String language})
+    String route, bool eulaWasAccepted, String language, bool devMode})
   {
     if(mainColor == null && isDarkTheme == null && keepMeLogged == null
-        && route == null && eulaWasAccepted == null && language == null)
+        && route == null && eulaWasAccepted == null && language == null && devMode == null)
       return;
 
     setState(() {
@@ -184,6 +194,10 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
       if(language != null)
       {
         _settings.language = language;
+      }
+      if(devMode != null)
+      {
+        _settings.devMode = devMode;
       }
       FileManager.saveSettings(_settings);
     });
@@ -247,11 +261,11 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
                   title: "Vesta",
                   theme: ColoredThemeData.create(
                         primarySwatch: MaterialColor(settings.mainColor.value, genSwatch()),
-                        brightness: settings.isDarkTheme ? Brightness.dark : Brightness.light,
+                        brightness: Brightness.light,
                     ),
                     darkTheme: ColoredThemeData.create(
                       primarySwatch: MaterialColor(settings.mainColor.value, genSwatch()),
-                      brightness: settings.isDarkTheme ? Brightness.dark : Brightness.light,
+                      brightness: Brightness.dark,
                     ),
                     onGenerateRoute: Vesta.generateRoutes,
                     initialRoute: _settings.eulaAccepted ? "/home" : "/eula",
@@ -265,6 +279,7 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
                       Locale("en"),
                       Locale("hu")
                     ],
+                    themeMode: _settings.isDarkTheme ? ThemeMode.dark : ThemeMode.light,
                   )
                 )
               )

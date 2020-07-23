@@ -22,7 +22,7 @@ allprojects {
         jcenter()
         maven {
            // [required] background_fetch
-           url "${project(':background_fetch').projectDir}/libs"
+           url (project(':background_fetch').projectDir.toString() + '/libs')
        }
     }
 }

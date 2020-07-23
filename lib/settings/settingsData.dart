@@ -2,16 +2,18 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
 class SettingsData
 {
 
   Color mainColor = Colors.red;
-  bool isDarkTheme = false;
+  bool isDarkTheme = SchedulerBinding.instance.window.platformBrightness == Brightness.dark;
   bool stayLogged = false;
   String appHomePage = "/messages";
   bool eulaAccepted = false;
   String language = "en";
+  bool devMode = false;
 
   String toJsonString()
   {
@@ -22,6 +24,7 @@ class SettingsData
       "appHomePage":appHomePage,
       "eulaAccepted": eulaAccepted,
       "language":language,
+      "devMode": devMode,
       "mainColor":<String,dynamic>
       {
         "r":mainColor.red,
@@ -44,6 +47,7 @@ class SettingsData
     data.appHomePage = map["appHomePage"] == null ? "/messages" : map["appHomePage"];
     data.eulaAccepted = map["eulaAccepted"] == null ? false : map["eulaAccepted"];
     data.language = map["language"] == null ? "en" : map["language"];
+    data.devMode = map["devMode"] == null ? false : map["devMode"];
     if(colormap != null)
     {
     data.mainColor = Color.fromARGB(colormap["a"] == null ? 255 : colormap["a"],
@@ -70,6 +74,7 @@ class SettingsData
     data.mainColor = other.mainColor;
     data.stayLogged = other.stayLogged;
     data.language = other.language;
+    data.devMode = other.devMode;
 
     return data;
 
