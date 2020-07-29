@@ -53,26 +53,26 @@ class DateUtil
   
   static int epochFlooredToMinutes(DateTime time)
   {
-    return time.subtract(new Duration(seconds: time.second, milliseconds: time.millisecond,
+    return time.subtract(Duration(seconds: time.second, milliseconds: time.millisecond,
             microseconds: time.microsecond)).millisecondsSinceEpoch;
   }
   
   static int epochFlooredToHours(DateTime time)
   {
-    return time.subtract(new Duration(minutes: time.minute, seconds: time.second,
+    return time.subtract(Duration(minutes: time.minute, seconds: time.second,
             milliseconds: time.millisecond, microseconds: time.microsecond)).millisecondsSinceEpoch;
   }
 
   static int epochFlooredToDays(DateTime time)
   {
-    return time.subtract(new Duration(hours: time.hour, minutes: time.minute,
+    return time.subtract(Duration(hours: time.hour, minutes: time.minute,
             seconds: time.second, milliseconds: time.millisecond,
             microseconds: time.microsecond)).millisecondsSinceEpoch;
   }
 
   static int stripFromMSDateFormat(String formattedString)
   {
-    return int.tryParse(formattedString.split("(")[1].split(")")[0]);
+    return int.tryParse(formattedString.split('(')[1].split(')')[0]);
   }
 
 }

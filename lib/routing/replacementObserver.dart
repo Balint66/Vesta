@@ -4,11 +4,11 @@ import 'package:vesta/applicationpage/innerMainProgRouter.dart';
 class ReplacementObserver extends NavigatorObserver
 {
 
-  static final ReplacementObserver Instance = new ReplacementObserver(); // ignore: non_constant_identifier_names
+  static final Instance = ReplacementObserver(); // ignore: non_constant_identifier_names
 
-  Map<String,Set<ReplacementAware>> _listeners = new Map<String,Set<ReplacementAware>>();
+  final _listeners = <String,Set<ReplacementAware>>{};
 
-  String currentPath = "";
+  var currentPath = '';
 
   void subscribe(ReplacementAware aware, String route)
   {
@@ -16,12 +16,13 @@ class ReplacementObserver extends NavigatorObserver
     assert(aware!=null);
     assert(route.isNotEmpty);
 
-    Set<ReplacementAware> set = new Set();
+    var set = Set<ReplacementAware>();
 
     set.add(aware);
 
-    if(_listeners.containsKey(route))
+    if(_listeners.containsKey(route)){
       set.addAll(_listeners.remove(route));
+    }
 
       _listeners.putIfAbsent(route, () => set); // ignore: sdk_version_set_literal
 
@@ -30,7 +31,7 @@ class ReplacementObserver extends NavigatorObserver
 
   @override
   void didPush(Route route, Route previousRoute) {
-    this.didReplace(newRoute: route, oldRoute: previousRoute);
+    didReplace(newRoute: route, oldRoute: previousRoute);
     super.didPush(route, previousRoute);
   }
 
@@ -40,13 +41,15 @@ class ReplacementObserver extends NavigatorObserver
 
     if(!(newRoute is PageRoute && oldRoute is PageRoute))
     {
-      if(currentPath.isEmpty)
+      if(currentPath.isEmpty) {
         currentPath = MainProgRouter.defaultRoute;
+      }
       return;
     }
 
-    if(newRoute != null && oldRoute != null && newRoute.settings.name == oldRoute.settings.name)
+    if(newRoute != null && oldRoute != null && newRoute.settings.name == oldRoute.settings.name) {
       return super.didReplace(newRoute:newRoute,oldRoute:oldRoute);
+    }
 
     Set<ReplacementAware> subs;
 
@@ -58,17 +61,20 @@ class ReplacementObserver extends NavigatorObserver
 
     if(subs != null)
     {
-      for(ReplacementAware i in subs)
+      for(var i in subs) {
         i.didReplaceOther(oldRoute: oldRoute);
+      }
     }
 
-    if(oldRoute != null)
+    if(oldRoute != null) {
       subs = _listeners[oldRoute.settings.name];
+    }
 
     if(subs != null)
     {
-        for(ReplacementAware i in subs)
+        for(var i in subs) {
           i.wasReplacedBy(otherRoute: newRoute);
+        }
 
     }
 
@@ -81,8 +87,8 @@ abstract class ReplacementAware
 {
   factory ReplacementAware() => null;
 
-  didReplaceOther({Route oldRoute});
+  void didReplaceOther({Route oldRoute});
 
-  wasReplacedBy({Route otherRoute});
+  void wasReplacedBy({Route otherRoute});
 
 }

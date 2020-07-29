@@ -11,7 +11,6 @@ import 'package:vesta/applicationpage/innerMainProgRouter.dart';
 import 'package:vesta/datastorage/local/fileManager.dart';
 import 'package:vesta/datastorage/studentData.dart';
 import 'package:vesta/i18n/appTranslations.dart';
-import 'package:vesta/i18n/appTranslationsDelegate.dart';
 import 'package:vesta/i18n/localizedApp.dart';
 import 'package:vesta/messaging/messageManager.dart';
 import 'package:vesta/routing/router.dart';
@@ -26,44 +25,39 @@ import 'package:overlay_support/overlay_support.dart';
 class Vesta extends StatefulWidget
 {
 
-  static final FlutterLocalNotificationsPlugin notificationPlugin = new FlutterLocalNotificationsPlugin();
-  static final NotificationDetails notificationDetails = initDetails();
+  static final notificationPlugin = FlutterLocalNotificationsPlugin();
+  static final notificationDetails = initDetails();
 
   static NotificationDetails initDetails()
   {
-    var androidD = AndroidNotificationDetails("vesta_main", "Vesta", "Vesta notifications", importance: Importance.High, priority: Priority.High, ticker: "ticker");
+    var androidD = AndroidNotificationDetails('vesta_main', 'Vesta', 'Vesta notifications', importance: Importance.High, priority: Priority.High, ticker: 'ticker');
     var iosD = IOSNotificationDetails();
     return NotificationDetails(androidD, iosD);
   }
 
   Vesta()
   {
-    try
+    if(Platform.isAndroid || Platform.isIOS)
     {
-      if(Platform.isAndroid || Platform.isIOS)
-      {
-        var android = AndroidInitializationSettings("app_icon");
-        var ios = IOSInitializationSettings();
-        var init = InitializationSettings(android, ios);
-        notificationPlugin.initialize(init);
-      }
+      var android = AndroidInitializationSettings('app_icon');
+      var ios = IOSInitializationSettings();
+      var init = InitializationSettings(android, ios);
+      notificationPlugin.initialize(init);
     }
-    catch(e){}
-    
   }
 
-  static final Logger logger = new Logger();
+  static final logger = Logger();
 
-  static final Function showSnackbar = (Widget widget)=>MessageManager.showSnackBar(widget);
+  static final showSnackbar = (Widget widget)=>MessageManager.showSnackBar(widget);
 
-  static String home = "/login";
+  static var home = '/login';
 
   static Route<dynamic> generateRoutes(RouteSettings settings)
   {
-    if(settings.name == "/home")
+    if(settings.name == '/home')
     {
 
-      settings = new RouteSettings(name: home,
+      settings = RouteSettings(name: home,
           arguments: settings.arguments);
 
     }
@@ -88,7 +82,7 @@ class _VestaInherited extends InheritedWidget
 {
 
   _VestaInherited({Key key, @required Widget child, @required VestaState data}) :
-        this.data = data ,super(key: key, child: child);
+        data = data ,super(key: key, child: child);
 
   final VestaState data;
 
@@ -109,12 +103,13 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
     super.initState();
     application.addListener(onLocaleChanged);
     initPlatform();
-    _post = Future.delayed(new Duration(milliseconds: 1),() async
+    _post = Future.delayed(Duration(milliseconds: 1),() async
     {
 
-      SettingsData newSettings = await FileManager.loadSettings();
-      if(newSettings != null)
+      var newSettings = await FileManager.loadSettings();
+      if(newSettings != null) {
         _settings = newSettings;
+      }
         Vesta.logger.d(_settings.language);
         application.changeLocal(application.supportedLocales().where((element) => element.languageCode == _settings.language).first);
 
@@ -126,7 +121,7 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
   }
 
   @override
-  dispose()
+  void dispose()
   {
     super.dispose();
     WidgetsBinding.instance.removeObserver(this);
@@ -158,14 +153,14 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
     });
   }
 
-  SettingsData _settings = new SettingsData();
+  var _settings = SettingsData();
 
   void resetSettings()
   {
 
     setState(()
     {
-      _settings = new SettingsData();
+      _settings = SettingsData();
     });
 
   }
@@ -174,29 +169,32 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
     String route, bool eulaWasAccepted, String language, bool devMode})
   {
     if(mainColor == null && isDarkTheme == null && keepMeLogged == null
-        && route == null && eulaWasAccepted == null && language == null && devMode == null)
+        && route == null && eulaWasAccepted == null && language == null && devMode == null) {
       return;
+    }
 
     setState(() {
-      if(mainColor != null)
+      if(mainColor != null) {
         _settings.mainColor = mainColor;
-      if(isDarkTheme != null)
+      }
+      if(isDarkTheme != null) {
         _settings.isDarkTheme = isDarkTheme;
-      if(keepMeLogged != null)
+      }
+      if(keepMeLogged != null) {
         _settings.stayLogged = keepMeLogged;
-      if(eulaWasAccepted != null)
+      }
+      if(eulaWasAccepted != null) {
         _settings.eulaAccepted = eulaWasAccepted;
+      }
       if(route!= null)
       {
-        _settings.appHomePage = "/" + route.split('/')[2];
+        _settings.appHomePage = '/' + route.split('/')[2];
         MainProgRouter.defaultRoute = route;
       }
-      if(language != null)
-      {
+      if(language != null){
         _settings.language = language;
       }
-      if(devMode != null)
-      {
+      if(devMode != null){
         _settings.devMode = devMode;
       }
       FileManager.saveSettings(_settings);
@@ -210,22 +208,23 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
   {
     try
     {
-      if( Platform.isAndroid || Platform.isIOS)
-      BackgroundFetch.configure(BackgroundFetchConfig(
-      minimumFetchInterval: 15,
-      stopOnTerminate: false,
-      startOnBoot: true,
-      enableHeadless: true,
-      requiredNetworkType: NetworkType.ANY,
-    ), (String id) async
-    {
-      await FetchManager.fetch();
-      BackgroundFetch.finish(id);
-    });
+      if( Platform.isAndroid || Platform.isIOS) {
+        await BackgroundFetch.configure(BackgroundFetchConfig(
+        minimumFetchInterval: 15,
+        stopOnTerminate: false,
+        startOnBoot: true,
+        enableHeadless: true,
+        requiredNetworkType: NetworkType.ANY,
+      ), (String id) async
+      {
+        await FetchManager.fetch();
+        BackgroundFetch.finish(id);
+      });
+      }
     }
     catch(e)
     {
-      Vesta.logger.w("Dabiri-dabirido! What does this button do?\n Unable to configure background fetch. Something is not implemented? \n error:$e");
+      Vesta.logger.w('Dabiri-dabirido! What does this button do?\n Unable to configure background fetch. Something is not implemented? \n error:$e');
     }
   }
 
@@ -239,26 +238,28 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
 
     FetchManager.init();
 
-      return new FutureBuilder(future:_post,
+      return FutureBuilder(future:_post,
           builder: (BuildContext ctx, AsyncSnapshot<bool> snapshot)
           {
 
-            if(!snapshot.hasData && !snapshot.hasError)
-              return new Center(child: new CircularProgressIndicator());
+            if(!snapshot.hasData && !snapshot.hasError) {
+              return Center(child: CircularProgressIndicator());
+            }
 
-            if(snapshot.hasError && !(snapshot.error is MissingPluginException))
+            if(snapshot.hasError && !(snapshot.error is MissingPluginException)) {
               Vesta.logger.e(snapshot.error);
+            }
 
             if(!snapshot.hasError && snapshot.data){
-              Vesta.home = "/app/home";
+              Vesta.home = '/app/home';
               StudentData.Instance;
             }
 
-           return new OverlaySupport(
-              child: new _VestaInherited(
+           return OverlaySupport(
+              child: _VestaInherited(
                 data: this,
-                child: new MaterialApp(
-                  title: "Vesta",
+                child: MaterialApp(
+                  title: 'Vesta',
                   theme: ColoredThemeData.create(
                         primarySwatch: MaterialColor(settings.mainColor.value, genSwatch()),
                         brightness: Brightness.light,
@@ -268,7 +269,7 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
                       brightness: Brightness.dark,
                     ),
                     onGenerateRoute: Vesta.generateRoutes,
-                    initialRoute: _settings.eulaAccepted ? "/home" : "/eula",
+                    initialRoute: _settings.eulaAccepted ? '/home' : '/eula',
                     localizationsDelegates: 
                     [
                       application.appDelegate,
@@ -276,8 +277,8 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
                       GlobalWidgetsLocalizations.delegate
                     ],
                     supportedLocales: [
-                      Locale("en"),
-                      Locale("hu")
+                      Locale('en'),
+                      Locale('hu')
                     ],
                     themeMode: _settings.isDarkTheme ? ThemeMode.dark : ThemeMode.light,
                   )
@@ -290,11 +291,11 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
 
   Map<int, Color> genSwatch()
   {
-      List<String> stringSwatch = ColorUtils.swatchColor(ColorUtils.intToHex(settings.mainColor.value));
+      var stringSwatch = ColorUtils.swatchColor(ColorUtils.intToHex(settings.mainColor.value));
 
-      Map<int, Color> map = Map<int, Color>();
+      var map = <int, Color>{};
 
-      for(int i = 0; i < stringSwatch.length; i++)
+      for(var i = 0; i < stringSwatch.length; i++)
       {
         if(i == 0)
         {

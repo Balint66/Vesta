@@ -29,7 +29,7 @@ class MessageListDisplay extends BgFetchSateFullWidget
 class MessageListDisplayState extends BgFetchState<MessageListDisplay>
 {
 
-  static final PopupOptionData data = new PopupOptionData(
+  static final PopupOptionData data = PopupOptionData(
     builder:(BuildContext ctx){ return null; }, selector: (int value){}
   );
 
@@ -37,17 +37,18 @@ class MessageListDisplayState extends BgFetchState<MessageListDisplay>
   Widget build(BuildContext context)
   {
     var messages = MainProgram.of(context).messageList;
+    var translator = AppTranslations.of(context);
 
-    return new Column(children:[
-      new Expanded(child: DefaultTabController(
+    return Column(children:[
+      Expanded(child: DefaultTabController(
         length: 2,
         child: Scaffold(
           appBar: AppBar(
             title: TabBar(
                 tabs: <Widget>
                 [
-                  Tab(text: AppTranslations.of(context).translate("messages_unread"),),
-                  Tab(text: AppTranslations.of(context).translate("messages_read"),)
+                  Tab(text: translator.translate('messages_unread'),),
+                  Tab(text: translator.translate('messages_read'),)
                 ]
             ),
             primary: false,
@@ -59,7 +60,7 @@ class MessageListDisplayState extends BgFetchState<MessageListDisplay>
                 if(snap.hasData)
                 {
 
-                  Widget read =  new SortedMessages((snap.data
+                  Widget read =  SortedMessages((snap.data
                       .where((item)=>!item.isNew).toList()
                       ..sort((Message a, Message b)=>-1*a.time.compareTo(b.time))),
                     (item){
@@ -67,7 +68,7 @@ class MessageListDisplayState extends BgFetchState<MessageListDisplay>
                       (item.senderName,item.subject,item.detail)));
                   });
 
-                  Widget unread =new SortedMessages((snap.data
+                  Widget unread =SortedMessages((snap.data
                       .where((item)=>item.isNew).toList()
                       ..sort((Message a, Message b)=>-1*a.time.compareTo(b.time))),
                         (item) {
@@ -78,28 +79,28 @@ class MessageListDisplayState extends BgFetchState<MessageListDisplay>
                           });
                           MainProgram.of(context).parentNavigator.push(MaterialPageRoute(builder: (ctx)=>MessageDisplay
                             (item.senderName,item.subject,item.detail)));
-                          WebDataMessageRead body = new WebDataMessageRead(StudentData.Instance,
+                          var body = WebDataMessageRead(StudentData.Instance,
                               item.personMessageId);
                           WebServices.setRead(Data.school, body);
                       });
 
-                return new RefreshExecuter(icon: Icons.message,
+                return RefreshExecuter(icon: Icons.message,
                       asyncCallback: messages.incrementWeeks,
-                      child: new TabBarView(children: <Widget>[
+                      child: TabBarView(children: <Widget>[
                           unread,
                           read,
                       ])
                 );
                 }
-                  return new TabBarView(children: <Widget>[
-                    new Center(child: new CircularProgressIndicator()),
-                    new Center(child: new  CircularProgressIndicator())
+                  return TabBarView(children: <Widget>[
+                    Center(child: CircularProgressIndicator()),
+                    Center(child: CircularProgressIndicator())
                   ],);
                 }
           )
         ),
     )),
-      new Center(child: new Text("Max amount of messages: " + "${messages.maxItemCount}"))
+      Center(child: Container(child: Text('${translator.translate("messages_max")}: ${messages.maxItemCount}'), padding: EdgeInsets.all(10),))
     ]);
   }
 
@@ -113,16 +114,16 @@ class SortedMessages extends StatelessWidget
   final List<Message> _messages;
   final displayFunction _ontap;
 
-  SortedMessages(List<Message> msg, displayFunction onTap) : this._messages = msg,
-        this._ontap = onTap,  super();
+  SortedMessages(List<Message> msg, displayFunction onTap) : _messages = msg,
+        _ontap = onTap,  super();
 
   @override
   Widget build(BuildContext context)
   {
-    return new ListView(
+    return ListView(
       children: List.of( _messages.map  ((item) => 
-        new ClickableCard(child: new ListTile(title: new Text(item.subject),
-            subtitle: new Text(item.senderName),
+        ClickableCard(child: ListTile(title: Text(item.subject),
+            subtitle: Text(item.senderName),
             onTap: () => _ontap(item),
             ),
           )

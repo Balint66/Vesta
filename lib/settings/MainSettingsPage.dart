@@ -3,13 +3,11 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:vesta/Vesta.dart';
-import 'package:vesta/applicationpage/MainProgram.dart';
 import 'package:vesta/datastorage/data.dart';
 import 'package:vesta/datastorage/local/fileManager.dart';
 import 'package:vesta/i18n/appTranslations.dart';
 import 'package:vesta/i18n/localizedApp.dart';
 import 'package:vesta/settings/colorSelector.dart';
-import 'package:vesta/settings/settingsData.dart';
 import 'package:vesta/web/fetchManager.dart';
 import 'package:vesta/web/webServices.dart';
 
@@ -18,7 +16,7 @@ class MainSettingsPage extends StatefulWidget
   @override
   State<StatefulWidget> createState()
   {
-    return new _MainSettingsPageState();
+    return _MainSettingsPageState();
   }
 
 }
@@ -26,136 +24,141 @@ class MainSettingsPage extends StatefulWidget
 class _MainSettingsPageState extends State<MainSettingsPage>
 {
 
-  Random rnd = new Random();
+  Random rnd = Random();
 
   @override
   Widget build(BuildContext context)
   {
 
-    SettingsData data = Vesta.of(context).settings;
+    var data = Vesta.of(context).settings;
     var translator = AppTranslations.of(context);
-    List cuteMessages = translator.translateRaw("cute_messages");
+    List cuteMessages = translator.translateRaw('cute_messages');
 
-    List<Widget> options = <Widget>[
-          new ListTile(title: new Text(translator.translate("settings_logout")),
+    var options = <Widget>[
+          ListTile(title: Text(translator.translate('settings_logout')),
           onTap: ()
           {
             FileManager.clearFileData();
             FetchManager.clearRegistered();
-            Navigator.of(context).pushNamedAndRemoveUntil("/login", (route) => false);
+            Navigator.of(context).pushNamedAndRemoveUntil('/login', (route) => false);
           },),
-          new ListTile(
-            title: new Text(translator.translate("settings_color")),
+          ListTile(
+            title: Text(translator.translate('settings_color')),
             onTap: ()=>showDialog(context: context, builder: (BuildContext ctx) => ColorSelector()),
-            trailing: new Container(
+            trailing: Container(
               width: 35.5,
               height: 32.5,
-              decoration: new BoxDecoration(
+              decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: data.mainColor
               ),
             ),
           ),
-           new CheckboxListTile(
+           CheckboxListTile(
                value: data.isDarkTheme,
                onChanged:  (bool value){Vesta.of(context).updateSettings(isDarkTheme: value);},
-                title: new Text(translator.translate("settings_dark_theme")),
+                title: Text(translator.translate('settings_dark_theme')),
            ),
-           new  PopupMenuButton(itemBuilder: (context) 
+           PopupMenuButton(itemBuilder: (context) 
            {
-              return application.supportedLanguages.map((e) => new PopupMenuItem<int>(child: new Text(e), value: application.supportedLanguages.indexOf(e),)).toList();
+              return application.supportedLanguages.map((e) => PopupMenuItem<int>(child: Text(e), value: application.supportedLanguages.indexOf(e),)).toList();
            },
            padding: const EdgeInsets.all(0),
            onSelected: (value)
            {
-             application.changeLocal(new Locale(application.supportedLanguagesCodes[value]));
+             application.changeLocal(Locale(application.supportedLanguagesCodes[value]));
              Vesta.of(context).updateSettings(language: application.supportedLanguagesCodes[value]);
            },
-           child: ListTile(title: new Text("${translator.translate("settings_lang")} ${application.supportedLanguages[application.supportedLanguagesCodes.indexOf(
+           child: ListTile(title: Text("${translator.translate("settings_lang")} ${application.supportedLanguages[application.supportedLanguagesCodes.indexOf(
              application.appDelegate.newLocale == null ? Localizations.localeOf(context).languageCode : application.appDelegate.newLocale.languageCode
              )]}"),
            ),
-           tooltip: translator.translate("settings_lang_tooltip"),
+           tooltip: translator.translate('settings_lang_tooltip'),
            ),
-           new ListTile(
-             title: new Text(translator.translate("settings_cuteness")),
-             onTap:()=>Vesta.showSnackbar(new Text(cuteMessages[rnd.nextInt(cuteMessages.length)]))
+           ListTile(
+             title: Text(translator.translate('settings_cuteness')),
+             onTap:()=>Vesta.showSnackbar(Text(cuteMessages[rnd.nextInt(cuteMessages.length)]))
            ),
-           new ListTile(
-             title: new Text(translator.translate("settings_schools_privacy")),
-             onTap: ()=>showDialog(context: context, builder:(ctx)=>new Dialog(child: new FutureBuilder(
+           ListTile(
+             title: Text(translator.translate('settings_schools_privacy')),
+             onTap: ()=>showDialog(context: context, builder:(ctx)=>Dialog(child: FutureBuilder(
                future: WebServices.getSchoolsPrivacyPolicy(Data.school),
                builder: (context, snapshot) 
                {
-                  if(snapshot.hasError)
-                    return new SingleChildScrollView(child: new Center(child: new Text(snapshot.error)));
+                  if(snapshot.hasError) {
+                    return SingleChildScrollView(child: Center(child: Text(snapshot.error)));
+                  }
 
-                  if(!snapshot.hasData)
-                    return new Center(child: new CircularProgressIndicator());
+                  if(!snapshot.hasData) {
+                    return Center(child: CircularProgressIndicator());
+                  }
 
-                  return new Text("${snapshot.data}");
+                  return Text('${snapshot.data}');
 
                },
              ))),
            ),
-          new CheckboxListTile(value: Vesta.of(context).settings.devMode,
+          CheckboxListTile(value: Vesta.of(context).settings.devMode,
             onChanged: (value) async 
             {
               if(value)
               {
-                bool val = false;
+                var val = false;
                 await showDialog<bool>(builder: (BuildContext context)
                 {
-                  return new AlertDialog(
-                    content: new Text("Are you sure?\nAfter setting this setting to true\nevery developer action you'll make is inreversable!"),
+                  return AlertDialog(
+                    content: Text(translator.translate('settings_dev_notice')),
                     actions: [
-                      new MaterialButton(onPressed: ()
+                      MaterialButton(onPressed: ()
                       {
                         val = false;
                         Navigator.pop(context);
                       },
-                      child: new Text("Cancel"),
+                      child: Text(translator.translate('cancel')),
                       ),
-                      new MaterialButton(onPressed: ()
+                      MaterialButton(onPressed: ()
                       {
                         val = true;
                         Navigator.pop(context);
                       },
-                      child: new Text("Understood Captian!"),
+                      child: Text(translator.translate('settings_dev_notice_ok')),
                       )
                     ],
                     );
                 }, context: context);
 
-                if(val)
+                if(val) {
                   Vesta.of(context).updateSettings(devMode: val);
+                }
               }
-              else
+              else {
                 Vesta.of(context).updateSettings(devMode: value);
+              }
             },
-            title: new Text("Dev Mode"),)
+            title: Text(translator.translate('settings_dev')),)
         ];
 
-        if(Vesta.of(context).settings.devMode)
-        options.addAll(<Widget>[
-          new ListTile(title: new Text("Clear cache"),
+        if(Vesta.of(context).settings.devMode) {
+          options.addAll(<Widget>[
+          ListTile(title: Text(translator.translate('settings_clear_cache')),
             onTap: ()
             {
               //MainProgramState.of(context).refreshListHolders();
             },),
-          new ListTile(title: new Text("Hard reset"),
+          ListTile(title: Text(translator.translate('settings_hard_reset')),
           onTap: ()
           {
             Vesta.of(context).resetSettings();
             FileManager.clearAllFileData();
             FetchManager.clearRegistered();
-            Navigator.of(context).pushNamedAndRemoveUntil("/eula", (route) => false);
+            Navigator.of(context).pushNamedAndRemoveUntil('/eula', (route) => false);
           }),
         ]);
+        }
 
-    return new Scaffold(
-        appBar: new AppBar(title: new Text(translator.translate("settings")),),
-        body: new ListView(children: options)
+    return Scaffold(
+        appBar: AppBar(title: Text(translator.translate('settings')),),
+        body: ListView(children: options)
     );
   }
 

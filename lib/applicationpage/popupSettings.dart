@@ -12,7 +12,7 @@ class PopupSettings extends StatefulWidget
   @override
   State<StatefulWidget> createState()
   {
-      return new PopupSettingsState();
+      return PopupSettingsState();
   }
   
 }
@@ -24,23 +24,24 @@ class PopupSettingsState extends State<PopupSettings> with PopupOptionProvider
   Widget build(BuildContext context)
   {
 
-    Vesta.logger.d("May I get a rebuild?");
+    Vesta.logger.d('May I get a rebuild?');
 
     var _currentPath = ReplacementObserver.Instance.currentPath;
 
-      List<PopupMenuEntry<int>> entries = new List();
+      var entries = <PopupMenuEntry<int>>[];
 
-      entries.add(new CheckedPopupMenuItem<int>(
+      entries.add(CheckedPopupMenuItem<int>(
         value: 0,
-        checked: ("/" + _currentPath.split('/')[2]) == Vesta.of(context).settings.appHomePage,
-        child: new Text(AppTranslations.of(context).translate("popup_app_home")),
+        checked: ('/' + _currentPath.split('/')[2]) == Vesta.of(context).settings.appHomePage,
+        child: Text(AppTranslations.of(context).translate('popup_app_home')),
         )
       );
 
     var external = _popupData.builder.call(context);
 
-    if(external != null)
+    if(external != null) {
       entries.addAll(external);
+    }
 
       PopupMenuItemSelected<int> selected = (int value)
       {
@@ -57,13 +58,13 @@ class PopupSettingsState extends State<PopupSettings> with PopupOptionProvider
           }
       };
 
-      return new PopupMenuButton(
+      return PopupMenuButton(
         itemBuilder: (BuildContext ctx) => entries,
         onSelected: selected,
       );      
   }
 
-  PopupOptionData _popupData = new PopupOptionData(builder: (BuildContext context)=> null, selector: (int i)=> null);
+  PopupOptionData _popupData = PopupOptionData(builder: (BuildContext context)=> null, selector: (int i)=> null);
 
   @override
   PopupOptionData getOptions() 
@@ -75,7 +76,7 @@ class PopupSettingsState extends State<PopupSettings> with PopupOptionProvider
   void setOptions(builder, selector) 
   {
     setState(() {
-      _popupData = new PopupOptionData(builder: builder, selector: selector);  
+      _popupData = PopupOptionData(builder: builder, selector: selector);  
     });  
   }
 

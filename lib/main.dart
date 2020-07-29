@@ -1,5 +1,4 @@
 import 'package:universal_io/io.dart';
-
 import 'package:background_fetch/background_fetch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show debugDefaultTargetPlatformOverride;
@@ -10,27 +9,21 @@ import 'package:vesta/web/webServices.dart';
 void main() async
 {
 
-  try
+  var alpha = Platform.isWindows || Platform.isLinux || Platform.isMacOS;
+
+  if(alpha)
   {
-    if(!(Platform.isAndroid || Platform.isIOS || Platform.isFuchsia))
-    {
-      debugDefaultTargetPlatformOverride = TargetPlatform.android;
-    }
+    debugDefaultTargetPlatformOverride = TargetPlatform.android;
   }
-  catch(e){}
 
   WebServices.init();
 
-  await runApp(new Vesta());
+  await runApp(Vesta());
   
-  try
+
+  if(Platform.isAndroid)
   {
-
-    if(Platform.isAndroid)
-    {
-      BackgroundFetch.registerHeadlessTask(FetchManager.fetch);
-    }
-
+    await BackgroundFetch.registerHeadlessTask(FetchManager.fetch);
   }
-  catch(e){}
+
 }

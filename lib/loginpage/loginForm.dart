@@ -13,7 +13,7 @@ class LoginForm extends StatefulWidget
   @override
   State<StatefulWidget> createState()
   {
-    return new LoginFormState();
+    return LoginFormState();
   }
 
   static LoginFormState of(BuildContext context)
@@ -29,7 +29,7 @@ class _LoginForm extends InheritedWidget
   final LoginFormState data;
 
   _LoginForm({Key key, @required Widget child, @required LoginFormState data})
-    : this.data = data, super(key: key, child: child);
+    : data = data, super(key: key, child: child);
 
 
 
@@ -46,9 +46,9 @@ class LoginFormState extends State<LoginForm>
 
   Future<SchoolList> _post;
 
-  final TextEditingController _userName = new TextEditingController();
-  final TextEditingController _password = new TextEditingController();
-  final LoginButton _login = new LoginButton();
+  final TextEditingController _userName = TextEditingController();
+  final TextEditingController _password = TextEditingController();
+  final LoginButton _login = LoginButton();
 
   bool _validSchool = false;
   bool _validUsername = false;
@@ -72,12 +72,14 @@ class LoginFormState extends State<LoginForm>
 
     Future.doWhile(() async
     {
-      await Future.delayed(new Duration(seconds: 1));
+      await Future.delayed(Duration(seconds: 1));
 
-      if(_validPassword&&_validUsername&&_validSchool&&!ableToLogin)
+      if(_validPassword&&_validUsername&&_validSchool&&!ableToLogin) {
         ableToLogin = true;
-      else if(!(_validSchool&&_validUsername&&_validPassword)&&ableToLogin)
+      } 
+      else if(!(_validSchool&&_validUsername&&_validPassword)&&ableToLogin) {
         ableToLogin = false;
+      }
 
       return true;
     });
@@ -90,12 +92,11 @@ class LoginFormState extends State<LoginForm>
 
     var translate = AppTranslations.of(context);
 
-    if(_post == null)
-      _post = WebServices.fetchSchools();
+    _post ??= WebServices.fetchSchools();
 
       return _LoginForm(
         data: this,
-        child: new  Form(
+        child: Form(
           autovalidate: true,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -103,7 +104,7 @@ class LoginFormState extends State<LoginForm>
               FormField<School>(builder: (FormFieldState state)
               {
                 return FutureBuilder(
-                  future: Future.delayed(new Duration(seconds: 1), ()=>_post),
+                  future: Future.delayed(Duration(seconds: 1), ()=>_post),
                   builder: (BuildContext context, AsyncSnapshot<SchoolList> snapshot)
                   {
 
@@ -116,11 +117,11 @@ class LoginFormState extends State<LoginForm>
                     else if(snapshot.hasError)
                     {
 
-                      return new MaterialButton(
+                      return MaterialButton(
                         onPressed: () => setState(() {
                           _post = null;
                         }),
-                        child: Text(translate.translate("login_retry")),);
+                        child: Text(translate.translate('login_retry')),);
 
                     }
 
@@ -137,12 +138,14 @@ class LoginFormState extends State<LoginForm>
                 {
                   if(value == null)
                   {
-                    if(_validSchool)
+                    if(_validSchool) {
                       _validSchool = false;
-                    return translate.translate("login_select_school");
+                    }
+                    return translate.translate('login_select_school');
                   }
-                  if(!_validSchool)
+                  if(!_validSchool) {
                     _validSchool = true;
+                  }
                   return null;
                 },
               ),
@@ -151,8 +154,8 @@ class LoginFormState extends State<LoginForm>
                   autocorrect: false,
                   autofocus: true,
                   decoration: InputDecoration(
-                    labelText: translate.translate("login_username"),
-                    hintText: translate.translate("login_username_hint"),),
+                    labelText: translate.translate('login_username'),
+                    hintText: translate.translate('login_username_hint'),),
                   maxLines: 1,
                   controller: _userName,
                   onChanged: (str)
@@ -163,12 +166,14 @@ class LoginFormState extends State<LoginForm>
                   {
                     if(value.isEmpty || value.length < 6)
                     {
-                      if(_validUsername)
+                      if(_validUsername) {
                         _validUsername = false;
-                      return translate.translate("login_username_character_error");
+                      }
+                      return translate.translate('login_username_character_error');
                     }
-                    if(!_validUsername)
+                    if(!_validUsername) {
                       _validUsername = true;
+                    }
                     return null;
                   },
                 ),
@@ -176,7 +181,7 @@ class LoginFormState extends State<LoginForm>
               Container(
                   child: TextFormField(
                     autocorrect: false,
-                    decoration: new InputDecoration(labelText: translate.translate("login_password")),
+                    decoration: InputDecoration(labelText: translate.translate('login_password')),
                     obscureText: true,
                     maxLines: 1,
                     controller: _password,
@@ -188,18 +193,20 @@ class LoginFormState extends State<LoginForm>
                     {
                       if(value.isEmpty)
                       {
-                        if(_validPassword)
+                        if(_validPassword) {
                           _validPassword = false;
-                        return translate.translate("login_password_error");
+                        }
+                        return translate.translate('login_password_error');
                       }
-                      if(!_validPassword)
+                      if(!_validPassword) {
                         _validPassword = true;
+                      }
                       return null;
                     },
                   ),
                   width: 300.0),
-              new KeepMeLoggedInButton(),
-              new Container(
+              KeepMeLoggedInButton(),
+              Container(
                 child: _login,
                 padding: EdgeInsets.only(top: 20),
               ),

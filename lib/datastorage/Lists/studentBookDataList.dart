@@ -6,23 +6,27 @@ class StudentBookDataList extends ListBase<StudentBookData> implements List<Stud
 {
    final List<StudentBookData> _l;
 
-  StudentBookDataList({List<StudentBookData> other}) : this._l = other != null ? other
-      : new List<StudentBookData>();
+  StudentBookDataList({List<StudentBookData> other}) : _l = other ?? <StudentBookData>[];
 
+  @override
   StudentBookData operator [](int i) => _l[i];
+  @override
   void operator []=(int index, StudentBookData value) { _l[index] = value; }
 
+  @override
   set length(int newLength) { _l.length = newLength; }
+  @override
   int get length => _l.length;
 
   @override
   bool contains(Object element)
   {
 
-    if(!(element is StudentBookData))
+    if(!(element is StudentBookData)) {
       return false;
+    }
 
-    return this._l.any((e) => e.ID == (element as StudentBookData).ID);
+    return _l.any((e) => e.ID == (element as StudentBookData).ID);
 
   }
 

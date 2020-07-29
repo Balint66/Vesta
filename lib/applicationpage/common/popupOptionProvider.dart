@@ -6,7 +6,7 @@ class PopupOptionProviderWidget extends InheritedWidget
   final PopupOptionProviderFunction _provider;
 
   PopupOptionProviderWidget({Key key, @required Widget child, @ required PopupOptionProviderFunction data})
-    : this._provider = data, super(key: key, child: child);
+    : _provider = data, super(key: key, child: child);
 
   @override
   bool updateShouldNotify(InheritedWidget oldWidget)
@@ -16,10 +16,12 @@ class PopupOptionProviderWidget extends InheritedWidget
 
   static PopupOptionProviderFunction of(BuildContext context, {bool rebuild = true})
   {
-    if(rebuild)
+    if(rebuild) {
       return context.dependOnInheritedWidgetOfExactType<PopupOptionProviderWidget>()._provider;
-    else
+    } 
+    else {
       return context.findAncestorWidgetOfExactType<PopupOptionProviderWidget>()._provider;
+    }
   }
   
 }
@@ -31,7 +33,7 @@ class PopupOptionData
   final PopupMenuItemSelected<int> selector;
 
   PopupOptionData({@required PopupMenuItemBuilder<int> builder, @required PopupMenuItemSelected<int> selector}) 
-    : this.builder = builder, this.selector = selector; 
+    : builder = builder, selector = selector; 
 
 }
 

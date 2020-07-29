@@ -3,7 +3,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:vesta/applicationpage/MainProgram.dart';
 import 'package:vesta/datastorage/data.dart';
 import 'package:vesta/Vesta.dart';
 import 'package:vesta/i18n/appTranslations.dart';
@@ -14,7 +13,7 @@ import 'package:vesta/web/webServices.dart';
 class LoginButton extends StatefulWidget
 {
 
-  final LoginBtnState state = new LoginBtnState();
+  final LoginBtnState state = LoginBtnState();
 
   @override
   State<StatefulWidget> createState() {
@@ -62,15 +61,15 @@ class LoginBtnState extends State<LoginButton>
 
         if(VestaRouter.mainKey.currentContext != null)
         {
-          (VestaRouter.mainKey.currentState as MainProgramState).refreshListHolders();
+          (VestaRouter.mainKey.currentState).refreshListHolders();
         }
 
-        Navigator.pushReplacementNamed(context, "/app/home");
+        await Navigator.pushReplacementNamed(context, '/app/home');
         return;
       }
 
 
-      Vesta.showSnackbar(new Text(AppTranslations.of(context).translate("login_login_error")));
+      Vesta.showSnackbar(Text(AppTranslations.of(context).translate('login_login_error')));
 
     }
     catch(e)
@@ -85,20 +84,22 @@ class LoginBtnState extends State<LoginButton>
 
   Widget loading()
   {
-    if(_loggingIn)
+    if(_loggingIn) {
       return CircularProgressIndicator();
+    }
     return Container(width: 0.0,height: 0.0,);
   }
 
   Widget button(BuildContext context)
   {
-    if(!_loggingIn)
-      return new MaterialButton(onPressed: LoginForm.of(context).ableToLogin
+    if(!_loggingIn) {
+      return MaterialButton(onPressed: LoginForm.of(context).ableToLogin
             ? () => startLogin(context) : null,
-          child: Text(AppTranslations.of(context).translate("login_login_button"),maxLines: 1,),
+          child: Text(AppTranslations.of(context).translate('login_login_button'),maxLines: 1,),
           color: Theme.of(context).primaryColor,
           minWidth: 150.0,
       );
+    }
     return Container(width: 0.0,height: 0.0,);
   }
 

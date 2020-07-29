@@ -9,7 +9,7 @@ class Data
   static String password;
   static School school;
 
-  factory()=> null;
+  factory Data()=> null;
 
   Data._();
 
@@ -17,10 +17,10 @@ class Data
   {
     if(username == null || password == null || school == null)
     {
-      return "{}";
+      return '{}';
     }
 
-    Map map = {"username":username,"password":password,"school":school.asJson()};
+    var map = <String, dynamic>{'username':username,'password':password,'school':school.asJson()};
 
     return json.encode(map);
 
@@ -30,13 +30,14 @@ class Data
   {
     Map<String, dynamic> map = json.decode(jsonString);
 
-    if(map.keys.isEmpty || !map.containsKey("username") || !map.containsKey("password")
-        || !map.containsKey("school"))
+    if(map.keys.isEmpty || !map.containsKey('username') || !map.containsKey('password')
+        || !map.containsKey('school')) {
       return false;
+    }
 
-    username = map["username"].toString();
-    password = map["password"].toString();
-    school = School.fromJson(map["school"].toString());
+    username = map['username'].toString();
+    password = map['password'].toString();
+    school = School.fromJson(map['school'].toString());
 
     return true;
 

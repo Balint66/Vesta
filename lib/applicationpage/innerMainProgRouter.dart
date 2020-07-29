@@ -13,84 +13,80 @@ import 'package:vesta/routing/router.dart';
 class MainProgRouter
 {
 
-  static final Router _mainProgRouter = new Router();
+  static final Router _mainProgRouter = Router();
 
-  static final List<UniqueKey> keys = List.of([new UniqueKey(), new UniqueKey(), new UniqueKey(), new UniqueKey(), new UniqueKey()],growable: false);
+  static final List<UniqueKey> keys = List.of([UniqueKey(), UniqueKey(), UniqueKey(), UniqueKey(), UniqueKey()],growable: false);
 
   static void registerRoutes()
   {
 
-    VestaRouter.router.define("/app/:inner", handler: _appNestedHandler);
+    VestaRouter.router.define('/app/:inner', handler: _appNestedHandler);
 
-    define("/messages", handler: _messageHandler);
-    define("/calendar", handler: _calendarHandler);
-    define("/student_book", handler: _studentBookHandler);
-    define("/semester_info", handler: _semesterInfoHandler);
-    define("/subjects", handler: _subjectHandler);
+    define('/messages', handler: _messageHandler);
+    define('/calendar', handler: _calendarHandler);
+    define('/student_book', handler: _studentBookHandler);
+    define('/semester_info', handler: _semesterInfoHandler);
+    define('/subjects', handler: _subjectHandler);
 
   }
 
   static void define(String innerPath, {Handler handler})
   {
-    _mainProgRouter.define("/app$innerPath", handler: handler);
+    _mainProgRouter.define('/app$innerPath', handler: handler);
   }
 
   static Route route(RouteSettings settings)
   {
-
-    /*if(settings.name == "/app/home")
-      settings = new RouteSettings(name: defaultRoute,
-          arguments: settings.arguments);*/
-
     return _mainProgRouter.generator(settings);
   }
 
-  static String defaultRoute = "/app/messages";
+  static String defaultRoute = '/app/messages';
   static final MessageListDisplay _messageListDisplay = MessageListDisplay(key: keys[0],);
   static final LessonDisplayer _lessonDisplayer = LessonDisplayer(key: keys[1]);
   static final StudentBookDisplay _studentBookDisplayer = StudentBookDisplay(key: keys[2]);
   static final SemesterDisplayer _semesterInfoDisplayer = SemesterDisplayer(key: keys[3]);
   static final SubjectDisplayer _subjectInfoDisplayer = SubjectDisplayer(key: keys[4]);
 
-  static final Handler _messageHandler = new Handler(handlerFunc: (BuildContext ctx, Map<String, dynamic> query)
+  static final Handler _messageHandler = Handler(handlerFunc: (BuildContext ctx, Map<String, dynamic> query)
   {
     return _wrapinFutureBuilder(ctx, _messageListDisplay, (context) => null, (value) { });
   });
 
-  static final Handler _calendarHandler = new Handler(handlerFunc: (BuildContext ctx, Map<String, dynamic> querry)
+  static final Handler _calendarHandler = Handler(handlerFunc: (BuildContext ctx, Map<String, dynamic> querry)
   {
     return _wrapinFutureBuilder(ctx, _lessonDisplayer, (context) => null, (value) { });
   });
 
-  static final Handler _studentBookHandler = new Handler(handlerFunc: (BuildContext ctx, Map<String,dynamic> querry)
+  static final Handler _studentBookHandler = Handler(handlerFunc: (BuildContext ctx, Map<String,dynamic> querry)
   {
     return _wrapinFutureBuilder(ctx, _studentBookDisplayer, (context) => null, (value) { });
   });
 
-  static final Handler _semesterInfoHandler = new Handler(handlerFunc: (BuildContext ctx, Map<String,dynamic> querry)
+  static final Handler _semesterInfoHandler = Handler(handlerFunc: (BuildContext ctx, Map<String,dynamic> querry)
   {
     return _wrapinFutureBuilder(ctx, _semesterInfoDisplayer, (context) => null, (value) { });
   });
 
-  static final Handler _subjectHandler = new Handler(handlerFunc: (BuildContext ctx, Map<String,dynamic> querry)
+  static final Handler _subjectHandler = Handler(handlerFunc: (BuildContext ctx, Map<String,dynamic> querry)
   {  
     return _wrapinFutureBuilder(ctx, _subjectInfoDisplayer, (context) => null, (value) { });
   });
 
-  static final Handler _appNestedHandler = new Handler(handlerFunc: (BuildContext ctx, Map<String, dynamic> query)
+  static final Handler _appNestedHandler = Handler(handlerFunc: (BuildContext ctx, Map<String, dynamic> query)
   {
 
-    String path = query["inner"][0];
+    String path = query['inner'][0];
 
-    if(path == "home" || path == null || path.isEmpty)
+    if(path == 'home' || path == null || path.isEmpty) {
       path = defaultRoute;
+    }
 
-    return new MainProgram(key:VestaRouter.mainKey, route: path,);
+    return MainProgram(key:VestaRouter.mainKey, route: path,);
   });
 
   static Widget _wrapinFutureBuilder(BuildContext ctx ,Widget child, PopupMenuItemBuilder<int> builder, PopupMenuItemSelected<int> selector)
   {
-    return new FutureBuilder(future: () async
+    return FutureBuilder(future: () async
     {
       PopupOptionProvider prov;
       var func = PopupOptionProviderWidget.of(ctx, rebuild: false);
@@ -101,7 +97,7 @@ class MainProgRouter
 
         if(prov == null)
         {
-          await Future.delayed(new Duration(seconds: 5));
+          await Future.delayed(Duration(seconds: 5));
           return true;
         }
 
@@ -116,9 +112,10 @@ class MainProgRouter
 
     }(), builder: (ctx, snap)
     {
-      if(snap.hasData)
+      if(snap.hasData) {
         return child;
-      return new Center(child: new CircularProgressIndicator());
+      }
+      return Center(child: CircularProgressIndicator());
     });
   }
 }

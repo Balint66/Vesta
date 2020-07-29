@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:vesta/datastorage/calendarData.dart';
+import 'package:vesta/i18n/appTranslations.dart';
 
 class LessonDetailedDisplay extends StatelessWidget
 {
@@ -12,34 +13,37 @@ class LessonDetailedDisplay extends StatelessWidget
   @override
   Widget build(BuildContext context) 
   {
-    return new Scaffold( body: new  ListView.separated(itemBuilder: (BuildContext context ,int index)
+
+    var translator = AppTranslations.of(context);
+
+    return Scaffold( body: ListView.separated(itemBuilder: (BuildContext context ,int index)
     {
       switch(index)
       {
-        case 0: return new Text("Tile:\n" + data.title);
-        case 1: return new Text("Description:\n" + data.description);
-        case 2: return new Text("Location:\n" + data.location);
-        case 3: return new Text("Starting date:\n" + data.start.toIso8601String());
-        case 4: return new Text("Ending date:\n" + data.end.toIso8601String());
-        case 5: return new Text("All day long:\n" + data.allDayLong.toString());
-        case 6: return new Text("Type:\n" + data.type);
-        case 7: return new Text("ID:\n" + data.id);
-        case 8 : return new Row(children: <Widget>[new Text("Color:"),
-            new Container(decoration: new BoxDecoration(color: data.eventColor),)],);
-        default: return new Text("Unknown index!");
+        case 0: return Text('${translator.translate("lessons_title")}:\n ${data.title}');
+        case 1: return Text("${translator.translate("lessons_desc")}:\n" + data.description);
+        case 2: return Text("${translator.translate("lessons_loc")}:\n" + data.location);
+        case 3: return Text("${translator.translate("lessons_start")}:\n" + data.start.toString() );
+        case 4: return Text("${translator.translate("lessons_end")}:\n" + data.end.toString() );
+        case 5: return Text("${translator.translate("lessons_aday")}:\n" + data.allDayLong.toString());
+        case 6: return Text("${translator.translate("lessons_type")}:\n" + data.type);
+        case 7: return Text("${translator.translate("lessons_id")}:\n" + data.id);
+        case 8 : return Row(children: <Widget>[Text("${translator.translate("lessons_col")}:"),
+            Container(decoration: BoxDecoration(color: data.eventColor), width: 10, height: 10)],);
+        default: return Text('Unknown index!');
       }
     }, separatorBuilder: (BuildContext context, int index)
     {
 
-      DividerThemeData divData = DividerTheme.of(context);
+      var divData = DividerTheme.of(context);
 
-      final double thickness = divData.thickness ?? 0.5;
-      final double indent = divData.indent ?? 0.0;
-      final double endIndent = divData.endIndent ?? 0.0;
+      final thickness = divData.thickness ?? 0.5;
+      final indent = divData.indent ?? 0.0;
+      final endIndent = divData.endIndent ?? 0.0;
 
-        return new Center( child: new  Container(
-          decoration: new BoxDecoration(
-            gradient: new LinearGradient(
+        return Center( child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
                 colors: <Color>[Theme.of(context).primaryColor, Theme.of(context).backgroundColor],
                 begin: Alignment.centerLeft, end: Alignment.centerRight
             ),
@@ -51,7 +55,7 @@ class LessonDetailedDisplay extends StatelessWidget
           margin: EdgeInsetsDirectional.only(start: indent, end: endIndent),
         ));
     }, itemCount: 9),
-    appBar: new AppBar(),);
+    appBar: AppBar(),);
   }
   
 }

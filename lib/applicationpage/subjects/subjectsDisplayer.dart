@@ -14,7 +14,7 @@ class SubjectDisplayer extends StatefulWidget
   @override
   State<StatefulWidget> createState()
   {
-    return new _SubjectDisplayerState();  
+    return _SubjectDisplayerState();  
   }
 
 }
@@ -27,20 +27,21 @@ class _SubjectDisplayerState extends State<SubjectDisplayer>
   Widget build(BuildContext context)
   {
 
-    return new StreamBuilder(stream: MainProgram.of(context).subject.getData(), builder: (BuildContext ctx, AsyncSnapshot<SubjectDataList> snap)
+    return StreamBuilder(stream: MainProgram.of(context).subject.getData(), builder: (BuildContext ctx, AsyncSnapshot<SubjectDataList> snap)
       {
-        if( !snap.hasData)
-          return new Center(child: new CircularProgressIndicator());
+        if( !snap.hasData) {
+          return Center(child: CircularProgressIndicator());
+        }
 
         snap.data.sort((e,k)=>e.SubjectName.compareTo(k.SubjectName));
 
-        return new RefreshExecuter(
-          child: new ListView(children: snap.data.map((element)
+        return RefreshExecuter(
+          child: ListView(children: snap.data.map((element)
         {
-          return new ClickableCard(
-            child: new ListTile(leading: element.IsOnSubject ? new Icon(Icons.content_copy, color: Colors.blue) 
-            : element.Completed ? new Icon(Icons.check, color: Colors.green) : new Icon(Icons.toc, color: Colors.grey),
-            title: new Text(element.SubjectName), subtitle: new Text("${element.SubjectCode}\n${element.SubjectRequirement}"),
+          return ClickableCard(
+            child: ListTile(leading: element.IsOnSubject ? Icon(Icons.content_copy, color: Colors.blue) 
+            : element.Completed ? Icon(Icons.check, color: Colors.green) : Icon(Icons.toc, color: Colors.grey),
+            title: Text(element.SubjectName), subtitle: Text('${element.SubjectCode}\n${element.SubjectRequirement}'),
             onTap: () {
               MainProgram.of(context).parentNavigator.push(MaterialPageRoute(builder: (ctx)=>SubjectDetailedDisplay(element)));
             },)

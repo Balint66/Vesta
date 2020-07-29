@@ -18,17 +18,16 @@ class AppTranslations {
   static Future<AppTranslations> load(Locale locale) async 
   {
 
-    AppTranslations appTranslations = AppTranslations(locale);
-    String jsonContent =
-    await rootBundle.loadString("assets/i18n/localization_${locale.languageCode}.json");
+    var appTranslations = AppTranslations(locale);
+    var jsonContent = await rootBundle.loadString('assets/i18n/localization_${locale.languageCode}.json');
     _localisedValues = json.decode(jsonContent);
     return appTranslations;
 
   }
 
-  get currentLanguage => locale.languageCode;
+  String get currentLanguage => locale.languageCode;
 
-  String translate(String key) => _localisedValues[key] ?? "$key not found";
-  dynamic translateRaw(String key) => _localisedValues[key] ?? "$key not found";
+  String translate(String key) => _localisedValues[key] ?? '$key not found';
+  dynamic translateRaw(String key) => _localisedValues[key] ?? '$key not found';
   
 }

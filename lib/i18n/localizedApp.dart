@@ -5,7 +5,7 @@ class LocalizedApplication extends ChangeNotifier
  {
 
     static final LocalizedApplication _application = LocalizedApplication._internal();
-    AppTranslationsDelegate _delegate = new AppTranslationsDelegate(newLocale: null);
+    AppTranslationsDelegate _delegate = AppTranslationsDelegate(newLocale: null);
     AppTranslationsDelegate get appDelegate => _delegate;
 
     factory LocalizedApplication() =>_application;
@@ -13,22 +13,22 @@ class LocalizedApplication extends ChangeNotifier
     LocalizedApplication._internal();
 
     final List<String> supportedLanguages = [
-      "English",
-      "Magyar",
+      'English',
+      'Magyar',
     ];
 
     final List<String> supportedLanguagesCodes = [
-      "en",
-      "hu",
+      'en',
+      'hu',
     ];
 
     //returns the list of supported Locales
-    Iterable<Locale> supportedLocales() => supportedLanguagesCodes.map<Locale>((language) => Locale(language, ""));
+    Iterable<Locale> supportedLocales() => supportedLanguagesCodes.map<Locale>((language) => Locale(language, ''));
 
     void changeLocal(Locale type)
     {
 
-      _delegate = new AppTranslationsDelegate(newLocale: type);
+      _delegate = AppTranslationsDelegate(newLocale: type);
       notifyListeners();
 
     }

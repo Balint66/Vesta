@@ -7,6 +7,7 @@ import 'package:vesta/datastorage/courseData.dart';
 import 'package:vesta/datastorage/data.dart';
 import 'package:vesta/datastorage/studentData.dart';
 import 'package:vesta/datastorage/subjectData.dart';
+import 'package:vesta/i18n/appTranslations.dart';
 import 'package:vesta/web/webServices.dart';
 import 'package:vesta/web/webdata/webDataCourseRequest.dart';
 import 'package:vesta/web/webdata/webDataCourseResponse.dart';
@@ -17,81 +18,85 @@ class SubjectDetailedDisplay extends StatelessWidget
 
   final SubjectData data;
 
-  SubjectDetailedDisplay(SubjectData data) : this.data = data;
+  SubjectDetailedDisplay(SubjectData data) : data = data;
 
   @override
   Widget build(BuildContext context) 
   {
 
-    var f = WebServices.getCourses(Data.school, new WebDataCourseRequest(StudentData.Instance, Id: data.SubjectId, CurriculumID: data.CurriculumTemplateID, TermID: data.TermID));
+    var f = WebServices.getCourses(Data.school, WebDataCourseRequest(StudentData.Instance, Id: data.SubjectId, CurriculumID: data.CurriculumTemplateID, TermID: data.TermID));
+    var translator = AppTranslations.of(context);
 
-      return new Scaffold(
-        appBar: new AppBar(title: new Text("Subject Details")),
-        body: new Center(child: new Column(
+
+      return Scaffold(
+        appBar: AppBar(title: Text('Subject Details')),
+        body: Center(child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children:[
 
-            new SubjectDetailItem("Subject name", data.SubjectName),
-            new SubjectDetailItem("Subject Code", data.SubjectCode),
-            new SubjectDetailItem("Subject Requirements", data.SubjectRequirement),
-            new SubjectDetailItem("Subject Type", data.SubjectSignupType),
-            new SubjectDetailItem("Credits", "${data.Credit}"),
+            SubjectDetailItem(translator.translate('subject_name'), data.SubjectName),
+            SubjectDetailItem(translator.translate('subject_code'), data.SubjectCode),
+            SubjectDetailItem(translator.translate('subject_req'), data.SubjectRequirement),
+            SubjectDetailItem(translator.translate('subject_type'), data.SubjectSignupType),
+            SubjectDetailItem(translator.translate('subject_credit'), '${data.Credit}'),
             //Here was the moment I decided not to make another statful widget just for displaying the buttons.
             //It was a really fun time and I like the solution I came up with.
             //(Future me pls don't kill me)
-            new FutureBuilder(future: f, builder: (BuildContext ctx, AsyncSnapshot<WebDataCourseResponse> snap)
+            FutureBuilder(future: f, builder: (BuildContext ctx, AsyncSnapshot<WebDataCourseResponse> snap)
             {
-              if(!snap.hasData)
-                return new CircularProgressIndicator();
+              if(!snap.hasData) {
+                return CircularProgressIndicator();
+              }
 
-              Map<String, List<CourseData>> coursesByType = groupBy(snap.data.CourseList, (CourseData obj)=>obj.CourseType_DNAME);
-              List<int> courses = List.generate(coursesByType.length, (index) => -1);
+              var coursesByType = groupBy(snap.data.CourseList, (CourseData obj)=>obj.CourseType_DNAME);
+              var courses = List<int>.generate(coursesByType.length, (index) => -1);
               var entries = coursesByType.entries.toList();
 
-              return new Column(children:[ new StatefulBuilder(builder:(BuildContext context, StateSetter setState)
+              return Column(children:[ StatefulBuilder(builder:(BuildContext context, StateSetter setState)
               {
                 
-                return new Column(children: List.generate(courses.length, (index)
+                return Column(children: List.generate(courses.length, (index)
                 {
 
-                  return new Container(
-                    child: new Container(
-                      child: new ListTile(
-                        title: new Center(child: new Text(entries[index].key)),
-                        onTap: () => Navigator.of(context).push(new MaterialPageRoute(builder: (context) => new CoursesDisplayer(entries[index].value,(ind)
+                  return Container(
+                    child: Container(
+                      child: ListTile(
+                        title: Center(child: Text(entries[index].key)),
+                        onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => CoursesDisplayer(entries[index].value,(ind)
                         {
                             setState((){
                               courses[index] = ind;
                             });
                             Navigator.pop(context);
                         }),)),
-                        subtitle: new Center(child: new Text("${courses[index] < 0 ? 'None' : entries[index].value[courses[index]].CourseCode}"))),
+                        subtitle: Center(child: Text("${courses[index] < 0 ? 'None' : entries[index].value[courses[index]].CourseCode}"))),
                     color: Theme.of(context).primaryColor, ), padding: EdgeInsets.symmetric(vertical: 7.5, horizontal: 15));
 
                 }));
 
               }),
-            new StatefulBuilder(builder: ( BuildContext context, StateSetter setState)
+            StatefulBuilder(builder: ( BuildContext context, StateSetter setState)
             {
-              return new Container(
-                    child: new Container(
-                      child: new ListTile(
-                        title: new Center(child: new Text(data.IsOnSubject ? "Leave subject" : "Signup for subject")),
+              return Container(
+                    child: Container(
+                      child: ListTile(
+                        title: Center(child: Text(data.IsOnSubject ? 'Leave subject' : 'Signup for subject')),
                         onTap: () async
                         {
                           try
                           {
-                            await WebServices.saveSubject(Data.school, new WebDataSubjectSignupRequest(StudentData.Instance, TermID: data.TermID,
+                            await WebServices.saveSubject(Data.school, WebDataSubjectSignupRequest(StudentData.Instance, TermID: data.TermID,
                             SubjectID: data.SubjectId, CurriculumID: data.CurriculumTemplateID, IsOnSubject: data.IsOnSubject,
                             SubjectSignin: !data.IsOnSubject, CurriculumTemplatelineID: data.CurriculumTemplatelineID,
                             AllType: entries.map((e) => e.value[0].CourseType).toList(), CourseIDs: (()
                             {
-                              List<int> list = List.generate(courses.length, (index) => 0);
+                              var list = List<int>.generate(courses.length, (index) => 0);
 
-                              for(int i = 0; i < courses.length; i++)
+                              for(var i = 0; i < courses.length; i++)
                               {
-                                if(courses[i] == -1)
+                                if(courses[i] == -1) {
                                   continue;
+                                }
 
                                 list[i] = entries[i].value[courses[i]].Id;
                                 
@@ -102,7 +107,7 @@ class SubjectDetailedDisplay extends StatelessWidget
                           }
                           catch(e)
                           {
-                            Vesta.showSnackbar(new Text("$e"));
+                            Vesta.showSnackbar(Text('$e'));
                           }
                         }),
                     color: Theme.of(context).primaryColor, ), padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 15));

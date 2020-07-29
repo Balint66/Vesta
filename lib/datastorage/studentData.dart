@@ -10,7 +10,7 @@ class StudentData
   final String username;
   final String password;
   String _neptunCode; // ignore: unused_field
-  final List<TrainingData> training = new List();
+  final List<TrainingData> training = [];
   int _currentTrainingNumero = 0;
   TrainingData get currentTraining => _currentTrainingNumero >= 0
       && _currentTrainingNumero < training.length
@@ -18,24 +18,27 @@ class StudentData
 
   StudentData._(this.username,this.password, List<TrainingData> data)
   {
-    if(data != null)
+    if(data != null) {
       training.addAll(data);
+    }
     _neptunCode = username;
   }
 
   TrainingData nextTraining()
   {
     _currentTrainingNumero++;
-    if(_currentTrainingNumero>= training.length)
+    if(_currentTrainingNumero>= training.length) {
       _currentTrainingNumero = 0;
+    }
     return currentTraining;
   }
 
   TrainingData prevTraining()
   {
     _currentTrainingNumero--;
-    if(_currentTrainingNumero < 0)
-      _currentTrainingNumero = training.length != 0 ? training.length - 1 : 0;
+    if(_currentTrainingNumero < 0) {
+      _currentTrainingNumero = training.isNotEmpty ? training.length - 1 : 0;
+    }
     return currentTraining;
   }
 
@@ -46,21 +49,21 @@ class StudentData
 
   static StudentData fromJsondata(Map<String,dynamic> json)
   {
-    return new StudentData._(json["NeptunCode"] as String, json["Password"] as String,
-        TrainingData.listFromJson(json["TrainingList"]));
+    return StudentData._(json['NeptunCode'] as String, json['Password'] as String,
+        TrainingData.listFromJson(json['TrainingList']));
   }
 
-  static setInstance(String username, String password, List<TrainingData> data)
+  static void setInstance(String username, String password, List<TrainingData> data)
   {
-    _instance = new StudentData._(username, password, data);
+    _instance = StudentData._(username, password, data);
   }
 
   static Map<String,dynamic> toJsonMap(StudentData data)
   {
     return <String,dynamic>{
-      "NeptunCode": data.username,
-      "Password": data.password,
-      "TrainingList": TrainingData.toJsonMapList(data.training)
+      'NeptunCode': data.username,
+      'Password': data.password,
+      'TrainingList': TrainingData.toJsonMapList(data.training)
     };
   }
 
@@ -87,7 +90,7 @@ class TrainingData
 
   static TrainingData fromJson(Map<String, dynamic> jsonObj)
   {
-    return new TrainingData(jsonObj["Description"], jsonObj["Id"], jsonObj["Code"]);
+    return TrainingData(jsonObj['Description'], jsonObj['Id'], jsonObj['Code']);
   }
 
   static List<TrainingData> listFromJsonString(String str)
@@ -100,14 +103,15 @@ class TrainingData
   static List<TrainingData> listFromJson(List<dynamic> data)
   {
 
-    if(data == null)
+    if(data == null) {
       return null;
+    }
 
-    List<Map<String, dynamic>> newData = List.from(data);
+    var newData = List<Map<String, dynamic>>.from(data);
 
-    List<TrainingData> result = new List();
+    var result = <TrainingData>[];
     
-    for(Map<String,dynamic> item in newData)
+    for(var item in newData)
     {
       result.add(TrainingData.fromJson(item));
     }
@@ -128,7 +132,7 @@ class TrainingData
 
   static Map<String, dynamic> toJsonMap(TrainingData training)
   {
-    return <String, dynamic>{"Code":training.code,"Id":training.id, "Description":training.description};
+    return <String, dynamic>{'Code':training.code,'Id':training.id, 'Description':training.description};
   }
 
   static String toJson(TrainingData training)

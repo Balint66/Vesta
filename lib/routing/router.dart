@@ -11,39 +11,39 @@ abstract class VestaRouter
 
   factory VestaRouter()=>null;
 
-  static final Router router = new Router();
+  static final Router router = Router();
 
-  static final GlobalKey<MainProgramState> mainKey = new GlobalKey<MainProgramState>();
+  static final mainKey = GlobalKey<MainProgramState>();
 
-  static final Authorization _authorization = new Authorization();
-  static final MainSettingsPage _mainSettingsPage = new MainSettingsPage();
+  static final _authorization = Authorization();
+  static final _mainSettingsPage = MainSettingsPage();
 
   static void registerRoutes()
   {
 
-    router.define("/login", handler: _loginHandler);
-    router.define("/settings", handler: _settingsHandler);
-    router.define("/eula", handler: _eulaHandler);
+    router.define('/login', handler: _loginHandler);
+    router.define('/settings', handler: _settingsHandler);
+    router.define('/eula', handler: _eulaHandler);
 
     MainProgRouter.registerRoutes();
 
   }
 
-  static Handler _loginHandler = new Handler(handlerFunc: (BuildContext ctx, Map<String, dynamic> query)
+  static final _loginHandler = Handler(handlerFunc: (BuildContext ctx, Map<String, dynamic> query)
   {
 
     return _authorization;
 
   });
 
-  static Handler _settingsHandler = new Handler(handlerFunc: (BuildContext ctx, Map<String, dynamic> query)
+  static final _settingsHandler = Handler(handlerFunc: (BuildContext ctx, Map<String, dynamic> query)
   {
     return _mainSettingsPage;
   });
 
-  static Handler _eulaHandler = new Handler(handlerFunc: (BuildContext ctx, Map<String,dynamic> query)
+  static final _eulaHandler = Handler(handlerFunc: (BuildContext ctx, Map<String,dynamic> query)
   {
-    return new Eula();
+    return Eula();
   });
 
 }

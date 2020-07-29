@@ -14,7 +14,7 @@ class SchoolSelectionButton extends StatefulWidget
 
   @override
   State<StatefulWidget> createState() {
-    return new SchoolButtonState();
+    return SchoolButtonState();
   }
 }
 
@@ -34,9 +34,9 @@ class SchoolButtonState extends State<SchoolSelectionButton>
   Widget build(BuildContext context)
   {
 
-    text = Data.school == null ? AppTranslations.of(context).translate("login_schools_button"): Data.school.Name;
+    text = Data.school == null ? AppTranslations.of(context).translate('login_schools_button'): Data.school.Name;
 
-    return new Column(
+    return Column(
       children: getErrorTextedButton(context),
     );
   }
@@ -44,12 +44,12 @@ class SchoolButtonState extends State<SchoolSelectionButton>
   List<Widget> getErrorTextedButton(BuildContext context)
   {
     
-    List<Widget> list = new List<Widget>();
+    var list = <Widget>[];
 
-    list.add(new MaterialButton
+    list.add(MaterialButton
       (
       color: Theme.of(context).brightness == Brightness.dark? Theme.of(context).backgroundColor : Colors.white,
-      child: new Container( child: new Text(text,textWidthBasis: TextWidthBasis.parent, maxLines: 2,textScaleFactor: 1.125,), width: 200.5,),
+      child: Container( child: Text(text,textWidthBasis: TextWidthBasis.parent, maxLines: 2,textScaleFactor: 1.125,), width: 200.5,),
       onPressed: ()=>displaySchoolsAndChoose(context),
       ),
     );
@@ -57,14 +57,14 @@ class SchoolButtonState extends State<SchoolSelectionButton>
     if(widget._formState.errorText != null && widget._formState.errorText.isNotEmpty)
     {
 
-      InputDecoration dec = const InputDecoration()
+      var dec = const InputDecoration()
           .applyDefaults(Theme.of(context).inputDecorationTheme);
 
-      TextStyle stl =  dec.errorStyle ?? new TextStyle();
+      var stl =  dec.errorStyle ?? TextStyle();
 
       stl = stl?.copyWith(color: Colors.red, fontSize: 12);
 
-      list.add(new Text(widget._formState.errorText,
+      list.add(Text(widget._formState.errorText,
         style: stl));
     }
 
@@ -80,7 +80,7 @@ class SchoolButtonState extends State<SchoolSelectionButton>
       builder: (BuildContext context)
       {
         return SimpleDialog(
-          title: new Text(AppTranslations.of(context).translate("login_schools")),
+          title: Text(AppTranslations.of(context).translate('login_schools')),
           children: getChoosableSchools(widget._schools),
           elevation: 1,
         );
@@ -92,7 +92,7 @@ class SchoolButtonState extends State<SchoolSelectionButton>
     {
       widget._formState.didChange(chosen);
       Data.school = chosen;
-      text = chosen != null ? chosen.Name : AppTranslations.of(context).translate("login_schools_button");
+      text = chosen != null ? chosen.Name : AppTranslations.of(context).translate('login_schools_button');
     });
 
 
@@ -100,13 +100,14 @@ class SchoolButtonState extends State<SchoolSelectionButton>
 
   List<Widget> getChoosableSchools(SchoolList sch)
   {
-    List<Widget> list = new List<Widget>();
+    var list = <Widget>[];
 
     for(var item in sch.schools)
     {
 
-      if(item.Url==null)
+      if(item.Url==null) {
         continue;
+      }
 
       list.add(Container(
         height: 70,

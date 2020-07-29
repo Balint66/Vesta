@@ -12,7 +12,7 @@ class Authorization extends StatefulWidget
   @override
   State<StatefulWidget> createState()
   {
-    return new AuthorizationState();
+    return AuthorizationState();
   }
 
 }
@@ -33,8 +33,8 @@ class AuthorizationState extends State<Authorization>
       if(Data.password.isNotEmpty || Data.username.isNotEmpty ||
           Data.school != null)
       {
-        Data.password = "";
-        Data.username = "";
+        Data.password = '';
+        Data.username = '';
         Data.school = null;
       }
     }
@@ -47,8 +47,9 @@ class AuthorizationState extends State<Authorization>
       {
 
         if(StudentData.Instance.password.isNotEmpty ||
-            StudentData.Instance.username.isNotEmpty)
-          StudentData.setInstance("", "", null);
+          StudentData.Instance.username.isNotEmpty){
+            StudentData.setInstance('', '', null);
+          }
       }
     }
   }
@@ -59,7 +60,7 @@ class AuthorizationState extends State<Authorization>
     return Scaffold(
         body:Center(
             child: SingleChildScrollView(
-          child: new LoginForm(),
+          child: LoginForm(),
           ),
       )
     );

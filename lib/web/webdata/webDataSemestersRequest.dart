@@ -6,14 +6,14 @@ class WebDataSemestersRequest extends WebDataBase
 
   final int PeriodTermID;
 
-  WebDataSemestersRequest(StudentData data, {int PeriodTermID = 0}) : this.PeriodTermID = PeriodTermID, super.studentSimplified(data);
+  WebDataSemestersRequest(StudentData data, {int PeriodTermID = 0}) : PeriodTermID = PeriodTermID, super.studentSimplified(data);
 
   @override
   Map<String, dynamic> toJsonMap()
   {
-    Map<String, dynamic> data = <String,dynamic>
+    var data = <String,dynamic>
     {
-      "PeriodTermID": PeriodTermID
+      'PeriodTermID': PeriodTermID
     };
 
     data.addAll(super.toJsonMap());

@@ -15,25 +15,26 @@ class Message
 
   Message(this.subject,String time,this.personMessageId,this.neptunCode,
       this.senderName,this._isNew,this.id,this.detail):
-        this.time = DateTime.fromMillisecondsSinceEpoch(int.parse(time));
+        time = DateTime.fromMillisecondsSinceEpoch(int.parse(time));
 
   void setReadState()
   {
-    if(_isNew)
+    if(_isNew) {
       _isNew = false;
+    }
   }
 
   Map<String,dynamic> toJson()
   {
     return <String,dynamic>{
-      "Subject" : subject,
-      "SendDate" : "\/Date(${time.millisecondsSinceEpoch})",
-      "PersonMessageId" : personMessageId,
-      "NeptunCode" : neptunCode,
-      "Name" : senderName,
-      "IsNew" : isNew,
-      "Id" : id,
-      "Detail" : detail
+      'Subject' : subject,
+      'SendDate' : '\/Date(${time.millisecondsSinceEpoch})',
+      'PersonMessageId' : personMessageId,
+      'NeptunCode' : neptunCode,
+      'Name' : senderName,
+      'IsNew' : isNew,
+      'Id' : id,
+      'Detail' : detail
     };
   }
 
@@ -44,9 +45,9 @@ class Message
 
   static Message fromJson(Map<String,dynamic> json)
   {
-    return new Message(json["Subject"],((json["SendDate"] as String)
-        .split("(")[1].split(")")[0]),json["PersonMessageId"].toString(),
-      json["NeptunCode"],json["Name"],json["IsNew"],json["Id"].toString(),json["Detail"]);
+    return Message(json['Subject'],((json['SendDate'] as String)
+        .split('(')[1].split(')')[0]),json['PersonMessageId'].toString(),
+      json['NeptunCode'],json['Name'],json['IsNew'],json['Id'].toString(),json['Detail']);
   }
 
 }

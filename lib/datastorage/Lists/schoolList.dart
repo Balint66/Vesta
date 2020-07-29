@@ -9,7 +9,7 @@ class SchoolList
   static SchoolList fromJson(String json)
   {
 
-    var list = new List<School>();
+    var list = <School>[];
     var inJSON = jsonDecode(json);
 
     for(var item in inJSON)
@@ -19,7 +19,7 @@ class SchoolList
 
     }
 
-    var schl = new SchoolList(list);
+    var schl = SchoolList(list);
 
     return schl;
 
@@ -27,11 +27,11 @@ class SchoolList
 
   static String toJson(SchoolList list)
   {
-      String res = "";
+      var res = '';
       for(var item in list.schools)
       {
 
-        res = "$res${School.toJson(item)},";
+        res = '$res${School.toJson(item)},';
 
       }
 
@@ -65,20 +65,20 @@ class School
   {
 
     var inJSON = jsonDecode(json);
-    return new School(inJSON["Languages"],inJSON["Name"],"${inJSON["NeptunMobileServiceVersion"]}",inJSON["OMCode"],inJSON["Url"]);
+    return School(inJSON['Languages'],inJSON['Name'],"${inJSON["NeptunMobileServiceVersion"]}",inJSON['OMCode'],inJSON['Url']);
 
   }
 
   static String toJson(School sch)
   {
 
-    Map<String,dynamic> map = <String,dynamic>
+    var map = <String,dynamic>
     {
-      "Languages":sch.Languages,
-      "Name":sch.Name,
-      "NeptunMobileServiceVersion":sch.NeptunMobileServiceVersion,
-      "OMCode":sch.OMCode,
-      "Url":sch.Url
+      'Languages':sch.Languages,
+      'Name':sch.Name,
+      'NeptunMobileServiceVersion':sch.NeptunMobileServiceVersion,
+      'OMCode':sch.OMCode,
+      'Url':sch.Url
     };
 
     return json.encode(map);

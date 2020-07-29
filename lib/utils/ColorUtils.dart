@@ -168,7 +168,7 @@ class ColorUtils {
     //    (0.299 * red + 0.587 * green + 0.114 * blue) / 255, decimals);
     //replaced with:
     //(copied from MathUtils, same repository)
-      double vari = (0.299 * red + 0.587 * green + 0.114 * blue) / 255.0;
+      var vari = (0.299 * red + 0.587 * green + 0.114 * blue) / 255.0;
       return (vari * pow(10, decimals)).round() / pow(10, decimals);
   }
 

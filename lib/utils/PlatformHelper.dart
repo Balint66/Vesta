@@ -3,7 +3,7 @@ import 'package:universal_io/io.dart';
 abstract class PlatformHelper 
 {
 
-  factory () => null;
+  factory PlatformHelper() => null;
 
   PlatformHelper._();
 

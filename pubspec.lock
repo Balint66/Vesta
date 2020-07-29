@@ -27,7 +27,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: e95d6a8b97234f8185c0619828fe0b54c6322c74
+      resolved-ref: "8c03a2b332b3f89b0e9b982bec0987b4fca8f65c"
       url: "https://github.com/transistorsoft/flutter_background_fetch"
     source: git
     version: "0.6.0"
@@ -93,7 +93,7 @@ packages:
       name: csslib
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.16.1"
+    version: "0.16.2"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -158,7 +158,7 @@ packages:
       name: flutter_local_notifications
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.4.4+1"
+    version: "1.4.4+2"
   flutter_local_notifications_platform_interface:
     dependency: transitive
     description:
@@ -186,10 +186,10 @@ packages:
     description:
       path: "packages/core"
       ref: HEAD
-      resolved-ref: c91270961579132922933ad7006520592558a737
+      resolved-ref: e6536ec6da35eaa42c0c21c139d189fb63f41379
       url: "https://github.com/daohoangson/flutter_widget_from_html"
     source: git
-    version: "0.4.1"
+    version: "0.5.0-rc.2020071301"
   html:
     dependency: transitive
     description:
@@ -210,7 +210,7 @@ packages:
       name: image
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.13"
+    version: "2.1.14"
   intl:
     dependency: transitive
     description:
@@ -244,10 +244,10 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "97a596870fe23dd5a50b11f7a3f72d4728f3b992"
+      resolved-ref: "2af2919386137cdb0a3f88360834da9fdddb271d"
       url: "https://github.com/boyan01/overlay_support"
     source: git
-    version: "1.0.4"
+    version: "1.0.5"
   path:
     dependency: transitive
     description:
@@ -260,17 +260,17 @@ packages:
     description:
       path: "packages/path_provider/path_provider"
       ref: HEAD
-      resolved-ref: "388c66e8e3da7914ba657bcfb9ee6aefc2cf38bd"
+      resolved-ref: "14608ca5ed0fa54fb6b2abccbd68b120bfe8e283"
       url: "https://github.com/flutter/plugins"
     source: git
-    version: "1.6.11"
+    version: "1.6.13"
   path_provider_linux:
     dependency: transitive
     description:
       name: path_provider_linux
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.1+1"
+    version: "0.0.1+2"
   path_provider_macos:
     dependency: transitive
     description:
@@ -285,13 +285,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
+  pedantic:
+    dependency: "direct dev"
+    description:
+      name: pedantic
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.9.2"
   petitparser:
     dependency: transitive
     description:
       name: petitparser
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.4"
+    version: "3.1.0"
   platform:
     dependency: transitive
     description:
@@ -400,10 +407,17 @@ packages:
     description:
       path: "packages/url_launcher/url_launcher/"
       ref: HEAD
-      resolved-ref: "388c66e8e3da7914ba657bcfb9ee6aefc2cf38bd"
+      resolved-ref: "14608ca5ed0fa54fb6b2abccbd68b120bfe8e283"
       url: "https://github.com/flutter/plugins.git"
     source: git
-    version: "5.4.11"
+    version: "5.5.0"
+  url_launcher_linux:
+    dependency: transitive
+    description:
+      name: url_launcher_linux
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.1+1"
   url_launcher_macos:
     dependency: transitive
     description:
@@ -424,7 +438,7 @@ packages:
       name: url_launcher_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.1+6"
+    version: "0.1.2"
   vector_math:
     dependency: transitive
     description:
@@ -445,7 +459,7 @@ packages:
       name: xml
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.7.0"
+    version: "4.3.0"
   yaml:
     dependency: transitive
     description:

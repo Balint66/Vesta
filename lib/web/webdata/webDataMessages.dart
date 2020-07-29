@@ -8,20 +8,20 @@ class WebDataMessages extends WebDataBase
   // ignore: non_constant_identifier_names
   final MessageList MessagesList;
 
-  factory()=> null;
+  factory WebDataMessages()=> null;
 
-  WebDataMessages._(): this.MessagesList = null, super.studentSimplified(null); // ignore: unused_element
+  WebDataMessages._(): MessagesList = null, super.studentSimplified(null); // ignore: unused_element
 
   WebDataMessages.fromJson(Map<String, dynamic> json) :
-        this.MessagesList = new MessageList(other: List<Map<String,dynamic>>.from(json["MessagesList"])
+        MessagesList = MessageList(other: List<Map<String,dynamic>>.from(json['MessagesList'])
             .expand((i)=>[Message.fromJson(i)]).toList()),
-        super.fromJson(remove<String, dynamic>(json, "MessagesList"));
+        super.fromJson(remove<String, dynamic>(json, 'MessagesList'));
 
   @override
   Map<String, dynamic> toJsonMap() {
-    Map<String, dynamic> sup = super.toJsonMap();
+    var sup = super.toJsonMap();
     sup.addAll(<String, dynamic>{
-      "MessagesList" : MessagesList.expand((e){
+      'MessagesList' : MessagesList.expand((e){
         return [e.toJson()];
       })
     });

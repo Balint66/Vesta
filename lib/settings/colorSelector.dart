@@ -24,16 +24,15 @@ class _ColorSelectorState extends State<ColorSelector>
   Widget build(BuildContext context)
   {
 
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
-    double ratio = (width*3)/(height*4);
-    if(_chosenColor == null)
-      _chosenColor = Vesta.of(context).settings.mainColor;
+    var width = MediaQuery.of(context).size.width;
+    var height = MediaQuery.of(context).size.height;
+    var ratio = (width*3)/(height*4);
+    _chosenColor ??= Vesta.of(context).settings.mainColor;
 
-    return new AlertDialog
-      (title: new Text("Colors"),
-      content: new Center(
-          child: new Wrap(
+    return AlertDialog
+      (title: Text('Colors'),
+      content: Center(
+          child: Wrap(
             children: generateGrid(context, ratio, width, height),
             alignment: WrapAlignment.center,
             spacing: 10 * ratio * height/600,
@@ -41,19 +40,19 @@ class _ColorSelectorState extends State<ColorSelector>
           )
       ),
       actions:  <Widget>[
-        new MaterialButton(
-            child: new Text("Custom"),
+        MaterialButton(
+            child: Text('Custom'),
             onPressed: () => showDialog(context: context,
                 builder: _customColorSelector())),
-        new MaterialButton(
+        MaterialButton(
           onPressed: () => Navigator.pop(context),
-          child: new Text("Cancel"),
+          child: Text('Cancel'),
         ),
-        new MaterialButton(
+        MaterialButton(
           onPressed: _chosenColor != Vesta.of(context).settings.mainColor
               ? (){ Vesta.of(context).updateSettings(mainColor: _chosenColor); Navigator.pop(context);} : null
           ,
-          child: new Text("Apply"),
+          child: Text('Apply'),
         ),
       ],
     );
@@ -62,47 +61,47 @@ class _ColorSelectorState extends State<ColorSelector>
   List<Widget> generateGrid(BuildContext context, double ratio, double width, double height)
   {
 
-    double sqrtt = sqrt(Colors.primaries.length);
+    var sqrtt = sqrt(Colors.primaries.length);
 
-    List<Widget> list = new List<Widget>();
+    var list = <Widget>[];
 
-    for(int i = 0; i< sqrtt.round(); i++)
+    for(var i = 0; i< sqrtt.round(); i++)
     {
-      List<Widget> rowList = new List();
-      for(int j = 0; j< sqrtt.round(); j++)
+      var rowList = <Widget>[];
+      for(var j = 0; j< sqrtt.round(); j++)
       {
         
-        List<Widget> children = new List();
+        var children = <Widget>[];
         
         if(Colors.primaries[(i*sqrtt).floor() + j].value == _chosenColor.value)
         {
-          children.add(new Container(
+          children.add(Container(
               width: 35,
               height: 35,
-              decoration: new BoxDecoration(
+              decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.primaries[(i*sqrtt).floor() + j],
               ),
             ),
           );
-          children.add(new Container(
+          children.add(Container(
               width: 35,
               height: 35,
-              decoration: new BoxDecoration(
+              decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.black.withAlpha(127),
               ),
-              child: new Center(child: new Icon(Icons.check, size: 25,color: Colors.white,)),
+              child: Center(child: Icon(Icons.check, size: 25,color: Colors.white,)),
             )
           );
         }
         else
         {
-          children.add( new InkWell(
-              child:new Container(
+          children.add( InkWell(
+              child:Container(
                 width: 35,
                 height: 35,
-                decoration: new BoxDecoration(
+                decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.primaries[(i*sqrtt).floor() + j],
                 ),
@@ -124,7 +123,7 @@ class _ColorSelectorState extends State<ColorSelector>
       }
 
       list.add(
-          new Wrap(
+          Wrap(
             children: rowList,
             alignment: WrapAlignment.center,
             spacing: 10 * ratio * width/800,
@@ -142,88 +141,94 @@ class _ColorSelectorState extends State<ColorSelector>
     return (BuildContext context)
     {
 
-      TextEditingController _r = new TextEditingController(text: this._chosenColor.red.toString());
-      TextEditingController _g = new TextEditingController(text: this._chosenColor.green.toString());
-      TextEditingController _b = new TextEditingController(text: this._chosenColor.blue.toString());
+      var _r = TextEditingController(text: _chosenColor.red.toString());
+      var _g = TextEditingController(text: _chosenColor.green.toString());
+      var _b = TextEditingController(text: _chosenColor.blue.toString());
 
-      int r = int.tryParse(_r.value.text), g = int.tryParse(_g.value.text), b = int.tryParse(_b.value.text);
+      var r = int.tryParse(_r.value.text), g = int.tryParse(_g.value.text), b = int.tryParse(_b.value.text);
 
-      return new AlertDialog(
-        title:  new Text("Custom"),
-        content: new StatefulBuilder(builder: ( BuildContext context, StateSetter setInnerState)
+      return AlertDialog(
+        title:  Text('Custom'),
+        content: StatefulBuilder(builder: ( BuildContext context, StateSetter setInnerState)
         {
 
           _r.addListener(() { setInnerState(()
           {
-            if(_r.value.text != null && _r.value.text.isNotEmpty)
+            if(_r.value.text != null && _r.value.text.isNotEmpty) {
               r = int.tryParse(_r.value.text);
-            else
+            } 
+            else {
               r = 0;
+            }
           }); });
 
           _g.addListener(() { setInnerState(()
           {
-            if(_g.value.text != null && _g.value.text.isNotEmpty)
+            if(_g.value.text != null && _g.value.text.isNotEmpty) {
               g = int.tryParse(_g.value.text);
-            else
+            } 
+            else {
               g = 0;
+            }
           }); });
 
           _b.addListener(() { setInnerState(()
           {
-            if(_b.value.text != null && _b.value.text.isNotEmpty)
+            if(_b.value.text != null && _b.value.text.isNotEmpty) {
               b = int.tryParse(_b.value.text);
-            else
+            } 
+            else {
               b = 0;
+            }
           }); });
 
-          return new Column(children: [ new Container(width: 35,
+          return Column(children: [ Container(width: 35,
             height: 35,
-            decoration: new BoxDecoration(
+            decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: new Color.fromARGB(255, r, g, b),
+              color: Color.fromARGB(255, r, g, b),
           ),
         ), 
-        new SingleChildScrollView(child: new Center(
-          child: new Wrap(
+        SingleChildScrollView(child: Center(
+          child: Wrap(
               alignment: WrapAlignment.center,
               children: <Widget>[
                 TextField(
                   autocorrect: false,
                   keyboardType: TextInputType.number,
                   controller: _r,
-                  decoration: new InputDecoration(labelText: "Red"),
+                  decoration: InputDecoration(labelText: 'Red'),
                 ),
                 TextField(
                   autocorrect: false,
                   keyboardType: TextInputType.number,
                   controller: _g,
-                  decoration: new InputDecoration(labelText: "Green"),
+                  decoration: InputDecoration(labelText: 'Green'),
                 ),
                 TextField(
                   autocorrect: false,
                   keyboardType: TextInputType.number,
                   controller: _b,
-                  decoration: new InputDecoration(labelText: "Blue"),
+                  decoration: InputDecoration(labelText: 'Blue'),
                 ),
               ],
           ),
         )),
         ]);}),
         actions: <Widget>[
-          new MaterialButton(onPressed: ()=>Navigator.of(context).pop(),
-          child: new Text("Cancel"),),
+          MaterialButton(onPressed: ()=>Navigator.of(context).pop(),
+          child: Text('Cancel'),),
 
-          new MaterialButton(onPressed: ()
+          MaterialButton(onPressed: ()
           {
 
-            Color col = new Color.fromARGB(255,
+            var col = Color.fromARGB(255,
                 int.tryParse(_r.value.text),
                 int.tryParse(_g.value.text),
                 int.tryParse(_b.value.text));
 
             setState(() {
-              this._chosenColor = col;
+              _chosenColor = col;
             });
 
             Vesta.of(context).updateSettings(mainColor: col);
@@ -231,7 +236,7 @@ class _ColorSelectorState extends State<ColorSelector>
             nav.pop();
             nav.pop();
           },
-            child: new Text("Apply"),
+            child: Text('Apply'),
           ),
         ],
       );

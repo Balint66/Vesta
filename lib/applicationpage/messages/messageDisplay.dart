@@ -17,20 +17,22 @@ class MessageDisplay extends StatelessWidget
   Widget build(BuildContext context)
   {
     return Scaffold(
-      appBar: new AppBar(title: new Text(sender),),
+      appBar: AppBar(title: Text(sender),),
       body: SingleChildScrollView(child: Column(children: <Widget>[
-        new Center( child: new Text(subject,style: new TextStyle(fontSize: 26),)),
-        new HtmlWidget(
-            message.replaceAll('\n', "</br>"),
+        Center( child: Text(subject,style: TextStyle(fontSize: 26),)),
+        HtmlWidget(
+            message.replaceAll('\n', '</br>'),
             textStyle: TextStyle(fontSize: 16),
             onTapUrl: (url) async
             {
-              if(await canLaunch(url))
+              if(await canLaunch(url)){
                 await launch(url);
-              else
+                }
+              else{
                 Vesta.showSnackbar(Text("${AppTranslations.of(context).translate("message_urllaunch_error")} $url"));
+                }
             },
-            factoryBuilder: ()=> new MyFactory(),
+            factoryBuilder: ()=> MyFactory(),
             buildAsync: true,
         ),
       ],
@@ -48,16 +50,14 @@ class MyFactory extends WidgetFactory
   MyFactory() : super();
 
   @override
-  Widget buildText(TextBits bits) 
+  WidgetPlaceholder<TextBits> buildText(TextBits bits) 
   {
 
-    WidgetPlaceholder superWidget = super.buildText(bits) as WidgetPlaceholder
+    var placeholder = super.buildText(bits)
     ..wrapWith((BuildContext ctx, Iterable<Widget> children, input)
     {
 
-      var isDark = Theme.of(ctx).brightness == Brightness.dark;
-
-      List<Widget> nextChildren = List.of(children);
+      var nextChildren = List<Widget>.of(children);
 
       for(var i = 0; i < children.length; i++)
       {
@@ -68,21 +68,21 @@ class MyFactory extends WidgetFactory
 
           var rt = nextChildren[i] as RichText;
 
-          var reg = RegExp(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)");
+          var reg = RegExp(r'(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)');
           if(reg.hasMatch(rt.text.toPlainText()))
           {
 
-            bool found = false;
+            var found = false;
 
             rt.text.visitChildren((span)
             {
 
               if(span is TextSpan)
               {
-                var text = span as TextSpan;
+                var text = span;
 
                 text.text.padLeft(text.text.length + 7);
-                text.text.replaceFirst("       ", "mailto:");
+                text.text.replaceFirst('       ', 'mailto:');
 
                 Vesta.logger.d(text.recognizer);
 
@@ -98,11 +98,11 @@ class MyFactory extends WidgetFactory
 
       }
 
-    return nextChildren;
+      return nextChildren;
 
     });
 
-    return superWidget;
+    return placeholder;
       
   }
 

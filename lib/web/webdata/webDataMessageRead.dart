@@ -10,7 +10,7 @@ class WebDataMessageRead extends WebDataBase
 
   @override
   Map<String, dynamic> toJsonMap() {
-    Map<String, dynamic> map = <String,dynamic>{"PersonMessageId":id};
+    var map = <String,dynamic>{'PersonMessageId':id};
 
     map.addAll(super.toJsonMap());
 

@@ -9,7 +9,7 @@ class Sidebar extends StatefulWidget
 
   Sidebar({Key key}) : super(key:key);
 
-  final List<UniqueKey> keys = List.generate(7, (index) => new UniqueKey());
+  final List<UniqueKey> keys = List.generate(7, (index) => UniqueKey());
 
   @override
   State<StatefulWidget> createState()
@@ -38,7 +38,7 @@ class SideBarState extends State<Sidebar>
                   onPressed: ()
                   {
                     Navigator.pop(context);
-                    Navigator.pushNamed(context, "/settings");
+                    Navigator.pushNamed(context, '/settings');
                   },
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
@@ -46,7 +46,7 @@ class SideBarState extends State<Sidebar>
                     children: <Widget>[
                       Icon(Icons.settings, size: 20),
                       Text(
-                        translator.translate("sidebar_settings"),
+                        translator.translate('sidebar_settings'),
                         style: TextStyle(fontSize: 20),
                       ),
                     ],
@@ -56,13 +56,13 @@ class SideBarState extends State<Sidebar>
             //TODO: implement missing buttons
             body: ListView(
               children: <Widget>[
-                MenuButtons(translator.translate("sidebar_messages"),Icons.message,"/app/messages", key: widget.keys[0],),
-                MenuButtons(translator.translate("sidebar_forum"),Icons.wrap_text,"",key: widget.keys[1],),
-                MenuButtons(translator.translate("sidebar_calendar"),Icons.calendar_today,"/app/calendar",key: widget.keys[2],),
-                MenuButtons(translator.translate("sidebar_subjects"),Icons.book,"/app/subjects",key: widget.keys[3],),
-                MenuButtons(translator.translate("sidebar_exams"),Icons.school,"",key: widget.keys[4],),
-                MenuButtons(translator.translate("sidebar_student_book"),Icons.local_library,"/app/student_book",key: widget.keys[5],),
-                MenuButtons(translator.translate("sidebar_semesters"),Icons.hourglass_empty,"/app/semester_info",key: widget.keys[6],),
+                MenuButtons(translator.translate('sidebar_messages'),Icons.message,'/app/messages', key: widget.keys[0],),
+                MenuButtons(translator.translate('sidebar_forum'),Icons.wrap_text,'',key: widget.keys[1],),
+                MenuButtons(translator.translate('sidebar_calendar'),Icons.calendar_today,'/app/calendar',key: widget.keys[2],),
+                MenuButtons(translator.translate('sidebar_subjects'),Icons.book,'/app/subjects',key: widget.keys[3],),
+                MenuButtons(translator.translate('sidebar_exams'),Icons.school,'',key: widget.keys[4],),
+                MenuButtons(translator.translate('sidebar_student_book'),Icons.local_library,'/app/student_book',key: widget.keys[5],),
+                MenuButtons(translator.translate('sidebar_semesters'),Icons.hourglass_empty,'/app/semester_info',key: widget.keys[6],),
               ],
             )
         )
@@ -80,13 +80,13 @@ class _ReplaceDetector with ReplacementAware
   ReplaceFn replaced = ({Route route}){};
 
   @override
-  didReplaceOther({Route oldRoute})
+  void didReplaceOther({Route oldRoute})
   {
     replace.call(route: oldRoute);
   }
 
   @override
-  wasReplacedBy({Route otherRoute})
+  void wasReplacedBy({Route otherRoute})
   {
     replaced.call(route: otherRoute);
   }
@@ -102,17 +102,18 @@ class MenuButtons extends StatefulWidget
   final String path;
 
 
-  MenuButtons(this.text,this.icon, String path, {Key key}) : this.observer = _ReplaceDetector(),this.path = path , super(key: key)
+  MenuButtons(this.text,this.icon, String path, {Key key}) : observer = _ReplaceDetector(),path = path , super(key: key)
   {
 
-    if(path.isNotEmpty)
+    if(path.isNotEmpty) {
       ReplacementObserver.Instance.subscribe(observer, path);
+    }
   }
 
   @override
   State<StatefulWidget> createState()
   {
-    return new MenuButtonState();
+    return MenuButtonState();
   }
 
 }
@@ -124,18 +125,20 @@ class MenuButtonState extends State<MenuButtons>
 
   void setStatusEnabled(bool enabled)
   {
-    if(mounted)
-    setState(() {
+    if(mounted) {
+      setState(() {
       this.enabled = enabled;
     });
+    }
   }
 
   @override
   void initState() {
     super.initState();
 
-    if(widget.path == null || widget.path.isEmpty || widget.path == ReplacementObserver.Instance.currentPath)
+    if(widget.path == null || widget.path.isEmpty || widget.path == ReplacementObserver.Instance.currentPath) {
       enabled = false;
+    }
 
     widget.observer.replace =  ({Route route}) => didReplaceOther(oldRoute: route);
 
@@ -147,17 +150,17 @@ class MenuButtonState extends State<MenuButtons>
   Widget build(BuildContext context)
   {
 
-    return new Align( alignment: Alignment.centerLeft,
-        child: new FlatButton.icon(onPressed: enabled ?
+    return Align( alignment: Alignment.centerLeft,
+        child: FlatButton.icon(onPressed: enabled ?
             () 
             {
                 MainProgram.navKey.currentState.pushReplacementNamed(widget.path);
                 Navigator.of(context).pop();
             }
             : null,
-          icon: new  Padding(padding: EdgeInsets.symmetric(horizontal: 1.0),
-              child: new Icon(widget.icon)),
-          label: new Text(widget.text),
+          icon: Padding(padding: EdgeInsets.symmetric(horizontal: 1.0),
+              child: Icon(widget.icon)),
+          label: Text(widget.text),
       )
     );
   }

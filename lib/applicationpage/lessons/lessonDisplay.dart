@@ -17,7 +17,7 @@ class LessonDisplayer extends BgFetchSateFullWidget
   @override
   BgFetchState<BgFetchSateFullWidget> createState()
   {
-    return new LessonDisplayerState();
+    return LessonDisplayerState();
   }
 
 }
@@ -25,7 +25,7 @@ class LessonDisplayer extends BgFetchSateFullWidget
 class LessonDisplayerState extends BgFetchState<LessonDisplayer>
 {
 
-static final PopupOptionData data = new PopupOptionData(
+static final PopupOptionData data = PopupOptionData(
     builder:(BuildContext ctx){ return null; }, selector: (int value){}
   );
 
@@ -38,10 +38,11 @@ static final PopupOptionData data = new PopupOptionData(
   {
     super.initState();
 
-    if(_testingFuture != null)
-      _testingFuture.timeout(new Duration(milliseconds: 1),onTimeout: ()=>null);
+    if(_testingFuture != null) {
+      _testingFuture.timeout(Duration(milliseconds: 1),onTimeout: ()=>null);
+    }
 
-    _testingFuture = Future.delayed(new Duration(seconds: 1),() async
+    _testingFuture = Future.delayed(Duration(seconds: 1),() async
     {
       while(true)
       {
@@ -49,13 +50,13 @@ static final PopupOptionData data = new PopupOptionData(
         do
         {
 
-          await Future.delayed(new Duration(seconds: 1));
+          await Future.delayed(Duration(seconds: 1));
 
         }while(_nextEnd == null || _nextEnd.isAfter(DateTime.now()));
 
         setState(() {});
 
-        await Future.delayed(new Duration(seconds: 1));
+        await Future.delayed(Duration(seconds: 1));
       }
     });
   }
@@ -68,28 +69,28 @@ static final PopupOptionData data = new PopupOptionData(
 
     return list.maxItemCount > 0 ?
 
-      new StreamBuilder( stream: list.getData(),
+      StreamBuilder( stream: list.getData(),
           builder: (BuildContext ctx, AsyncSnapshot<CalendarDataList> snap)
         {
           if(snap.hasError)
           {
             Vesta.logger.e(snap.error);
-            return Text("${snap.error}");
+            return Text('${snap.error}');
           }
           else if(snap.hasData)
           {
             return _drawWithMode(CalendarDisplayModes.LISTVIEW, snap.data, context);
           }
             
-              return Center(child: new CircularProgressIndicator());
+              return Center(child: CircularProgressIndicator());
 
         }
       )
     :
 
-      new Center(child: new RichText(textAlign: TextAlign.center, text: TextSpan(text:"You have got nothing new here pal.\n", 
+      Center(child: RichText(textAlign: TextAlign.center, text: TextSpan(text:'You have got nothing new here pal.\n', 
               children:[
-                new TextSpan(text: "¯\\_(ツ)_/¯", style: new TextStyle(fontSize: 25, ))
+                TextSpan(text: '¯\\_(ツ)_/¯', style: TextStyle(fontSize: 25, ))
               ]))
     );
     
@@ -109,23 +110,23 @@ static final PopupOptionData data = new PopupOptionData(
   Widget _drawList(CalendarDataList response, BuildContext context)
   {
     
-    response = new CalendarDataList(other: response
+    response = CalendarDataList(other: response
         .where((element) => element.end.isAfter(DateTime.now()) ).toList());
 
     _nextEnd = response[0].end;
     
-    return new RefreshExecuter(
+    return RefreshExecuter(
         asyncCallback: MainProgram.of(context).calendarList.incrementWeeks,
         child: ListView.builder(
             shrinkWrap: true,
             itemCount: response.length,
             itemBuilder: (BuildContext ctx, int index)
             {
-              return new ClickableCard(child: new ListTile(
-                title: new Text( response[index].title),
-                  onTap: ()=> MainProgram.of(context).parentNavigator.push(new MaterialPageRoute(
+              return ClickableCard(child: ListTile(
+                title: Text( response[index].title),
+                  onTap: ()=> MainProgram.of(context).parentNavigator.push(MaterialPageRoute(
                   builder: (BuildContext context){
-                return new LessonDetailedDisplay(response[index]);
+                return LessonDetailedDisplay(response[index]);
                 })),
                 ),
               );

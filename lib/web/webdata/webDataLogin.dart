@@ -21,14 +21,14 @@ class WebDataLogin extends WebDataBase
   WebDataLogin.loginOnlySimplified(StudentData data): this.loginSimplified(data, false);
   WebDataLogin.studentOnlySimplified(StudentData data): this.studentSimplified(data, false);
   WebDataLogin.studentSimplified(StudentData data, this.OnlyLogin) : super.studentSimplified(data);
-  WebDataLogin.fromJson(Map<String, dynamic> json) : this.OnlyLogin = json["OnlyLogin"], super.fromJson(remove<String, dynamic>(json, "OnlyLogin"));
+  WebDataLogin.fromJson(Map<String, dynamic> json) : OnlyLogin = json['OnlyLogin'], super.fromJson(remove<String, dynamic>(json, 'OnlyLogin'));
 
   @override
   Map<String, dynamic> toJsonMap()
   {
 
-    Map<String, dynamic> map = <String,dynamic>{
-      "OnlyLogin":OnlyLogin
+    var map = <String,dynamic>{
+      'OnlyLogin':OnlyLogin
     };
 
     map.addAll(super.toJsonMap());

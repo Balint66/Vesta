@@ -17,37 +17,37 @@ class CalendarData
   final String title;
   final String type;
 
-  CalendarData({bool isAllDay = false, String description = "", DateTime end,
-    Color color = Colors.black, String id = "0", String location = "",
-    DateTime start, String title = "", String type = "0"})
-      : this.allDayLong = isAllDay, this.description = description,
-        this.end = end != null ? end : DateTime.now().add(Duration(hours: 4, minutes: 30)),
-        this.start = start != null ? start : DateTime.now(), this.eventColor = color,
-        this.id = id, this.location = location, this.title = title, this.type = type;
+  CalendarData({bool isAllDay = false, String description = '', DateTime end,
+    Color color = Colors.black, String id = '0', String location = '',
+    DateTime start, String title = '', String type = '0'})
+      : allDayLong = isAllDay, description = description,
+        end = end ?? DateTime.now().add(Duration(hours: 4, minutes: 30)),
+        start = start ?? DateTime.now(), eventColor = color,
+        id = id, location = location, title = title, type = type;
 
   CalendarData.fromJsonString(String jsonString)
       : this.fromJson(json.decode(jsonString));
 
   CalendarData.fromJson(Map<String, dynamic> jsonMap)
-      : this(isAllDay: jsonMap["allDayLong"], description: jsonMap["description"],
+      : this(isAllDay: jsonMap['allDayLong'], description: jsonMap['description'],
       end: _getEndDate(
-          int.tryParse(jsonMap["start"].toString().split("(")[1].split(")")[0]),
-          int.tryParse(jsonMap["end"].toString().split("(")[1].split(")")[0])),
-      color: Color.fromARGB( (jsonMap["eventColor"] as Map<String, dynamic>)["a"],
-          (jsonMap["eventColor"] as Map<String, dynamic>)["r"],
-          (jsonMap["eventColor"] as Map<String, dynamic>)["g"],
-          (jsonMap["eventColor"] as Map<String, dynamic>)["b"]),
-      id:jsonMap["id"].toString(), location:jsonMap["location"],
+          int.tryParse(jsonMap['start'].toString().split('(')[1].split(')')[0]),
+          int.tryParse(jsonMap['end'].toString().split('(')[1].split(')')[0])),
+      color: Color.fromARGB((jsonMap['eventColor'] as Map<String, dynamic>)['a'],
+          (jsonMap['eventColor'] as Map<String, dynamic>)['r'],
+          (jsonMap['eventColor'] as Map<String, dynamic>)['g'],
+          (jsonMap['eventColor'] as Map<String, dynamic>)['b']),
+      id:jsonMap['id'].toString(), location:jsonMap['location'],
       start:DateTime.fromMillisecondsSinceEpoch(
-          int.tryParse(jsonMap["start"].toString().split("(")[1].split(")")[0])),
-      title:jsonMap["title"], type: jsonMap["type"].toString());
+          int.tryParse(jsonMap['start'].toString().split('(')[1].split(')')[0])),
+      title:jsonMap['title'], type: jsonMap['type'].toString());
 
   static DateTime _getEndDate(int start, int neptunEnd)
   {
-    DateTime startTime = DateTime.fromMillisecondsSinceEpoch(start);
-    DateTime neptunEndTime = DateTime.fromMillisecondsSinceEpoch(neptunEnd);
+    var startTime = DateTime.fromMillisecondsSinceEpoch(start);
+    var neptunEndTime = DateTime.fromMillisecondsSinceEpoch(neptunEnd);
 
-    int realEnd = DateUtil.epochFlooredToDays(startTime)
+    var realEnd = DateUtil.epochFlooredToDays(startTime)
       + (neptunEndTime.millisecondsSinceEpoch
             - DateUtil.epochFlooredToDays(neptunEndTime));
 

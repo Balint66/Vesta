@@ -8,21 +8,21 @@ class WebDataStudentBook extends WebDataBase
 
   final StudentBookDataList list;
 
-  factory ()=> null;
+  factory WebDataStudentBook()=> null;
 
-  WebDataStudentBook._(): this.list = null, super.studentSimplified(null);
+  WebDataStudentBook._(): list = null, super.studentSimplified(null);
 
   WebDataStudentBook.fromJson(Map<String, dynamic> json) :
-    this.list = new StudentBookDataList(other: List<Map<String, dynamic>>.from(json["MarkBookList"])
+    list = StudentBookDataList(other: List<Map<String, dynamic>>.from(json['MarkBookList'])
     .expand((i)=>[StudentBookData.fromJson(i)]).toList().cast()),
     super.fromJson(json);
 
   @override
   Map<String, dynamic> toJsonMap()
   {
-    Map<String, dynamic> sup = super.toJsonMap();
+    var sup = super.toJsonMap();
 
-    sup.addAll(<String, dynamic>{"MarkBookList":list.expand((element) => [element.toJson()])});
+    sup.addAll(<String, dynamic>{'MarkBookList':list.expand((element) => [element.toJson()])});
 
     return sup;
   }

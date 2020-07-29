@@ -3,7 +3,7 @@ import 'package:vesta/web/backgroundFetchingServiceMixin.dart';
 
 abstract class FetchManager
 {
-  static List<BackgroundFetchingServiceMixin> _services = new List<BackgroundFetchingServiceMixin>();
+  static final _services = <BackgroundFetchingServiceMixin>[];
 
   factory FetchManager._() => null;
 
@@ -11,7 +11,7 @@ abstract class FetchManager
   static Future<void> _loop = Future.doWhile(() async
   {
 
-    await Future.delayed(new Duration(minutes: 5));
+    await Future.delayed(Duration(minutes: 5));
 
     await fetch();
 
@@ -28,7 +28,7 @@ abstract class FetchManager
     _inFront = true;
     _loop = Future.doWhile(() async
     {
-      await Future.delayed(new Duration(minutes: 5));
+      await Future.delayed(Duration(minutes: 5));
 
       await fetch();
 
@@ -61,8 +61,9 @@ abstract class FetchManager
 
   static void clearRegistered()
   {
-    for(var i = 0; i< _services.length; i++)
+    for(var i = 0; i< _services.length; i++) {
       _services.removeAt(i);
+    }
   }
 
   static Future<void> fetch() async
@@ -73,14 +74,13 @@ abstract class FetchManager
        {
           Vesta.logger.i("I'm null and I dee-dobu-daa, deee dobu da");
           item.lastFetch = DateTime.now();
-          item.onUpdate();
+          await item.onUpdate();
        }
        else if(DateTime.now().difference(item.lastFetch) >= item.timespan)
        {
 
-          Vesta.logger.i("${DateTime.now().difference(item.lastFetch).inSeconds} vs ${item.timespan.inSeconds}");
           item.lastFetch = DateTime.now();
-          item.onUpdate();
+          await item.onUpdate();
        }
      }
   }
@@ -91,7 +91,7 @@ abstract class FetchManager
      {
        
       item.lastFetch = DateTime.now();
-      item.onUpdate();
+      await item.onUpdate();
        
      }
   }

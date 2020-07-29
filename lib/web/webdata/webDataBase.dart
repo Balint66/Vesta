@@ -56,7 +56,7 @@ class WebDataBase
 
   String toJson()
   {
-    return json.encode(this.toJsonMap());
+    return json.encode(toJsonMap());
   }
 
   @mustCallSuper
@@ -64,28 +64,28 @@ class WebDataBase
   {
     return  <String,dynamic>
     {
-      "TotalRowCount": TotalRowCount,
-      "ExceptionsEnum" : ExceptionsEnum,
-      "ErrorMessage" : ErrorMessage,
-      "UserLogin" : UserLogin,
-      "Password" : Password,
-      "Neptuncode" : Neptuncode,
-      "CurrentPage" : CurrentPage,
-      "StudentTrainingID" : StudentTrainingID,
-      "LCID" : LCID,
-      "MobileVersion" : MobileVersion,
-      "MobileServiceVersion" : MobileServiceVersion
+      'TotalRowCount': TotalRowCount,
+      'ExceptionsEnum' : ExceptionsEnum,
+      'ErrorMessage' : ErrorMessage,
+      'UserLogin' : UserLogin,
+      'Password' : Password,
+      'Neptuncode' : Neptuncode,
+      'CurrentPage' : CurrentPage,
+      'StudentTrainingID' : StudentTrainingID,
+      'LCID' : LCID,
+      'MobileVersion' : MobileVersion,
+      'MobileServiceVersion' : MobileServiceVersion
     };
   }
 
   static WebDataBase fromJsonString(String string)
   {
-    return new WebDataBase.fromJson(json.decode(string));
+    return WebDataBase.fromJson(json.decode(string));
   }
 
   WebDataBase.fromJson(Map<String, dynamic> json)
-  : this(json["TotalRowCount"], json["ExceptionsEnum"], json["ErrorMessage"],
-        json["UserLogin"], json["Password"], json["Neptuncode"], json["CurrentPage"],
-        json["StudentTrainingID"].toString(), json["LCID"], double.parse(json["MobileVersion"]), (json["MobileServiceVersion"] as int).toDouble());
+  : this(json['TotalRowCount'], json['ExceptionsEnum'], json['ErrorMessage'],
+        json['UserLogin'], json['Password'], json['Neptuncode'], json['CurrentPage'],
+        json['StudentTrainingID'].toString(), json['LCID'], double.parse(json['MobileVersion']), (json['MobileServiceVersion'] as int).toDouble());
 
 }

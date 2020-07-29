@@ -19,16 +19,16 @@ class _KeepMeLoggedInButtonState extends State<KeepMeLoggedInButton>
   Widget build(BuildContext context)
   {
 
-    return new Wrap(
+    return Wrap(
       spacing: 10,
       children: <Widget>[
-        new Checkbox(
+        Checkbox(
             value: Vesta.of(context).settings.stayLogged,
             onChanged: (bool value)=> Vesta.of(context).updateSettings(keepMeLogged: value),
         ),
-        new Container(
+        Container(
           padding: EdgeInsets.only(top: 15),
-          child: new Text(AppTranslations.of(context).translate("login_keepmeloggedin")),
+          child: Text(AppTranslations.of(context).translate('login_keepmeloggedin')),
         ),
       ],
     );

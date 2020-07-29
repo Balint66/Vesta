@@ -10,50 +10,50 @@ class SettingsData
   Color mainColor = Colors.red;
   bool isDarkTheme = SchedulerBinding.instance.window.platformBrightness == Brightness.dark;
   bool stayLogged = false;
-  String appHomePage = "/messages";
+  String appHomePage = '/messages';
   bool eulaAccepted = false;
-  String language = "en";
+  String language = 'en';
   bool devMode = false;
 
   String toJsonString()
   {
     return json.encode(<String,dynamic>
     {
-      "isDarkTheme":isDarkTheme,
-      "stayLogged": stayLogged,
-      "appHomePage":appHomePage,
-      "eulaAccepted": eulaAccepted,
-      "language":language,
-      "devMode": devMode,
-      "mainColor":<String,dynamic>
+      'isDarkTheme':isDarkTheme,
+      'stayLogged': stayLogged,
+      'appHomePage':appHomePage,
+      'eulaAccepted': eulaAccepted,
+      'language':language,
+      'devMode': devMode,
+      'mainColor':<String,dynamic>
       {
-        "r":mainColor.red,
-        "g":mainColor.green,
-        "b":mainColor.blue,
-        "a":mainColor.alpha
+        'r':mainColor.red,
+        'g':mainColor.green,
+        'b':mainColor.blue,
+        'a':mainColor.alpha
       }
     });
   }
 
   static SettingsData fromJsonString(String str)
   {
-    Map<String, dynamic> map = json.decode(str);
-    Map<String, dynamic> colormap = map["mainColor"] as Map<String,dynamic>;
+    var map = json.decode(str);
+    var colormap = map['mainColor'] as Map<String,dynamic>;
 
-    SettingsData data = new SettingsData();
+    var data = SettingsData();
 
-    data.isDarkTheme = map["isDarkTheme"] == null ? false : map["isDarkTheme"];
-    data.stayLogged = map["stayLogged"] == null ? false : map["stayLogged"];
-    data.appHomePage = map["appHomePage"] == null ? "/messages" : map["appHomePage"];
-    data.eulaAccepted = map["eulaAccepted"] == null ? false : map["eulaAccepted"];
-    data.language = map["language"] == null ? "en" : map["language"];
-    data.devMode = map["devMode"] == null ? false : map["devMode"];
+    data.isDarkTheme = map['isDarkTheme'] ?? false;
+    data.stayLogged = map['stayLogged'] ?? false;
+    data.appHomePage = map['appHomePage'] ?? '/messages';
+    data.eulaAccepted = map['eulaAccepted'] ?? false;
+    data.language = map['language'] ?? 'en';
+    data.devMode = map['devMode'] ?? false;
     if(colormap != null)
     {
-    data.mainColor = Color.fromARGB(colormap["a"] == null ? 255 : colormap["a"],
-      colormap["r"] == null ? 255 : colormap["r"],
-      colormap["g"] == null ? 0 : colormap["g"],
-      colormap["b"] == null ? 0 : colormap["b"]);
+    data.mainColor = Color.fromARGB(colormap['a'] ?? 255,
+      colormap['r'] ?? 255,
+      colormap['g'] ?? 0,
+      colormap['b'] ?? 0);
     }
     else
     {
@@ -66,7 +66,7 @@ class SettingsData
 
   static SettingsData copyOf(SettingsData other)
   {
-    SettingsData data = new SettingsData();
+    var data = SettingsData();
 
     data.eulaAccepted = other.eulaAccepted;
     data.isDarkTheme = other.isDarkTheme;

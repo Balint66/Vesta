@@ -1,41 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:vesta/datastorage/periodData.dart';
+import 'package:vesta/i18n/appTranslations.dart';
 
 class PeriodDetailedDisplay extends StatelessWidget
 {
 
   final PeriodData data;
 
-  PeriodDetailedDisplay(PeriodData data) : this.data = data;
+  PeriodDetailedDisplay(PeriodData data) : data = data;
 
   @override
   Widget build(BuildContext context) 
   {
-    return new Scaffold(appBar: new AppBar(title: new Text( data.PeriodName)),
-     body:  new ListView.separated(itemBuilder: (BuildContext ctx, int index)
+
+    var translator = AppTranslations.of(context);
+
+    return Scaffold(appBar: AppBar(title: Text( data.PeriodName)),
+     body:  ListView.separated(itemBuilder: (BuildContext ctx, int index)
      {
        switch(index)
        {
-         case 0: return new Text("Period Name: ${data.PeriodName}");
-         case 1: return new Text("Period Type: ${data.PeriodTypeName}");
-         case 2: return new Text("Period Time: ${data.FromDate.toIso8601String()} - ${data.ToDate.toIso8601String()}");
-         case 3: return new Text("Administrators: ${data.OrgAdmins}");
-         case 4: return new Text("ID: ${data.TrainingtermIntervalId}");
+         case 0: return Text("${translator.translate("period_name")}: ${data.PeriodName}");
+         case 1: return Text("${translator.translate("period_type")}: ${data.PeriodTypeName}");
+         case 2: return Text("${translator.translate("period_time")}: ${data.FromDate.toString()} - ${data.ToDate.toString()}");
+         case 3: return Text("${translator.translate("period_admin")}: ${data.OrgAdmins}");
+         case 4: return Text("${translator.translate("period_id")}: ${data.TrainingtermIntervalId}");
          default:
-          return new Text("Unknown index!");
+          return Text('Unknown index!');
        }
      }, separatorBuilder: (BuildContext ctx, int index)
      {
 
-      final DividerThemeData divData = DividerTheme.of(context);
+      final divData = DividerTheme.of(context);
 
-      final double thickness = divData.thickness ?? 0.5;
-      final double indent = divData.indent ?? 0.0;
-      final double endIndent = divData.endIndent ?? 0.0;
+      final thickness = divData.thickness ?? 0.5;
+      final indent = divData.indent ?? 0.0;
+      final endIndent = divData.endIndent ?? 0.0;
 
-        return new Center( child: new  Container(
-          decoration: new BoxDecoration(
-            gradient: new LinearGradient(
+        return Center( child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
                 colors: <Color>[Theme.of(context).primaryColor, Theme.of(context).backgroundColor],
                 begin: Alignment.centerLeft, end: Alignment.centerRight
             ),
