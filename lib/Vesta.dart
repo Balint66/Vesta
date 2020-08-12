@@ -18,39 +18,18 @@ import 'package:vesta/settings/settingsData.dart';
 import 'package:vesta/utils/ColorUtils.dart';
 import 'package:vesta/utils/ColoredThemeData.dart';
 import 'package:vesta/web/fetchManager.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:overlay_support/overlay_support.dart';
+import 'package:intl/intl.dart';
 
 
 class Vesta extends StatefulWidget
 {
-
-  static final notificationPlugin = FlutterLocalNotificationsPlugin();
-  static final notificationDetails = initDetails();
-
-  static NotificationDetails initDetails()
-  {
-    var androidD = AndroidNotificationDetails('vesta_main', 'Vesta', 'Vesta notifications', importance: Importance.High, priority: Priority.High, ticker: 'ticker');
-    var iosD = IOSNotificationDetails();
-    return NotificationDetails(androidD, iosD);
-  }
-
-  Vesta()
-  {
-    if(Platform.isAndroid || Platform.isIOS)
-    {
-      var android = AndroidInitializationSettings('app_icon');
-      var ios = IOSInitializationSettings();
-      var init = InitializationSettings(android, ios);
-      notificationPlugin.initialize(init);
-    }
-  }
-
-  static final logger = Logger();
-
-  static final showSnackbar = (Widget widget)=>MessageManager.showSnackBar(widget);
-
+  
   static var home = '/login';
+  
+  static final logger = Logger();
+  static final showSnackbar = (Widget widget)=>MessageManager.showSnackBar(widget);
+  static final dateFormatter = DateFormat('yy. MM. dd. HH:mm');
 
   static Route<dynamic> generateRoutes(RouteSettings settings)
   {
@@ -110,7 +89,7 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
       if(newSettings != null) {
         _settings = newSettings;
       }
-        Vesta.logger.d(_settings.language);
+      
         application.changeLocal(application.supportedLocales().where((element) => element.languageCode == _settings.language).first);
 
       return FileManager.readData();

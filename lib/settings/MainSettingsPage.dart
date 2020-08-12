@@ -7,6 +7,7 @@ import 'package:vesta/datastorage/data.dart';
 import 'package:vesta/datastorage/local/fileManager.dart';
 import 'package:vesta/i18n/appTranslations.dart';
 import 'package:vesta/i18n/localizedApp.dart';
+import 'package:vesta/messaging/messageManager.dart';
 import 'package:vesta/settings/colorSelector.dart';
 import 'package:vesta/web/fetchManager.dart';
 import 'package:vesta/web/webServices.dart';
@@ -77,7 +78,7 @@ class _MainSettingsPageState extends State<MainSettingsPage>
            ),
            ListTile(
              title: Text(translator.translate('settings_cuteness')),
-             onTap:()=>Vesta.showSnackbar(Text(cuteMessages[rnd.nextInt(cuteMessages.length)]))
+             onTap:()=> MessageManager.showNotification(cuteMessages[rnd.nextInt(cuteMessages.length)], type: NotificationType.BIGTEXT) //Vesta.showSnackbar(Text(cuteMessages[rnd.nextInt(cuteMessages.length)]))
            ),
            ListTile(
              title: Text(translator.translate('settings_schools_privacy')),

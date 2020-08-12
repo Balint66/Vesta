@@ -1,5 +1,5 @@
 import 'package:fluro/fluro.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart' as widgets;
 import 'package:vesta/applicationpage/MainProgram.dart';
 import 'package:vesta/applicationpage/innerMainProgRouter.dart';
 import 'package:vesta/eulapage/Eulapage.dart';
@@ -13,7 +13,7 @@ abstract class VestaRouter
 
   static final Router router = Router();
 
-  static final mainKey = GlobalKey<MainProgramState>();
+  static final mainKey = widgets.GlobalKey<MainProgramState>();
 
   static final _authorization = Authorization();
   static final _mainSettingsPage = MainSettingsPage();
@@ -29,19 +29,19 @@ abstract class VestaRouter
 
   }
 
-  static final _loginHandler = Handler(handlerFunc: (BuildContext ctx, Map<String, dynamic> query)
+  static final _loginHandler = Handler(handlerFunc: (widgets.BuildContext ctx, Map<String, dynamic> query)
   {
 
     return _authorization;
 
   });
 
-  static final _settingsHandler = Handler(handlerFunc: (BuildContext ctx, Map<String, dynamic> query)
+  static final _settingsHandler = Handler(handlerFunc: (widgets.BuildContext ctx, Map<String, dynamic> query)
   {
     return _mainSettingsPage;
   });
 
-  static final _eulaHandler = Handler(handlerFunc: (BuildContext ctx, Map<String,dynamic> query)
+  static final _eulaHandler = Handler(handlerFunc: (widgets.BuildContext ctx, Map<String,dynamic> query)
   {
     return Eula();
   });

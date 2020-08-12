@@ -3,20 +3,18 @@ part of 'listHolder.dart';
 class SubjectDataListHolder extends ListDataHolder<SubjectDataList>
 {
 
+  SubjectDataListHolder() : super(SubjectDataList(), timespan: Duration(days:1));
 
-  static Future<K> _updateList<K extends ListBase>(ListDataHolder<K> holder) async
+  @override
+  Future<SubjectDataList> _fetchNewData() async 
   {
     var base = WebDataSubjectRequest(StudentData.Instance);
 
     var resp = await WebServices.getSubjects(Data.school, base);
 
-    ListDataHolder._updateItemCount(resp, holder);
+    ListDataHolder._updateItemCount(resp, this);
 
-    return resp.list as ListBase;
-
+    return resp.list;
   }
-
-
-  SubjectDataListHolder() : super(new SubjectDataList(), _updateList, timespan: new Duration(days:1));
 
 }

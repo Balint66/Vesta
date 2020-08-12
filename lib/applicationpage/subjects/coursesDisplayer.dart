@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vesta/datastorage/courseData.dart';
+import 'package:vesta/i18n/appTranslations.dart';
 
 typedef CourseSetter = void Function(int id);
 
@@ -14,6 +15,8 @@ class CoursesDisplayer extends StatelessWidget
   @override
   Widget build(BuildContext context) {
     
+    var translator = AppTranslations.of(context);
+
     return Scaffold(
         appBar: AppBar(title: Text('Subject Details')),
         body: ListView.builder(itemBuilder: (BuildContext context, int index)
@@ -35,11 +38,11 @@ class CoursesDisplayer extends StatelessWidget
       return Container(padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         child: FlatButton(child: Column(children: 
         [
-          Text('Course code: ${item.CourseCode}'),
-          Text('Person/Waiting List/Limit: ${item.Letszamok}'),
-          Text('Time Table inf.: ${item.CourseTimeTableInfo}'),
-          Text('Tutor: ${item.CourseTutor}'),
-          Text('Rank point :P : ${item.RangsorPontszamok}')
+          Text('${translator.translate("course_code")}: ${item.CourseCode}'),
+          Text('${translator.translate("course_numbers")}: ${item.Letszamok}'),
+          Text('${translator.translate("course_timetable")}: ${item.CourseTimeTableInfo}'),
+          Text('${translator.translate("course_tutor")}: ${item.CourseTutor}'),
+          Text('${translator.translate("course_ranks")}: ${item.RangsorPontszamok}')
         ]),
          onPressed: ()=> _setter(index-1))
        );

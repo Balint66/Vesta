@@ -24,6 +24,6 @@ class CourseDataList extends ListBase<CourseData> implements List<CourseData>
     if(!(element is CourseData)) {
       return false;
     }
-    return any((e) => e == element); // TODO: Better implementation
+    return any((e) => e.Id == (element as CourseData).Id && e.CourseCode == (element as CourseData).CourseCode);
   }
 }

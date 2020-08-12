@@ -16,6 +16,20 @@ class MessageDisplay extends StatelessWidget
   @override
   Widget build(BuildContext context)
   {
+
+    var reg = RegExp(r'(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)');
+
+    if(reg.hasMatch(message))
+    {
+      var match = reg.allMatches(message);
+
+      match.forEach((element) {
+          var ind = message.indexOf(element.group(0));
+          message.replaceRange(ind, ind+element.group(0)?.length, 'mailto:' + element.group(0));      
+       });
+
+    }
+
     return Scaffold(
       appBar: AppBar(title: Text(sender),),
       body: SingleChildScrollView(child: Column(children: <Widget>[
@@ -32,78 +46,12 @@ class MessageDisplay extends StatelessWidget
                 Vesta.showSnackbar(Text("${AppTranslations.of(context).translate("message_urllaunch_error")} $url"));
                 }
             },
-            factoryBuilder: ()=> MyFactory(),
             buildAsync: true,
         ),
       ],
       ),
     )
     );
-  }
-
-}
-
-
-class MyFactory extends WidgetFactory
-{
-
-  MyFactory() : super();
-
-  @override
-  WidgetPlaceholder<TextBits> buildText(TextBits bits) 
-  {
-
-    var placeholder = super.buildText(bits)
-    ..wrapWith((BuildContext ctx, Iterable<Widget> children, input)
-    {
-
-      var nextChildren = List<Widget>.of(children);
-
-      for(var i = 0; i < children.length; i++)
-      {
-
-
-        if(nextChildren[i] is RichText)
-        {
-
-          var rt = nextChildren[i] as RichText;
-
-          var reg = RegExp(r'(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)');
-          if(reg.hasMatch(rt.text.toPlainText()))
-          {
-
-            var found = false;
-
-            rt.text.visitChildren((span)
-            {
-
-              if(span is TextSpan)
-              {
-                var text = span;
-
-                text.text.padLeft(text.text.length + 7);
-                text.text.replaceFirst('       ', 'mailto:');
-
-                Vesta.logger.d(text.recognizer);
-
-                found = !found;
-
-              }
-
-              return !found;
-            });
-          }
-
-        }
-
-      }
-
-      return nextChildren;
-
-    });
-
-    return placeholder;
-      
   }
 
 }

@@ -1,4 +1,4 @@
-import 'package:fluro/fluro.dart';
+import 'package:fluro/fluro.dart' as fluro;
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:vesta/applicationpage/MainProgram.dart';
@@ -13,7 +13,7 @@ import 'package:vesta/routing/router.dart';
 class MainProgRouter
 {
 
-  static final Router _mainProgRouter = Router();
+  static final fluro.Router _mainProgRouter = fluro.Router();
 
   static final List<UniqueKey> keys = List.of([UniqueKey(), UniqueKey(), UniqueKey(), UniqueKey(), UniqueKey()],growable: false);
 
@@ -30,7 +30,7 @@ class MainProgRouter
 
   }
 
-  static void define(String innerPath, {Handler handler})
+  static void define(String innerPath, {fluro.Handler handler})
   {
     _mainProgRouter.define('/app$innerPath', handler: handler);
   }
@@ -47,32 +47,32 @@ class MainProgRouter
   static final SemesterDisplayer _semesterInfoDisplayer = SemesterDisplayer(key: keys[3]);
   static final SubjectDisplayer _subjectInfoDisplayer = SubjectDisplayer(key: keys[4]);
 
-  static final Handler _messageHandler = Handler(handlerFunc: (BuildContext ctx, Map<String, dynamic> query)
+  static final fluro.Handler _messageHandler = fluro.Handler(handlerFunc: (BuildContext ctx, Map<String, dynamic> query)
   {
     return _wrapinFutureBuilder(ctx, _messageListDisplay, (context) => null, (value) { });
   });
 
-  static final Handler _calendarHandler = Handler(handlerFunc: (BuildContext ctx, Map<String, dynamic> querry)
+  static final fluro.Handler _calendarHandler = fluro.Handler(handlerFunc: (BuildContext ctx, Map<String, dynamic> querry)
   {
     return _wrapinFutureBuilder(ctx, _lessonDisplayer, (context) => null, (value) { });
   });
 
-  static final Handler _studentBookHandler = Handler(handlerFunc: (BuildContext ctx, Map<String,dynamic> querry)
+  static final fluro.Handler _studentBookHandler = fluro.Handler(handlerFunc: (BuildContext ctx, Map<String,dynamic> querry)
   {
     return _wrapinFutureBuilder(ctx, _studentBookDisplayer, (context) => null, (value) { });
   });
 
-  static final Handler _semesterInfoHandler = Handler(handlerFunc: (BuildContext ctx, Map<String,dynamic> querry)
+  static final fluro.Handler _semesterInfoHandler = fluro.Handler(handlerFunc: (BuildContext ctx, Map<String,dynamic> querry)
   {
     return _wrapinFutureBuilder(ctx, _semesterInfoDisplayer, (context) => null, (value) { });
   });
 
-  static final Handler _subjectHandler = Handler(handlerFunc: (BuildContext ctx, Map<String,dynamic> querry)
+  static final fluro.Handler _subjectHandler = fluro.Handler(handlerFunc: (BuildContext ctx, Map<String,dynamic> querry)
   {  
     return _wrapinFutureBuilder(ctx, _subjectInfoDisplayer, (context) => null, (value) { });
   });
 
-  static final Handler _appNestedHandler = Handler(handlerFunc: (BuildContext ctx, Map<String, dynamic> query)
+  static final fluro.Handler _appNestedHandler = fluro.Handler(handlerFunc: (BuildContext ctx, Map<String, dynamic> query)
   {
 
     String path = query['inner'][0];

@@ -8,9 +8,7 @@ class WebDataStudentBook extends WebDataBase
 
   final StudentBookDataList list;
 
-  factory WebDataStudentBook()=> null;
-
-  WebDataStudentBook._(): list = null, super.studentSimplified(null);
+  factory WebDataStudentBook._()=> null;
 
   WebDataStudentBook.fromJson(Map<String, dynamic> json) :
     list = StudentBookDataList(other: List<Map<String, dynamic>>.from(json['MarkBookList'])

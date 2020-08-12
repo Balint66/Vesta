@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:vesta/applicationpage/common/gradientDivider.dart';
+import 'package:vesta/applicationpage/common/textDetailItem.dart';
 import 'package:vesta/datastorage/periodData.dart';
 import 'package:vesta/i18n/appTranslations.dart';
 
@@ -20,36 +22,23 @@ class PeriodDetailedDisplay extends StatelessWidget
      {
        switch(index)
        {
-         case 0: return Text("${translator.translate("period_name")}: ${data.PeriodName}");
-         case 1: return Text("${translator.translate("period_type")}: ${data.PeriodTypeName}");
-         case 2: return Text("${translator.translate("period_time")}: ${data.FromDate.toString()} - ${data.ToDate.toString()}");
-         case 3: return Text("${translator.translate("period_admin")}: ${data.OrgAdmins}");
-         case 4: return Text("${translator.translate("period_id")}: ${data.TrainingtermIntervalId}");
+         case 0: return TextDetailItem(translator.translate('period_name'), data.PeriodName);
+         case 1: return TextDetailItem(translator.translate('period_type'), data.PeriodTypeName);
+         case 2: return TextDetailItem(translator.translate('period_time'), '${data.FromDate.toString()} - ${data.ToDate.toString()}');
+         case 3:
+          var admins = data.OrgAdmins;
+          if(admins.length > 100)
+          {
+            admins = admins.substring(0, 100) + '...';
+          }
+          return TextDetailItem(translator.translate('period_admin'), admins);
+         case 4: return TextDetailItem(translator.translate('period_id'), data.TrainingtermIntervalId.toString());
          default:
           return Text('Unknown index!');
        }
      }, separatorBuilder: (BuildContext ctx, int index)
      {
-
-      final divData = DividerTheme.of(context);
-
-      final thickness = divData.thickness ?? 0.5;
-      final indent = divData.indent ?? 0.0;
-      final endIndent = divData.endIndent ?? 0.0;
-
-        return Center( child: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-                colors: <Color>[Theme.of(context).primaryColor, Theme.of(context).backgroundColor],
-                begin: Alignment.centerLeft, end: Alignment.centerRight
-            ),
-            border: Border(
-              bottom: BorderSide(color: Theme.of(context).primaryColor)
-            )
-          ),
-          height: thickness,
-          margin: EdgeInsetsDirectional.only(start: indent, end: endIndent),
-        ));
+       return GradientDivider();
      }, itemCount: 5));
   }
   

@@ -3,9 +3,8 @@ import 'package:universal_io/io.dart';
 abstract class PlatformHelper 
 {
 
-  factory PlatformHelper() => null;
+  factory PlatformHelper._() => null;
 
-  PlatformHelper._();
 
   static bool isWeb()
   {

@@ -68,7 +68,7 @@ abstract class WebServices
     if(_callbacks.isNotEmpty)
     {
 
-      Vesta.logger.d('${_callbacks.length} bottles are on the shelf.\n The nearest bottle is: ${_callbacks[0]} \n You Remove one sou you got...', null, null );
+      Vesta.logger.d('${_callbacks.length} bottles are on the shelf.\n You Remove one sou you got...', null, null );
 
       await _callbacks[0]();
       _callbacks.removeAt(0);
@@ -304,10 +304,12 @@ abstract class WebServices
     {
 
       //Sometimes Neptun is idiot and can't handle the connection :P
-      if(e is String)
-        if(e.contains('Connection must be open for this operation') || e.contains('Object reference not set to an instance of an object') || e.contains('OracleConnection')){
+      if(e is String){
+        if(e.contains('Connection must be open for this operation') || e.contains('Object reference not set to an instance of an object') || e.contains('OracleConnection'))
+        {
             return await Future.delayed(Duration(seconds: 1), () async => await getCalendarData(school, body as WebDataCalendarRequest));
         }
+      }
 
       Vesta.logger.e('Something went wrong...\n' + e.toString(),e);
       return null;
@@ -472,10 +474,6 @@ abstract class WebServices
         data: json.encode(respBody));
 
         (resp.data['SubjectList'] as List<dynamic>).addAll(jsonBody['SubjectList']);
-
-        Vesta.logger.d(respBody['CurrentPage']);
-        Vesta.logger.d(jsonBody['TotalRowCount']);
-        Vesta.logger.d((resp.data['SubjectList'] as List<dynamic>).length);
 
         jsonBody = resp.data;
 

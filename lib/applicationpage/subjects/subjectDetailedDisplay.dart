@@ -110,7 +110,7 @@ class SubjectDetailedDisplay extends StatelessWidget
                             Vesta.showSnackbar(Text('$e'));
                           }
                         }),
-                    color: Theme.of(context).primaryColor, ), padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 15));
+                    color: Theme.of(context).primaryColor, ), padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10));
 
             })]);
             },)

@@ -3,26 +3,29 @@ part of 'listHolder.dart';
 class CalendarListHolder extends ListDataHolder<CalendarDataList>
 {
 
-  static Future<K> _updateList<K extends ListBase>(ListDataHolder<K> holder) async
-  {
-    DateTime end = DateTime.now().add(new Duration(days: 7));
 
-    if(holder._neededWeek>0)
+
+  CalendarListHolder() : super(CalendarDataList(), timespan: Duration(minutes: 10));
+
+  @override
+  Future<CalendarDataList> _fetchNewData() async
+  {
+    var end = DateTime.now().add(Duration(days: 7));
+
+    if(_dataIndex>0)
     {
-      end = end.add(new Duration(days: 7 * holder._neededWeek));
+      end = end.add(Duration(days: 7 * _dataIndex));
     }
 
-    WebDataCalendarRequest body = new WebDataCalendarRequest(StudentData.Instance,
+    var body = WebDataCalendarRequest(StudentData.Instance,
         endDate: end);
 
-    WebDataCalendarResponse resp = await WebServices.getCalendarData(Data.school,
+    var resp = await WebServices.getCalendarData(Data.school,
         body);
 
-    ListDataHolder._updateItemCount(resp, holder);
+    ListDataHolder._updateItemCount(resp, this);
 
-    return resp.calendarData as ListBase;
+    return resp.calendarData;  
   }
-
-  CalendarListHolder() : super(new CalendarDataList(), _updateList, timespan: new Duration(minutes: 10));
 
 }

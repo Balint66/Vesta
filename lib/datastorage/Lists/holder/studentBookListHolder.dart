@@ -3,24 +3,25 @@ part of 'listHolder.dart';
 class StudentBookListHolder extends ListDataHolder<StudentBookDataList>
 {
 
-  static Future<K> _updateList<K extends ListBase>(ListDataHolder<K> holder) async
+  StudentBookListHolder() : super(StudentBookDataList(), timespan: Duration(days:1));
+  
+  @override
+  Future<void> incrementWeeks() async{}
+
+  @override
+  Future<StudentBookDataList> _fetchNewData() async 
   {
-    WebDataBase base = WebDataBase.simplified(StudentData.Instance.username,
+    var base = WebDataBase.simplified(StudentData.Instance.username,
       StudentData.Instance.password,
       StudentData.Instance.username,
       StudentData.Instance.currentTraining.id.toString());
 
     var resp = await WebServices.getStudentBookData(Data.school, base);
 
-    ListDataHolder._updateItemCount(resp, holder);
+    ListDataHolder._updateItemCount(resp, this);
 
-    return resp.list as ListBase;
+    return resp.list;
 
   }
-
-  StudentBookListHolder() : super(new StudentBookDataList(), _updateList, timespan: new Duration(days:1));
-  
-  @override
-  Future<void> incrementWeeks() async{}
   
 }

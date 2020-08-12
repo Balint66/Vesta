@@ -141,5 +141,6 @@ static final PopupOptionData data = PopupOptionData(
 
 enum CalendarDisplayModes
 {
-  LISTVIEW
+  LISTVIEW,
+  DAILYVIEW
 }

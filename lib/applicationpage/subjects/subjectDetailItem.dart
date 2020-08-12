@@ -1,27 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:vesta/applicationpage/common/genericDetailItem.dart';
 
-class SubjectDetailItem extends StatelessWidget
+class SubjectDetailItem extends DetailItem
 {
-
-  final String category;
-  final String item;
-
-  SubjectDetailItem(String itemCategory, String item) : category = itemCategory, item = item;
-
-  @override
-  Widget build(BuildContext context) {
-    
-
-    return Container(
-      child: Column(
-        children: [
-          Text(category, style: TextStyle(color: Colors.grey, fontSize: 10)),
-          Text(item)
-        ],
-      ),
-      padding: EdgeInsets.all(4),
-    );
-
-  }
-
+  SubjectDetailItem(String itemCategory, String item) : super(itemCategory, Text(item));
 }

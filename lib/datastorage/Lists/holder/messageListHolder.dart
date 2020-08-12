@@ -3,23 +3,24 @@ part of 'listHolder.dart';
 class MessageListHolder extends ListDataHolder<MessageList>
 {
 
-  static Future<K> _listUpdater<K extends ListBase>(ListDataHolder<K> holder) async
-  {
 
-  WebDataBase body = WebDataBase.simplified(StudentData.Instance.username,
+  MessageListHolder() : super(MessageList(), timespan: Duration(minutes:30));
+
+  @override
+  Future<MessageList> _fetchNewData() async
+  {
+    var body = WebDataBase.simplified(StudentData.Instance.username,
       StudentData.Instance.password,
       StudentData.Instance.username,
       StudentData.Instance.currentTraining.id.toString(),
-      currentPage: holder._neededWeek
+      currentPage: _dataIndex
   );
 
-  WebDataMessages resp = await WebServices
+  var resp = await WebServices
       .getMessages(Data.school, body);
 
-  ListDataHolder._updateItemCount(resp, holder);
+  ListDataHolder._updateItemCount(resp, this);
 
-  return resp.MessagesList as ListBase;
+  return resp.MessagesList;
   }
-
-  MessageListHolder() : super(new MessageList(), _listUpdater, timespan: new Duration(minutes:30));
 }

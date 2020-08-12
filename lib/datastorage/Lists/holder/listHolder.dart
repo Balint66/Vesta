@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:collection';
 
+import 'package:flutter/foundation.dart';
 import 'package:vesta/Vesta.dart';
 import 'package:vesta/datastorage/Lists/calendarDataList.dart';
 import 'package:vesta/datastorage/Lists/messagesList.dart';
@@ -12,8 +14,6 @@ import 'package:vesta/web/backgroundFetchingServiceMixin.dart';
 import 'package:vesta/web/webServices.dart';
 import 'package:vesta/web/webdata/webDataBase.dart';
 import 'package:vesta/web/webdata/webDataCalendarRequest.dart';
-import 'package:vesta/web/webdata/webDataCalendarResponse.dart';
-import 'package:vesta/web/webdata/webDataMessages.dart';
 import 'package:vesta/web/webdata/webDataSemestersRequest.dart';
 import 'package:vesta/web/webdata/webDataSubjectRequest.dart';
 
@@ -24,18 +24,16 @@ part 'studentBookListHolder.dart';
 part 'semesterListHolder.dart';
 part 'subjectDataListHolder.dart';
 
-typedef ListDataHolderCallback<K> =
-Future<K> Function<K extends ListBase>(ListDataHolder<K> self);
-
-class ListDataHolder<T extends ListBase> with BackgroundFetchingServiceMixin
+abstract class ListDataHolder<T extends ListBase> with BackgroundFetchingServiceMixin
 {
 
   final T _list;
-  final ListDataHolderCallback<T> _callback;
-  final Duration _timespan;
-  bool _wasData = false;
+  @override
+  final Duration timespan;
+  final _streamController = StreamController<T>.broadcast();
 
   int _maxItemCount = 0;
+  int _dataIndex = 1;
   int get maxItemCount => _maxItemCount;
 
   static void _updateItemCount(WebDataBase base, ListDataHolder holder)
@@ -43,63 +41,53 @@ class ListDataHolder<T extends ListBase> with BackgroundFetchingServiceMixin
     holder._maxItemCount = base.TotalRowCount;
   } 
 
-  ListDataHolder(T data, ListDataHolderCallback<T> callback, {Duration timespan}) : this._list = data,
-        this._callback = callback, this._timespan = timespan == null ? new Duration() : timespan;
+  ListDataHolder(T data, {Duration timespan}) : _list = data,
+         timespan = timespan ?? Duration();
 
-   Stream<T> getData() async*
+  @nonVirtual
+  Stream<T> getData() 
   {
-
-    if(_list != null && _list.length != 0)
-      yield _list;
-
-    while(true)
-    {
-      if(_wasData)
-      {
-        _wasData = false;
-        yield _list;
-      }
-
-      await Future.delayed(new Duration(seconds: 1));
-
-    }
+    Future.delayed(Duration(seconds: 1),() => _streamController.add(_list));
+    return _streamController.stream;
   }
 
+    Future<T> _fetchNewData();
+
   @override
+  @nonVirtual
   Future<void> onUpdate() async
   {
-    T resp = await _callback(this);
+    var resp = await _fetchNewData();
 
-    if(resp == null)
+    if(resp == null) {
       return;
+    }
 
-    bool newData = false;
+    var newData = false;
 
     resp.forEach((element) {
       if(!_list.contains(element))
       {
         _list.add(element);
 
-        if(!newData)
+        if(!newData) {
           newData = true;
+        }
 
       }
     });
 
-    _wasData = newData;
+    if(newData){
+      _streamController.add(_list);
+    }
 
   }
 
-  int _neededWeek = 0;
 
   Future<void> incrementWeeks() async
   {
-    _neededWeek++;
+    _dataIndex++;
     await onUpdate();
   }
-
-  @override
-  Duration get timespan => _timespan;
-
 
 }
