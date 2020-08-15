@@ -32,27 +32,21 @@ class SideBarState extends State<Sidebar>
         child: Scaffold(
             appBar: AppBar(
               title: Text(StudentData.Instance.username),
+              primary: false,
+              automaticallyImplyLeading: false,
             ),
-            bottomNavigationBar: BottomAppBar(
-              child: MaterialButton(
-                  onPressed: ()
-                  {
-                    Navigator.pop(context);
-                    Navigator.pushNamed(context, '/settings');
-                  },
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(Icons.settings, size: 20),
-                      Text(
-                        translator.translate('sidebar_settings'),
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    ],
-                  )),
-              shape: CircularNotchedRectangle(),
-            ),
+            bottomNavigationBar: FlatButton.icon(
+                onPressed: ()
+                {
+                  Navigator.pop(context);
+                  Navigator.pushNamed(context, '/settings');
+                },
+                icon:Icon(Icons.settings),
+                label: Text(
+                    translator.translate('sidebar_settings'),
+                    style: TextStyle(fontSize: 20),
+                  ),
+                ),
             //TODO: implement missing buttons
             body: ListView(
               children: <Widget>[
@@ -160,7 +154,7 @@ class MenuButtonState extends State<MenuButtons>
             : null,
           icon: Padding(padding: EdgeInsets.symmetric(horizontal: 1.0),
               child: Icon(widget.icon)),
-          label: Text(widget.text),
+          label: Expanded(child: Text(widget.text)),
       )
     );
   }

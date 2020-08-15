@@ -30,12 +30,12 @@ class PopupSettingsState extends State<PopupSettings> with PopupOptionProvider
 
       var entries = <PopupMenuEntry<int>>[];
 
-      entries.add(CheckedPopupMenuItem<int>(
+      /*entries.add(CheckedPopupMenuItem<int>(
         value: 0,
         checked: ('/' + _currentPath.split('/')[2]) == Vesta.of(context).settings.appHomePage,
         child: Text(AppTranslations.of(context).translate('popup_app_home')),
         )
-      );
+      );*/
 
     var external = _popupData.builder.call(context);
 

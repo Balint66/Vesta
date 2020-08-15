@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vesta/applicationpage/common/clickableCard.dart';
 import 'package:vesta/datastorage/courseData.dart';
 import 'package:vesta/i18n/appTranslations.dart';
 
@@ -36,7 +37,7 @@ class CoursesDisplayer extends StatelessWidget
       var item = _datas[index-1];
 
       return Container(padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-        child: FlatButton(child: Column(children: 
+        child: ClickableCard(child: ListTile(title: Column(children: 
         [
           Text('${translator.translate("course_code")}: ${item.CourseCode}'),
           Text('${translator.translate("course_numbers")}: ${item.Letszamok}'),
@@ -44,8 +45,8 @@ class CoursesDisplayer extends StatelessWidget
           Text('${translator.translate("course_tutor")}: ${item.CourseTutor}'),
           Text('${translator.translate("course_ranks")}: ${item.RangsorPontszamok}')
         ]),
-         onPressed: ()=> _setter(index-1))
-       );
+         onTap: ()=> _setter(index-1))
+       ));
 
     }, itemCount: _datas.length + 1,));
     

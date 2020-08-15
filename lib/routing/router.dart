@@ -21,9 +21,9 @@ abstract class VestaRouter
   static void registerRoutes()
   {
 
-    router.define('/login', handler: _loginHandler);
-    router.define('/settings', handler: _settingsHandler);
-    router.define('/eula', handler: _eulaHandler);
+    router.define('/login', handler: _loginHandler, transitionType: TransitionType.inFromRight);
+    router.define('/settings', handler: _settingsHandler, transitionType: TransitionType.inFromRight);
+    router.define('/eula', handler: _eulaHandler, transitionType: TransitionType.inFromRight);
 
     MainProgRouter.registerRoutes();
 

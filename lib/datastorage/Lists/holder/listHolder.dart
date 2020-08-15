@@ -47,7 +47,7 @@ abstract class ListDataHolder<T extends ListBase> with BackgroundFetchingService
   @nonVirtual
   Stream<T> getData() 
   {
-    Future.delayed(Duration(seconds: 1),() => _streamController.add(_list));
+    Future.delayed(Duration(seconds: 1),() {if(_list.isNotEmpty) _streamController.add(_list);});
     return _streamController.stream;
   }
 

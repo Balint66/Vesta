@@ -27,50 +27,60 @@ class MessageListDisplay extends BgFetchSateFullWidget
 }
 
 class MessageListDisplayState extends BgFetchState<MessageListDisplay>
+with SingleTickerProviderStateMixin
 {
+
+  TabController _tabController;
 
   static final PopupOptionData data = PopupOptionData(
     builder:(BuildContext ctx){ return null; }, selector: (int value){}
   );
 
   @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(vsync: this, length: 2, initialIndex: 1);
+  }
+
+  @override
   Widget build(BuildContext context)
   {
     var messages = MainProgram.of(context).messageList;
     var translator = AppTranslations.of(context);
+    var unread = translator.translate('messages_unread');
 
-    return Column(children:[
-      Expanded(child: DefaultTabController(
-        length: 2,
-        child: Scaffold(
-          appBar: AppBar(
-            title: TabBar(
-                tabs: <Widget>
-                [
-                  Tab(text: translator.translate('messages_unread'),),
-                  Tab(text: translator.translate('messages_read'),)
-                ]
-            ),
-            primary: false,
-          ),
-          body: StreamBuilder(
+    return StreamBuilder(
               stream: messages.getData(),
               builder: (BuildContext context, AsyncSnapshot<MessageList> snap)
               {
+
+                var ls = <Widget>[];
+                var unreadnum = 0;
+
                 if(snap.hasData)
                 {
 
-                  Widget read =  SortedMessages((snap.data
+                  var readls = (snap.data
                       .where((item)=>!item.isNew).toList()
-                      ..sort((Message a, Message b)=>-1*a.time.compareTo(b.time))),
+                      ..sort((Message a, Message b)=>-1*a.time.compareTo(b.time)));
+
+                  var unreadls = (snap.data
+                      .where((item)=>item.isNew).toList()
+                      ..sort((Message a, Message b)=>-1*a.time.compareTo(b.time)));
+
+                  unreadnum = unreadls.length;
+
+                  if(unreadls.isNotEmpty){
+                    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {_tabController.animateTo(0);});
+                  }
+
+                  Widget read =  SortedMessages(readls,
                     (item){
                       MainProgram.of(context).parentNavigator.push(MaterialPageRoute(builder: (ctx)=>MessageDisplay
                       (item.senderName,item.subject,item.detail)));
                   });
 
-                  Widget unread =SortedMessages((snap.data
-                      .where((item)=>item.isNew).toList()
-                      ..sort((Message a, Message b)=>-1*a.time.compareTo(b.time))),
+                  Widget unread =SortedMessages(unreadls,
                         (item) {
                           Vesta.logger.d("Ohy, ya' wanna see th' neww stuff?");
                           setState(() 
@@ -84,24 +94,41 @@ class MessageListDisplayState extends BgFetchState<MessageListDisplay>
                           WebServices.setRead(Data.school, body);
                       });
 
-                return RefreshExecuter(icon: Icons.message,
-                      asyncCallback: messages.incrementWeeks,
-                      child: TabBarView(children: <Widget>[
-                          unread,
-                          read,
-                      ])
-                );
+                  ls.add(unread);
+                  ls.add(read);  
+
                 }
-                  return TabBarView(children: <Widget>[
-                    Center(child: CircularProgressIndicator()),
-                    Center(child: CircularProgressIndicator())
-                  ],);
+                else{
+                  ls.add(Center(child: CircularProgressIndicator()));
+                  ls.add(Center(child: CircularProgressIndicator()));
                 }
-          )
-        ),
-    )),
-      Center(child: Container(child: Text('${translator.translate("messages_max")}: ${messages.maxItemCount}'), padding: EdgeInsets.all(10),))
-    ]);
+
+                if(unreadnum > 0){
+                  unread = unread + ' ($unreadnum)';
+                }
+
+                return Scaffold(
+              bottomNavigationBar: BottomAppBar (
+                child: TabBar(
+                    controller: _tabController,
+                    tabs: <Widget>
+                    [
+                      Tab(text: unread,),
+                      Tab(text: translator.translate('messages_read'),)
+                    ]
+                ),
+                color: Theme.of(context).primaryColor,
+              ),
+              body: RefreshExecuter(icon: Icons.message,
+                          asyncCallback: messages.incrementWeeks,
+                          child: TabBarView(children: ls, controller: _tabController,)
+
+                )
+              );
+
+          }
+        );
+
   }
 
 }

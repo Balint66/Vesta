@@ -88,9 +88,10 @@ static final PopupOptionData data = PopupOptionData(
       )
     :
 
-      Center(child: RichText(textAlign: TextAlign.center, text: TextSpan(text:'You have got nothing new here pal.\n', 
+      Center(child: RichText(textAlign: TextAlign.center, text: TextSpan(text:'You have got nothing new here pal.\n',
+              style: Theme.of(context).textTheme.bodyText1,
               children:[
-                TextSpan(text: '¯\\_(ツ)_/¯', style: TextStyle(fontSize: 25, ))
+                TextSpan(text: '¯\\_(ツ)_/¯', style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 25))
               ]))
     );
     

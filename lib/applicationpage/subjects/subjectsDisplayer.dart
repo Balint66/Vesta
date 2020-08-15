@@ -4,6 +4,9 @@ import 'package:vesta/applicationpage/common/clickableCard.dart';
 import 'package:vesta/applicationpage/refreshExecuter.dart';
 import 'package:vesta/applicationpage/subjects/subjectDetailedDisplay.dart';
 import 'package:vesta/datastorage/Lists/subjectDataList.dart';
+import 'package:collection/collection.dart';
+import 'package:vesta/datastorage/subjectData.dart';
+import 'package:vesta/i18n/appTranslations.dart';
 
 class SubjectDisplayer extends StatefulWidget
 {
@@ -26,31 +29,47 @@ class _SubjectDisplayerState extends State<SubjectDisplayer>
   Widget build(BuildContext context)
   {
 
+    var translator = AppTranslations.of(context);
+
     return StreamBuilder(stream: MainProgram.of(context).subject.getData(), builder: (BuildContext ctx, AsyncSnapshot<SubjectDataList> snap)
       {
-        if( !snap.hasData) {
+        if( !snap.hasData || snap.data == null) {
           return Center(child: CircularProgressIndicator());
         }
 
         snap.data.sort((e,k)=>e.SubjectName.compareTo(k.SubjectName));
 
+        var completed = groupBy(snap.data, (SubjectData item)=>item.Completed);
+
+        if(completed.isEmpty){
+          completed = <bool, List<SubjectData>>{true:[]};
+        }
+
+        var isOn = completed[false] == null ? <bool,List<SubjectData>>{false: [], true: []} : groupBy(completed[false], (SubjectData item)=>item.IsOnSubject);
+
         return RefreshExecuter(
-          child: ListView(children: snap.data.map((element)
-        {
-          return ClickableCard(
-            child: ListTile(leading: element.IsOnSubject ? Icon(Icons.content_copy, color: Colors.blue) 
-            : element.Completed ? Icon(Icons.check, color: Colors.green) : Icon(Icons.toc, color: Colors.grey),
+          child: ListView(children: <Widget>[
+            ExpansionTile(title: Text(translator.translate('subjects_completed')), children: completed[true].map((e) => _visualizeItem(e))?.toList()),
+            ExpansionTile(title: Text(translator.translate('subjects_selected')), children: isOn[true].map((e) => _visualizeItem(e)).toList()),
+            ExpansionTile(title: Text(translator.translate('subjects_neutral')), initiallyExpanded: true, children: isOn[false].map((e) => _visualizeItem(e)).toList()),
+          ],),
+        asyncCallback: MainProgram.of(context).subject.incrementWeeks,
+        );
+
+      }
+    );  
+  }
+
+  ClickableCard _visualizeItem(SubjectData element)
+  {
+    return ClickableCard(
+            child: ListTile(leading: element.IsOnSubject ? Icon(Icons.indeterminate_check_box, color: Colors.blue) 
+            : element.Completed ? Icon(Icons.check_box , color: Colors.green) : Icon(Icons.check_box_outline_blank, color: Colors.grey),
             title: Text(element.SubjectName), subtitle: Text('${element.SubjectCode}\n${element.SubjectRequirement}'),
             onTap: () {
               MainProgram.of(context).parentNavigator.push(MaterialPageRoute(builder: (ctx)=>SubjectDetailedDisplay(element)));
             },)
             );
-        } ).toList(),),
-        asyncCallback: MainProgram.of(context).subject.incrementWeeks,
-        );
-        
-      }
-    );  
   }
   
 }

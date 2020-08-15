@@ -32,7 +32,9 @@ class MessageDisplay extends StatelessWidget
 
     return Scaffold(
       appBar: AppBar(title: Text(sender),),
-      body: SingleChildScrollView(child: Column(children: <Widget>[
+      body: Container(
+        padding: EdgeInsets.fromLTRB(30, 15, 30, 0),
+        child: SingleChildScrollView(child: Column(children: <Widget>[
         Center( child: Text(subject,style: TextStyle(fontSize: 26),)),
         HtmlWidget(
             message.replaceAll('\n', '</br>'),
@@ -47,11 +49,11 @@ class MessageDisplay extends StatelessWidget
                 }
             },
             buildAsync: true,
+          ),
+        ],
         ),
-      ],
-      ),
-    )
-    );
+      )
+    ));
   }
 
 }

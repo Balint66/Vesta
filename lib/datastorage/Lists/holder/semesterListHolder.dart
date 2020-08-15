@@ -68,13 +68,16 @@ class SemesterListHolder extends ListDataHolder<SemestersDataList>
   {
     _list.removeWhere((element) => true);
     _list.addAll( await _fetchNewData());
-    _streamController.add(_list);  
+    if(_list.isNotEmpty) {
+      _streamController.add(_list);
+    }  
   }
 
   @override
   Future<SemestersDataList> _fetchNewData() async
   {
-  if(_periodtermList == null || _periodtermList.isEmpty)
+
+    if(_periodtermList == null || _periodtermList.isEmpty)
     {
 
       Vesta.logger.d('So, the list is null? Okay then!');

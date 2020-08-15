@@ -12,6 +12,7 @@ import 'package:vesta/datastorage/local/fileManager.dart';
 import 'package:vesta/datastorage/studentData.dart';
 import 'package:vesta/i18n/appTranslations.dart';
 import 'package:vesta/i18n/localizedApp.dart';
+import 'package:vesta/messaging/logManager.dart';
 import 'package:vesta/messaging/messageManager.dart';
 import 'package:vesta/routing/router.dart';
 import 'package:vesta/settings/settingsData.dart';
@@ -27,7 +28,7 @@ class Vesta extends StatefulWidget
   
   static var home = '/login';
   
-  static final logger = Logger();
+  static Logger get logger => LogManager.logger;
   static final showSnackbar = (Widget widget)=>MessageManager.showSnackBar(widget);
   static final dateFormatter = DateFormat('yy. MM. dd. HH:mm');
 

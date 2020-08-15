@@ -9,6 +9,7 @@ import 'package:vesta/i18n/appTranslations.dart';
 import 'package:vesta/i18n/localizedApp.dart';
 import 'package:vesta/messaging/messageManager.dart';
 import 'package:vesta/settings/colorSelector.dart';
+import 'package:vesta/settings/menuSelector.dart';
 import 'package:vesta/web/fetchManager.dart';
 import 'package:vesta/web/webServices.dart';
 
@@ -55,50 +56,51 @@ class _MainSettingsPageState extends State<MainSettingsPage>
               ),
             ),
           ),
-           CheckboxListTile(
+          CheckboxListTile(
                value: data.isDarkTheme,
                onChanged:  (bool value){Vesta.of(context).updateSettings(isDarkTheme: value);},
                 title: Text(translator.translate('settings_dark_theme')),
            ),
-           PopupMenuButton(itemBuilder: (context) 
-           {
-              return application.supportedLanguages.map((e) => PopupMenuItem<int>(child: Text(e), value: application.supportedLanguages.indexOf(e),)).toList();
-           },
-           padding: const EdgeInsets.all(0),
-           onSelected: (value)
-           {
-             application.changeLocal(Locale(application.supportedLanguagesCodes[value]));
-             Vesta.of(context).updateSettings(language: application.supportedLanguagesCodes[value]);
-           },
-           child: ListTile(title: Text("${translator.translate("settings_lang")} ${application.supportedLanguages[application.supportedLanguagesCodes.indexOf(
-             application.appDelegate.newLocale == null ? Localizations.localeOf(context).languageCode : application.appDelegate.newLocale.languageCode
-             )]}"),
-           ),
-           tooltip: translator.translate('settings_lang_tooltip'),
-           ),
-           ListTile(
-             title: Text(translator.translate('settings_cuteness')),
-             onTap:()=> MessageManager.showNotification(cuteMessages[rnd.nextInt(cuteMessages.length)], type: NotificationType.BIGTEXT) //Vesta.showSnackbar(Text(cuteMessages[rnd.nextInt(cuteMessages.length)]))
-           ),
-           ListTile(
-             title: Text(translator.translate('settings_schools_privacy')),
-             onTap: ()=>showDialog(context: context, builder:(ctx)=>Dialog(child: FutureBuilder(
-               future: WebServices.getSchoolsPrivacyPolicy(Data.school),
-               builder: (context, snapshot) 
-               {
-                  if(snapshot.hasError) {
-                    return SingleChildScrollView(child: Center(child: Text(snapshot.error)));
-                  }
+          MenuSelector(Vesta.of(context).settings.appHomePage),
+          PopupMenuButton(itemBuilder: (context) 
+          {
+            return application.supportedLanguages.map((e) => PopupMenuItem<int>(child: Text(e), value: application.supportedLanguages.indexOf(e),)).toList();
+          },
+          padding: const EdgeInsets.all(0),
+          onSelected: (value)
+          {
+            application.changeLocal(Locale(application.supportedLanguagesCodes[value]));
+            Vesta.of(context).updateSettings(language: application.supportedLanguagesCodes[value]);
+          },
+          child: ListTile(title: Text("${translator.translate("settings_lang")} ${application.supportedLanguages[application.supportedLanguagesCodes.indexOf(
+            application.appDelegate.newLocale == null ? Localizations.localeOf(context).languageCode : application.appDelegate.newLocale.languageCode
+            )]}"),
+          ),
+          tooltip: translator.translate('settings_lang_tooltip'),
+          ),
+          ListTile(
+            title: Text(translator.translate('settings_cuteness')),
+            onTap:()=> MessageManager.showNotification(cuteMessages[rnd.nextInt(cuteMessages.length)], type: NotificationType.BIGTEXT) //Vesta.showSnackbar(Text(cuteMessages[rnd.nextInt(cuteMessages.length)]))
+          ),
+          ListTile(
+            title: Text(translator.translate('settings_schools_privacy')),
+            onTap: ()=>showDialog(context: context, builder:(ctx)=>Dialog(child: FutureBuilder(
+              future: WebServices.getSchoolsPrivacyPolicy(Data.school),
+              builder: (context, snapshot) 
+              {
+                if(snapshot.hasError) {
+                  return SingleChildScrollView(child: Center(child: Text(snapshot.error)));
+                }
 
-                  if(!snapshot.hasData) {
-                    return Center(child: CircularProgressIndicator());
-                  }
+                if(!snapshot.hasData) {
+                  return Center(child: CircularProgressIndicator());
+                }
 
-                  return Text('${snapshot.data}');
+                return Center(child:Text('${snapshot.data}'));
 
-               },
-             ))),
-           ),
+              },
+            ))),
+          ),
           CheckboxListTile(value: Vesta.of(context).settings.devMode,
             onChanged: (value) async 
             {

@@ -5,6 +5,9 @@ import 'package:vesta/applicationpage/common/clickableCard.dart';
 import 'package:vesta/applicationpage/common/popupOptionProvider.dart';
 import 'package:vesta/applicationpage/semesters/PeriodDetailedDisplay.dart';
 import 'package:vesta/datastorage/Lists/semestersDataList.dart';
+import 'package:collection/collection.dart';
+import 'package:vesta/datastorage/periodData.dart';
+import 'package:vesta/i18n/appTranslations.dart';
 
 class SemesterDisplayer extends StatefulWidget
 {
@@ -31,6 +34,7 @@ class _SemesterDisplayerState extends State<SemesterDisplayer>
   {
 
     var list = MainProgram.of(context).semesterList;
+    var translator = AppTranslations.of(context);
 
 
     return Column(children: [ FutureBuilder(future: list.getCurrentPeriod(), builder: (BuildContext futureContext, AsyncSnapshot<String> shot)
@@ -67,13 +71,34 @@ class _SemesterDisplayerState extends State<SemesterDisplayer>
       }),
       StreamBuilder(stream: list.getData(), builder: (BuildContext ctx, AsyncSnapshot<SemestersDataList> snap)
       {
-        return snap.hasData ?
-        Expanded(child: ListView.builder(itemBuilder: (BuildContext context,int index) => snap.data.map((element) => ClickableCard(
+        if(snap.hasData && snap.data.isNotEmpty)
+        {
+
+          snap.data.sort((element, other) => element.FromDate.compareTo(other.FromDate));
+
+          Map<bool, dynamic> grouped = groupBy(snap.data, (PeriodData element)=> element.ToDate.compareTo(DateTime.now()) < 0);
+          grouped = grouped.map<bool, List<Widget>>((key, value) => MapEntry(key, value.map<Widget>((element) => ClickableCard(
           child: ListTile(title: Text('${element.PeriodName}'), 
                 subtitle: Text('${element.PeriodTypeName}\n${Vesta.dateFormatter.format(element.FromDate)} - ${Vesta.dateFormatter.format(element.ToDate)}'),onTap:()
                 => MainProgram.of(context).parentNavigator.push(MaterialPageRoute(builder: (context) => PeriodDetailedDisplay(element),))),
-          ) ).toList()[index], itemCount: snap.data.length))
-          : Center(child: CircularProgressIndicator());
+          ) ).toList()));
+
+          var ls = <Widget>[];
+          if(grouped[true] != null)
+          {
+            ls.add(ExpansionTile(title: Text(translator.translate('semesters_ended')), children: grouped[true]));
+          }
+
+          if(grouped[false] != null)
+          {
+            ls.add(ExpansionTile(title: Text(translator.translate('semesters_notended')), children: grouped[false], initiallyExpanded: true,));
+          }
+
+          return Expanded(child: ListView( children: ls));
+        }
+        else {
+          return Expanded(child: Center(child: CircularProgressIndicator()));
+        }
       })
     ]);
   }

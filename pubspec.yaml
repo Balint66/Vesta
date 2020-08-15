@@ -33,7 +33,7 @@ dependencies:
     git:
       url: https://github.com/flutter/plugins.git
       path: packages/url_launcher/url_launcher/
-  logger: ^0.6.0
+  logger: ^0.9.2
   overlay_support:
     git:
       url: https://github.com/boyan01/overlay_support

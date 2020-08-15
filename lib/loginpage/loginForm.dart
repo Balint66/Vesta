@@ -58,6 +58,8 @@ class LoginFormState extends State<LoginForm>
 
   bool get ableToLogin => _ableToLogin;
 
+  bool _obscure = true;
+
   set ableToLogin(bool value)
   {
     setState(() {
@@ -179,10 +181,10 @@ class LoginFormState extends State<LoginForm>
                 ),
                 width: 300.0,),
               Container(
-                  child: TextFormField(
+                  child: Row(children: <Widget>[ Expanded(child: TextFormField(
                     autocorrect: false,
                     decoration: InputDecoration(labelText: translate.translate('login_password')),
-                    obscureText: true,
+                    obscureText: _obscure,
                     maxLines: 1,
                     controller: _password,
                     onChanged: (str)
@@ -203,7 +205,23 @@ class LoginFormState extends State<LoginForm>
                       }
                       return null;
                     },
-                  ),
+                  )),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal:10),
+                    child: Container(width:40, padding: EdgeInsets.symmetric(vertical:5), color: _obscure ? Colors.grey[400] : Colors.grey[600],
+                      child: MouseRegion(onEnter: (item)=>setState((){
+                        _obscure = false;
+                      }),
+                      onExit: (item)=>setState((){
+                        _obscure = true;
+                      }),
+                      child: GestureDetector(onTap: ()=>setState((){
+                        _obscure = !_obscure;
+                      }),
+                      child:  Icon(_obscure ? Icons.remove_red_eye : Icons.remove_red_eye_outlined),
+                      )
+                      ),)
+                  )]),
                   width: 300.0),
               KeepMeLoggedInButton(),
               Container(

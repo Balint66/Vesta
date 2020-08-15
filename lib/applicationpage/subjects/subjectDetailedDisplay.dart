@@ -70,7 +70,7 @@ class SubjectDetailedDisplay extends StatelessWidget
                             Navigator.pop(context);
                         }),)),
                         subtitle: Center(child: Text("${courses[index] < 0 ? 'None' : entries[index].value[courses[index]].CourseCode}"))),
-                    color: Theme.of(context).primaryColor, ), padding: EdgeInsets.symmetric(vertical: 7.5, horizontal: 15));
+                    color: Theme.of(context).primaryColor, ), padding: EdgeInsets.symmetric(vertical: 7.5, horizontal: 10));
 
                 }));
 

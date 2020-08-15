@@ -20,19 +20,19 @@ class MainProgRouter
   static void registerRoutes()
   {
 
-    VestaRouter.router.define('/app/:inner', handler: _appNestedHandler);
+    VestaRouter.router.define('/app/:inner', handler: _appNestedHandler, transitionType: fluro.TransitionType.cupertino );
 
-    define('/messages', handler: _messageHandler);
-    define('/calendar', handler: _calendarHandler);
-    define('/student_book', handler: _studentBookHandler);
-    define('/semester_info', handler: _semesterInfoHandler);
-    define('/subjects', handler: _subjectHandler);
+    define('/messages', handler: _messageHandler, transitionType: fluro.TransitionType.cupertinoFullScreenDialog);
+    define('/calendar', handler: _calendarHandler, transitionType: fluro.TransitionType.cupertinoFullScreenDialog);
+    define('/student_book', handler: _studentBookHandler, transitionType: fluro.TransitionType.cupertinoFullScreenDialog);
+    define('/semester_info', handler: _semesterInfoHandler, transitionType: fluro.TransitionType.cupertinoFullScreenDialog);
+    define('/subjects', handler: _subjectHandler, transitionType: fluro.TransitionType.cupertinoFullScreenDialog);
 
   }
 
-  static void define(String innerPath, {fluro.Handler handler})
+  static void define(String innerPath, {fluro.Handler handler, fluro.TransitionType transitionType})
   {
-    _mainProgRouter.define('/app$innerPath', handler: handler);
+    _mainProgRouter.define('/app$innerPath', handler: handler, transitionType: transitionType);
   }
 
   static Route route(RouteSettings settings)
