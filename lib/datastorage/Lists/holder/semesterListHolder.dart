@@ -64,7 +64,7 @@ class SemesterListHolder extends ListDataHolder<SemestersDataList>
 
 
   @override
-  Future<void> onUpdate() async
+  Future<void> onUpdate() async //ignore:invalid_override_of_non_virtual_member
   {
     _list.removeWhere((element) => true);
     _list.addAll( await _fetchNewData());

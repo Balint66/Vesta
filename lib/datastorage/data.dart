@@ -2,16 +2,14 @@ import 'dart:convert';
 
 import 'package:vesta/datastorage/Lists/schoolList.dart';
 
-class Data
+abstract class Data
 {
 
   static String username;
   static String password;
   static School school;
 
-  factory Data()=> null;
-
-  Data._();
+  factory Data._()=> null; //ignore:unused_element
 
   static String toJsonString()
   {

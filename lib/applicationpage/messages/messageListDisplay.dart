@@ -93,8 +93,16 @@ with SingleTickerProviderStateMixin
                               item.personMessageId);
                           WebServices.setRead(Data.school, body);
                       });
-
-                  ls.add(unread);
+                  if(unreadls.isNotEmpty){
+                    ls.add(unread);
+                  } 
+                  else{
+                    ls.add(Center(child: RichText(textAlign: TextAlign.center, text: TextSpan(text:'You don\'t have any new message!!\n',
+                    style: Theme.of(context).textTheme.bodyText1,
+                    children:[
+                      TextSpan(text: '( ✧Д✧) YES!!', style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 25))
+                    ]))));
+                  }
                   ls.add(read);  
 
                 }

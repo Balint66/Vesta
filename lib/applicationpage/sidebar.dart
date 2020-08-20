@@ -96,7 +96,7 @@ class MenuButtons extends StatefulWidget
   final String path;
 
 
-  MenuButtons(this.text,this.icon, String path, {Key key}) : observer = _ReplaceDetector(),path = path , super(key: key)
+  MenuButtons(this.text,this.icon, String path, {Key key}) : observer = _ReplaceDetector(), path = path, super(key: key)
   {
 
     if(path.isNotEmpty) {
@@ -148,7 +148,7 @@ class MenuButtonState extends State<MenuButtons>
         child: FlatButton.icon(onPressed: enabled ?
             () 
             {
-                MainProgram.navKey.currentState.pushReplacementNamed(widget.path);
+                MainProgram.navKey.currentState.pushNamedAndRemoveUntil(widget.path, (asd) => true);
                 Navigator.of(context).pop();
             }
             : null,

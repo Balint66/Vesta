@@ -57,10 +57,10 @@ class _MainSettingsPageState extends State<MainSettingsPage>
             ),
           ),
           CheckboxListTile(
-               value: data.isDarkTheme,
-               onChanged:  (bool value){Vesta.of(context).updateSettings(isDarkTheme: value);},
+              value: data.isDarkTheme,
+              onChanged:  (bool value){Vesta.of(context).updateSettings(isDarkTheme: value);},
                 title: Text(translator.translate('settings_dark_theme')),
-           ),
+          ),
           MenuSelector(Vesta.of(context).settings.appHomePage),
           PopupMenuButton(itemBuilder: (context) 
           {
@@ -101,6 +101,7 @@ class _MainSettingsPageState extends State<MainSettingsPage>
               },
             ))),
           ),
+          ListTile(title:Text('Message settings'), onTap: ()=> Navigator.of(context).pushNamed('/pageSettings/messages')),
           CheckboxListTile(value: Vesta.of(context).settings.devMode,
             onChanged: (value) async 
             {

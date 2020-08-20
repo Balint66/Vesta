@@ -4,11 +4,9 @@ import 'package:vesta/web/webdata/webDataBase.dart';
 
 class WebDataSemesters extends WebDataBase
 {
-  factory WebDataSemesters()=> null;
+  factory WebDataSemesters._()=> null; //ignore:unused_element
 
   final SemestersDataList list;
-
-  WebDataSemesters._(): list = null, super.studentSimplified(null);
 
   WebDataSemesters.fromJson(Map<String, dynamic> json) :
     list = SemestersDataList(other: List<Map<String, dynamic>>.from(json['PeriodList'])

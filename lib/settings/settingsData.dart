@@ -3,6 +3,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:vesta/settings/pageSettings/data/messagePageData.dart';
+import 'package:vesta/settings/pageSettingsData.dart';
 
 class SettingsData
 {
@@ -14,6 +16,9 @@ class SettingsData
   bool eulaAccepted = false;
   String language = 'en';
   bool devMode = false;
+  Map<String, PageSettingsData> pageSettings = <String, PageSettingsData>{
+    'messages': MessagePageData()
+  };
 
   String toJsonString()
   {
@@ -31,7 +36,8 @@ class SettingsData
         'g':mainColor.green,
         'b':mainColor.blue,
         'a':mainColor.alpha
-      }
+      },
+      'pageSettings': pageSettings.map((key, value) => MapEntry(key, value.toJson()))
     });
   }
 
@@ -60,6 +66,10 @@ class SettingsData
       data.mainColor = Colors.red;
     }
 
+    data.pageSettings = (map['pageSettings'] as Map<String, dynamic>).map((key, value) => MapEntry(key, PageSettingsData.fromJson(value))) ?? {
+      'messages': MessagePageData()
+    };
+
     return data;
 
   }
@@ -75,6 +85,7 @@ class SettingsData
     data.stayLogged = other.stayLogged;
     data.language = other.language;
     data.devMode = other.devMode;
+    data.pageSettings = other.pageSettings;
 
     return data;
 

@@ -29,7 +29,11 @@ abstract class ListDataHolder<T extends ListBase> with BackgroundFetchingService
 
   final T _list;
   @override
-  final Duration timespan;
+  Duration get timespan => _timespan;
+  Duration _timespan;
+  @override
+  bool get enabled => _enabled;
+  bool _enabled = true;
   final _streamController = StreamController<T>.broadcast();
 
   int _maxItemCount = 0;
@@ -42,7 +46,7 @@ abstract class ListDataHolder<T extends ListBase> with BackgroundFetchingService
   } 
 
   ListDataHolder(T data, {Duration timespan}) : _list = data,
-         timespan = timespan ?? Duration();
+        _timespan = timespan ?? Duration();
 
   @nonVirtual
   Stream<T> getData() 
@@ -51,7 +55,7 @@ abstract class ListDataHolder<T extends ListBase> with BackgroundFetchingService
     return _streamController.stream;
   }
 
-    Future<T> _fetchNewData();
+  Future<T> _fetchNewData();
 
   @override
   @nonVirtual
@@ -80,6 +84,27 @@ abstract class ListDataHolder<T extends ListBase> with BackgroundFetchingService
     if(newData){
       _streamController.add(_list);
     }
+
+  }
+
+  void enableFetch()
+  {
+    _enabled = true;
+  }
+
+  void disableFetch()
+  {
+    _enabled = false;
+  }
+
+  void updateInterval(Duration interval)
+  {
+    if(interval == null || interval.isNegative|| interval.inSeconds < 0)
+    {
+      return;
+    }
+
+    _timespan = interval;
 
   }
 

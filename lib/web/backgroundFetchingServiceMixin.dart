@@ -1,15 +1,15 @@
 import 'dart:core';
 
 
-abstract class BackgroundFetchingServiceMixin
+mixin BackgroundFetchingServiceMixin
 {
-
-  factory BackgroundFetchingServiceMixin() => null;
 
   Future<void> onUpdate();
 
   Duration get timespan;
   DateTime lastFetch;
+
+  bool get enabled;
 
   int get timespanInSec => timespan.inSeconds;
 

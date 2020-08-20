@@ -68,32 +68,37 @@ abstract class FetchManager
 
   static Future<void> fetch() async
   {
-     for(var item in _services)
-     {
-       if(item.lastFetch == null)
-       {
+    for(var item in _services)
+    {
+
+      if(!item.enabled){
+        continue;
+      }
+
+      if(item.lastFetch == null)
+      {
           Vesta.logger.i("I'm null and I dee-dobu-daa, deee dobu da");
           item.lastFetch = DateTime.now();
           await item.onUpdate();
-       }
-       else if(DateTime.now().difference(item.lastFetch) >= item.timespan)
-       {
+      }
+      else if(DateTime.now().difference(item.lastFetch) >= item.timespan)
+      {
 
           item.lastFetch = DateTime.now();
           await item.onUpdate();
-       }
-     }
+      }
+    }
   }
 
   static Future<void> forceFetch() async
   {
     for(var item in _services)
-     {
-       
+    {
+      
       item.lastFetch = DateTime.now();
       await item.onUpdate();
-       
-     }
+      
+    }
   }
 
 }

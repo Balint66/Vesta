@@ -49,27 +49,27 @@ class MainProgRouter
 
   static final fluro.Handler _messageHandler = fluro.Handler(handlerFunc: (BuildContext ctx, Map<String, dynamic> query)
   {
-    return _wrapinFutureBuilder(ctx, _messageListDisplay, (context) => null, (value) { });
+    return _messageListDisplay;
   });
 
   static final fluro.Handler _calendarHandler = fluro.Handler(handlerFunc: (BuildContext ctx, Map<String, dynamic> querry)
   {
-    return _wrapinFutureBuilder(ctx, _lessonDisplayer, (context) => null, (value) { });
+    return _lessonDisplayer;
   });
 
   static final fluro.Handler _studentBookHandler = fluro.Handler(handlerFunc: (BuildContext ctx, Map<String,dynamic> querry)
   {
-    return _wrapinFutureBuilder(ctx, _studentBookDisplayer, (context) => null, (value) { });
+    return _studentBookDisplayer;
   });
 
   static final fluro.Handler _semesterInfoHandler = fluro.Handler(handlerFunc: (BuildContext ctx, Map<String,dynamic> querry)
   {
-    return _wrapinFutureBuilder(ctx, _semesterInfoDisplayer, (context) => null, (value) { });
+    return _semesterInfoDisplayer;
   });
 
   static final fluro.Handler _subjectHandler = fluro.Handler(handlerFunc: (BuildContext ctx, Map<String,dynamic> querry)
   {  
-    return _wrapinFutureBuilder(ctx, _subjectInfoDisplayer, (context) => null, (value) { });
+    return _subjectInfoDisplayer;
   });
 
   static final fluro.Handler _appNestedHandler = fluro.Handler(handlerFunc: (BuildContext ctx, Map<String, dynamic> query)

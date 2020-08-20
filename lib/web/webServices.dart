@@ -130,8 +130,39 @@ abstract class WebServices
 
       Vesta.logger.d('${_callbacks.length} bottles are on the shelf.\n You Remove one sou you got...', null, null );
 
-      await _callbacks[0]();
-      _callbacks.removeAt(0);
+      try
+      {
+        await _callbacks[0]();
+      }
+      on DioError  catch(e)
+      {
+        if(!e.error is SocketException || (e.error as SocketException).osError.errorCode != 7)
+        {
+          Vesta.logger.e(e.error);
+        }
+        else
+        {
+          Vesta.showSnackbar(Text('Unable to connect to the internet!'));
+          Vesta.logger.i('Unable to connect to the internet!');
+        }
+      }
+      on SocketException catch(e) //ignoer: unused_catch_clause
+      {
+        if(e.osError.errorCode == 7)
+        {
+          Vesta.showSnackbar(Text('Unable to connect to the internet!'));
+          Vesta.logger.i('Unable to connect to the internet!');
+        }
+        else
+        {
+          Vesta.logger.e(e);
+        }
+        
+      }
+      finally
+      {
+        _callbacks.removeAt(0);
+      }
 
       Vesta.logger.d('${_callbacks.length} bottles on the shelf!', null, null );
     }

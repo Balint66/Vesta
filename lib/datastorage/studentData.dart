@@ -1,5 +1,9 @@
 import 'dart:convert';
 
+const de_LCID = 1031;
+const en_us_LCID = 1033; //uk in the future?
+const hun_LCID = 1038;
+
 class StudentData
 {
 
@@ -9,19 +13,19 @@ class StudentData
 
   final String username;
   final String password;
-  String _neptunCode; // ignore: unused_field
   final List<TrainingData> training = [];
+  int LCID = hun_LCID;
   int _currentTrainingNumero = 0;
   TrainingData get currentTraining => _currentTrainingNumero >= 0
       && _currentTrainingNumero < training.length
       ? training[_currentTrainingNumero] : null;
 
-  StudentData._(this.username,this.password, List<TrainingData> data)
+  StudentData._(this.username,this.password, List<TrainingData> data, {this.LCID = hun_LCID})
   {
     if(data != null) {
       training.addAll(data);
     }
-    _neptunCode = username;
+
   }
 
   TrainingData nextTraining()
@@ -44,13 +48,13 @@ class StudentData
 
   static StudentData fromJson(String str)
   {
-     return StudentData.fromJsondata(json.decode(str));
+    return StudentData.fromJsondata(json.decode(str));
   }
 
   static StudentData fromJsondata(Map<String,dynamic> json)
   {
-    return StudentData._(json['NeptunCode'] as String, json['Password'] as String,
-        TrainingData.listFromJson(json['TrainingList']));
+    return StudentData._(json['NeptunCode'].toString(), json['Password'].toString(),
+        TrainingData.listFromJson(json['TrainingList']), LCID: json['LCID'] as int);
   }
 
   static void setInstance(String username, String password, List<TrainingData> data)
@@ -63,6 +67,7 @@ class StudentData
     return <String,dynamic>{
       'NeptunCode': data.username,
       'Password': data.password,
+      'LCID': data.LCID,
       'TrainingList': TrainingData.toJsonMapList(data.training)
     };
   }

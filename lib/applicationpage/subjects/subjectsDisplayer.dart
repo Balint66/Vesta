@@ -39,20 +39,31 @@ class _SubjectDisplayerState extends State<SubjectDisplayer>
 
         snap.data.sort((e,k)=>e.SubjectName.compareTo(k.SubjectName));
 
+        var ls = <Widget>[];
+
         var completed = groupBy(snap.data, (SubjectData item)=>item.Completed);
 
-        if(completed.isEmpty){
-          completed = <bool, List<SubjectData>>{true:[]};
+        if(completed[true] != null){
+          ls.add(ExpansionTile(title: Text(translator.translate('subjects_completed')), children: completed[true].map((e) => _visualizeItem(e))?.toList()));
         }
 
-        var isOn = completed[false] == null ? <bool,List<SubjectData>>{false: [], true: []} : groupBy(completed[false], (SubjectData item)=>item.IsOnSubject);
+        if(completed[false] != null)
+        {
+
+          var isOn = groupBy(completed[false], (SubjectData item)=>item.IsOnSubject);
+
+          if(isOn[true] != null){
+            ls.add(ExpansionTile(title: Text(translator.translate('subjects_selected')), children: isOn[true].map((e) => _visualizeItem(e)).toList()));
+          }
+
+          if(isOn[false] != null){
+            ls.add(ExpansionTile(title: Text(translator.translate('subjects_neutral')), initiallyExpanded: true, children: isOn[false].map((e) => _visualizeItem(e)).toList()));
+          }
+
+        }
 
         return RefreshExecuter(
-          child: ListView(children: <Widget>[
-            ExpansionTile(title: Text(translator.translate('subjects_completed')), children: completed[true].map((e) => _visualizeItem(e))?.toList()),
-            ExpansionTile(title: Text(translator.translate('subjects_selected')), children: isOn[true].map((e) => _visualizeItem(e)).toList()),
-            ExpansionTile(title: Text(translator.translate('subjects_neutral')), initiallyExpanded: true, children: isOn[false].map((e) => _visualizeItem(e)).toList()),
-          ],),
+          child: ListView(children: ls,),
         asyncCallback: MainProgram.of(context).subject.incrementWeeks,
         );
 

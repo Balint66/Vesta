@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:vesta/Vesta.dart';
 import 'package:vesta/applicationpage/MainProgram.dart';
 import 'package:vesta/applicationpage/common/clickableCard.dart';
-import 'package:vesta/applicationpage/common/popupOptionProvider.dart';
 import 'package:vesta/applicationpage/semesters/PeriodDetailedDisplay.dart';
 import 'package:vesta/datastorage/Lists/semestersDataList.dart';
 import 'package:collection/collection.dart';
@@ -24,10 +23,6 @@ class SemesterDisplayer extends StatefulWidget
 
 class _SemesterDisplayerState extends State<SemesterDisplayer>
 {
-
-  static final data = PopupOptionData(
-    builder:(BuildContext ctx){ return null; }, selector: (int value){}
-  );
 
   @override
   Widget build(BuildContext context) 

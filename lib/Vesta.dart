@@ -15,6 +15,7 @@ import 'package:vesta/i18n/localizedApp.dart';
 import 'package:vesta/messaging/logManager.dart';
 import 'package:vesta/messaging/messageManager.dart';
 import 'package:vesta/routing/router.dart';
+import 'package:vesta/settings/pageSettingsData.dart';
 import 'package:vesta/settings/settingsData.dart';
 import 'package:vesta/utils/ColorUtils.dart';
 import 'package:vesta/utils/ColoredThemeData.dart';
@@ -91,7 +92,9 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
         _settings = newSettings;
       }
       
-        application.changeLocal(application.supportedLocales().where((element) => element.languageCode == _settings.language).first);
+      application.changeLocal(application.supportedLocales().where((element) => element.languageCode == _settings.language).first);
+
+      MainProgRouter.defaultRoute = '/app' + _settings.appHomePage;
 
       return FileManager.readData();
     });
@@ -182,6 +185,25 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
 
   }
 
+  bool get pageSettingsChanged => _pagesettings;
+  void resetpageChange() => _pagesettings = false;
+  bool _pagesettings = false;
+
+  void updatePageSettings(String page, PageSettingsData data)
+  {
+
+    if(page == null || data == null || !_settings.pageSettings.containsKey(page)){
+      return;
+    }
+
+    setState(() {
+      _settings.pageSettings[page] = data;
+      _pagesettings = true;
+      FileManager.saveSettings(_settings);
+    });
+
+  }
+
   SettingsData get settings => SettingsData.copyOf(_settings);
 
   Future<void> initPlatform() async
@@ -235,7 +257,7 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
               StudentData.Instance;
             }
 
-           return OverlaySupport(
+          return OverlaySupport(
               child: _VestaInherited(
                 data: this,
                 child: MaterialApp(

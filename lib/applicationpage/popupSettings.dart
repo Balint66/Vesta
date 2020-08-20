@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vesta/Vesta.dart';
 import 'package:vesta/applicationpage/common/popupOptionProvider.dart';
-import 'package:vesta/i18n/appTranslations.dart';
 import 'package:vesta/routing/replacementObserver.dart';
 
 class PopupSettings extends StatefulWidget

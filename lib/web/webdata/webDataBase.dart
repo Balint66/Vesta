@@ -48,11 +48,11 @@ class WebDataBase
   WebDataBase.simplified(String User, String Password, String NeptunCode, String TrainingData, {int currentPage = 0, int LCID = 1038})
       : this(-1, 0, null, User, Password, NeptunCode, currentPage, TrainingData, LCID, 1.5,0);
 
-  WebDataBase.studentSimplified(StudentData data, {int currentPage = 0, int LCID = 1038}) : this.simplified(data.username,
-      data.password, data.username, data.currentTraining?.id.toString(), currentPage: currentPage, LCID: LCID);
+  WebDataBase.studentSimplified(StudentData data, {int currentPage = 0}) : this.simplified(data.username,
+      data.password, data.username, data.currentTraining?.id.toString(), currentPage: currentPage, LCID: data.LCID);
 
-  WebDataBase.loginSimplified(StudentData data, {int currentPage = 0, int LCID = 1038}) 
-  : this.simplified(data.username, data.password, null, null, currentPage: currentPage, LCID: LCID);
+  WebDataBase.loginSimplified(StudentData data, {int currentPage = 0}) 
+  : this.simplified(data.username, data.password, null, null, currentPage: currentPage, LCID: data.LCID);
 
   String toJson()
   {

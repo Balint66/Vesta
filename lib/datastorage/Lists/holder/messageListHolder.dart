@@ -3,8 +3,9 @@ part of 'listHolder.dart';
 class MessageListHolder extends ListDataHolder<MessageList>
 {
 
+  static final Duration defaultInterval = Duration(minutes:30);
 
-  MessageListHolder() : super(MessageList(), timespan: Duration(minutes:30));
+  MessageListHolder(Duration timespan) : super(MessageList(), timespan: timespan ?? defaultInterval );
 
   @override
   Future<MessageList> _fetchNewData() async

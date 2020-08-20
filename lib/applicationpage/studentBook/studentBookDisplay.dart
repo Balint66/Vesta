@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:vesta/applicationpage/MainProgram.dart';
-import 'package:vesta/applicationpage/common/popupOptionProvider.dart';
 import 'package:vesta/datastorage/Lists/studentBookDataList.dart';
 import 'package:vesta/i18n/appTranslations.dart';
 
@@ -19,10 +18,6 @@ class StudentBookDisplay extends StatefulWidget
 
 class _StudentBookDisplayState extends State<StudentBookDisplay>
 {
-
-  static final PopupOptionData data = PopupOptionData(
-    builder:(BuildContext ctx){ return null; }, selector: (int value){}
-  );
 
   @override
   Widget build(BuildContext context)

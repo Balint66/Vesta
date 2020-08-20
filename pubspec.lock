@@ -143,6 +143,15 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_duration_picker:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: a44d26ff31ae593c4cb87e7e4d27951f7049c694
+      url: "https://github.com/cdharris/flutter_duration_picker.git"
+    source: git
+    version: "1.0.4"
   flutter_launcher_icons:
     dependency: "direct dev"
     description:
@@ -158,7 +167,7 @@ packages:
       name: flutter_local_notifications
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.4.4+3"
+    version: "1.4.4+4"
   flutter_local_notifications_platform_interface:
     dependency: transitive
     description:
@@ -186,10 +195,10 @@ packages:
     description:
       path: "packages/core"
       ref: HEAD
-      resolved-ref: ecb2f9ea856fb51573c2e912f3085d26922bf379
+      resolved-ref: aa96d71f41b8957f09d351e1d11d55904c3e6041
       url: "https://github.com/daohoangson/flutter_widget_from_html"
     source: git
-    version: "0.5.0-rc.2020071301"
+    version: "0.5.0-rc.2020081901"
   html:
     dependency: transitive
     description:
@@ -260,10 +269,10 @@ packages:
     description:
       path: "packages/path_provider/path_provider"
       ref: HEAD
-      resolved-ref: "6f6b786a8163d08402336e25315973805601ee49"
+      resolved-ref: a9ac52f3fe10034ef7f48a98f9112bca0666d3e9
       url: "https://github.com/flutter/plugins"
     source: git
-    version: "1.6.13"
+    version: "1.6.14"
   path_provider_linux:
     dependency: transitive
     description:
@@ -284,7 +293,7 @@ packages:
       name: path_provider_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.2"
+    version: "1.0.3"
   pedantic:
     dependency: "direct dev"
     description:
@@ -407,7 +416,7 @@ packages:
     description:
       path: "packages/url_launcher/url_launcher/"
       ref: HEAD
-      resolved-ref: "6f6b786a8163d08402336e25315973805601ee49"
+      resolved-ref: a9ac52f3fe10034ef7f48a98f9112bca0666d3e9
       url: "https://github.com/flutter/plugins.git"
     source: git
     version: "5.5.0"
@@ -452,14 +461,14 @@ packages:
       name: xdg_directories
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.0"
+    version: "0.1.1"
   xml:
     dependency: transitive
     description:
       name: xml
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.3.0"
+    version: "4.4.1"
   yaml:
     dependency: transitive
     description:
