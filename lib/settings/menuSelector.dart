@@ -34,7 +34,7 @@ class MenuSelectorState extends State<MenuSelector>
 
     var translator = AppTranslations.of(context);
 
-    return ExpansionTile(title: Text(translator.translate('popup_app_home') + ': ' + translator.translate('sidebar_' + _home)), 
+    return ExpansionTile(leading: Icon(Icons.home_outlined), title: Text(translator.translate('popup_app_home') + ': ' + translator.translate('sidebar_' + _home)), 
       children:<Widget>[_item('messages', translator), _item('forum', translator), _item('calendar', translator), 
       _item('subjects', translator), _item('exams', translator),
       _item('student_book', translator), _item('semesters', translator)]);

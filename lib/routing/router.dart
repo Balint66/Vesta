@@ -6,7 +6,11 @@ import 'package:vesta/applicationpage/innerMainProgRouter.dart';
 import 'package:vesta/eulapage/Eulapage.dart';
 import 'package:vesta/loginpage/Authorization.dart';
 import 'package:vesta/settings/MainSettingsPage.dart';
+import 'package:vesta/settings/advancedSettings.dart';
+import 'package:vesta/settings/commonPageSettings.dart';
 import 'package:vesta/settings/pageSettingsBase.dart';
+import 'package:vesta/settings/schoolSettings.dart';
+import 'package:vesta/settings/uiSettings.dart';
 
 abstract class VestaRouter 
 {
@@ -19,6 +23,10 @@ abstract class VestaRouter
 
   static final _authorization = Authorization();
   static final _mainSettingsPage = MainSettingsPage();
+  static final _uiSettingsPage = UISettings();
+  static final _advancedSettingsPage = AdvancedSettings();
+  static final _commonPageSettings = CommonPageSettings();
+  static final _schoolSettingsPage = SchoolSettings();
 
   static void registerRoutes()
   {
@@ -44,6 +52,14 @@ abstract class VestaRouter
   {
     switch(query['type'][0]?.toString())
     {
+      case 'school':
+        return _schoolSettingsPage;
+      case 'page':
+        return _commonPageSettings;
+      case 'advanced':
+        return _advancedSettingsPage;
+      case 'ui':
+        return _uiSettingsPage;
       case 'main':
       default:
         return _mainSettingsPage;

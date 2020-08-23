@@ -16,7 +16,7 @@ class ReplacementObserver extends NavigatorObserver
     assert(aware!=null);
     assert(route.isNotEmpty);
 
-    var set = Set<ReplacementAware>();
+    var set = Set<ReplacementAware>(); // ignore:prefer_collection_literals
 
     set.add(aware);
 

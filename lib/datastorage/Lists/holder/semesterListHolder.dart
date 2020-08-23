@@ -3,6 +3,8 @@ part of 'listHolder.dart';
 class SemesterListHolder extends ListDataHolder<SemestersDataList>
 {
 
+  static final Duration defaultInterval = Duration(days:1);
+
   List<Map<String, dynamic>> _periodtermList = <Map<String, dynamic>>[];
 
   void resetPeridtermList()
@@ -10,7 +12,7 @@ class SemesterListHolder extends ListDataHolder<SemestersDataList>
     _periodtermList = <Map<String, dynamic>>[];
   }
 
-  SemesterListHolder() : super(SemestersDataList(), timespan: Duration(days: 1));
+  SemesterListHolder({Duration timespan}) : super(SemestersDataList(), timespan: timespan ?? defaultInterval);
 
   @override
   Future<void> incrementWeeks() async{}

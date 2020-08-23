@@ -22,7 +22,7 @@ abstract class PageSettingsBase extends StatefulWidget
       case 'messages':
         return MessagePageSettings(page, data ?? MessagePageData());
       default:
-        return _Empty();
+        return _Empty(page);
     }
   }
 
@@ -36,7 +36,7 @@ abstract class PageSettingsBase extends StatefulWidget
 class _Empty extends PageSettingsBase
 {
 
-  _Empty() : super._('', null);
+  _Empty(String page) : super._(page, null);
 
   @override
   _EmptyState createState() => _EmptyState();
@@ -47,9 +47,13 @@ class _EmptyState extends PageSettingsState
 {
   
   @override
+  List<Widget> get body => null;
+
+  @override
   Widget build(BuildContext context) //ignore:invalid_override_of_non_virtual_member
   {
-    return Scaffold(appBar: AppBar(), body: Container());
+    var translator = AppTranslations.of(context);
+    return Scaffold(appBar: AppBar(title: Text(translator.translate('sidebar_' + widget.page)),), body: Container());
   }
 }
 
@@ -65,7 +69,9 @@ abstract class PageSettingsState<T extends PageSettingsBase> extends State<T>
         Vesta.of(context).updatePageSettings(widget.page, widget.data);
       });
     }),
-    ListTile(title: Text('Time interval : ${widget.data.interval.inMinutes}m'), onTap: !widget.data.isEnabled ? null : () async
+    ListTile(title: Text('Time interval : ${widget.data.interval.inMinutes}m',
+    style: TextStyle(color: !widget.data.isEnabled ? Theme.of(context).disabledColor : Theme.of(context).textTheme.bodyText1.color )),
+    onTap: !widget.data.isEnabled ? null : () async
     {
       var dur = await showDurationPicker(context: context, initialTime: widget.data.interval, snapToMins: 1);
 

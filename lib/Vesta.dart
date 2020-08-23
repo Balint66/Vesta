@@ -261,6 +261,7 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
               child: _VestaInherited(
                 data: this,
                 child: MaterialApp(
+                  debugShowCheckedModeBanner: false,
                   title: 'Vesta',
                   theme: ColoredThemeData.create(
                         primarySwatch: MaterialColor(settings.mainColor.value, genSwatch()),

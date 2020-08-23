@@ -3,9 +3,9 @@ part of 'listHolder.dart';
 class CalendarListHolder extends ListDataHolder<CalendarDataList>
 {
 
+  static final Duration defaultInterval = Duration(minutes:10);
 
-
-  CalendarListHolder() : super(CalendarDataList(), timespan: Duration(minutes: 10));
+  CalendarListHolder({Duration timespan}) : super(CalendarDataList(), timespan: timespan ?? defaultInterval);
 
   @override
   Future<CalendarDataList> _fetchNewData() async

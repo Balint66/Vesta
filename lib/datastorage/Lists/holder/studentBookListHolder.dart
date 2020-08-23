@@ -3,7 +3,9 @@ part of 'listHolder.dart';
 class StudentBookListHolder extends ListDataHolder<StudentBookDataList>
 {
 
-  StudentBookListHolder() : super(StudentBookDataList(), timespan: Duration(days:1));
+  static final Duration defaultInterval = Duration(days:1);
+
+  StudentBookListHolder({Duration timespan}) : super(StudentBookDataList(), timespan: timespan ?? defaultInterval);
   
   @override
   Future<void> incrementWeeks() async{}

@@ -71,7 +71,7 @@ class MainProgramState extends State<MainProgram>
         FetchManager.clearRegistered();
 
         _calendarList = CalendarListHolder();
-        _messageList = MessageListHolder(Vesta.of(context).settings.pageSettings['messages'].interval);
+        _messageList = MessageListHolder(timespan: Vesta.of(context).settings.pageSettings['messages']?.interval);
         _studentBook = StudentBookListHolder();
         _semesterList = SemesterListHolder();
         _subjectList = SubjectDataListHolder();
@@ -93,7 +93,7 @@ class MainProgramState extends State<MainProgram>
 
     super.initState();
 
-    _messageList = MessageListHolder(widget.baseSettings['messages']?.interval);
+    _messageList = MessageListHolder(timespan: widget.baseSettings['messages']?.interval);
 
     FetchManager.register(_calendarList);
     FetchManager.register(_messageList);

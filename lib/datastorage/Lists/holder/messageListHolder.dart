@@ -5,7 +5,7 @@ class MessageListHolder extends ListDataHolder<MessageList>
 
   static final Duration defaultInterval = Duration(minutes:30);
 
-  MessageListHolder(Duration timespan) : super(MessageList(), timespan: timespan ?? defaultInterval );
+  MessageListHolder({Duration timespan}) : super(MessageList(), timespan: timespan ?? defaultInterval );
 
   @override
   Future<MessageList> _fetchNewData() async

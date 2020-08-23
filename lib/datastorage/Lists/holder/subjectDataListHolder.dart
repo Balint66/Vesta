@@ -3,7 +3,9 @@ part of 'listHolder.dart';
 class SubjectDataListHolder extends ListDataHolder<SubjectDataList>
 {
 
-  SubjectDataListHolder() : super(SubjectDataList(), timespan: Duration(days:1));
+  static final Duration defaultInterval = Duration(hours:6);
+
+  SubjectDataListHolder({Duration timespan}) : super(SubjectDataList(), timespan: timespan ?? defaultInterval);
 
   @override
   Future<SubjectDataList> _fetchNewData() async 

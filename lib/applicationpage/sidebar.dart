@@ -39,7 +39,7 @@ class SideBarState extends State<Sidebar>
                 onPressed: ()
                 {
                   Navigator.pop(context);
-                  Navigator.pushNamed(context, '/settings');
+                  Navigator.pushNamed(context, '/settings/main');
                 },
                 icon:Icon(Icons.settings),
                 label: Text(
@@ -148,7 +148,7 @@ class MenuButtonState extends State<MenuButtons>
         child: FlatButton.icon(onPressed: enabled ?
             () 
             {
-                MainProgram.navKey.currentState.pushNamedAndRemoveUntil(widget.path, (asd) => true);
+                MainProgram.navKey.currentState.pushNamedAndRemoveUntil(widget.path, (_) => true);
                 Navigator.of(context).pop();
             }
             : null,
