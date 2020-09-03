@@ -185,6 +185,21 @@ abstract class WebServices
 
   static Future<T> _callFunction<T>(_ServicesCallback callback,School school , WebDataBase request) async
   {
+
+    try{
+      final result = await InternetAddress.lookup('www.example.com');
+      if(result.isEmpty || result[0].rawAddress.isEmpty)
+      {
+        throw SocketException('No connection!');
+      }
+    }
+    on SocketException catch(_)
+    {
+      Vesta.logger.e('No connection');
+      Vesta.showSnackbar(Text('There is no internet connection!'));
+      return null;
+    }
+
     Object obj;
 
     _VoidFutureCallback clb = () async
@@ -224,8 +239,6 @@ abstract class WebServices
     }
     catch(e)
     {
-
-      //TODO: Better checks for internet?
       if(e is SocketException)
       {
         var exp = e;
@@ -670,7 +683,7 @@ abstract class WebServices
 
   static Future<String> _getAppPrivacyPolicy<T extends WebDataBase>(School school, T body) async
   {
-    return (await client.get('https://bitbucket.org/Balint66/vesta/raw/f5f6a15d85f07ead24faa465d9871321cd45e523/repository_assets/PRIVACY_POLICY.md')).data.toString();
+    return (await client.get('https://bitbucket.org/Balint66/vesta/raw/3d2c4a037d6253f8ed607a4e3efcfda63a037b8a/repository_assets/PRIVACY_POLICY.md')).data.toString();
   }
 
 }

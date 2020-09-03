@@ -27,6 +27,6 @@ class SubjectDataList extends ListBase<SubjectData> implements List<SubjectData>
 
     var obj = element as SubjectData;
 
-    return any((e) => e.SubjectName == obj.SubjectName && e.SubjectId == obj.SubjectId); //TODO: Better implementation?
+    return any((e) => e.SubjectName == obj.SubjectName && e.SubjectId == obj.SubjectId && e.TermID == obj.TermID);
   }
 }

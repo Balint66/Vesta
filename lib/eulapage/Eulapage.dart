@@ -39,8 +39,8 @@ class _EulaState extends State<Eula> with SingleTickerProviderStateMixin
     var translator = AppTranslations.of(context);
 
     var widgetList = <Widget>[
-       _wrapTextInWidget([
-          //new Image.asset("assets/icon/vesta.png",scale: 0.4,), //TODO:Better image display?
+      _wrapTextInWidget([
+          Image.asset('assets/icon/vesta.png',cacheWidth: 200,), //TODO:Better image display?
           Text(translator.translate('welcome'), style: TextStyle(fontSize: 26.0, color: Colors.white),),
           Text(translator.translate('short_description_0'), style: widget.textstile,),
           Text(translator.translate('short_description_1'), style: widget.textstile,)
@@ -75,7 +75,7 @@ class _EulaState extends State<Eula> with SingleTickerProviderStateMixin
             children: widgetList,
             onPageChanged: (int i)=>setState((){}),
           ),
-             _button(context) ,
+            _button(context) ,
           ]
         )
     );
@@ -91,9 +91,9 @@ class _EulaState extends State<Eula> with SingleTickerProviderStateMixin
     var offset = 225;
 
     var pos = Positioned(left: (query.width/2) - min, right: (query.width/2) - min, bottom: (query.height/2) - min - tb*offset , top: (query.height/2) - min + tb*offset,
-           child: GestureDetector(
-             onTap: ()=>widget.controller.nextPage(duration: Duration(seconds:3), curve: Curves.fastLinearToSlowEaseIn),
-             child: Card(shape: CircleBorder(), child: Icon(Icons.keyboard_arrow_right))),);
+          child: GestureDetector(
+            onTap: ()=>widget.controller.nextPage(duration: Duration(seconds:3), curve: Curves.fastLinearToSlowEaseIn),
+            child: Card(shape: CircleBorder(), child: Icon(Icons.keyboard_arrow_right))),);
 
     var noll = Container();
 

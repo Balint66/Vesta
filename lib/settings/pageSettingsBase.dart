@@ -4,7 +4,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_duration_picker/flutter_duration_picker.dart';
 import 'package:vesta/Vesta.dart';
 import 'package:vesta/i18n/appTranslations.dart';
-import 'package:vesta/i18n/appTranslationsDelegate.dart';
 import 'package:vesta/settings/pageSettings/data/messagePageData.dart';
 import 'package:vesta/settings/pageSettingsData.dart';
 

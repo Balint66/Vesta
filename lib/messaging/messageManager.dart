@@ -24,7 +24,7 @@ class MessageManager
     return plugin;
   }
 
-  static void showNotification(String text, {NotificationType type = NotificationType.PLAIN, int splitAtCharacters = 20, String payload})
+  static void showNotification(String text, {NotificationType type = NotificationType.PLAIN, int splitAtCharacters = 20, String payload, AndroidBitmap bitmap})
   {
 
     switch(type)
@@ -58,7 +58,15 @@ class MessageManager
 
         break;
       case NotificationType.BIGPICTURE:
-        // TODO: Handle this case.
+        if(bitmap == null)
+        {
+          throw 'No bitmap was specified!';
+        }
+        var detail = NotificationDetails( AndroidNotificationDetails('vesta_main', 'Vesta', 'Vesta notifications', importance: Importance.High,
+          priority: Priority.High, ticker: 'ticker', styleInformation: BigPictureStyleInformation(bitmap, summaryText: text)), _defaultIOSDetail);
+
+          _notificationPlugin.show(0, 'Vesta', text, detail);
+
         break;
       case NotificationType.MESSAGING:
       case NotificationType.PLAIN:

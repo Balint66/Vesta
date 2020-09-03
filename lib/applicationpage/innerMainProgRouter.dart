@@ -2,7 +2,6 @@ import 'package:fluro/fluro.dart' as fluro;
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:vesta/applicationpage/MainProgram.dart';
-import 'package:vesta/applicationpage/common/popupOptionProvider.dart';
 import 'package:vesta/applicationpage/lessons/lessonDisplay.dart';
 import 'package:vesta/applicationpage/messages/messageListDisplay.dart';
 import 'package:vesta/applicationpage/semesters/semesterDisplayer.dart';
@@ -84,7 +83,7 @@ class MainProgRouter
     return MainProgram(key:VestaRouter.mainKey, route: path,);
   });
 
-  static Widget _wrapinFutureBuilder(BuildContext ctx ,Widget child, PopupMenuItemBuilder<int> builder, PopupMenuItemSelected<int> selector)
+  /*static Widget _wrapinFutureBuilder(BuildContext ctx ,Widget child, PopupMenuItemBuilder<int> builder, PopupMenuItemSelected<int> selector)
   {
     return FutureBuilder(future: () async
     {
@@ -117,5 +116,5 @@ class MainProgRouter
       }
       return Center(child: CircularProgressIndicator());
     });
-  }
+  }*/
 }

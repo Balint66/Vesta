@@ -112,7 +112,7 @@ class MainProgramState extends State<MainProgram>
     }
   }
 
-  final PopupSettings _popupSettings = PopupSettings(key: _popupSettingsKey);
+ // final PopupSettings _popupSettings = PopupSettings(key: _popupSettingsKey);
 
   @override
   Widget build(BuildContext context)
