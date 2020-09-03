@@ -57,9 +57,9 @@ class StudentData
         TrainingData.listFromJson(json['TrainingList']), LCID: json['LCID'] as int);
   }
 
-  static void setInstance(String username, String password, List<TrainingData> data)
+  static void setInstance(String username, String password, List<TrainingData> data, {int LCID})
   {
-    _instance = StudentData._(username, password, data);
+    _instance = StudentData._(username, password, data, LCID: LCID ?? hun_LCID);
   }
 
   static Map<String,dynamic> toJsonMap(StudentData data)

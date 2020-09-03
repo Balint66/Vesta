@@ -16,7 +16,8 @@ class StudentBookListHolder extends ListDataHolder<StudentBookDataList>
     var base = WebDataBase.simplified(StudentData.Instance.username,
       StudentData.Instance.password,
       StudentData.Instance.username,
-      StudentData.Instance.currentTraining.id.toString());
+      StudentData.Instance.currentTraining.id.toString(),
+      LCID: StudentData.Instance.LCID);
 
     var resp = await WebServices.getStudentBookData(Data.school, base);
 

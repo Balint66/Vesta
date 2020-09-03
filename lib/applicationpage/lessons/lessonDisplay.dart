@@ -3,9 +3,10 @@ import 'package:flutter/widgets.dart';
 import 'package:vesta/Vesta.dart';
 import 'package:vesta/applicationpage/MainProgram.dart';
 import 'package:vesta/applicationpage/common/clickableCard.dart';
+import 'package:vesta/applicationpage/common/kamonjiDisplayer.dart';
 import 'package:vesta/applicationpage/common/popupOptionProvider.dart';
+import 'package:vesta/applicationpage/common/refreshExecuter.dart';
 import 'package:vesta/applicationpage/lessons/lessonDetailedDisplay.dart';
-import 'package:vesta/applicationpage/refreshExecuter.dart';
 import 'package:vesta/datastorage/Lists/calendarDataList.dart';
 import 'package:vesta/web/webdata/bgFetchSateFullWidget.dart';
 
@@ -67,33 +68,47 @@ static final PopupOptionData data = PopupOptionData(
 
     var list = MainProgram.of(context).calendarList;
 
-    return list.maxItemCount > 0 ?
+    return RefreshExecuter(
+        asyncCallback: MainProgram.of(context).calendarList.incrementWeeks,
+        child: StreamBuilder( stream: list.getData(),
+        builder: (BuildContext ctx, AsyncSnapshot<CalendarDataList> snap)
+      {
 
-      StreamBuilder( stream: list.getData(),
-          builder: (BuildContext ctx, AsyncSnapshot<CalendarDataList> snap)
+        if(snap.hasError)
         {
-          if(snap.hasError)
-          {
-            Vesta.logger.e(snap.error);
-            return Text('${snap.error}');
-          }
-          else if(snap.hasData)
-          {
+          Vesta.logger.e(snap.error);
+          return Text('${snap.error}');
+        }
+        else if(snap.hasData)
+        {
+          if(list.maxItemCount != 0){
             return _drawWithMode(CalendarDisplayModes.LISTVIEW, snap.data, context);
           }
-            
-              return Center(child: CircularProgressIndicator());
-
-        }
-      )
-    :
-
-      Center(child: RichText(textAlign: TextAlign.center, text: TextSpan(text:'You have got nothing new here pal.\n',
+          else{
+            return KamonjiDisplayer( RichText(textAlign: TextAlign.center, text: TextSpan(text:'You have got nothing new here pal.\n',
               style: Theme.of(context).textTheme.bodyText1,
               children:[
                 TextSpan(text: '¯\\_(ツ)_/¯', style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 25))
               ]))
-    );
+            );
+          }
+        }
+            
+        return FutureBuilder(future: Future.delayed(Duration(seconds: 1), ()=> true), builder: (ctx, shot)
+        { 
+          if(shot.hasData){
+            return KamonjiDisplayer( RichText(textAlign: TextAlign.center, text: TextSpan(text:'You have got nothing new here pal.\n',
+              style: Theme.of(context).textTheme.bodyText1,
+              children:[
+                TextSpan(text: '¯\\_(ツ)_/¯', style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 25))
+              ])),
+            );}
+          return Center(child: CircularProgressIndicator());
+        });
+
+      }
+    ));
+    
     
   }
 
@@ -116,26 +131,23 @@ static final PopupOptionData data = PopupOptionData(
 
     _nextEnd = response[0].end;
     
-    return RefreshExecuter(
-        asyncCallback: MainProgram.of(context).calendarList.incrementWeeks,
-        child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: response.length,
-            itemBuilder: (BuildContext ctx, int index)
-            {
-              return ClickableCard(child: ListTile(
-                title: Text( response[index].title),
-                  onTap: ()=> MainProgram.of(context).parentNavigator.push(MaterialPageRoute(
-                  builder: (BuildContext context){
-                return LessonDetailedDisplay(response[index]);
-                })),
-                ),
-              );
-            }
-        )
+    return ListView.builder(
+      shrinkWrap: false,
+      physics: AlwaysScrollableScrollPhysics(),
+      itemCount: response.length,
+      itemBuilder: (BuildContext ctx, int index)
+      {
+        return ClickableCard(child: ListTile(
+          title: Text( response[index].title),
+            onTap: ()=> MainProgram.of(context).parentNavigator.push(MaterialPageRoute(
+            builder: (BuildContext context){
+          return LessonDetailedDisplay(response[index]);
+          })),
+          ),
+          secondColor: response[index].eventColor,
+        );
+      }
     );
-
-
   }
 
 }

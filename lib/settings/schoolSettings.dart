@@ -50,7 +50,7 @@ class SchoolSettingsState extends State<SchoolSettings>
           ),
     ];
 
-    return Scaffold(appBar: AppBar(title: Text('School Settings')),
+    return Scaffold(appBar: AppBar(title: Text(translator.translate('settings_school'))),
       body: ListView(children: options)
     );
   }

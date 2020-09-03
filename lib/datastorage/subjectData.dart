@@ -6,7 +6,7 @@ class SubjectData
   final int Credit;
   final int CurriculumTemplateID;
   final int CurriculumTemplatelineID;
-  final bool IsOnSubject;
+  bool IsOnSubject;
   final String SubjectCode;
   final int SubjectId;
   final String SubjectName;
@@ -19,7 +19,7 @@ class SubjectData
     String SubjectCode = '', int SubjectId = 0, 
     String SubjectName = '', String SubjectRequirement = '', String SubjectSignupType = '', int TermID = 0}) 
     : Completed = Completed, Credit = Credit, CurriculumTemplateID = CurriculumTemplateID, CurriculumTemplatelineID = CurriculumTemplatelineID,
-     IsOnSubject = IsOnSubject, SubjectCode = SubjectCode, SubjectId = SubjectId, SubjectName = SubjectName,
+      IsOnSubject = IsOnSubject, SubjectCode = SubjectCode, SubjectId = SubjectId, SubjectName = SubjectName,
       SubjectRequirement = SubjectRequirement, SubjectSignupType = SubjectSignupType, TermID = TermID;
 
     SubjectData.fromJsonString(String str) : this.fromJson(json.decode(str));

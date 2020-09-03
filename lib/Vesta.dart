@@ -149,10 +149,10 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
   }
 
   void updateSettings({Color mainColor, bool isDarkTheme, bool keepMeLogged,
-    String route, bool eulaWasAccepted, String language, bool devMode})
+    String route, bool eulaWasAccepted, String language, bool devMode, bool syncLang})
   {
     if(mainColor == null && isDarkTheme == null && keepMeLogged == null
-        && route == null && eulaWasAccepted == null && language == null && devMode == null) {
+        && route == null && eulaWasAccepted == null && language == null && devMode == null && syncLang == null) {
       return;
     }
 
@@ -180,6 +180,10 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
       if(devMode != null){
         _settings.devMode = devMode;
       }
+      if(syncLang != null)
+      {
+        _settings.syncLangWithNeptun = syncLang;
+      }
       FileManager.saveSettings(_settings);
     });
 
@@ -188,6 +192,8 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
   bool get pageSettingsChanged => _pagesettings;
   void resetpageChange() => _pagesettings = false;
   bool _pagesettings = false;
+
+  void manuallySetPageChange() => setState((){ _pagesettings = true;});
 
   void updatePageSettings(String page, PageSettingsData data)
   {

@@ -32,7 +32,7 @@ class LessonDetailedDisplay extends StatelessWidget
           case 5: return TextDetailItem(translator.translate('lessons_aday'), data.allDayLong.toString());
           case 6: return TextDetailItem(translator.translate('lessons_type'), data.type);
           case 7: return TextDetailItem(translator.translate('lessons_id'), data.id);
-          case 8 : return DetailItem(translator.translate('lessons_col'),
+          case 8 : return DetailItem(translator.translate('lessons_cl'),
               Container(decoration: BoxDecoration(color: data.eventColor), width: 10, height: 10));
           default: return Text('Unknown index!');
         }
@@ -42,7 +42,7 @@ class LessonDetailedDisplay extends StatelessWidget
           return GradientDivider();
         }, 
         itemCount: 9),
-    appBar: AppBar(),);
+    appBar: AppBar(title: Text(data.title), ), );
   }
   
 }

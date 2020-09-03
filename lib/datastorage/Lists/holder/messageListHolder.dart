@@ -14,6 +14,7 @@ class MessageListHolder extends ListDataHolder<MessageList>
       StudentData.Instance.password,
       StudentData.Instance.username,
       StudentData.Instance.currentTraining.id.toString(),
+      LCID: StudentData.Instance.LCID,
       currentPage: _dataIndex
   );
 

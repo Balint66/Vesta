@@ -101,8 +101,6 @@ class MainProgramState extends State<MainProgram>
     FetchManager.register(_semesterList);
     FetchManager.register(_subjectList);
 
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) { makeRefresh(); });
-
   }
 
   void makeRefresh()
@@ -119,6 +117,8 @@ class MainProgramState extends State<MainProgram>
   @override
   Widget build(BuildContext context)
   {
+    
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) { makeRefresh(); });
 
     MainProgRouter.defaultRoute = '/app'+Vesta.of(context).settings.appHomePage;
 
@@ -140,7 +140,6 @@ class MainProgramState extends State<MainProgram>
                   Navigator.of(context).pushNamed('/pageSettings/' 
                   + ReplacementObserver.Instance.currentPath.split('/')[2]);
                   }),
-                  //_popupSettings,
         ],),
         drawer: Sidebar(key: widget.sidebarKey),
       ),

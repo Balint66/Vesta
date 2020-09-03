@@ -138,7 +138,7 @@ class RefreshExecuterState extends State<RefreshExecuter> with SingleTickerProvi
     if(notification is UserScrollNotification)
     {
       setState(() {
-        _scrolledDown = notification.direction == ScrollDirection.reverse;
+        _scrolledDown = notification.direction == ScrollDirection.reverse && notification.metrics.axis == Axis.vertical;
       });
 
     }

@@ -78,7 +78,7 @@ class AdvancedSettingsState extends State<AdvancedSettings>
           ListTile(title: Text(translator.translate('settings_clear_cache')),
             onTap: ()
             {
-              //MainProgramState.of(context).refreshListHolders();
+              Vesta.of(context).manuallySetPageChange();
             },),
           ListTile(title: Text(translator.translate('settings_hard_reset')),
           onTap: ()
@@ -91,7 +91,7 @@ class AdvancedSettingsState extends State<AdvancedSettings>
         ]);
         }
 
-    return Scaffold(appBar: AppBar(title: Text('Advanced Settings')),
+    return Scaffold(appBar: AppBar(title: Text(translator.translate('settings_advanced'))),
       body: ListView(children: options)
     );
   }

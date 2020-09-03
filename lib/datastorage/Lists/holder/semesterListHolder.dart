@@ -5,6 +5,9 @@ class SemesterListHolder extends ListDataHolder<SemestersDataList>
 
   static final Duration defaultInterval = Duration(days:1);
 
+  @override
+  int _dataIndex = 0;
+
   List<Map<String, dynamic>> _periodtermList = <Map<String, dynamic>>[];
 
   void resetPeridtermList()

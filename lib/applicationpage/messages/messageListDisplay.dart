@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:vesta/Vesta.dart';
 import 'package:vesta/applicationpage/MainProgram.dart';
 import 'package:vesta/applicationpage/common/clickableCard.dart';
+import 'package:vesta/applicationpage/common/kamonjiDisplayer.dart';
 import 'package:vesta/applicationpage/common/popupOptionProvider.dart';
-import 'package:vesta/applicationpage/refreshExecuter.dart';
+import 'package:vesta/applicationpage/common/refreshExecuter.dart';
 import 'package:vesta/datastorage/data.dart';
 import 'package:vesta/applicationpage/messages/messageDisplay.dart';
 import 'package:vesta/datastorage/Lists/messagesList.dart';
@@ -47,12 +48,13 @@ with SingleTickerProviderStateMixin
   {
     var messages = MainProgram.of(context).messageList;
     var translator = AppTranslations.of(context);
-    var unread = translator.translate('messages_unread');
 
     return StreamBuilder(
               stream: messages.getData(),
               builder: (BuildContext context, AsyncSnapshot<MessageList> snap)
               {
+
+                var unread = translator.translate('messages_unread');
 
                 var ls = <Widget>[];
                 var unreadnum = 0;
@@ -92,16 +94,29 @@ with SingleTickerProviderStateMixin
                           var body = WebDataMessageRead(StudentData.Instance,
                               item.personMessageId);
                           WebServices.setRead(Data.school, body);
-                      });
+                      },
+                      onLongPress: (item)
+                      {
+                        setState(() 
+                        {
+                          item.setReadState();
+                        });
+                        var body = WebDataMessageRead(StudentData.Instance,
+                              item.personMessageId);
+                          WebServices.setRead(Data.school, body);
+                      },);
                   if(unreadls.isNotEmpty){
                     ls.add(unread);
                   } 
                   else{
-                    ls.add(Center(child: RichText(textAlign: TextAlign.center, text: TextSpan(text:'You don\'t have any new message!!\n',
-                    style: Theme.of(context).textTheme.bodyText1,
-                    children:[
-                      TextSpan(text: '( ✧Д✧) YES!!', style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 25))
-                    ]))));
+                    ls.add(KamonjiDisplayer(RichText(textAlign: TextAlign.center, text: TextSpan(text:translator.translate('messages_unread_kamonji'),
+                        style: Theme.of(context).textTheme.bodyText1,
+                        children:[
+                          TextSpan(text: '( ✧Д✧) YASSS!!', style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 25))
+                    ])
+                        ),
+                      ),
+                    );
                   }
                   ls.add(read);  
 
@@ -116,23 +131,23 @@ with SingleTickerProviderStateMixin
                 }
 
                 return Scaffold(
-              bottomNavigationBar: BottomAppBar (
-                child: TabBar(
-                    controller: _tabController,
-                    tabs: <Widget>
-                    [
-                      Tab(text: unread,),
-                      Tab(text: translator.translate('messages_read'),)
-                    ]
+                bottomNavigationBar: BottomAppBar (
+                  child: TabBar(
+                      controller: _tabController,
+                      tabs: <Widget>
+                      [
+                        Tab(text: unread,),
+                        Tab(text: translator.translate('messages_read'),)
+                      ]
+                  ),
+                  color: Theme.of(context).primaryColor,
                 ),
-                color: Theme.of(context).primaryColor,
-              ),
-              body: RefreshExecuter(icon: Icons.message,
-                          asyncCallback: messages.incrementWeeks,
-                          child: TabBarView(children: ls, controller: _tabController,)
+                body: RefreshExecuter(icon: Icons.message,
+                            asyncCallback: messages.incrementWeeks,
+                            child: TabBarView(children: ls, controller: _tabController,)
 
-                )
-              );
+                  )
+                );
 
           }
         );
@@ -148,9 +163,10 @@ class SortedMessages extends StatelessWidget
 
   final List<Message> _messages;
   final displayFunction _ontap;
+  final displayFunction _onLongPress;
 
-  SortedMessages(List<Message> msg, displayFunction onTap) : _messages = msg,
-        _ontap = onTap,  super();
+  SortedMessages(List<Message> msg, displayFunction onTap, {displayFunction onLongPress}) : _messages = msg,
+        _ontap = onTap, _onLongPress = onLongPress, super();
 
   @override
   Widget build(BuildContext context)
@@ -160,6 +176,7 @@ class SortedMessages extends StatelessWidget
         ClickableCard(child: ListTile(title: Text(item.subject),
             subtitle: Text(item.senderName),
             onTap: () => _ontap(item),
+            onLongPress: () => _onLongPress(item),
             ),
           )
         )  

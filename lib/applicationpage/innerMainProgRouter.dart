@@ -25,7 +25,7 @@ class MainProgRouter
     define('/messages', handler: _messageHandler, transitionType: fluro.TransitionType.cupertinoFullScreenDialog);
     define('/calendar', handler: _calendarHandler, transitionType: fluro.TransitionType.cupertinoFullScreenDialog);
     define('/student_book', handler: _studentBookHandler, transitionType: fluro.TransitionType.cupertinoFullScreenDialog);
-    define('/semester_info', handler: _semesterInfoHandler, transitionType: fluro.TransitionType.cupertinoFullScreenDialog);
+    define('/semesters', handler: _semesterInfoHandler, transitionType: fluro.TransitionType.cupertinoFullScreenDialog);
     define('/subjects', handler: _subjectHandler, transitionType: fluro.TransitionType.cupertinoFullScreenDialog);
 
   }

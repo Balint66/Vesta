@@ -26,7 +26,6 @@ class ReplacementObserver extends NavigatorObserver
 
       _listeners.putIfAbsent(route, () => set); // ignore: sdk_version_set_literal
 
-
   }
 
   @override

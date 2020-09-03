@@ -36,7 +36,7 @@ abstract class ListDataHolder<T extends ListBase> with BackgroundFetchingService
   bool _enabled = true;
   final _streamController = StreamController<T>.broadcast();
 
-  int _maxItemCount = 0;
+  int _maxItemCount = -255;
   int _dataIndex = 1;
   int get maxItemCount => _maxItemCount;
 

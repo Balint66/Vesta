@@ -35,6 +35,9 @@ abstract class WebServices
   //The invalid certs of shools
   static const _certs = <String>[
 '''
+-----BEGIN CERTIFICATE-----MIIKhTCCCW2gAwIBAgIOWuH4BgKW92fRz+9xg8EwDQYJKoZIhvcNAQELBQAwgaoxCzAJBgNVBAYTAkhVMREwDwYDVQQHDAhCdWRhcGVzdDEVMBMGA1UECgwMTmV0TG9jayBLZnQuMTcwNQYDVQQLDC5UYW7DunPDrXR2w6FueWtpYWTDs2sgKENlcnRpZmljYXRpb24gU2VydmljZXMpMTgwNgYDVQQDDC9OZXRMb2NrIEV4cHJlc3N6IChDbGFzcyBDKSBUYW7DunPDrXR2w6FueWtpYWTDszAeFw0xOTA3MDUwOTQyMzRaFw0yMTA3MDQwOTQyMzRaMF8xCzAJBgNVBAYTAkhVMREwDwYDVQQHDAhCdWRhcGVzdDEpMCcGA1UECgwgUnVmdXN6IENvbXB1dGVyIEluZm9ybWF0aWthIFpydC4xEjAQBgNVBAMMCXJ1ZnVzei5odTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMpgFzX6+nIzV9OB183Enq9WhmZZgZ0IWmCuf4j1RhWKCV7ByuC0Gxm/QhGktVDtdp0PEmHMQ/E/78Wda6Ozb9/8jFMD6OFma+AkeUlmVBeSep/EXO1WTq+ecvoD3DOPGKu6lrvScKaFV7XzBmxFYD66p2zuIMM734Waak7Ozam0E7D38Kz/s3Vk1asvVtalMr5hEng74SZIxGuWEu39vr8LkOXx0uVFeyJ3KNJ7vqNWpPGTHiDLqmWpI0BYsdyxL3ekXhfY+ZgqHmih8tMR72NAbSA4akyhbYJkT8cgTF5FNFn4V4eLGekfEH4+jYdOlulQ4YTyqDp/pM8maY4OVwMCAwEAAaOCBvEwggbtMAwGA1UdEwEB/wQCMAAwDgYDVR0PAQH/BAQDAgWgMBMGA1UdJQQMMAoGCCsGAQUFBwMBMB0GA1UdDgQWBBT9iDlclU9z1VAfmYNtMerIn5bFFjAfBgNVHSMEGDAWgBRJvyFA81O9NisiZagmEv/k33H2yjCBlQYDVR0gBIGNMIGKMIGHBgZngQwBAgIwfTAnBggrBgEFBQcCARYbaHR0cDovL3d3dy5uZXRsb2NrLmh1L2RvY3MvMFIGCCsGAQUFBwICMEYMRE9WIFNTTCBjZXJ0aWZpY2F0ZS4gVGVybXMgb2Ygc2VydmljZSBhdDogaHR0cDovL3d3dy5uZXRsb2NrLmh1L2RvY3MvMIIBPgYIKwYBBQUHAQEEggEwMIIBLDAsBggrBgEFBQcwAYYgaHR0cDovL29jc3AxLm5ldGxvY2suaHUvY2NjYS5jZ2kwLAYIKwYBBQUHMAGGIGh0dHA6Ly9vY3NwMi5uZXRsb2NrLmh1L2NjY2EuY2dpMCwGCCsGAQUFBzABhiBodHRwOi8vb2NzcDMubmV0bG9jay5odS9jY2NhLmNnaTA0BggrBgEFBQcwAoYoaHR0cDovL2FpYTEubmV0bG9jay5odS9pbmRleC5jZ2k/Y2E9Y2NjYTA0BggrBgEFBQcwAoYoaHR0cDovL2FpYTIubmV0bG9jay5odS9pbmRleC5jZ2k/Y2E9Y2NjYTA0BggrBgEFBQcwAoYoaHR0cDovL2FpYTMubmV0bG9jay5odS9pbmRleC5jZ2k/Y2E9Y2NjYTCBngYDVR0fBIGWMIGTMC+gLaArhilodHRwOi8vY3JsMS5uZXRsb2NrLmh1L2luZGV4LmNnaT9jcmw9Y2NjYTAvoC2gK4YpaHR0cDovL2NybDIubmV0bG9jay5odS9pbmRleC5jZ2k/Y3JsPWNjY2EwL6AtoCuGKWh0dHA6Ly9jcmwzLm5ldGxvY2suaHUvaW5kZXguY2dpP2NybD1jY2NhMIICewYDVR0RBIICcjCCAm6CDSouY2FyZHNvZnQuaHWCDyouZS1lZHVjYXRpby5odYIKKi5lLWZ5aS5odYINKi5lZHVrcmVzei5odYILKi5la3JldGEuaHWCCSouZWxtcy5odYIRKi5qb2dvc2l0dmFueS5jb22CFCouam9nc2lrYWxrdWxhdG9yLmh1ghUqLmtyZXN6ZmVsZnJpc3NpdG8uaHWCDioua3N6Zmlyb2RhLmh1ggsqLmxtc29uZS5odYIIKi5tYXguaHWCCioubWV6ZXkuaHWCDyoubmVwdHVuLm9yZy5odYILKi5uZXhpdXMuaHWCCyoucnVmdXN6Lmh1ggsqLnNkYWRtcy5odYITKi5zZGFpbmZvcm1hdGlrYS5odYILKi5zZGFrZnQuaHWCCyouc3pha29lLmh1gg8qLnRhbnVsb2tuYWsuaHWCDSoud2Viam9nc2kuaHWCC2NhcmRzb2Z0Lmh1gg1lLWVkdWNhdGlvLmh1gghlLWZ5aS5odYILZWR1a3Jlc3ouaHWCCWVrcmV0YS5odYIHZWxtcy5odYIPam9nb3NpdHZhbnkuY29tghJqb2dzaWthbGt1bGF0b3IuaHWCE2tyZXN6ZmVsZnJpc3NpdG8uaHWCDGtzemZpcm9kYS5odYIJbG1zb25lLmh1ggZtYXguaHWCCG1lemV5Lmh1gg1uZXB0dW4ub3JnLmh1ggluZXhpdXMuaHWCCXJ1ZnVzei5odYIJc2RhZG1zLmh1ghFzZGFpbmZvcm1hdGlrYS5odYIJc2Rha2Z0Lmh1gglzemFrb2UuaHWCDXRhbnVsb2tuYWsuaHWCC3dlYmpvZ3NpLmh1MIIBfAYKKwYBBAHWeQIEAgSCAWwEggFoAWYAdQD2XJQv0XcwIhRUGAgwlFaO400TGTO/3wwvIAvMTvFk4wAAAWvBg6ZdAAAEAwBGMEQCIGOQYPNqxLkQb5aFvD5oTYMsWGycV2wzhO9ct2y1r6fGAiBf/8mZvjsCy6RsJ7EwMRdznuT5xvl0EzllgyG9KnN/EwB1AFWB1MIWkDYBSuoLm1c8U/DA5Dh4cCUIFy+jqh0HE9MMAAABa8GDrJoAAAQDAEYwRAIgb7q187iUtWw/lebQrlsHYUa44FzD/Ir/XlKMtr3di7cCIFu+WGIXMU4VoHCeT5vTsPtBqMu+D42okqUbnLoUPD4PAHYAb1N2rDHwMRnYmQCkURX/dxUcEdkCwQApBo2yCJo32RMAAAFrwYOuCAAABAMARzBFAiA009Gaqykk3GMDcNPdt9m185cQXpNiRci8diAX9c7liQIhAJkUlAuHxyjF9rj64WeY0n98pDeUypeN/8ZiEPV2AaFdMA0GCSqGSIb3DQEBCwUAA4IBAQAl3jBzS2mfXBUmG8D54zK9znjI8rKxRpAwnEpO0iYfAxxxQa5ojTGdZW2d23wtJw0MUHtOtJh0VSHZpVQKwsJV3sc9m1TwKci4E9Z+5wMf5GV3puN636yBXD+mQzHPl8xRjGNyJa76PTb5BtBNv5DommZlS1Rv/Q2PyG8RVpgPJ5HCRMdHsrRfDecQN6K30JDTMDfU75n5rEff9x72u3v+43qiCBd5Q/glOhU+cU4SZSHpeZw120La8a7lU15/614tvOvZcNsAqJeU36i7RNG2CBb7BCibN4hgVrF7nsnhZoT307eFfQ/19juU3OT+jIejah3jhCja2O6TB6y2nI2U-----END CERTIFICATE-----
+''',
+'''
 -----BEGIN CERTIFICATE-----MIIDCzCCAfOgAwIBAgIQEnVlagYwjqFCZlfd3KXunjANBgkqhkiG9w0BAQsFADAeMRwwGgYDVQQDDBNXaW5kb3dzIEF6dXJlIFRvb2xzMB4XDTIwMDUzMDExNTk1MFoXDTIxMDUzMDEyMDk1MVowHjEcMBoGA1UEAwwTV2luZG93cyBBenVyZSBUb29sczCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMcJxeuIM8WN5cJx9hEORGJCOjfZCLgLoDXlSu5JLz9I/gDyDxYWfQ1CtUlN1BFsc5+oIFGv3LledtpBW528LoRWf6diAFwMfbzda3VqRUQaUZkLYSYa99hQ82TG7Vwbd39ujUu89kyxw0OWl6NjhJYzpiarDQmyO7Lv1l5s5pZwowOT0+bwd+xvpzCz7jf8/l8YxChFaEy8ow7wtNo7CjibWUdOEHDFmOhhP1u4GC86Xaqr1SF+wb/V1LRHCscOsruv03u5eK04HqCIKCImtERV16sq9ibJMfXIocrXot1UOCTI6IOUEwYWm0nx+ieBzIGLWNviiIF9cgQexh6WcOUCAwEAAaNFMEMwEgYDVR0TAQH/BAgwBgIEf////zAdBgNVHQ4EFgQU+Pd1+XfPT9SCgr7SsyL+fh30NiQwDgYDVR0PAQH/BAQDAgUgMA0GCSqGSIb3DQEBCwUAA4IBAQAMCIA9ofsV6Us4GwA1g/3lnieMmooQIm3iCqJeI9juoL+4dJcIV83jAd0M4Pv3Awx8rXSIOTEV/SHJeSKCPQgwjtICtWUHXnoMyCC3dr5VXm2Tqz5wbywWB/wWzZTU4t2KhHghQfHiUjE8NXCid4WyEQ479niPu2IO+6yigyvgSIkCHUCYxuBEvE3xs41sM1V/hyiZCK4AxKWEAbMYPCxvGzsFATeeDVkN6p7ka2F5jftXqUqAfCd84njknstCXdxtsTAXbhFpUhqKNQR5XZJ+ginpQwZ7iq4VytxaJZJ3DnKovu8mpQLDPWyjQKy+5QKilWms3w/tCAKwOb1zRLhy-----END CERTIFICATE-----
 ''',
 '''
@@ -107,8 +110,12 @@ abstract class WebServices
         if(nums.length > 2 && nums[0] == '192' && nums[1] == '168'){
           return false;
         }
-        Vesta.logger.d('$host: ${cert.pem.trim().replaceAll("\n", "")}');
-        return _certs.any((certString)=> cert.pem.trim().replaceAll('\n', '') == certString.trim().replaceAll('\n', ''));
+        if(_certs.any((certString)=> cert.pem.trim().replaceAll('\n', '') == certString.trim().replaceAll('\n', '')) /*|| host == 'mobilecloudservice.cloudapp.net'*/)
+        {
+          return true;
+        }
+        Vesta.logger.d('$host:\n ${cert.pem.trim().replaceAll("\n", "")}');
+        return false;
       };
     };
 
@@ -146,7 +153,7 @@ abstract class WebServices
           Vesta.logger.i('Unable to connect to the internet!');
         }
       }
-      on SocketException catch(e) //ignoer: unused_catch_clause
+      on SocketException catch(e) //ignore: unused_catch_clause
       {
         if(e.osError.errorCode == 7)
         {
@@ -528,9 +535,17 @@ abstract class WebServices
   static Future<List<Map<String, dynamic>>> _getPeriodTerms<T extends WebDataBase>(School school, T body) async
   {
 
+    try
+    {
     var resp = await client.post(school.Url + '/GetPeriodTerms', data: body.toJson());
 
     return ((resp.data as Map<String, dynamic>)['PeriodTermsList'] as List<dynamic>).cast<Map<String, dynamic>>();
+    }
+    catch(e)
+    {
+      Vesta.logger.e(body.toJson() + '\n\n' + e.toString());
+      return [];
+    }
 
   }
 
@@ -542,7 +557,7 @@ abstract class WebServices
   static Future<WebDataSubjectResponse> _getSubjects<T extends WebDataBase>(School school, T body) async
   {
 
-     try{
+    try{
 
       var respBody = body.toJsonMap();
 
@@ -617,14 +632,14 @@ abstract class WebServices
   }
 
 
-  static Future<WebDataBase> saveSubject(School school, WebDataSubjectSignupRequest body) async 
+  static Future<bool> saveSubject(School school, WebDataSubjectSignupRequest body) async 
   {
     return await _callFunction(_saveSubject, school, body);
   }
     
     
     
-  static Future<WebDataBase> _saveSubject<T extends WebDataBase>(School school, T body) async
+  static Future<bool> _saveSubject<T extends WebDataBase>(School school, T body) async
   {
     try{
 
@@ -635,8 +650,7 @@ abstract class WebServices
 
       _testResponse(jsonBody);
 
-      //TODO: implement remaining
-      return null;
+      return (T as WebDataSubjectSignupRequest).SubjectSignin;
 
     }
     catch(e)

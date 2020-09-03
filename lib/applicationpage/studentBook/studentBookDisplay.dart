@@ -59,7 +59,15 @@ class _StudentBookDisplayState extends State<StudentBookDisplay>
             }
         }).call()).toDouble() * e.Credit).fold(0, (prev, element) => prev + element) / 30.0;
 
-        var average = grades.fold<int>(0, (prev, element) => prev + element) / grades.where((element) => element != 0).length.toDouble();
+        double average;
+
+        if(grades.where((element) => element != 0).isNotEmpty){
+          average = grades.fold<int>(0, (prev, element) => prev + element) / grades.where((element) => element != 0).length.toDouble();
+        }
+        else
+        {
+          average = 0.0;
+        }
 
         var credPercent = (snap.data.where((e)=> e.Values != null && e.Values.isNotEmpty).map((e) =>e.Credit).fold(0, (prev, e) => prev + e) as int).toDouble() / 
             (snap.data.map((e)=> e.Credit).fold(0,(prev, e) => prev + e)).toDouble();

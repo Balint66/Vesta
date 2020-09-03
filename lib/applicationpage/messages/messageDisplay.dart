@@ -26,14 +26,14 @@ class MessageDisplay extends StatelessWidget
       match.forEach((element) {
           var ind = message.indexOf(element.group(0));
           message.replaceRange(ind, ind+element.group(0)?.length, 'mailto:' + element.group(0));      
-       });
+      });
 
     }
 
     return Scaffold(
       appBar: AppBar(title: Text(sender),),
       body: Container(
-        padding: EdgeInsets.fromLTRB(30, 15, 30, 0),
+        padding: EdgeInsets.fromLTRB(30, 15, 30, 30),
         child: SingleChildScrollView(child: Column(children: <Widget>[
         Center( child: Text(subject,style: TextStyle(fontSize: 26),)),
         HtmlWidget(

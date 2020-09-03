@@ -13,5 +13,5 @@ class MessagePageSettings extends PageSettingsBase
 class MessagePageSettingsState extends PageSettingsState<MessagePageSettings>
 {
   @override
-  List<Widget> get body => super.body;
+  List<BuildFunction> get body => super.body;
 }

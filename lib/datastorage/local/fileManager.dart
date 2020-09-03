@@ -21,7 +21,7 @@ class FileManager
     if(PlatformHelper.isWeb())
     {
 
-      var key = fileName.substring(0,fileName.length - 5);
+      var key = fileName.split('.')[0];
 
       if(window.localStorage.containsKey(key))
       {
@@ -62,20 +62,9 @@ class FileManager
 
     if(PlatformHelper.isWeb())
     {
-      var key = fileName.substring(0,fileName.length - 5);
+      var key = fileName.split('.')[0];
 
-      if(window.localStorage.containsKey(key))
-      {
-
-        window.localStorage[key] = string;
-
-      }
-      else
-      {
-
-        window.localStorage.putIfAbsent(key, () => string);
-
-      }
+      window.localStorage[key] = string;
     }
     else
     {
@@ -86,7 +75,8 @@ class FileManager
         return;
       }
 
-      var file = io.File(_directory.path + fileName);
+      
+      var file = io.File('${_directory.path}${io.Platform.pathSeparator}$fileName');
 
       if(!(await file.exists()))
       {
@@ -148,7 +138,7 @@ class FileManager
   {
     await clearFileData();
 
-    await _writeAsString('{}', 'login_data.json');
+    await _writeAsString('{}', 'settings.json');
 
   }
 
@@ -182,6 +172,16 @@ class FileManager
 
     return SettingsData.fromJsonString(str);
 
+  }
+
+  static Future<void> writeLog(List<String> log) async
+  {
+    await _writeAsString(log.join('\n'), 'log.txt');
+  }
+
+  static Future<List<String>> readLog() async
+  {
+    return (await _readAsString('log.txt')).split('\n');
   }
 
   static Future<void> init() async

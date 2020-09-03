@@ -16,6 +16,7 @@ class SettingsData
   bool eulaAccepted = false;
   String language = 'en';
   bool devMode = false;
+  bool syncLangWithNeptun = true;
   Map<String, PageSettingsData> pageSettings = <String, PageSettingsData>{
     'messages': MessagePageData()
   };
@@ -30,6 +31,7 @@ class SettingsData
       'eulaAccepted': eulaAccepted,
       'language':language,
       'devMode': devMode,
+      'syncLang': syncLangWithNeptun,
       'mainColor':<String,dynamic>
       {
         'r':mainColor.red,
@@ -54,6 +56,7 @@ class SettingsData
     data.eulaAccepted = map['eulaAccepted'] ?? false;
     data.language = map['language'] ?? 'en';
     data.devMode = map['devMode'] ?? false;
+    data.syncLangWithNeptun = map['syncLang'] ?? data.syncLangWithNeptun;
     if(colormap != null)
     {
     data.mainColor = Color.fromARGB(colormap['a'] ?? 255,
@@ -66,9 +69,9 @@ class SettingsData
       data.mainColor = Colors.red;
     }
 
-    data.pageSettings = (map['pageSettings'] as Map<String, dynamic>).map((key, value) => MapEntry(key, PageSettingsData.fromJson(value))) ?? {
-      'messages': MessagePageData()
-    };
+
+    data.pageSettings = data.pageSettings.map((key, value) => MapEntry(key, PageSettingsData.fromJson((map['pageSettings'] as Map<String, dynamic>)[key]) ?? data.pageSettings[key] ));
+    //(map['pageSettings'] as Map<String, dynamic>).map((key, value) => MapEntry(key, PageSettingsData.fromJson(value))) ?? data.pageSettings;
 
     return data;
 
@@ -76,6 +79,7 @@ class SettingsData
 
   static SettingsData copyOf(SettingsData other)
   {
+    
     var data = SettingsData();
 
     data.eulaAccepted = other.eulaAccepted;
@@ -85,6 +89,7 @@ class SettingsData
     data.stayLogged = other.stayLogged;
     data.language = other.language;
     data.devMode = other.devMode;
+    data.syncLangWithNeptun = other.syncLangWithNeptun;
     data.pageSettings = other.pageSettings;
 
     return data;

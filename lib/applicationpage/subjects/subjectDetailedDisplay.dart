@@ -80,12 +80,12 @@ class SubjectDetailedDisplay extends StatelessWidget
               return Container(
                     child: Container(
                       child: ListTile(
-                        title: Center(child: Text(data.IsOnSubject ? 'Leave subject' : 'Signup for subject')),
+                        title: Center(child: Text(data.IsOnSubject ? translator.translate('subject_leave') : translator.translate('subject_signup'))),
                         onTap: () async
                         {
                           try
                           {
-                            await WebServices.saveSubject(Data.school, WebDataSubjectSignupRequest(StudentData.Instance, TermID: data.TermID,
+                            var signed = await WebServices.saveSubject(Data.school, WebDataSubjectSignupRequest(StudentData.Instance, TermID: data.TermID,
                             SubjectID: data.SubjectId, CurriculumID: data.CurriculumTemplateID, IsOnSubject: data.IsOnSubject,
                             SubjectSignin: !data.IsOnSubject, CurriculumTemplatelineID: data.CurriculumTemplatelineID,
                             AllType: entries.map((e) => e.value[0].CourseType).toList(), CourseIDs: (()
@@ -104,6 +104,11 @@ class SubjectDetailedDisplay extends StatelessWidget
 
                               return list;
                             }).call()));
+
+                            setState((){
+                              data.IsOnSubject = signed;
+                            });
+
                           }
                           catch(e)
                           {
