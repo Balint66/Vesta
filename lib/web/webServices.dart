@@ -663,4 +663,14 @@ abstract class WebServices
     }
   }
 
+  static Future<String> getAppPrivacyPolicy()
+  {
+    return _callFunction(_getAppPrivacyPolicy, null, null);
+  }
+
+  static Future<String> _getAppPrivacyPolicy<T extends WebDataBase>(School school, T body) async
+  {
+    return (await client.get('https://bitbucket.org/Balint66/vesta/raw/f5f6a15d85f07ead24faa465d9871321cd45e523/repository_assets/PRIVACY_POLICY.md')).data.toString();
+  }
+
 }
