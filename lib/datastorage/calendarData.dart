@@ -39,7 +39,7 @@ class CalendarData
           (jsonMap['eventColor'] as Map<String, dynamic>)['b']),
       id:jsonMap['id'].toString(), location:jsonMap['location'],
       start:DateTime.fromMillisecondsSinceEpoch(
-          int.tryParse(jsonMap['start'].toString().split('(')[1].split(')')[0])),
+          int.tryParse(jsonMap['start'].toString().split('(')[1].split(')')[0]), isUtc: true),
       title:jsonMap['title'], type: jsonMap['type'].toString());
 
   static DateTime _getEndDate(int start, int neptunEnd)
@@ -51,7 +51,7 @@ class CalendarData
       + (neptunEndTime.millisecondsSinceEpoch
             - DateUtil.epochFlooredToDays(neptunEndTime));
 
-    return DateTime.fromMillisecondsSinceEpoch(realEnd);
+    return DateTime.fromMillisecondsSinceEpoch(realEnd, isUtc: true);
 
   }
 
