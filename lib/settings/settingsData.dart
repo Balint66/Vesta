@@ -11,7 +11,7 @@ class SettingsData
 
   Color mainColor = Colors.red;
   bool isDarkTheme = SchedulerBinding.instance.window.platformBrightness == Brightness.dark;
-  bool stayLogged = false;
+  bool stayLogged = true;
   String appHomePage = '/messages';
   bool eulaAccepted = false;
   String language = 'en';
@@ -51,7 +51,7 @@ class SettingsData
     var data = SettingsData();
 
     data.isDarkTheme = map['isDarkTheme'] ?? false;
-    data.stayLogged = map['stayLogged'] ?? false;
+    data.stayLogged = map['stayLogged'] ?? data.stayLogged;
     data.appHomePage = map['appHomePage'] ?? '/messages';
     data.eulaAccepted = map['eulaAccepted'] ?? false;
     data.language = map['language'] ?? 'en';

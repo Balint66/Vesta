@@ -49,7 +49,7 @@ class SchoolButtonState extends State<SchoolSelectionButton>
     list.add(MaterialButton
       (
       color: Theme.of(context).brightness == Brightness.dark? Theme.of(context).backgroundColor : Colors.white,
-      child: Container( child: Text(text,textWidthBasis: TextWidthBasis.parent, maxLines: 2,textScaleFactor: 1.125,), width: 200.5,),
+      child: Container( child: Text(text,textWidthBasis: TextWidthBasis.parent, maxLines: 2,textScaleFactor: 1.125, textAlign: TextAlign.center,), width: 200.5, padding: EdgeInsets.all(10),),
       onPressed: ()=>displaySchoolsAndChoose(context),
       ),
     );
@@ -120,7 +120,7 @@ class SchoolButtonState extends State<SchoolSelectionButton>
             Navigator.pop(context,item);
           },
         ),
-       ),
+      ),
       );
 
     }

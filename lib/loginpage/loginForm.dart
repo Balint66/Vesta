@@ -208,7 +208,7 @@ class LoginFormState extends State<LoginForm>
                   )),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal:10),
-                    child: Container(width:40, padding: EdgeInsets.symmetric(vertical:5), color: _obscure ? Colors.grey[400] : Colors.grey[600],
+                    child: Container(width:40, padding: EdgeInsets.symmetric(vertical:5),
                       child: MouseRegion(onEnter: (item)=>setState((){
                         _obscure = false;
                       }),
