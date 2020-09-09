@@ -80,7 +80,7 @@ class SchoolButtonState extends State<SchoolSelectionButton>
       builder: (BuildContext context)
       {
         return SimpleDialog(
-          title: Text(AppTranslations.of(context).translate('login_schools')),
+          title: Container(child: Text(AppTranslations.of(context).translate('login_schools')), padding: EdgeInsets.symmetric(vertical: 5)),
           children: getChoosableSchools(widget._schools),
           elevation: 1,
         );
