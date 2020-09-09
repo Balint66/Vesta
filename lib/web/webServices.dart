@@ -229,7 +229,7 @@ abstract class WebServices
 
   static Future<SchoolList> _fetchSchools<T extends WebDataBase>(School school, WebDataBase request) async
   {
-    var url = Uri.https('mobilecloudservice.cloudapp.net',
+    var url = Uri.https('mobilecloudservice.sdainformatika.hu',
         '/MobileServiceLib/MobileCloudService.svc/GetAllNeptunMobileUrls')
         .toString();
 
