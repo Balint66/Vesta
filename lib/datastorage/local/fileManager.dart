@@ -46,7 +46,7 @@ class FileManager
         return '{}';
       }
 
-      var file = io.File(_directory.path + fileName);
+      var file = io.File('${_directory.path}${io.Platform.pathSeparator}$fileName');
 
       if(await file.exists()) {
         return file.readAsString();
