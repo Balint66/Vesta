@@ -6,7 +6,7 @@ import 'package:vesta/routing/replacementObserver.dart';
 class PopupSettings extends StatefulWidget
 {
 
-  PopupSettings({Key key}) : super(key:key);
+  PopupSettings({Key? key}) : super(key:key);
 
   @override
   State<StatefulWidget> createState()
@@ -36,13 +36,13 @@ class PopupSettingsState extends State<PopupSettings> with PopupOptionProvider
         )
       );*/
 
-    var external = _popupData.builder.call(context);
+    var external = _popupData.builder!.call(context);
 
-    if(external != null) {
-      entries.addAll(external);
-    }
+    
+    entries.addAll(external);
+    
 
-      PopupMenuItemSelected<int> selected = (int value)
+      var selected = (int value)
       {
           switch(value)
           {
@@ -52,7 +52,7 @@ class PopupSettingsState extends State<PopupSettings> with PopupOptionProvider
               });
               break;
             default:
-              _popupData.selector.call(value);
+              _popupData.selector!.call(value);
               break;
           }
       };
@@ -63,7 +63,7 @@ class PopupSettingsState extends State<PopupSettings> with PopupOptionProvider
       );      
   }
 
-  PopupOptionData _popupData = PopupOptionData(builder: (BuildContext context)=> null, selector: (int i)=> null);
+  PopupOptionData _popupData = PopupOptionData(builder: (BuildContext context)=> [], selector: (int i)=> null);
 
   @override
   PopupOptionData getOptions() 

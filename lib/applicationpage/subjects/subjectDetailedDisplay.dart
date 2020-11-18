@@ -24,7 +24,7 @@ class SubjectDetailedDisplay extends StatelessWidget
   Widget build(BuildContext context) 
   {
 
-    var f = WebServices.getCourses(Data.school, WebDataCourseRequest(StudentData.Instance, Id: data.SubjectId, CurriculumID: data.CurriculumTemplateID, TermID: data.TermID));
+    var f = WebServices.getCourses(Data.school!, WebDataCourseRequest(StudentData.Instance!, Id: data.SubjectId, CurriculumID: data.CurriculumTemplateID, TermID: data.TermID));
     var translator = AppTranslations.of(context);
 
 
@@ -39,16 +39,16 @@ class SubjectDetailedDisplay extends StatelessWidget
             SubjectDetailItem(translator.translate('subject_req'), data.SubjectRequirement),
             SubjectDetailItem(translator.translate('subject_type'), data.SubjectSignupType),
             SubjectDetailItem(translator.translate('subject_credit'), '${data.Credit}'),
-            //Here was the moment I decided not to make another statful widget just for displaying the buttons.
+            //Here was the moment I decided not to make another stateful widget just for displaying the buttons.
             //It was a really fun time and I like the solution I came up with.
             //(Future me pls don't kill me)
-            FutureBuilder(future: f, builder: (BuildContext ctx, AsyncSnapshot<WebDataCourseResponse> snap)
+            FutureBuilder(future: f, builder: (BuildContext ctx, AsyncSnapshot<WebDataCourseResponse?> snap)
             {
               if(!snap.hasData) {
                 return CircularProgressIndicator();
               }
 
-              var coursesByType = groupBy(snap.data.CourseList, (CourseData obj)=>obj.CourseType_DNAME);
+              var coursesByType = groupBy(snap.data!.CourseList, (CourseData obj)=>obj.CourseType_DNAME);
               var courses = List<int>.generate(coursesByType.length, (index) => -1);
               var entries = coursesByType.entries.toList();
 
@@ -62,7 +62,7 @@ class SubjectDetailedDisplay extends StatelessWidget
                     child: Container(
                       child: ListTile(
                         title: Center(child: Text(entries[index].key)),
-                        onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => CoursesDisplayer(entries[index].value,(ind)
+                        onTap: () => Navigator.of(context)!.push(MaterialPageRoute(builder: (context) => CoursesDisplayer(entries[index].value,(ind)
                         {
                             setState((){
                               courses[index] = ind;
@@ -70,7 +70,7 @@ class SubjectDetailedDisplay extends StatelessWidget
                             Navigator.pop(context);
                         }),)),
                         subtitle: Center(child: Text("${courses[index] < 0 ? 'None' : entries[index].value[courses[index]].CourseCode}"))),
-                    color: Theme.of(context).primaryColor, ), padding: EdgeInsets.symmetric(vertical: 7.5, horizontal: 10));
+                    color: Theme.of(context)!.primaryColor, ), padding: EdgeInsets.symmetric(vertical: 7.5, horizontal: 10));
 
                 }));
 
@@ -85,7 +85,7 @@ class SubjectDetailedDisplay extends StatelessWidget
                         {
                           try
                           {
-                            var signed = await WebServices.saveSubject(Data.school, WebDataSubjectSignupRequest(StudentData.Instance, TermID: data.TermID,
+                            var signed = await WebServices.saveSubject(Data.school!, WebDataSubjectSignupRequest(StudentData.Instance!, TermID: data.TermID,
                             SubjectID: data.SubjectId, CurriculumID: data.CurriculumTemplateID, IsOnSubject: data.IsOnSubject,
                             SubjectSignin: !data.IsOnSubject, CurriculumTemplatelineID: data.CurriculumTemplatelineID,
                             AllType: entries.map((e) => e.value[0].CourseType).toList(), CourseIDs: (()
@@ -106,7 +106,7 @@ class SubjectDetailedDisplay extends StatelessWidget
                             }).call()));
 
                             setState((){
-                              data.IsOnSubject = signed;
+                              data.IsOnSubject = signed!;
                             });
 
                           }
@@ -115,7 +115,7 @@ class SubjectDetailedDisplay extends StatelessWidget
                             Vesta.showSnackbar(Text('$e'));
                           }
                         }),
-                    color: Theme.of(context).primaryColor, ), padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10));
+                    color: Theme.of(context)!.primaryColor, ), padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10));
 
             })]);
             },)

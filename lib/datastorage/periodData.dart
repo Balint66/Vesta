@@ -12,7 +12,7 @@ class PeriodData
   final DateTime ToDate;
   final int TrainingtermIntervalId; //idk what is this. We should filter by this number and the StudentTrainingID.
 
-  PeriodData({DateTime FromDate, String OrgAdmins = '', String PeriodName = '', String PeriodTypeName = '', DateTime ToDate, int TrainingtermIntervalId = 0}) 
+  PeriodData({DateTime? FromDate, String OrgAdmins = '', String PeriodName = '', String PeriodTypeName = '', DateTime? ToDate, int TrainingtermIntervalId = 0}) 
     : FromDate = FromDate ?? DateTime.now(), OrgAdmins = OrgAdmins, PeriodName = PeriodName,
       ToDate = ToDate ?? DateTime.now(), TrainingtermIntervalId = TrainingtermIntervalId, PeriodTypeName = PeriodTypeName;
 
@@ -35,6 +35,12 @@ class PeriodData
       'ToDate': '\/Date(${ToDate.millisecondsSinceEpoch})',
       'TrainingTermIntervalId': TrainingtermIntervalId
     };
+  }
+
+  @override
+  bool operator ==(Object other)
+  {
+    return other is PeriodData && other.TrainingtermIntervalId == TrainingtermIntervalId;
   }
 
 }

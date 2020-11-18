@@ -24,7 +24,7 @@ class MessageManager
     return plugin;
   }
 
-  static void showNotification(String text, {NotificationType type = NotificationType.PLAIN, int splitAtCharacters = 20, String payload, AndroidBitmap bitmap})
+  static void showNotification(String text, {NotificationType type = NotificationType.PLAIN, int splitAtCharacters = 20, String? payload, AndroidBitmap? bitmap})
   {
 
     switch(type)

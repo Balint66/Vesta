@@ -17,12 +17,12 @@ class CalendarData
   final String title;
   final String type;
 
-  CalendarData({bool isAllDay = false, String description = '', DateTime end,
+  CalendarData({bool isAllDay = false, String description = '', DateTime? end,
     Color color = Colors.black, String id = '0', String location = '',
-    DateTime start, String title = '', String type = '0'})
+    DateTime? start, String title = '', String type = '0'})
       : allDayLong = isAllDay, description = description,
-        end = end ?? DateTime.now().add(Duration(hours: 4, minutes: 30)),
-        start = start ?? DateTime.now(), eventColor = color,
+        end = end ?? DateTime(0).add(Duration(hours: 4, minutes: 30)),
+        start = start ?? DateTime(0), eventColor = color,
         id = id, location = location, title = title, type = type;
 
   CalendarData.fromJsonString(String jsonString)
@@ -31,15 +31,15 @@ class CalendarData
   CalendarData.fromJson(Map<String, dynamic> jsonMap)
       : this(isAllDay: jsonMap['allDayLong'], description: jsonMap['description'],
       end: _getEndDate(
-          int.tryParse(jsonMap['start'].toString().split('(')[1].split(')')[0]),
-          int.tryParse(jsonMap['end'].toString().split('(')[1].split(')')[0])),
+          int.tryParse(jsonMap['start'].toString().split('(')[1].split(')')[0]) ?? 0,
+          int.tryParse(jsonMap['end'].toString().split('(')[1].split(')')[0]) ?? 0),
       color: Color.fromARGB((jsonMap['eventColor'] as Map<String, dynamic>)['a'],
           (jsonMap['eventColor'] as Map<String, dynamic>)['r'],
           (jsonMap['eventColor'] as Map<String, dynamic>)['g'],
           (jsonMap['eventColor'] as Map<String, dynamic>)['b']),
       id:jsonMap['id'].toString(), location:jsonMap['location'],
       start:DateTime.fromMillisecondsSinceEpoch(
-          int.tryParse(jsonMap['start'].toString().split('(')[1].split(')')[0]), isUtc: true),
+          int.tryParse(jsonMap['start'].toString().split('(')[1].split(')')[0]) ?? 0, isUtc: true),
       title:jsonMap['title'], type: jsonMap['type'].toString());
 
   static DateTime _getEndDate(int start, int neptunEnd)
@@ -53,6 +53,11 @@ class CalendarData
 
     return DateTime.fromMillisecondsSinceEpoch(realEnd, isUtc: true);
 
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is CalendarData && other.id == id ;
   }
 
 }

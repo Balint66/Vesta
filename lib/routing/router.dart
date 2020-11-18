@@ -16,9 +16,7 @@ import 'package:vesta/settings/uiSettings.dart';
 abstract class VestaRouter 
 {
 
-  factory VestaRouter()=>null;
-
-  static final Router router = Router();
+  static final router = FluroRouter();
 
   static final mainKey = widgets.GlobalKey<MainProgramState>();
 

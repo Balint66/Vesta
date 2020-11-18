@@ -19,23 +19,23 @@ class WebDataBase
   // ignore: non_constant_identifier_names
   final int ExceptionsEnum;
   // ignore: non_constant_identifier_names
-  final String ErrorMessage;
+  final String? ErrorMessage;
   // ignore: non_constant_identifier_names
-  final String UserLogin;
+  final String? UserLogin;
   // ignore: non_constant_identifier_names
-  final String Password;
+  final String? Password;
   // ignore: non_constant_identifier_names
-  final String Neptuncode;
+  final String? Neptuncode;
   // ignore: non_constant_identifier_names
   final int CurrentPage;
   // ignore: non_constant_identifier_names
-  final String StudentTrainingID;
+  final String? StudentTrainingID;
   // ignore: non_constant_identifier_names
   final int LCID;
   // ignore: non_constant_identifier_names
-  final double MobileVersion;
+  final String MobileVersion;
   // ignore: non_constant_identifier_names
-  final double MobileServiceVersion;
+  final String MobileServiceVersion;
 
   StudentData get studentdata =>  StudentData.fromJson(json.encode(this));
 
@@ -45,11 +45,11 @@ class WebDataBase
       this.MobileServiceVersion);
 
   // ignore: non_constant_identifier_names
-  WebDataBase.simplified(String User, String Password, String NeptunCode, String TrainingData, {int currentPage = 0, int LCID = 1038})
-      : this(-1, 0, null, User, Password, NeptunCode, currentPage, TrainingData, LCID, 1.5,0);
+  WebDataBase.simplified(String? User, String? Password, String? NeptunCode, String? TrainingData, {int currentPage = 0, int? LCID})
+      : this(-1, 0, null, User, Password, NeptunCode, currentPage, TrainingData, LCID ?? 1038, '1.5.2',0.toString());
 
-  WebDataBase.studentSimplified(StudentData data, {int currentPage = 0}) : this.simplified(data.username,
-      data.password, data.username, data.currentTraining?.id.toString(), currentPage: currentPage, LCID: data.LCID);
+  WebDataBase.studentSimplified(StudentData? data, {int currentPage = 0}) : this.simplified(data?.username,
+      data?.password, data?.username, data?.currentTraining?.id.toString(), currentPage: currentPage, LCID: data?.LCID);
 
   WebDataBase.loginSimplified(StudentData data, {int currentPage = 0}) 
   : this.simplified(data.username, data.password, null, null, currentPage: currentPage, LCID: data.LCID);
@@ -86,6 +86,6 @@ class WebDataBase
   WebDataBase.fromJson(Map<String, dynamic> json)
   : this(json['TotalRowCount'], json['ExceptionsEnum'], json['ErrorMessage'],
         json['UserLogin'], json['Password'], json['Neptuncode'], json['CurrentPage'],
-        json['StudentTrainingID'].toString(), json['LCID'], double.parse(json['MobileVersion']), (json['MobileServiceVersion'] as int).toDouble());
+        json['StudentTrainingID'].toString(), json['LCID'], json['MobileVersion'].toString(), json['MobileServiceVersion'].toString());
 
 }

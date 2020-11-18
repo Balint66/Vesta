@@ -9,13 +9,14 @@
             "type": "dart",
             "request": "launch",
             "program": "lib/main.dart",
-            "args": ["--profile"]
+            "args": ["--profile", "--enable-experiment=non-nullable", "--no-sound-null-safety"]
         },
         {
             "name": "Flutter: Run all Tests",
             "type": "dart",
             "request": "launch",
-            "program": "./test/"
+            "program": "./test/",
+            "args": ["--enable-experiment=non-nullable", "--no-sound-null-safety"]
         },
         {
             "name": "Flutter: Attach to Device",
@@ -27,6 +28,7 @@
             "type": "dart",
             "request": "launch",
             "program": "lib/main.dart",
+            "args": ["--enable-experiment=non-nullable", "--no-sound-null-safety"]
         }
 
     ]

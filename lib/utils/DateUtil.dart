@@ -72,7 +72,7 @@ class DateUtil
 
   static int stripFromMSDateFormat(String formattedString)
   {
-    return int.tryParse(formattedString.split('(')[1].split(')')[0]);
+    return int.tryParse(formattedString.split('(')[1].split(')')[0]) ?? 0;
   }
 
 }

@@ -6,14 +6,11 @@ import 'package:flutter/widgets.dart';
 
 class AppTranslations {
   Locale locale;
-  static Map<dynamic, dynamic> _localisedValues;
+  static Map<dynamic, dynamic>? _localisedValues;
 
-  AppTranslations(Locale locale)
-  {
-    this.locale = locale;
-  }
+  AppTranslations(this.locale);
 
-  static AppTranslations of(BuildContext context) => Localizations.of<AppTranslations>(context, AppTranslations);
+  static AppTranslations of(BuildContext context) => Localizations.of<AppTranslations>(context, AppTranslations)!;
 
   static Future<AppTranslations> load(Locale locale) async 
   {
@@ -27,7 +24,7 @@ class AppTranslations {
 
   String get currentLanguage => locale.languageCode;
 
-  String translate(String key) => _localisedValues[key] ?? '$key not found';
-  dynamic translateRaw(String key) => _localisedValues[key] ?? '$key not found';
+  String translate(String key) => translateRaw(key).toString();
+  dynamic translateRaw(String key) => _localisedValues![key] ?? '$key not found';
   
 }

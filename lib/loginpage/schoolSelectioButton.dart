@@ -9,7 +9,7 @@ class SchoolSelectionButton extends StatefulWidget
   final SchoolList _schools;
   final FormFieldState<School> _formState;
 
-  SchoolSelectionButton(this._schools, this._formState,{Key key}):
+  SchoolSelectionButton(this._schools, this._formState,{Key? key}):
         super(key:key);
 
   @override
@@ -21,8 +21,8 @@ class SchoolSelectionButton extends StatefulWidget
 class SchoolButtonState extends State<SchoolSelectionButton>
 {
 
-  String text;
-  School chosen;
+  String? text;
+  School? chosen;
 
   @override
   void initState()
@@ -34,7 +34,7 @@ class SchoolButtonState extends State<SchoolSelectionButton>
   Widget build(BuildContext context)
   {
 
-    text = Data.school == null ? AppTranslations.of(context).translate('login_schools_button'): Data.school.Name;
+    text = Data.school == null ? (AppTranslations.of(context).translate('login_schools_button')) : Data.school?.Name;
 
     return Column(
       children: getErrorTextedButton(context),
@@ -48,23 +48,23 @@ class SchoolButtonState extends State<SchoolSelectionButton>
 
     list.add(MaterialButton
       (
-      color: Theme.of(context).brightness == Brightness.dark? Theme.of(context).backgroundColor : Colors.white,
-      child: Container( child: Text(text,textWidthBasis: TextWidthBasis.parent, maxLines: 2,textScaleFactor: 1.125, textAlign: TextAlign.center,), width: 200.5, padding: EdgeInsets.all(10),),
+      color: Theme.of(context)!.brightness == Brightness.dark? Theme.of(context)!.backgroundColor : Colors.white,
+      child: Container( child: Text(text ?? '',textWidthBasis: TextWidthBasis.parent, maxLines: 2,textScaleFactor: 1.125, textAlign: TextAlign.center,), width: 200.5, padding: EdgeInsets.all(10),),
       onPressed: ()=>displaySchoolsAndChoose(context),
       ),
     );
 
-    if(widget._formState.errorText != null && widget._formState.errorText.isNotEmpty)
+    if(widget._formState.errorText != null && (widget._formState.errorText?.isNotEmpty ?? false))
     {
 
       var dec = const InputDecoration()
-          .applyDefaults(Theme.of(context).inputDecorationTheme);
+          .applyDefaults(Theme.of(context)!.inputDecorationTheme);
 
-      var stl =  dec.errorStyle ?? TextStyle();
+      TextStyle? stl =  dec.errorStyle ?? TextStyle();
 
-      stl = stl?.copyWith(color: Colors.red, fontSize: 12);
+      stl = stl.copyWith(color: Colors.red, fontSize: 12);
 
-      list.add(Text(widget._formState.errorText,
+      list.add(Text(widget._formState.errorText ?? '',
         style: stl));
     }
 
@@ -92,7 +92,7 @@ class SchoolButtonState extends State<SchoolSelectionButton>
     {
       widget._formState.didChange(chosen);
       Data.school = chosen;
-      text = chosen != null ? chosen.Name : AppTranslations.of(context).translate('login_schools_button');
+      text = chosen != null ? chosen?.Name : AppTranslations.of(context).translate('login_schools_button');
     });
 
 
@@ -104,10 +104,6 @@ class SchoolButtonState extends State<SchoolSelectionButton>
 
     for(var item in sch.schools)
     {
-
-      if(item.Url==null) {
-        continue;
-      }
 
       list.add(Container(
         height: 70,

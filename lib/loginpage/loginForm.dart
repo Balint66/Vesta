@@ -18,7 +18,7 @@ class LoginForm extends StatefulWidget
 
   static LoginFormState of(BuildContext context)
   {
-    return context.dependOnInheritedWidgetOfExactType<_LoginForm>().data;
+    return context.dependOnInheritedWidgetOfExactType<_LoginForm>()!.data!;
   }
 
 }
@@ -26,10 +26,10 @@ class LoginForm extends StatefulWidget
 class _LoginForm extends InheritedWidget
 {
 
-  final LoginFormState data;
+  final LoginFormState? data;
 
-  _LoginForm({Key key, @required Widget child, @required LoginFormState data})
-    : data = data, super(key: key, child: child);
+  _LoginForm({Key? key, @required Widget? child, @required LoginFormState? data})
+    : data = data, super(key: key, child: child ?? Container());
 
 
 
@@ -44,7 +44,7 @@ class LoginFormState extends State<LoginForm>
 {
 
 
-  Future<SchoolList> _post;
+  Future<SchoolList?>? _post;
 
   final TextEditingController _userName = TextEditingController();
   final TextEditingController _password = TextEditingController();
@@ -92,28 +92,28 @@ class LoginFormState extends State<LoginForm>
   Widget build(BuildContext context)
   {
 
-    var translate = AppTranslations.of(context);
+    var translator = AppTranslations.of(context);
 
     _post ??= WebServices.fetchSchools();
 
       return _LoginForm(
         data: this,
         child: Form(
-          autovalidate: true,
+          autovalidateMode: AutovalidateMode.always,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              FormField<School>(builder: (FormFieldState state)
+              FormField<School>(builder: (FormFieldState<School> state)
               {
                 return FutureBuilder(
-                  future: Future.delayed(Duration(seconds: 1), ()=>_post),
-                  builder: (BuildContext context, AsyncSnapshot<SchoolList> snapshot)
+                  future: Future.delayed(Duration(seconds: 1), () async => await _post),
+                  builder: (BuildContext context, AsyncSnapshot<SchoolList?> snapshot)
                   {
 
                     if(snapshot.hasData)
                     {
 
-                      return SchoolSelectionButton(snapshot.data, state);
+                      return SchoolSelectionButton(snapshot.data as SchoolList, state);
 
                     }
                     else if(snapshot.hasError)
@@ -123,7 +123,7 @@ class LoginFormState extends State<LoginForm>
                         onPressed: () => setState(() {
                           _post = null;
                         }),
-                        child: Text(translate.translate('login_retry')),);
+                        child: Text(translator.translate('login_retry')),);
 
                     }
 
@@ -132,18 +132,18 @@ class LoginFormState extends State<LoginForm>
                   },
                 );},
                 initialValue: null,
-                onSaved: (School value)
+                onSaved: (School? value)
                 {
                   Data.school = value;
                 },
-                validator: (School value)
+                validator: (School? value)
                 {
                   if(value == null)
                   {
                     if(_validSchool) {
                       _validSchool = false;
                     }
-                    return translate.translate('login_select_school');
+                    return translator.translate('login_select_school');
                   }
                   if(!_validSchool) {
                     _validSchool = true;
@@ -156,22 +156,22 @@ class LoginFormState extends State<LoginForm>
                   autocorrect: false,
                   autofocus: true,
                   decoration: InputDecoration(
-                    labelText: translate.translate('login_username'),
-                    hintText: translate.translate('login_username_hint'),),
+                    labelText: translator.translate('login_username'),
+                    hintText: translator.translate('login_username_hint'),),
                   maxLines: 1,
                   controller: _userName,
                   onChanged: (str)
                   {
                     Data.username = _userName.text;
                   },
-                  validator: (String value)
+                  validator: (String? value)
                   {
-                    if(value.isEmpty || value.length < 6)
+                    if((value?.isEmpty ?? true ) || (value?.length ?? 0) < 6)
                     {
                       if(_validUsername) {
                         _validUsername = false;
                       }
-                      return translate.translate('login_username_character_error');
+                      return translator.translate('login_username_character_error');
                     }
                     if(!_validUsername) {
                       _validUsername = true;
@@ -183,7 +183,7 @@ class LoginFormState extends State<LoginForm>
               Container(
                   child: Row(children: <Widget>[ Expanded(child: TextFormField(
                     autocorrect: false,
-                    decoration: InputDecoration(labelText: translate.translate('login_password')),
+                    decoration: InputDecoration(labelText: translator.translate('login_password')),
                     obscureText: _obscure,
                     maxLines: 1,
                     controller: _password,
@@ -191,14 +191,14 @@ class LoginFormState extends State<LoginForm>
                     {
                       Data.password = _password.text;
                     },
-                    validator: (String value)
+                    validator: (String? value)
                     {
-                      if(value.isEmpty)
+                      if(value?.isEmpty ?? true)
                       {
                         if(_validPassword) {
                           _validPassword = false;
                         }
-                        return translate.translate('login_password_error');
+                        return translator.translate('login_password_error');
                       }
                       if(!_validPassword) {
                         _validPassword = true;

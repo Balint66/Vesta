@@ -18,7 +18,7 @@ class ColorSelector extends StatefulWidget
 class _ColorSelectorState extends State<ColorSelector>
 {
 
-  Color _chosenColor;
+  Color? _chosenColor;
 
   @override
   Widget build(BuildContext context)
@@ -73,7 +73,7 @@ class _ColorSelectorState extends State<ColorSelector>
         
         var children = <Widget>[];
         
-        if(Colors.primaries[(i*sqrtt).floor() + j].value == _chosenColor.value)
+        if(Colors.primaries[(i*sqrtt).floor() + j].value == _chosenColor!.value)
         {
           children.add(Container(
               width: 35,
@@ -141,9 +141,9 @@ class _ColorSelectorState extends State<ColorSelector>
     return (BuildContext context)
     {
 
-      var _r = TextEditingController(text: _chosenColor.red.toString());
-      var _g = TextEditingController(text: _chosenColor.green.toString());
-      var _b = TextEditingController(text: _chosenColor.blue.toString());
+      var _r = TextEditingController(text: _chosenColor!.red.toString());
+      var _g = TextEditingController(text: _chosenColor!.green.toString());
+      var _b = TextEditingController(text: _chosenColor!.blue.toString());
 
       var r = int.tryParse(_r.value.text), g = int.tryParse(_g.value.text), b = int.tryParse(_b.value.text);
 
@@ -154,7 +154,8 @@ class _ColorSelectorState extends State<ColorSelector>
 
           _r.addListener(() { setInnerState(()
           {
-            if(_r.value.text != null && _r.value.text.isNotEmpty) {
+            if(_r.value.text.isNotEmpty)
+            {
               r = int.tryParse(_r.value.text);
             } 
             else {
@@ -164,7 +165,8 @@ class _ColorSelectorState extends State<ColorSelector>
 
           _g.addListener(() { setInnerState(()
           {
-            if(_g.value.text != null && _g.value.text.isNotEmpty) {
+            if(_g.value.text.isNotEmpty)
+            {
               g = int.tryParse(_g.value.text);
             } 
             else {
@@ -174,7 +176,8 @@ class _ColorSelectorState extends State<ColorSelector>
 
           _b.addListener(() { setInnerState(()
           {
-            if(_b.value.text != null && _b.value.text.isNotEmpty) {
+            if(_b.value.text.isNotEmpty)
+            {
               b = int.tryParse(_b.value.text);
             } 
             else {
@@ -186,7 +189,7 @@ class _ColorSelectorState extends State<ColorSelector>
             height: 35,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Color.fromARGB(255, r, g, b),
+              color: Color.fromARGB(255, r!, g!, b!),
           ),
         ), 
         SingleChildScrollView(child: Center(
@@ -216,23 +219,23 @@ class _ColorSelectorState extends State<ColorSelector>
         )),
         ]);}),
         actions: <Widget>[
-          MaterialButton(onPressed: ()=>Navigator.of(context).pop(),
+          MaterialButton(onPressed: ()=>Navigator.of(context)!.pop(),
           child: Text('Cancel'),),
 
           MaterialButton(onPressed: ()
           {
 
             var col = Color.fromARGB(255,
-                int.tryParse(_r.value.text),
-                int.tryParse(_g.value.text),
-                int.tryParse(_b.value.text));
+                int.tryParse(_r.value.text)!,
+                int.tryParse(_g.value.text)!,
+                int.tryParse(_b.value.text)!);
 
             setState(() {
               _chosenColor = col;
             });
 
             Vesta.of(context).updateSettings(mainColor: col);
-            var nav = Navigator.of(context);
+            var nav = Navigator.of(context)!;
             nav.pop();
             nav.pop();
           },

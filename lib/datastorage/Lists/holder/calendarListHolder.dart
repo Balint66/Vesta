@@ -5,7 +5,7 @@ class CalendarListHolder extends ListDataHolder<CalendarDataList>
 
   static final Duration defaultInterval = Duration(minutes:10);
 
-  CalendarListHolder({Duration timespan}) : super(CalendarDataList(), timespan: timespan ?? defaultInterval);
+  CalendarListHolder({Duration? timespan}) : super(CalendarDataList(), timespan: timespan ?? defaultInterval);
 
   @override
   Future<CalendarDataList> _fetchNewData() async
@@ -17,13 +17,13 @@ class CalendarListHolder extends ListDataHolder<CalendarDataList>
       end = end.add(Duration(days: 7 * _dataIndex));
     }
 
-    var body = WebDataCalendarRequest(StudentData.Instance,
+    var body = WebDataCalendarRequest(StudentData.Instance!,
         endDate: end);
 
-    var resp = await WebServices.getCalendarData(Data.school,
+    var resp = await WebServices.getCalendarData(Data.school!,
         body);
 
-    ListDataHolder._updateItemCount(resp, this);
+    ListDataHolder._updateItemCount(resp!, this);
 
     return resp.calendarData;  
   }

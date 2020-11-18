@@ -6,9 +6,7 @@ class WebDataMessages extends WebDataBase
 {
 
   // ignore: non_constant_identifier_names
-  final MessageList MessagesList;
-
-  factory WebDataMessages()=> null;
+  final MessageList? MessagesList;
 
   WebDataMessages._(): MessagesList = null, super.studentSimplified(null); // ignore: unused_element
 
@@ -21,7 +19,7 @@ class WebDataMessages extends WebDataBase
   Map<String, dynamic> toJsonMap() {
     var sup = super.toJsonMap();
     sup.addAll(<String, dynamic>{
-      'MessagesList' : MessagesList.expand((e){
+      'MessagesList' : MessagesList?.expand((e){
         return [e.toJson()];
       })
     });

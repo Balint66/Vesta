@@ -8,19 +8,19 @@ class StudentData
 {
 
   // ignore: non_constant_identifier_names
-  static StudentData get Instance => _instance;
-  static StudentData _instance;
+  static StudentData? get Instance => _instance;
+  static StudentData? _instance;
 
-  final String username;
-  final String password;
+  final String? username;
+  final String? password;
   final List<TrainingData> training = [];
   int LCID = hun_LCID;
   int _currentTrainingNumero = 0;
-  TrainingData get currentTraining => _currentTrainingNumero >= 0
+  TrainingData? get currentTraining => _currentTrainingNumero >= 0
       && _currentTrainingNumero < training.length
       ? training[_currentTrainingNumero] : null;
 
-  StudentData._(this.username,this.password, List<TrainingData> data, {this.LCID = hun_LCID})
+  StudentData._(this.username,this.password, List<TrainingData>? data, {this.LCID = hun_LCID})
   {
     if(data != null) {
       training.addAll(data);
@@ -28,7 +28,7 @@ class StudentData
 
   }
 
-  TrainingData nextTraining()
+  TrainingData? nextTraining()
   {
     _currentTrainingNumero++;
     if(_currentTrainingNumero>= training.length) {
@@ -37,7 +37,7 @@ class StudentData
     return currentTraining;
   }
 
-  TrainingData prevTraining()
+  TrainingData? prevTraining()
   {
     _currentTrainingNumero--;
     if(_currentTrainingNumero < 0) {
@@ -57,7 +57,7 @@ class StudentData
         TrainingData.listFromJson(json['TrainingList']), LCID: json['LCID'] as int);
   }
 
-  static void setInstance(String username, String password, List<TrainingData> data, {int LCID})
+  static void setInstance(String username, String password, List<TrainingData>? data, {int? LCID})
   {
     _instance = StudentData._(username, password, data, LCID: LCID ?? hun_LCID);
   }
@@ -98,14 +98,14 @@ class TrainingData
     return TrainingData(jsonObj['Description'], jsonObj['Id'], jsonObj['Code']);
   }
 
-  static List<TrainingData> listFromJsonString(String str)
+  static List<TrainingData>? listFromJsonString(String str)
   {
 
     return TrainingData.listFromJson(List<Map<String,dynamic>>
         .from(json.decode(str)));
   }
 
-  static List<TrainingData> listFromJson(List<dynamic> data)
+  static List<TrainingData>? listFromJson(List<dynamic>? data)
   {
 
     if(data == null) {

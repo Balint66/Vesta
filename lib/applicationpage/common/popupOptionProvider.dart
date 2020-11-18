@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 class PopupOptionProviderWidget extends InheritedWidget
 {
 
-  final PopupOptionProviderFunction _provider;
+  final PopupOptionProviderFunction? _provider;
 
-  PopupOptionProviderWidget({Key key, @required Widget child, @ required PopupOptionProviderFunction data})
-    : _provider = data, super(key: key, child: child);
+  PopupOptionProviderWidget({Key? key, @required Widget? child, @required PopupOptionProviderFunction? data})
+    : _provider = data, super(key: key, child: child ?? Container());
 
   @override
   bool updateShouldNotify(InheritedWidget oldWidget)
@@ -17,10 +17,10 @@ class PopupOptionProviderWidget extends InheritedWidget
   static PopupOptionProviderFunction of(BuildContext context, {bool rebuild = true})
   {
     if(rebuild) {
-      return context.dependOnInheritedWidgetOfExactType<PopupOptionProviderWidget>()._provider;
+      return context.dependOnInheritedWidgetOfExactType<PopupOptionProviderWidget>()!._provider!;
     } 
     else {
-      return context.findAncestorWidgetOfExactType<PopupOptionProviderWidget>()._provider;
+      return context.findAncestorWidgetOfExactType<PopupOptionProviderWidget>()!._provider!;
     }
   }
   
@@ -29,10 +29,10 @@ class PopupOptionProviderWidget extends InheritedWidget
 class PopupOptionData
 {
 
-  final PopupMenuItemBuilder<int> builder;
-  final PopupMenuItemSelected<int> selector;
+  final PopupMenuItemBuilder<int>? builder;
+  final PopupMenuItemSelected<int>? selector;
 
-  PopupOptionData({@required PopupMenuItemBuilder<int> builder, @required PopupMenuItemSelected<int> selector}) 
+  PopupOptionData({@required PopupMenuItemBuilder<int>? builder, @required PopupMenuItemSelected<int>? selector}) 
     : builder = builder, selector = selector; 
 
 }

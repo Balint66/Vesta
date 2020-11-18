@@ -10,14 +10,14 @@ class SettingsData
 {
 
   Color mainColor = Colors.red;
-  bool isDarkTheme = SchedulerBinding.instance.window.platformBrightness == Brightness.dark;
+  bool isDarkTheme = SchedulerBinding.instance?.window.platformBrightness == Brightness.dark;
   bool stayLogged = true;
   String appHomePage = '/messages';
   bool eulaAccepted = false;
   String language = 'en';
   bool devMode = false;
   bool syncLangWithNeptun = true;
-  Map<String, PageSettingsData> pageSettings = <String, PageSettingsData>{
+  Map<String, PageSettingsData?> pageSettings = <String, PageSettingsData>{
     'messages': MessagePageData()
   };
 
@@ -39,14 +39,14 @@ class SettingsData
         'b':mainColor.blue,
         'a':mainColor.alpha
       },
-      'pageSettings': pageSettings.map((key, value) => MapEntry(key, value.toJson()))
+      'pageSettings': pageSettings.map((key, value) => MapEntry(key, value?.toJson()))
     });
   }
 
   static SettingsData fromJsonString(String str)
   {
     var map = json.decode(str);
-    var colormap = map['mainColor'] as Map<String,dynamic>;
+    var colormap = map['mainColor'] as Map<String,dynamic>?;
 
     var data = SettingsData();
 
@@ -70,8 +70,8 @@ class SettingsData
     }
 
 
-    data.pageSettings = data.pageSettings.map((key, value) => MapEntry(key, PageSettingsData.fromJson((map['pageSettings'] as Map<String, dynamic>)[key]) ?? data.pageSettings[key] ));
-    //(map['pageSettings'] as Map<String, dynamic>).map((key, value) => MapEntry(key, PageSettingsData.fromJson(value))) ?? data.pageSettings;
+    data.pageSettings = data.pageSettings
+    .map((key, value) => MapEntry(key, PageSettingsData.fromJson((map['pageSettings'] as Map<String, dynamic>)[key])));
 
     return data;
 

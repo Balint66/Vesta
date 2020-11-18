@@ -4,7 +4,6 @@ import 'package:vesta/web/webdata/webDataBase.dart';
 
 class WebDataSemesters extends WebDataBase
 {
-  factory WebDataSemesters._()=> null; //ignore:unused_element
 
   final SemestersDataList list;
 

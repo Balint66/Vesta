@@ -13,7 +13,7 @@ import 'package:vesta/web/webdata/bgFetchSateFullWidget.dart';
 class LessonDisplayer extends BgFetchSateFullWidget
 {
 
-  LessonDisplayer({Key key}) : super(key:key);
+  LessonDisplayer({Key? key}) : super(key:key);
 
   @override
   BgFetchState<BgFetchSateFullWidget> createState()
@@ -27,12 +27,12 @@ class LessonDisplayerState extends BgFetchState<LessonDisplayer>
 {
 
 static final PopupOptionData data = PopupOptionData(
-    builder:(BuildContext ctx){ return null; }, selector: (int value){}
+    builder:(BuildContext ctx){ return []; }, selector: (int value){}
   );
 
-  DateTime _nextEnd;
+  DateTime? _nextEnd;
 
-  static Future _testingFuture;
+  static Future? _testingFuture;
 
   @override
   void initState()
@@ -40,7 +40,7 @@ static final PopupOptionData data = PopupOptionData(
     super.initState();
 
     if(_testingFuture != null) {
-      _testingFuture.timeout(Duration(milliseconds: 1),onTimeout: ()=>null);
+      _testingFuture!.timeout(Duration(milliseconds: 1),onTimeout: ()=>null);
     }
 
     _testingFuture = Future.delayed(Duration(seconds: 1),() async
@@ -53,7 +53,7 @@ static final PopupOptionData data = PopupOptionData(
 
           await Future.delayed(Duration(seconds: 1));
 
-        }while(_nextEnd == null || _nextEnd.isAfter(DateTime.now()));
+        }while(_nextEnd == null || _nextEnd!.isAfter(DateTime.now()));
 
         setState(() {});
 
@@ -82,13 +82,13 @@ static final PopupOptionData data = PopupOptionData(
         else if(snap.hasData)
         {
           if(list.maxItemCount != 0){
-            return _drawWithMode(CalendarDisplayModes.LISTVIEW, snap.data, context);
+            return _drawWithMode(CalendarDisplayModes.LISTVIEW, snap.data!, context);
           }
           else{
             return KamonjiDisplayer( RichText(textAlign: TextAlign.center, text: TextSpan(text:'You have got nothing new here pal.\n',
-              style: Theme.of(context).textTheme.bodyText1,
+              style: Theme.of(context)!.textTheme.bodyText1,
               children:[
-                TextSpan(text: '¯\\_(ツ)_/¯', style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 25))
+                TextSpan(text: '¯\\_(ツ)_/¯', style: Theme.of(context)!.textTheme.bodyText1!.copyWith(fontSize: 25))
               ]))
             );
           }
@@ -98,9 +98,9 @@ static final PopupOptionData data = PopupOptionData(
         { 
           if(shot.hasData){
             return KamonjiDisplayer( RichText(textAlign: TextAlign.center, text: TextSpan(text:'You have got nothing new here pal.\n',
-              style: Theme.of(context).textTheme.bodyText1,
+              style: Theme.of(context)!.textTheme.bodyText1,
               children:[
-                TextSpan(text: '¯\\_(ツ)_/¯', style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 25))
+                TextSpan(text: '¯\\_(ツ)_/¯', style: Theme.of(context)!.textTheme.bodyText1!.copyWith(fontSize: 25))
               ])),
             );}
           return Center(child: CircularProgressIndicator());
@@ -139,7 +139,7 @@ static final PopupOptionData data = PopupOptionData(
       {
         return ClickableCard(child: ListTile(
           title: Text( response[index].title),
-            onTap: ()=> MainProgram.of(context).parentNavigator.push(MaterialPageRoute(
+            onTap: ()=> MainProgram.of(context).parentNavigator!.push(MaterialPageRoute(
             builder: (BuildContext context){
           return LessonDetailedDisplay(response[index]);
           })),

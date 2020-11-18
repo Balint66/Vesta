@@ -24,4 +24,10 @@ class CourseData
     CourseType_DNAME: json['CourseType_DNAME'], Id: json['Id'], IsJovahagyasos: json['IsJovahagyasos'], IsRangsoros: json['IsRangsoros'],
     IsVarolistas: json['IsVarolistas'], Letszamok: json['Letszamok'], RangsorPontszamok: json['RangsorPontszamok']);
 
+    @override
+    bool operator ==(Object other)
+    {
+      return other is CourseData && other.CourseCode == CourseCode && other.Id == Id;
+    }
+
 }

@@ -11,8 +11,8 @@ class WebDataLogin extends WebDataBase
   // ignore: non_constant_identifier_names
   WebDataLogin(this.OnlyLogin,int TotalRowCount, int ExceptionsEnum, String ErrorMessage,
       String UserLogin, String Password, String Neptuncode, int CurrentPage, // ignore: non_constant_identifier_names
-      String StudentTrainingID, int LCID, double MobileVersion, // ignore: non_constant_identifier_names
-      double MobileServiceVersion) : super(TotalRowCount, ExceptionsEnum, ErrorMessage, UserLogin, // ignore: non_constant_identifier_names
+      String StudentTrainingID, int LCID, String MobileVersion, // ignore: non_constant_identifier_names
+      String MobileServiceVersion) : super(TotalRowCount, ExceptionsEnum, ErrorMessage, UserLogin, // ignore: non_constant_identifier_names
       Password, Neptuncode, CurrentPage, StudentTrainingID, LCID, MobileVersion, MobileServiceVersion);
 
   WebDataLogin.simplified(String User, String Password, this.OnlyLogin) : super.simplified(User,Password,null,null); // ignore: non_constant_identifier_names

@@ -50,4 +50,10 @@ class Message
       json['NeptunCode'],json['Name'],json['IsNew'],json['Id'].toString(),json['Detail']);
   }
 
+  @override
+  bool operator ==(Object other)
+  {
+    return other is Message && other.id == id;
+  }
+
 }

@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'dart:collection';
 
 import 'package:flutter/foundation.dart';
 import 'package:vesta/Vesta.dart';
+import 'package:vesta/datastorage/Lists/basedataList.dart';
 import 'package:vesta/datastorage/Lists/calendarDataList.dart';
 import 'package:vesta/datastorage/Lists/messagesList.dart';
 import 'package:vesta/datastorage/Lists/semestersDataList.dart';
@@ -24,7 +24,7 @@ part 'studentBookListHolder.dart';
 part 'semesterListHolder.dart';
 part 'subjectDataListHolder.dart';
 
-abstract class ListDataHolder<T extends ListBase> with BackgroundFetchingServiceMixin
+abstract class ListDataHolder<T extends BaseDataList> with BackgroundFetchingServiceMixin
 {
 
   final T _list;
@@ -45,7 +45,7 @@ abstract class ListDataHolder<T extends ListBase> with BackgroundFetchingService
     holder._maxItemCount = base.TotalRowCount;
   } 
 
-  ListDataHolder(T data, {Duration timespan}) : _list = data,
+  ListDataHolder(T data, {Duration? timespan}) : _list = data,
         _timespan = timespan ?? Duration();
 
   @nonVirtual
@@ -62,10 +62,6 @@ abstract class ListDataHolder<T extends ListBase> with BackgroundFetchingService
   Future<void> onUpdate() async
   {
     var resp = await _fetchNewData();
-
-    if(resp == null) {
-      return;
-    }
 
     var newData = false;
 
@@ -99,7 +95,7 @@ abstract class ListDataHolder<T extends ListBase> with BackgroundFetchingService
 
   void updateInterval(Duration interval)
   {
-    if(interval == null || interval.isNegative|| interval.inSeconds < 0)
+    if(interval.isNegative|| interval.inSeconds < 0)
     {
       return;
     }

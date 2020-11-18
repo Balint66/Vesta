@@ -11,10 +11,6 @@ abstract class PageSettingsData
   factory PageSettingsData.fromJson(Map<String, dynamic> fromJson)
   {
 
-    if(fromJson == null){
-      return null;
-    }
-
     PageSettingsData data;
     switch(fromJson['type'])
     {

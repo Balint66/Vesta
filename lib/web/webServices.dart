@@ -26,7 +26,7 @@ import 'package:vesta/web/webdata/webDataSubjectRequest.dart';
 import 'package:vesta/web/webdata/webDataSubjectResponse.dart';
 import 'package:vesta/web/webdata/webDataSubjectSignup.dart';
 
-typedef _ServicesCallback = Future<Object> Function<T extends WebDataBase>(School school ,T request);
+typedef _ServicesCallback = Future<Object?> Function(School school, WebDataBase request);
 typedef _VoidFutureCallback = Future<void> Function();
 
 abstract class WebServices
@@ -86,8 +86,6 @@ abstract class WebServices
 -----BEGIN CERTIFICATE-----MIIFUTCCBDmgAwIBAgISAw1q6Yf19BxdTu+HtDNyOALoMA0GCSqGSIb3DQEBCwUAMEoxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MSMwIQYDVQQDExpMZXQncyBFbmNyeXB0IEF1dGhvcml0eSBYMzAeFw0yMDA4MTMyMzI4MjhaFw0yMDExMTEyMzI4MjhaMBcxFTATBgNVBAMTDG5lcHR1bi50Zi5odTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAIgfj1oygUqTBFets/jreMYL5KTfD98e2+WKwQo5+RLGQXwGfYjAhkPENWXF9B59PtFbPJd+LfFUHvz086NyKt79imPRR2ZcAoIDHaYWHlobER1hT+YK6rphFv1FAPgdJlOCHKr2wQZGMtNqczK7/LrxOvCQ/LhR9v0B6TszeXCqPgGFgFMBBWmAvtOLLTwAWIhObHx9aPQcE7HYUWcudHYIUXDiSB1UfvnuCvcGkikGFN6wwiGrbTv0YMKJZJ592F54MxKuJlANwxztnBLppwmTpiyJVWLSSyhSrstbZaSixr4gi/WRZYXUasKLv7NNcDIYVXbL7NO6vBSxUVv+hCUCAwEAAaOCAmIwggJeMA4GA1UdDwEB/wQEAwIFoDAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDAYDVR0TAQH/BAIwADAdBgNVHQ4EFgQUrIk2SYTqlhe3N5p8d9z1zRx8bxgwHwYDVR0jBBgwFoAUqEpqYwR93brm0Tm3pkVl7/Oo7KEwbwYIKwYBBQUHAQEEYzBhMC4GCCsGAQUFBzABhiJodHRwOi8vb2NzcC5pbnQteDMubGV0c2VuY3J5cHQub3JnMC8GCCsGAQUFBzAChiNodHRwOi8vY2VydC5pbnQteDMubGV0c2VuY3J5cHQub3JnLzAXBgNVHREEEDAOggxuZXB0dW4udGYuaHUwTAYDVR0gBEUwQzAIBgZngQwBAgEwNwYLKwYBBAGC3xMBAQEwKDAmBggrBgEFBQcCARYaaHR0cDovL2Nwcy5sZXRzZW5jcnlwdC5vcmcwggEFBgorBgEEAdZ5AgQCBIH2BIHzAPEAdgDwlaRZ8gDRgkAQLS+TiI6tS/4dR+OZ4dA0prCoqo6ycwAAAXPqXjI3AAAEAwBHMEUCIQCMwP6ZfH0WrwK7Vxjbrg/O0vsbC6VWyNrPK2eKPtzLNwIgNMYVDlnY5lENm5LHDVmm13AyjAPtgRRtHq37Hy2HiwAAdwAHt1wb5X1o//Gwxh0jFce65ld8V5S3au68YToaadOiHAAAAXPqXjJtAAAEAwBIMEYCIQDUaKMHRvXvsCv/8O0ujD4kEI3rJFDxCTTtHp5BADeHLgIhALb7o7UG9yDMNkvx2V8vOiNZkU6fAtqRlgoLkFQd+XIRMA0GCSqGSIb3DQEBCwUAA4IBAQB+gsDtyQ5fuAaR3lFljH3aQNGcPuI8WJ7Dck6aAi31PTeFsTAgJ/D+nziC51JQvi10jUaVNcFxqu4alfJxZiRcxJcOhP/m8ydhWEfVwPpgD67RtkD62eSOVEZ+b+EIWYkG7vgIdjeBQdeBpGJ2Q5oOdXSIImzyp+lbNR5MIRl1uly37cQR7jsIdPN8+eTG6ifV7CK/tm0xS33VQ3JAGMIuEnUYDsqYy/cqPwOag0sZHs6rMitnHok2BTBekUUf6//9USzfPLw9pZ/7ZPjuzcyfR3+n2iyFn6ovTd0cJ9bg7BgZiZ9bdmquRpYX5Vw3/SIlGgIQyowpsfoAYYo5IWP7-----END CERTIFICATE-----
 '''];
 
-  factory WebServices._() => null;
-
   static final Dio client = _getClient();
   
   static final CookieManager _cookieManager = CookieManager(CookieJar());
@@ -143,7 +141,7 @@ abstract class WebServices
       }
       on DioError  catch(e)
       {
-        if(!e.error is SocketException || (e.error as SocketException).osError.errorCode != 7)
+        if(!e.error is SocketException || (e.error as SocketException?)?.osError?.errorCode != 7)
         {
           Vesta.logger.e(e.error);
         }
@@ -155,7 +153,7 @@ abstract class WebServices
       }
       on SocketException catch(e) //ignore: unused_catch_clause
       {
-        if(e.osError.errorCode == 7)
+        if(e.osError?.errorCode == 7)
         {
           Vesta.showSnackbar(Text('Unable to connect to the internet!'));
           Vesta.logger.i('Unable to connect to the internet!');
@@ -183,7 +181,7 @@ abstract class WebServices
     _loop.then((value) => null);
   }
 
-  static Future<T> _callFunction<T>(_ServicesCallback callback,School school , WebDataBase request) async
+  static Future<T?> _callFunction<T>(_ServicesCallback callback, School school , WebDataBase request) async
   {
 
     try{
@@ -200,9 +198,9 @@ abstract class WebServices
       return null;
     }
 
-    Object obj;
+    Object? obj;
 
-    _VoidFutureCallback clb = () async
+    var clb = () async
     {
       obj = await callback(school, request);
     };
@@ -220,20 +218,35 @@ abstract class WebServices
 
   }
 
-  static Future<SchoolList> fetchSchools() async
+  static Future<SchoolList?> fetchSchools() async
   {
 
-    return await _callFunction<SchoolList>(_fetchSchools, null, null);
+    return await (() async { Object? obj;
 
+    var clb = () async
+    {
+      obj = await _fetchSchools();
+    };
+
+    _callbacks.add(clb);
+
+    await Future.doWhile(() async
+    {
+      await Future.delayed(Duration(milliseconds: 50));
+
+      return obj == null;
+    });
+
+    return obj as SchoolList?;})();
   }
 
-  static Future<SchoolList> _fetchSchools<T extends WebDataBase>(School school, WebDataBase request) async
+  static Future<SchoolList> _fetchSchools() async
   {
     var url = Uri.https('mobilecloudservice.sdainformatika.hu',
         '/MobileServiceLib/MobileCloudService.svc/GetAllNeptunMobileUrls')
         .toString();
 
-    Response resp;
+    Response? resp;
     try{
       resp = await client.post(url,data:'{}');
     }
@@ -242,7 +255,7 @@ abstract class WebServices
       if(e is SocketException)
       {
         var exp = e;
-        if(exp.osError.errorCode == 7)
+        if(exp.osError?.errorCode == 7)
         {
           throw 'Unable to connect to the internet';
         }
@@ -257,11 +270,11 @@ abstract class WebServices
     }
 
 
-    return SchoolList.fromJson(json.encode(resp.data));
+    return SchoolList.fromJson(json.encode(resp?.data));
 
   }
 
-  static Future<bool> login(String userName, String password, School school, bool keepLoggedIn) async
+  static Future<bool> login(String? userName, String? password, School? school, bool keepLoggedIn) async
   {
     try{
 
@@ -327,7 +340,7 @@ abstract class WebServices
 
   }
 
-  static Future<WebDataMessages> _getMessages<T extends WebDataBase>(School school, WebDataBase body) async
+  static Future<WebDataMessages?> _getMessages(School school, WebDataBase body) async
   {
     var resp = await client.post(school.Url + '/GetMessages',
         data: body.toJson());
@@ -355,7 +368,7 @@ abstract class WebServices
 
   }
 
-  static Future<bool> _setRead<T extends WebDataBase>(School school, T body) async
+  static Future<bool> _setRead(School school, WebDataBase body) async
   {
 
     try{
@@ -380,7 +393,7 @@ abstract class WebServices
 
   }
 
-  static Future<WebDataCalendarResponse> getCalendarData(School school,
+  static Future<WebDataCalendarResponse?> getCalendarData(School school,
       WebDataCalendarRequest body) async
   {
 
@@ -388,8 +401,8 @@ abstract class WebServices
 
   }
 
-  static Future<WebDataCalendarResponse> _getCalendarData<T extends WebDataBase>
-      (School school, T body) async
+  static Future<WebDataCalendarResponse?> _getCalendarData
+      (School school, WebDataBase body) async
   {
     try
     {
@@ -399,11 +412,11 @@ abstract class WebServices
       var resp = await client.post(school.Url + '/GetCalendarData',
           data: body.toJson(),);
 
-      Vesta.logger.d('Never gonna let you down.', null, null);
+      Vesta.logger.d('Never gonna let you down.');
 
       Map<String, dynamic> jsonMap = resp.data;
 
-      Vesta.logger.d('Never gonna turn around...', null, null );
+      Vesta.logger.d('Never gonna turn around...');
 
       _testResponse(jsonMap);
 
@@ -411,19 +424,17 @@ abstract class WebServices
 
       return WebDataCalendarResponse.fromJson(jsonMap);
     }
+    on DioError catch(e)
+    {
+      Vesta.logger.e(e.request.uri.toString() + '\nSomething went wrong...\n' + e.response.data.toString() + '\n' + e.request.data,e);
+      return null;
+    }
     catch(e)
     {
 
-      //Sometimes Neptun is idiot and can't handle the connection :P
-      if(e is String){
-        if(e.contains('Connection must be open for this operation') || e.contains('Object reference not set to an instance of an object') || e.contains('OracleConnection'))
-        {
-            return await Future.delayed(Duration(seconds: 1), () async => await getCalendarData(school, body as WebDataCalendarRequest));
-        }
-      }
-
       Vesta.logger.e('Something went wrong...\n' + e.toString(),e);
       return null;
+
     }
   }
 
@@ -439,19 +450,36 @@ abstract class WebServices
 
   }
 
-  static Future<String> getSchoolsPrivacyPolicy(School school) async
+  static Future<String?> getSchoolsPrivacyPolicy(School school) async
   {
-    return await _callFunction<String>(_getSchoolsPrivacyPolicy, school, null);
+
+    return await (() async { Object? obj;
+
+    var clb = () async
+    {
+      obj = await _getSchoolsPrivacyPolicy(school);
+    };
+
+    _callbacks.add(clb);
+
+    await Future.doWhile(() async
+    {
+      await Future.delayed(Duration(milliseconds: 50));
+
+      return obj == null;
+    });
+
+    return obj as String?;})();
   }
 
-  static Future<String> _getSchoolsPrivacyPolicy<T extends WebDataBase>(School school, T body) async
+  static Future<String?> _getSchoolsPrivacyPolicy(School school) async
   {
 
     var resp = await client.post(school.Url + '/GetPrivacyStatement');
 
     Map<String, dynamic> json = resp.data;
 
-    var url = json['URL'] as String;
+    var url = json['URL'] as String?;
 
     if(url == null) {
       return 'No data to display';
@@ -461,12 +489,12 @@ abstract class WebServices
 
   }
 
-  static Future<WebDataStudentBook> getStudentBookData(School school, WebDataBase body) async 
+  static Future<WebDataStudentBook?> getStudentBookData(School school, WebDataBase body) async 
   {
     return await _callFunction<WebDataStudentBook>(_getStudentBookData, school, body);
   }
 
-  static Future<WebDataStudentBook> _getStudentBookData<T extends WebDataBase>(School school, T body) async
+  static Future<WebDataStudentBook?> _getStudentBookData(School school, WebDataBase body) async
   {
 
     var jBody = <String, dynamic>
@@ -496,12 +524,12 @@ abstract class WebServices
     }
   }
 
-  static Future<WebDataSemesters> getSemestersData(School school, WebDataSemestersRequest body) async
+  static Future<WebDataSemesters?> getSemestersData(School school, WebDataSemestersRequest body) async
   {
     return await _callFunction<WebDataSemesters>(_getSemestersData, school, body);
   }
 
-  static Future<WebDataSemesters> _getSemestersData<T extends WebDataBase>(School school, T body) async 
+  static Future<WebDataSemesters?> _getSemestersData(School school, WebDataBase body) async 
   {
 
     try{
@@ -545,7 +573,7 @@ abstract class WebServices
     return await _callFunction(_getPeriodTerms, school, body);
   }
 
-  static Future<List<Map<String, dynamic>>> _getPeriodTerms<T extends WebDataBase>(School school, T body) async
+  static Future<List<Map<String, dynamic>>> _getPeriodTerms(School school, WebDataBase body) async
   {
 
     try
@@ -562,12 +590,12 @@ abstract class WebServices
 
   }
 
-  static Future<WebDataSubjectResponse> getSubjects(School school, WebDataSubjectRequest body) async 
+  static Future<WebDataSubjectResponse?> getSubjects(School school, WebDataSubjectRequest body) async 
   {
-    return await _callFunction(_getSubjects, school, body);
+    return await _callFunction<WebDataSubjectResponse>(_getSubjects, school, body);
   }
 
-  static Future<WebDataSubjectResponse> _getSubjects<T extends WebDataBase>(School school, T body) async
+  static Future<WebDataSubjectResponse?> _getSubjects(School school, WebDataBase body) async
   {
 
     try{
@@ -614,14 +642,14 @@ abstract class WebServices
 
   }
 
-  static Future<WebDataCourseResponse> getCourses(School school, WebDataCourseRequest body) async 
+  static Future<WebDataCourseResponse?> getCourses(School school, WebDataCourseRequest body) async 
   {
-    return await _callFunction(_getCourses, school, body);
+    return await _callFunction<WebDataCourseResponse>(_getCourses, school, body);
   }
     
     
     
-  static Future<WebDataCourseResponse> _getCourses<T extends WebDataBase>(School school, T body) async
+  static Future<WebDataCourseResponse?> _getCourses(School school, WebDataBase body) async
   {
     try{
 
@@ -645,14 +673,14 @@ abstract class WebServices
   }
 
 
-  static Future<bool> saveSubject(School school, WebDataSubjectSignupRequest body) async 
+  static Future<bool?> saveSubject(School school, WebDataSubjectSignupRequest body) async 
   {
-    return await _callFunction(_saveSubject, school, body);
+    return await _callFunction<bool>(_saveSubject, school, body);
   }
     
     
     
-  static Future<bool> _saveSubject<T extends WebDataBase>(School school, T body) async
+  static Future<bool?> _saveSubject(School school, WebDataBase body) async
   {
     try{
 
@@ -663,7 +691,7 @@ abstract class WebServices
 
       _testResponse(jsonBody);
 
-      return (T as WebDataSubjectSignupRequest).SubjectSignin;
+      return (WebDataBase as WebDataSubjectSignupRequest).SubjectSignin;
 
     }
     catch(e)
@@ -676,12 +704,28 @@ abstract class WebServices
     }
   }
 
-  static Future<String> getAppPrivacyPolicy()
+  static Future<String?> getAppPrivacyPolicy()
   {
-    return _callFunction(_getAppPrivacyPolicy, null, null);
+    return (() async { Object? obj;
+
+    var clb = () async
+    {
+      obj = await _getAppPrivacyPolicy();
+    };
+
+    _callbacks.add(clb);
+
+    await Future.doWhile(() async
+    {
+      await Future.delayed(Duration(milliseconds: 50));
+
+      return obj == null;
+    });
+
+    return obj as String?;})();
   }
 
-  static Future<String> _getAppPrivacyPolicy<T extends WebDataBase>(School school, T body) async
+  static Future<String> _getAppPrivacyPolicy() async
   {
     return (await client.get('https://bitbucket.org/Balint66/vesta/raw/3d2c4a037d6253f8ed607a4e3efcfda63a037b8a/repository_assets/PRIVACY_POLICY.md')).data.toString();
   }

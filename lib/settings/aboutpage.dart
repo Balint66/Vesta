@@ -27,12 +27,12 @@ class AboutPage extends StatelessWidget
               }
               if(snapshot.hasData)
               {
-                return Center(child: SingleChildScrollView(child:Container(child: Text(snapshot.data), padding: EdgeInsets.all(25),)));
+                return Center(child: SingleChildScrollView(child:Container(child: Text(snapshot.data!.toString()), padding: EdgeInsets.all(25),)));
               }
               return Center(child: CircularProgressIndicator());
             }),));
           }),
-          ListTile(leading: SvgPicture.network('https://www.ko-fi.com/img/cup.svg', width: 25,), title: Text(translator.translate('settings_kofi')), onTap: ()=> launch('www.ko-fi.com/projecttorok'),)
+          ListTile(leading: SvgPicture.network('https://www.ko-fi.com/img/cup.svg', width: 25,), title: Text(translator.translate('settings_kofi')), onTap: ()=> launch('https://ko-fi.com/projecttorok'),)
         ],
       )
     ); 

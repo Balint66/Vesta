@@ -18,7 +18,7 @@ class WebDataCalendarRequest extends WebDataBase
 
   WebDataCalendarRequest(StudentData data, {bool needAllDayLong = false ,bool time = true, bool exam = true, bool task = true,
           bool appointment = true, bool registerList = true, bool consulation = true,
-          DateTime starDate, DateTime endDate, int entityLimit = 0})
+          DateTime? starDate, DateTime? endDate, int entityLimit = 0})
       : Time = time, Exam = exam, Task = task,
         Apointment = appointment, needAllDayLong = needAllDayLong,
         RegisterList = registerList, Consulation = consulation,
@@ -32,13 +32,17 @@ class WebDataCalendarRequest extends WebDataBase
   Map<String, dynamic> toJsonMap() {
     var map = <String,dynamic>
     {
-      'needAllDayLong':needAllDayLong, 'Time':Time,
-      'Exam':Exam, 'Task': Task, 'Apointment':Apointment,
+      'needAllDaylong':needAllDayLong,
+      'Time':Time,
+      'Exam':Exam,
+      'Task': Task,
+      'Apointment':Apointment,
       'RegisterList': RegisterList,
       'Consulation': Consulation, 'startDate': '\/Date('
           + DateUtil.epochFlooredToDays(startDate).toString() + ')\/',
       'endDate': '\/Date('
-          + DateUtil.epochFlooredToDays(endDate).toString() + ')\/'
+          + DateUtil.epochFlooredToDays(endDate).toString() + ')\/',
+      'entityLimit': entityLimit
     };
     map.addAll(super.toJsonMap());
     return map;

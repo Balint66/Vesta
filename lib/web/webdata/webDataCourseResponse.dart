@@ -5,8 +5,6 @@ import 'package:vesta/web/webdata/webDataBase.dart';
 class WebDataCourseResponse extends WebDataBase
 {
 
-  factory WebDataCourseResponse._() => null; //ignore:unused_element
-
   final CourseDataList CourseList;
 
   WebDataCourseResponse.fromJson(Map<String, dynamic> json) :

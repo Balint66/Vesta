@@ -15,10 +15,10 @@ class MainProgram extends StatefulWidget
   final String startingRoute;
   final Map<String, PageSettingsData> baseSettings;
 
-  MainProgram({Key key, String route, Map<String, PageSettingsData> baseSettings}) 
+  MainProgram({Key? key, String? route, Map<String, PageSettingsData>? baseSettings}) 
   : startingRoute = route == null || route.isEmpty ? MainProgRouter.defaultRoute : route, baseSettings = baseSettings ?? {}, super(key: key)
   {
-    if(ReplacementObserver.Instance != null && ReplacementObserver.Instance.currentPath.isEmpty && (route != null && route.isNotEmpty)) {
+    if(ReplacementObserver.Instance.currentPath.isEmpty && (route != null && route.isNotEmpty)) {
       ReplacementObserver.Instance.currentPath = route;
     }
   }
@@ -35,7 +35,7 @@ class MainProgram extends StatefulWidget
 
   static MainProgramState of(BuildContext context)
   {
-    return context.dependOnInheritedWidgetOfExactType<_MainProgramInherited>().data;
+    return context.dependOnInheritedWidgetOfExactType<_MainProgramInherited>()!.data;
   }
 
 
@@ -46,8 +46,8 @@ class MainProgramState extends State<MainProgram>
 
   static final _popupSettingsKey = GlobalKey<PopupSettingsState>();
 
-  NavigatorState _parentNavigator;
-  NavigatorState get parentNavigator => _parentNavigator;
+  NavigatorState? _parentNavigator;
+  NavigatorState? get parentNavigator => _parentNavigator;
 
   var _calendarList = CalendarListHolder();
   CalendarListHolder get calendarList => _calendarList;
@@ -71,7 +71,7 @@ class MainProgramState extends State<MainProgram>
         FetchManager.clearRegistered();
 
         _calendarList = CalendarListHolder();
-        _messageList = MessageListHolder(timespan: Vesta.of(context).settings.pageSettings['messages']?.interval);
+        _messageList = MessageListHolder(timespan: Vesta.of(context).settings.pageSettings['messages']!.interval);
         _studentBook = StudentBookListHolder();
         _semesterList = SemesterListHolder();
         _subjectList = SubjectDataListHolder();
@@ -118,7 +118,7 @@ class MainProgramState extends State<MainProgram>
   Widget build(BuildContext context)
   {
     
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) { makeRefresh(); });
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) { makeRefresh(); });
 
     MainProgRouter.defaultRoute = '/app'+Vesta.of(context).settings.appHomePage;
 
@@ -131,13 +131,13 @@ class MainProgramState extends State<MainProgram>
       observers: [ReplacementObserver.Instance],
     );
 
-    return PopupOptionProviderWidget(data: ()=> _popupSettingsKey.currentState, child: _MainProgramInherited(data: this,
+    return PopupOptionProviderWidget(data: ()=> _popupSettingsKey.currentState!, child: _MainProgramInherited(data: this,
       child: Scaffold(
         body: _navigator,
         appBar: AppBar(title: Text('Vesta'),
           actions: <Widget>[
                 IconButton(icon: Icon(Icons.settings), onPressed: (){
-                  Navigator.of(context).pushNamed('/pageSettings/' 
+                  Navigator.of(context)!.pushNamed('/pageSettings/' 
                   + ReplacementObserver.Instance.currentPath.split('/')[2]);
                   }),
         ],),
@@ -153,8 +153,8 @@ class _MainProgramInherited extends InheritedWidget
 
   final MainProgramState data;
 
-  _MainProgramInherited({Key key, @required Widget child, @required MainProgramState data}) :
-        data = data ,super(key: key, child: child);
+  _MainProgramInherited({Key? key, @required Widget? child, @required MainProgramState? data}) :
+        data = data! ,super(key: key, child: child!);
 
   @override
   bool updateShouldNotify(InheritedWidget oldWidget)

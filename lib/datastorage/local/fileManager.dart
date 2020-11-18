@@ -10,9 +10,8 @@ import 'package:vesta/datastorage/studentData.dart';
 import 'package:vesta/settings/settingsData.dart';
 import 'package:vesta/utils/PlatformHelper.dart';
 
-class FileManager
+abstract class FileManager
 {
-  factory FileManager() => null;
 
   static dynamic _directory;
 
@@ -26,7 +25,7 @@ class FileManager
       if(window.localStorage.containsKey(key))
       {
 
-        return window.localStorage[key];
+        return window.localStorage[key] ?? '{}';
 
       }
       else
@@ -96,8 +95,8 @@ class FileManager
     
     var map = <String, dynamic>
     {
-      'studentData': StudentData.toJsonMap(StudentData.Instance),
-      'school': Data.school.asJson()
+      'studentData': StudentData.Instance != null ? StudentData.toJsonMap(StudentData.Instance as StudentData) : null,
+      'school': Data.school?.asJson()
     };
 
     await _writeAsString(json.encode(map), 'login_data.json');
@@ -115,12 +114,12 @@ class FileManager
 
     var std = StudentData.fromJsondata(map['studentData']);
 
-    StudentData.setInstance(std.username, std.password, std.training);
+    StudentData.setInstance(std.username!, std.password!, std.training);
 
     var data = <String, dynamic>
     {
-      'username':StudentData.Instance.username,
-      'password':StudentData.Instance.password,
+      'username':StudentData.Instance!.username,
+      'password':StudentData.Instance!.password,
       'school':map['school']
     };
     return Data.fromJson(json.encode(data));
@@ -159,7 +158,7 @@ class FileManager
 
   }
 
-  static Future<SettingsData> loadSettings() async
+  static Future<SettingsData?> loadSettings() async
   {
     await init();
 

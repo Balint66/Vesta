@@ -49,9 +49,9 @@ class ColorUtils {
   static String shadeColor(String hex, double percent) {
     var bC = basicColorsFromHex(hex);
 
-    var R = (bC[BASIC_COLOR_RED] * (100 + percent) / 100).round();
-    var G = (bC[BASIC_COLOR_GREEN] * (100 + percent) / 100).round();
-    var B = (bC[BASIC_COLOR_BLUE] * (100 + percent) / 100).round();
+    var R = ((bC[BASIC_COLOR_RED] ?? 0) * (100 + percent) / 100).round();
+    var G = ((bC[BASIC_COLOR_GREEN] ?? 0) * (100 + percent) / 100).round();
+    var B = ((bC[BASIC_COLOR_BLUE] ?? 0) * (100 + percent) / 100).round();
 
     if (R > 255) {
       R = 255;
@@ -120,7 +120,7 @@ class ColorUtils {
     var bC = basicColorsFromHex(hex);
 
     return calculateRelativeLuminance(
-        bC[BASIC_COLOR_RED], bC[BASIC_COLOR_GREEN], bC[BASIC_COLOR_BLUE]) <
+        bC[BASIC_COLOR_RED] ?? 0, bC[BASIC_COLOR_GREEN] ?? 0, bC[BASIC_COLOR_BLUE] ?? 0) <
         0.5;
   }
 
@@ -131,7 +131,7 @@ class ColorUtils {
     var bC = basicColorsFromHex(hex);
 
     var luminance = calculateRelativeLuminance(
-        bC[BASIC_COLOR_RED], bC[BASIC_COLOR_GREEN], bC[BASIC_COLOR_BLUE]);
+        bC[BASIC_COLOR_RED] ?? 0, bC[BASIC_COLOR_GREEN] ?? 0, bC[BASIC_COLOR_BLUE] ?? 0);
     return luminance > 0.5 ? HEX_BLACK : HEX_WHITE;
   }
 

@@ -12,16 +12,13 @@ class ReplacementObserver extends NavigatorObserver
 
   void subscribe(ReplacementAware aware, String route)
   {
-    assert(route!=null);
-    assert(aware!=null);
-    assert(route.isNotEmpty);
 
     var set = Set<ReplacementAware>(); // ignore:prefer_collection_literals
 
     set.add(aware);
 
     if(_listeners.containsKey(route)){
-      set.addAll(_listeners.remove(route));
+      set.addAll(_listeners.remove(route) as Set<ReplacementAware>);
     }
 
       _listeners.putIfAbsent(route, () => set); // ignore: sdk_version_set_literal
@@ -29,16 +26,16 @@ class ReplacementObserver extends NavigatorObserver
   }
 
   @override
-  void didPush(Route route, Route previousRoute) {
+  void didPush(Route route, Route? previousRoute) {
     didReplace(newRoute: route, oldRoute: previousRoute);
     super.didPush(route, previousRoute);
   }
 
   @override
-  void didReplace({Route newRoute, Route oldRoute})
+  void didReplace({Route? newRoute, Route? oldRoute})
   {
 
-    if(!(newRoute is PageRoute && oldRoute is PageRoute))
+    if(!((newRoute is PageRoute?) && (oldRoute is PageRoute?)))
     {
       if(currentPath.isEmpty) {
         currentPath = MainProgRouter.defaultRoute;
@@ -46,15 +43,15 @@ class ReplacementObserver extends NavigatorObserver
       return;
     }
 
-    if(newRoute != null && oldRoute != null && newRoute.settings.name == oldRoute.settings.name) {
+    if(newRoute?.settings.name == oldRoute?.settings.name) {
       return super.didReplace(newRoute:newRoute,oldRoute:oldRoute);
     }
 
-    Set<ReplacementAware> subs;
+    Set<ReplacementAware>? subs;
 
     if(newRoute != null)
     {
-      currentPath = newRoute.settings.name;
+      currentPath = newRoute.settings.name as String;
       subs = _listeners[newRoute.settings.name];
     }
 
@@ -84,10 +81,9 @@ class ReplacementObserver extends NavigatorObserver
 
 abstract class ReplacementAware
 {
-  factory ReplacementAware() => null;
 
-  void didReplaceOther({Route oldRoute});
+  void didReplaceOther({Route? oldRoute});
 
-  void wasReplacedBy({Route otherRoute});
+  void wasReplacedBy({Route? otherRoute});
 
 }

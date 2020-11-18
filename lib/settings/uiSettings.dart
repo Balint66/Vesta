@@ -36,7 +36,7 @@ class UISettingsState extends State<UISettings>
           ),
           CheckboxListTile(
               value: data.isDarkTheme,
-              onChanged:  (bool value){Vesta.of(context).updateSettings(isDarkTheme: value);},
+              onChanged:  (bool? value){Vesta.of(context).updateSettings(isDarkTheme: value);},
                 title: Text(translator.translate('settings_dark_theme')),
           ),
           CheckboxListTile(
@@ -57,11 +57,11 @@ class UISettingsState extends State<UISettings>
                   switch(Vesta.of(context).settings.language)
                   {
                     case 'en':
-                      StudentData.setInstance(StudentData.Instance.username, StudentData.Instance.password, StudentData.Instance.training, LCID: en_us_LCID);
+                      StudentData.setInstance(StudentData.Instance!.username!, StudentData.Instance!.password!, StudentData.Instance!.training, LCID: en_us_LCID);
                       break;
                     case 'hu':
                     default:
-                      StudentData.setInstance(StudentData.Instance.username, StudentData.Instance.password, StudentData.Instance.training, LCID: hun_LCID);
+                      StudentData.setInstance(StudentData.Instance!.username!, StudentData.Instance!.password!, StudentData.Instance!.training, LCID: hun_LCID);
                       break;
                   }
                 }
@@ -88,14 +88,14 @@ class UISettingsState extends State<UISettings>
                   switch(value)
                   {
                     case 2:
-                      StudentData.setInstance(StudentData.Instance.username, StudentData.Instance.password, StudentData.Instance.training, LCID: de_LCID);
+                      StudentData.setInstance(StudentData.Instance!.username!, StudentData.Instance!.password!, StudentData.Instance!.training, LCID: de_LCID);
                       break;
                     case 1:
-                      StudentData.setInstance(StudentData.Instance.username, StudentData.Instance.password, StudentData.Instance.training, LCID: hun_LCID);
+                      StudentData.setInstance(StudentData.Instance!.username!, StudentData.Instance!.password!, StudentData.Instance!.training, LCID: hun_LCID);
                       break;
                     case 0:
                     default:
-                      StudentData.setInstance(StudentData.Instance.username, StudentData.Instance.password, StudentData.Instance.training, LCID: en_us_LCID);
+                      StudentData.setInstance(StudentData.Instance!.username!, StudentData.Instance!.password!, StudentData.Instance!.training, LCID: en_us_LCID);
                       break;
                   }
                 });
@@ -104,7 +104,7 @@ class UISettingsState extends State<UISettings>
 
             },
             child: ListTile(title: Text("${translator.translate("settings_lang")} ${application.supportedLanguages[application.supportedLanguagesCodes.indexOf(
-              application.appDelegate.newLocale == null ? Localizations.localeOf(context).languageCode : application.appDelegate.newLocale.languageCode
+              application.appDelegate.newLocale == null ? Localizations.localeOf(context)!.languageCode : application.appDelegate.newLocale!.languageCode
               )]}"),
             ),
             tooltip: translator.translate('settings_lang_tooltip'),
@@ -115,31 +115,27 @@ class UISettingsState extends State<UISettings>
           enabled: !data.syncLangWithNeptun,
           onSelected: (int value)
           {
-
-            if(value == null){
-              return;
-            }
-
+            
             setState((){
               Vesta.of(context).manuallySetPageChange();
               switch(value)
               {
                 case 2:
-                  StudentData.setInstance(StudentData.Instance.username, StudentData.Instance.password, StudentData.Instance.training, LCID: de_LCID);
+                  StudentData.setInstance(StudentData.Instance!.username!, StudentData.Instance!.password!, StudentData.Instance!.training, LCID: de_LCID);
                   break;
                 case 1:
-                  StudentData.setInstance(StudentData.Instance.username, StudentData.Instance.password, StudentData.Instance.training, LCID: en_us_LCID);
+                  StudentData.setInstance(StudentData.Instance!.username!, StudentData.Instance!.password!, StudentData.Instance!.training, LCID: en_us_LCID);
                   break;
                 case 0:
                 default:
-                  StudentData.setInstance(StudentData.Instance.username, StudentData.Instance.password, StudentData.Instance.training, LCID: hun_LCID);
+                  StudentData.setInstance(StudentData.Instance!.username!, StudentData.Instance!.password!, StudentData.Instance!.training, LCID: hun_LCID);
                   break;
               }
             });
           },
           child: ListTile(
-            title:Text('Neptun\'s language: ' + (StudentData.Instance.LCID == hun_LCID ? 'Magyar' : StudentData.Instance.LCID == de_LCID ? 'Deutsch' : 'English (US)'),
-            style: TextStyle(color: data.syncLangWithNeptun ? Theme.of(context).disabledColor : Theme.of(context).textTheme.bodyText1.color )),
+            title:Text('Neptun\'s language: ' + (StudentData.Instance!.LCID == hun_LCID ? 'Magyar' : StudentData.Instance!.LCID == de_LCID ? 'Deutsch' : 'English (US)'),
+            style: TextStyle(color: data.syncLangWithNeptun ? Theme.of(context)!.disabledColor : Theme.of(context)!.textTheme.bodyText1!.color )),
             ),
           )
     ];

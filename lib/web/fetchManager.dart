@@ -1,11 +1,9 @@
-import 'package:vesta/Vesta.dart';
 import 'package:vesta/web/backgroundFetchingServiceMixin.dart';
 
 abstract class FetchManager
 {
+  
   static final _services = <BackgroundFetchingServiceMixin>[];
-
-  factory FetchManager._() => null;
 
   static bool _inFront = true;
   static Future<void> _loop = Future.doWhile(() async
@@ -75,13 +73,13 @@ abstract class FetchManager
         continue;
       }
 
-      if(item.lastFetch == null)
+      /*if(item.lastFetch == null)
       {
           Vesta.logger.i("I'm null and I dee-dobu-daa, deee dobu da");
           item.lastFetch = DateTime.now();
           await item.onUpdate();
       }
-      else if(DateTime.now().difference(item.lastFetch) >= item.timespan)
+      else*/ if(DateTime.now().difference(item.lastFetch) >= item.timespan)
       {
 
           item.lastFetch = DateTime.now();

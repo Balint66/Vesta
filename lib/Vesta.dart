@@ -54,7 +54,7 @@ class Vesta extends StatefulWidget
 
   static VestaState of(BuildContext context)
   {
-    return context.dependOnInheritedWidgetOfExactType<_VestaInherited>().data;
+    return context.dependOnInheritedWidgetOfExactType<_VestaInherited>()!.data!;
   }
 
 }
@@ -62,10 +62,10 @@ class Vesta extends StatefulWidget
 class _VestaInherited extends InheritedWidget
 {
 
-  _VestaInherited({Key key, @required Widget child, @required VestaState data}) :
-        data = data ,super(key: key, child: child);
+  _VestaInherited({Key? key, @required Widget? child, @required VestaState? data}) :
+        data = data ,super(key: key, child: child ?? Container());
 
-  final VestaState data;
+  final VestaState? data;
 
   @override
   bool updateShouldNotify(_VestaInherited oldWidget) {
@@ -99,7 +99,7 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
       return FileManager.readData();
     });
 
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance?.addObserver(this);
 
   }
 
@@ -107,7 +107,7 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
   void dispose()
   {
     super.dispose();
-    WidgetsBinding.instance.removeObserver(this);
+    WidgetsBinding.instance?.removeObserver(this);
   }
 
   @override
@@ -132,7 +132,7 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
   void onLocaleChanged()
   {
     setState(() {
-      AppTranslations.load(application.appDelegate.newLocale);
+      AppTranslations.load(application.appDelegate.newLocale ?? Locale('en', 'US'));
     });
   }
 
@@ -148,8 +148,8 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
 
   }
 
-  void updateSettings({Color mainColor, bool isDarkTheme, bool keepMeLogged,
-    String route, bool eulaWasAccepted, String language, bool devMode, bool syncLang})
+  void updateSettings({Color? mainColor, bool? isDarkTheme, bool? keepMeLogged,
+    String? route, bool? eulaWasAccepted, String? language, bool? devMode, bool? syncLang})
   {
     if(mainColor == null && isDarkTheme == null && keepMeLogged == null
         && route == null && eulaWasAccepted == null && language == null && devMode == null && syncLang == null) {
@@ -195,10 +195,10 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
 
   void manuallySetPageChange() => setState((){ _pagesettings = true;});
 
-  void updatePageSettings(String page, PageSettingsData data)
+  void updatePageSettings(String page, PageSettingsData? data)
   {
 
-    if(page == null || data == null || !_settings.pageSettings.containsKey(page)){
+    if(!_settings.pageSettings.containsKey(page)){
       return;
     }
 
@@ -236,7 +236,7 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
     }
   }
 
-  Future<bool> _post;
+  Future<bool>? _post;
 
   @override
   Widget build(BuildContext context)
@@ -250,7 +250,7 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
           builder: (BuildContext ctx, AsyncSnapshot<bool> snapshot)
           {
 
-            if(!snapshot.hasData && !snapshot.hasError) {
+            if(!snapshot.hasData && !snapshot.hasError && snapshot.data == null) {
               return Center(child: CircularProgressIndicator());
             }
 
@@ -258,7 +258,7 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
               Vesta.logger.e(snapshot.error);
             }
 
-            if(!snapshot.hasError && snapshot.data){
+            if(!snapshot.hasError && (snapshot.data ?? false)){
               Vesta.home = '/app/home';
               StudentData.Instance;
             }
@@ -270,12 +270,12 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
                   debugShowCheckedModeBanner: false,
                   title: 'Vesta',
                   theme: ColoredThemeData.create(
-                        primarySwatch: MaterialColor(settings.mainColor.value, genSwatch()),
-                        brightness: Brightness.light,
+                        MaterialColor(settings.mainColor.value, genSwatch()),
+                        Brightness.light,
                     ),
                     darkTheme: ColoredThemeData.create(
-                      primarySwatch: MaterialColor(settings.mainColor.value, genSwatch()),
-                      brightness: Brightness.dark,
+                      MaterialColor(settings.mainColor.value, genSwatch()),
+                      Brightness.dark,
                     ),
                     onGenerateRoute: Vesta.generateRoutes,
                     initialRoute: _settings.eulaAccepted ? '/home' : '/eula',

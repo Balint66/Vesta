@@ -18,7 +18,7 @@ void main() async
 
   WebServices.init();
 
-  await runApp(Vesta());
+  runApp(Vesta());
   
 
   if(Platform.isAndroid)

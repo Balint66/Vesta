@@ -11,7 +11,7 @@ import 'package:vesta/i18n/appTranslations.dart';
 class SemesterDisplayer extends StatefulWidget
 {
 
-  SemesterDisplayer({Key key}) : super(key:key);
+  SemesterDisplayer({Key? key}) : super(key:key);
 
   @override
   State<StatefulWidget> createState() 
@@ -36,7 +36,7 @@ class _SemesterDisplayerState extends State<SemesterDisplayer>
       {
 
       if(shot.hasError){
-        return Center(child: Text(shot.error));
+        return Center(child: Text(shot.error!.toString()));
       }
 
       if(shot.hasData)
@@ -48,9 +48,9 @@ class _SemesterDisplayerState extends State<SemesterDisplayer>
             {
               return Center(child: CircularProgressIndicator());
             }
-            return PopupMenuButton(child: ListTile(title: Center(child: Text(shot.data))), itemBuilder:(BuildContext cont)
-              => List.generate(data.data.length, (index) => PopupMenuItem(value: index, child: Text(data.data[index])),),
-              onSelected: (index){
+            return PopupMenuButton(child: ListTile(title: Center(child: Text(shot.data!))), itemBuilder:(BuildContext cont)
+              => List.generate(data.data!.length, (index) => PopupMenuItem(value: index, child: Text(data.data![index])),),
+              onSelected: (int index){
                   setState((){
                     list.setPeriodTermIndex(index);
                     list.onUpdate();
@@ -66,16 +66,16 @@ class _SemesterDisplayerState extends State<SemesterDisplayer>
       }),
       StreamBuilder(stream: list.getData(), builder: (BuildContext ctx, AsyncSnapshot<SemestersDataList> snap)
       {
-        if(snap.hasData && snap.data.isNotEmpty)
+        if(snap.hasData && snap.data!.isNotEmpty)
         {
 
-          snap.data.sort((element, other) => element.FromDate.compareTo(other.FromDate));
+          snap.data!.sort((element, other) => element.FromDate.compareTo(other.FromDate));
 
-          Map<bool, dynamic> grouped = groupBy(snap.data, (PeriodData element)=> element.ToDate.compareTo(DateTime.now()) < 0);
+          Map<bool, dynamic> grouped = groupBy(snap.data!, (PeriodData element)=> element.ToDate.compareTo(DateTime.now()) < 0);
           grouped = grouped.map<bool, List<Widget>>((key, value) => MapEntry(key, value.map<Widget>((element) => ClickableCard(
           child: ListTile(title: Text('${element.PeriodName}'), 
                 subtitle: Text('${element.PeriodTypeName}\n${Vesta.dateFormatter.format(element.FromDate)} - ${Vesta.dateFormatter.format(element.ToDate)}'),onTap:()
-                => MainProgram.of(context).parentNavigator.push(MaterialPageRoute(builder: (context) => PeriodDetailedDisplay(element),))),
+                => MainProgram.of(context).parentNavigator!.push(MaterialPageRoute(builder: (context) => PeriodDetailedDisplay(element),))),
           ) ).toList()));
 
           var ls = <Widget>[];

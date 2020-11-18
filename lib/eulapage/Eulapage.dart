@@ -18,7 +18,7 @@ class Eula extends StatefulWidget
 
 }
 
-Widget _wrapTextInWidget(List<Widget> texts, {Color color})
+Widget _wrapTextInWidget(List<Widget> texts, {Color? color})
 {
   return _MyAnimatedOpacity(child:SafeArea(child:  Container(padding: EdgeInsets.all(10), child: Card(color: color ?? Colors.blue, child: Center(
         child:Container(padding: EdgeInsets.all(12), child: Column(mainAxisAlignment: MainAxisAlignment.center, children: texts,)),),),),),);
@@ -98,7 +98,7 @@ class _EulaState extends State<Eula> with SingleTickerProviderStateMixin
     var noll = Container();
 
     try{
-        return widget.controller != null && widget.controller.page < 1.5 ? pos : noll;
+        return (widget.controller.page ?? 0) < 1.5 ? pos : noll;
     }
     catch(e)
     {
@@ -113,8 +113,8 @@ class _MyAnimatedOpacity extends StatefulWidget
 {
   final Widget _child;
 
-    _MyAnimatedOpacity({Key key, Widget child})
-      : _child = child,
+    _MyAnimatedOpacity({Key? key, @required Widget? child})
+      : _child = child ?? Container(),
         super(key: key);
 
   @override
@@ -129,7 +129,7 @@ class _MyAnimatedOpacity extends StatefulWidget
 class _MyAnimatedOpacityState extends State<_MyAnimatedOpacity> with SingleTickerProviderStateMixin
 {
 
-  AnimationController _controller;
+  AnimationController? _controller;
 
   @override
   void initState()
@@ -137,7 +137,7 @@ class _MyAnimatedOpacityState extends State<_MyAnimatedOpacity> with SingleTicke
     super.initState();
 
     _controller = AnimationController(vsync: this, duration: Duration(seconds: 2));
-    _controller.addListener(() {setState(() {});});
+    _controller?.addListener(() {setState(() {});});
 
     animate();
 
@@ -147,19 +147,19 @@ class _MyAnimatedOpacityState extends State<_MyAnimatedOpacity> with SingleTicke
   Widget build(BuildContext context)
   {
       return Opacity(
-        opacity: _controller.value,
+        opacity: _controller?.value ?? 0,
         child: widget._child,);
   }
 
   void animate()
   {
-    _controller.forward(from: 0.0);
+    _controller?.forward(from: 0.0);
   }
 
   @override
   void dispose()
   {
-    _controller.dispose();
+    _controller?.dispose();
     super.dispose();
   }
 

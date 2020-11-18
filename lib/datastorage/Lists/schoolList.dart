@@ -4,9 +4,9 @@ class SchoolList
 {
   List<School> schools;
 
-  SchoolList(this.schools);
+  SchoolList._(this.schools);
 
-  static SchoolList fromJson(String json)
+  factory SchoolList.fromJson(String json)
   {
 
     var list = <School>[];
@@ -19,7 +19,7 @@ class SchoolList
 
     }
 
-    var schl = SchoolList(list);
+    var schl = SchoolList._(list);
 
     return schl;
 

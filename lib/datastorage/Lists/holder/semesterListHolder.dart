@@ -15,7 +15,7 @@ class SemesterListHolder extends ListDataHolder<SemestersDataList>
     _periodtermList = <Map<String, dynamic>>[];
   }
 
-  SemesterListHolder({Duration timespan}) : super(SemestersDataList(), timespan: timespan ?? defaultInterval);
+  SemesterListHolder({Duration? timespan}) : super(SemestersDataList(), timespan: timespan ?? defaultInterval);
 
   @override
   Future<void> incrementWeeks() async{}
@@ -26,7 +26,7 @@ class SemesterListHolder extends ListDataHolder<SemestersDataList>
     await Future.doWhile(() async
     {
 
-      if(_periodtermList != null && _periodtermList.isNotEmpty) {
+      if(_periodtermList.isNotEmpty) {
         return false;
       }
       
@@ -46,7 +46,7 @@ class SemesterListHolder extends ListDataHolder<SemestersDataList>
     await Future.doWhile(() async
     {
 
-      if(_periodtermList != null && _periodtermList.isNotEmpty) {
+      if(_periodtermList.isNotEmpty) {
         return false;
       }
       
@@ -82,24 +82,24 @@ class SemesterListHolder extends ListDataHolder<SemestersDataList>
   Future<SemestersDataList> _fetchNewData() async
   {
 
-    if(_periodtermList == null || _periodtermList.isEmpty)
+    if(_periodtermList.isEmpty)
     {
 
       Vesta.logger.d('So, the list is null? Okay then!');
 
       var termbase = WebDataBase.studentSimplified(StudentData.Instance);
 
-      _periodtermList = await WebServices.getPeriodTerms(Data.school, termbase);
+      _periodtermList = await WebServices.getPeriodTerms(Data.school!, termbase);
 
     }
 
     Vesta.logger.d('Now tell me, what is the list? ${_periodtermList}');
 
-    var base = WebDataSemestersRequest(StudentData.Instance, PeriodTermID: _periodtermList[_dataIndex]['Id']);
+    var base = WebDataSemestersRequest(StudentData.Instance!, PeriodTermID: _periodtermList[_dataIndex]['Id']);
 
-    var resp = await WebServices.getSemestersData(Data.school, base);
+    var resp = await WebServices.getSemestersData(Data.school!, base);
 
-    ListDataHolder._updateItemCount(resp, this);
+    ListDataHolder._updateItemCount(resp!, this);
 
     return resp.list;
   }

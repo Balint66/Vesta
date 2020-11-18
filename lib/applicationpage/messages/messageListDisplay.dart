@@ -18,7 +18,7 @@ import 'package:vesta/web/webdata/webDataMessageRead.dart';
 class MessageListDisplay extends BgFetchSateFullWidget
 {
 
-  MessageListDisplay({Key key}):super(key:key);
+  MessageListDisplay({Key? key}):super(key:key);
 
   @override
   MessageListDisplayState createState() {
@@ -31,10 +31,10 @@ class MessageListDisplayState extends BgFetchState<MessageListDisplay>
 with SingleTickerProviderStateMixin
 {
 
-  TabController _tabController;
+  TabController? _tabController;
 
   static final PopupOptionData data = PopupOptionData(
-    builder:(BuildContext ctx){ return null; }, selector: (int value){}
+    builder:(BuildContext ctx){ return []; }, selector: (int value){}
   );
 
   @override
@@ -62,23 +62,23 @@ with SingleTickerProviderStateMixin
                 if(snap.hasData)
                 {
 
-                  var readls = (snap.data
+                  var readls = (snap.data!
                       .where((item)=>!item.isNew).toList()
                       ..sort((Message a, Message b)=>-1*a.time.compareTo(b.time)));
 
-                  var unreadls = (snap.data
+                  var unreadls = (snap.data!
                       .where((item)=>item.isNew).toList()
                       ..sort((Message a, Message b)=>-1*a.time.compareTo(b.time)));
 
                   unreadnum = unreadls.length;
 
                   if(unreadls.isNotEmpty){
-                    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {_tabController.animateTo(0);});
+                    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {_tabController!.animateTo(0);});
                   }
 
                   Widget read =  SortedMessages(readls,
                     (item){
-                      MainProgram.of(context).parentNavigator.push(MaterialPageRoute(builder: (ctx)=>MessageDisplay
+                      MainProgram.of(context).parentNavigator!.push(MaterialPageRoute(builder: (ctx)=>MessageDisplay
                       (item.senderName,item.subject,item.detail)));
                   });
 
@@ -89,11 +89,11 @@ with SingleTickerProviderStateMixin
                           {
                             item.setReadState();
                           });
-                          MainProgram.of(context).parentNavigator.push(MaterialPageRoute(builder: (ctx)=>MessageDisplay
+                          MainProgram.of(context).parentNavigator!.push(MaterialPageRoute(builder: (ctx)=>MessageDisplay
                             (item.senderName,item.subject,item.detail)));
-                          var body = WebDataMessageRead(StudentData.Instance,
+                          var body = WebDataMessageRead(StudentData.Instance!,
                               item.personMessageId);
-                          WebServices.setRead(Data.school, body);
+                          WebServices.setRead(Data.school!, body);
                       },
                       onLongPress: (item)
                       {
@@ -101,18 +101,18 @@ with SingleTickerProviderStateMixin
                         {
                           item.setReadState();
                         });
-                        var body = WebDataMessageRead(StudentData.Instance,
+                        var body = WebDataMessageRead(StudentData.Instance!,
                               item.personMessageId);
-                          WebServices.setRead(Data.school, body);
+                          WebServices.setRead(Data.school!, body);
                       },);
                   if(unreadls.isNotEmpty){
                     ls.add(unread);
                   } 
                   else{
                     ls.add(KamonjiDisplayer(RichText(textAlign: TextAlign.center, text: TextSpan(text:translator.translate('messages_unread_kamonji'),
-                        style: Theme.of(context).textTheme.bodyText1,
+                        style: Theme.of(context)!.textTheme.bodyText1,
                         children:[
-                          TextSpan(text: '( ✧Д✧) YASSS!!', style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 25))
+                          TextSpan(text: '( ✧Д✧) YASSS!!', style: Theme.of(context)!.textTheme.bodyText1!.copyWith(fontSize: 25))
                     ])
                         ),
                       ),
@@ -140,7 +140,7 @@ with SingleTickerProviderStateMixin
                         Tab(text: translator.translate('messages_read'),)
                       ]
                   ),
-                  color: Theme.of(context).primaryColor,
+                  color: Theme.of(context)!.primaryColor,
                 ),
                 body: RefreshExecuter(icon: Icons.message,
                             asyncCallback: messages.incrementWeeks,
@@ -163,9 +163,9 @@ class SortedMessages extends StatelessWidget
 
   final List<Message> _messages;
   final displayFunction _ontap;
-  final displayFunction _onLongPress;
+  final displayFunction? _onLongPress;
 
-  SortedMessages(List<Message> msg, displayFunction onTap, {displayFunction onLongPress}) : _messages = msg,
+  SortedMessages(List<Message> msg, displayFunction onTap, {displayFunction? onLongPress}) : _messages = msg,
         _ontap = onTap, _onLongPress = onLongPress, super();
 
   @override
@@ -176,7 +176,7 @@ class SortedMessages extends StatelessWidget
         ClickableCard(child: ListTile(title: Text(item.subject),
             subtitle: Text(item.senderName),
             onTap: () => _ontap(item),
-            onLongPress: () => _onLongPress(item),
+            onLongPress: () => _onLongPress?.call(item),
             ),
           )
         )  

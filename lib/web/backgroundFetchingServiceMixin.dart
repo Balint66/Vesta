@@ -7,7 +7,7 @@ mixin BackgroundFetchingServiceMixin
   Future<void> onUpdate();
 
   Duration get timespan;
-  DateTime lastFetch;
+  DateTime lastFetch = DateTime(0);
 
   bool get enabled;
 

@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 abstract class BgFetchSateFullWidget extends StatefulWidget
 {
 
-  BgFetchSateFullWidget({Key key}) : super(key:key);
+  BgFetchSateFullWidget({Key? key}) : super(key:key);
 
   @override
   BgFetchState createState();

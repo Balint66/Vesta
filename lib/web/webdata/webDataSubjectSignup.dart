@@ -12,10 +12,10 @@ class WebDataSubjectSignupRequest extends WebDataBase
   final int CurriculumTemplatelineID;
   final List<int> AllType;
 
-  WebDataSubjectSignupRequest(StudentData data, {int SubjectID = 0, int CurriculumID = 0, List<int> CourseIDs,
-  bool IsOnSubject = false, bool SubjectSignin = false, int TermID = 0, int CurriculumTemplatelineID = 0, List<int> AllType}) : 
+  WebDataSubjectSignupRequest(StudentData data, {int SubjectID = 0, int CurriculumID = 0, List<int>? CourseIDs,
+  bool IsOnSubject = false, bool SubjectSignin = false, int TermID = 0, int CurriculumTemplatelineID = 0, List<int>? AllType}) : 
   SubjectID = SubjectID, CurriculumID = CurriculumID, CourseIDs = CourseIDs ?? [0], IsOnSubject = IsOnSubject,
-    SubjectSignin = SubjectSignin, TermID = TermID, CurriculumTemplatelineID = CurriculumTemplatelineID, AllType = AllType,
+    SubjectSignin = SubjectSignin, TermID = TermID, CurriculumTemplatelineID = CurriculumTemplatelineID, AllType = AllType ?? <int>[],
     super.studentSimplified(data, currentPage: 1);
 
   @override

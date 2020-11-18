@@ -1,4 +1,4 @@
-import 'package:fluro/fluro.dart' as fluro;
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:vesta/applicationpage/MainProgram.dart';
@@ -12,24 +12,24 @@ import 'package:vesta/routing/router.dart';
 class MainProgRouter
 {
 
-  static final fluro.Router _mainProgRouter = fluro.Router();
+  static final _mainProgRouter = FluroRouter();
 
   static final List<UniqueKey> keys = List.of([UniqueKey(), UniqueKey(), UniqueKey(), UniqueKey(), UniqueKey()],growable: false);
 
   static void registerRoutes()
   {
 
-    VestaRouter.router.define('/app/:inner', handler: _appNestedHandler, transitionType: fluro.TransitionType.cupertino );
+    VestaRouter.router.define('/app/:inner', handler: _appNestedHandler, transitionType: TransitionType.cupertino );
 
-    define('/messages', handler: _messageHandler, transitionType: fluro.TransitionType.cupertinoFullScreenDialog);
-    define('/calendar', handler: _calendarHandler, transitionType: fluro.TransitionType.cupertinoFullScreenDialog);
-    define('/student_book', handler: _studentBookHandler, transitionType: fluro.TransitionType.cupertinoFullScreenDialog);
-    define('/semesters', handler: _semesterInfoHandler, transitionType: fluro.TransitionType.cupertinoFullScreenDialog);
-    define('/subjects', handler: _subjectHandler, transitionType: fluro.TransitionType.cupertinoFullScreenDialog);
+    define('/messages', handler: _messageHandler, transitionType: TransitionType.cupertinoFullScreenDialog);
+    define('/calendar', handler: _calendarHandler, transitionType: TransitionType.cupertinoFullScreenDialog);
+    define('/student_book', handler: _studentBookHandler, transitionType: TransitionType.cupertinoFullScreenDialog);
+    define('/semesters', handler: _semesterInfoHandler, transitionType: TransitionType.cupertinoFullScreenDialog);
+    define('/subjects', handler: _subjectHandler, transitionType: TransitionType.cupertinoFullScreenDialog);
 
   }
 
-  static void define(String innerPath, {fluro.Handler handler, fluro.TransitionType transitionType})
+  static void define(String innerPath, {Handler? handler, TransitionType? transitionType})
   {
     _mainProgRouter.define('/app$innerPath', handler: handler, transitionType: transitionType);
   }
@@ -46,35 +46,35 @@ class MainProgRouter
   static final SemesterDisplayer _semesterInfoDisplayer = SemesterDisplayer(key: keys[3]);
   static final SubjectDisplayer _subjectInfoDisplayer = SubjectDisplayer(key: keys[4]);
 
-  static final fluro.Handler _messageHandler = fluro.Handler(handlerFunc: (BuildContext ctx, Map<String, dynamic> query)
+  static final Handler _messageHandler = Handler(handlerFunc: (BuildContext ctx, Map<String, dynamic> query)
   {
     return _messageListDisplay;
   });
 
-  static final fluro.Handler _calendarHandler = fluro.Handler(handlerFunc: (BuildContext ctx, Map<String, dynamic> querry)
+  static final Handler _calendarHandler = Handler(handlerFunc: (BuildContext ctx, Map<String, dynamic> querry)
   {
     return _lessonDisplayer;
   });
 
-  static final fluro.Handler _studentBookHandler = fluro.Handler(handlerFunc: (BuildContext ctx, Map<String,dynamic> querry)
+  static final Handler _studentBookHandler = Handler(handlerFunc: (BuildContext ctx, Map<String,dynamic> querry)
   {
     return _studentBookDisplayer;
   });
 
-  static final fluro.Handler _semesterInfoHandler = fluro.Handler(handlerFunc: (BuildContext ctx, Map<String,dynamic> querry)
+  static final Handler _semesterInfoHandler = Handler(handlerFunc: (BuildContext ctx, Map<String,dynamic> querry)
   {
     return _semesterInfoDisplayer;
   });
 
-  static final fluro.Handler _subjectHandler = fluro.Handler(handlerFunc: (BuildContext ctx, Map<String,dynamic> querry)
+  static final Handler _subjectHandler = Handler(handlerFunc: (BuildContext ctx, Map<String,dynamic> querry)
   {  
     return _subjectInfoDisplayer;
   });
 
-  static final fluro.Handler _appNestedHandler = fluro.Handler(handlerFunc: (BuildContext ctx, Map<String, dynamic> query)
+  static final Handler _appNestedHandler = Handler(handlerFunc: (BuildContext ctx, Map<String, dynamic> query)
   {
 
-    String path = query['inner'][0];
+    String? path = query['inner'][0];
 
     if(path == 'home' || path == null || path.isEmpty) {
       path = defaultRoute;

@@ -24,8 +24,8 @@ class MessageDisplay extends StatelessWidget
       var match = reg.allMatches(message);
 
       match.forEach((element) {
-          var ind = message.indexOf(element.group(0));
-          message.replaceRange(ind, ind+element.group(0)?.length, 'mailto:' + element.group(0));      
+          var ind = message.indexOf(element.group(0)!);
+          message.replaceRange(ind, ind+element.group(0)!.length, 'mailto:' + element.group(0)!);      
       });
 
     }

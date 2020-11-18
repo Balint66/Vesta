@@ -27,4 +27,10 @@ class StudentBookData
       };
     }
 
+    @override
+    bool operator ==(Object other)
+    {
+      return other is StudentBookData && other.ID == ID;
+    }
+
 }

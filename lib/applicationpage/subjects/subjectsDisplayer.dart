@@ -11,7 +11,7 @@ import 'package:vesta/i18n/appTranslations.dart';
 class SubjectDisplayer extends StatefulWidget
 {
 
-  SubjectDisplayer({Key key}) : super(key:key);
+  SubjectDisplayer({Key? key}) : super(key:key);
 
   @override
   State<StatefulWidget> createState()
@@ -37,27 +37,27 @@ class _SubjectDisplayerState extends State<SubjectDisplayer>
           return Center(child: CircularProgressIndicator());
         }
 
-        snap.data.sort((e,k)=>e.SubjectName.compareTo(k.SubjectName));
+        snap.data!.sort((e,k)=>e.SubjectName.compareTo(k.SubjectName));
 
         var ls = <Widget>[];
 
-        var completed = groupBy(snap.data, (SubjectData item)=>item.Completed);
+        var completed = groupBy(snap.data!, (SubjectData item)=>item.Completed);
 
         if(completed[true] != null){
-          ls.add(ExpansionTile(title: Text(translator.translate('subjects_completed')), children: completed[true].map((e) => _visualizeItem(e))?.toList()));
+          ls.add(ExpansionTile(title: Text(translator.translate('subjects_completed')), children: completed[true]!.map((e) => _visualizeItem(e)).toList()));
         }
 
         if(completed[false] != null)
         {
 
-          var isOn = groupBy(completed[false], (SubjectData item)=>item.IsOnSubject);
+          var isOn = groupBy(completed[false]!, (SubjectData item)=>item.IsOnSubject);
 
           if(isOn[true] != null){
-            ls.add(ExpansionTile(title: Text(translator.translate('subjects_selected')), children: isOn[true].map((e) => _visualizeItem(e)).toList()));
+            ls.add(ExpansionTile(title: Text(translator.translate('subjects_selected')), children: isOn[true]!.map((e) => _visualizeItem(e)).toList()));
           }
 
           if(isOn[false] != null){
-            ls.add(ExpansionTile(title: Text(translator.translate('subjects_neutral')), initiallyExpanded: true, children: isOn[false].map((e) => _visualizeItem(e)).toList()));
+            ls.add(ExpansionTile(title: Text(translator.translate('subjects_neutral')), initiallyExpanded: true, children: isOn[false]!.map((e) => _visualizeItem(e)).toList()));
           }
 
         }
@@ -78,7 +78,7 @@ class _SubjectDisplayerState extends State<SubjectDisplayer>
             : element.Completed ? Icon(Icons.check_box , color: Colors.green) : Icon(Icons.check_box_outline_blank, color: Colors.grey),
             title: Text(element.SubjectName), subtitle: Text('${element.SubjectCode}\n${element.SubjectRequirement}'),
             onTap: () {
-              MainProgram.of(context).parentNavigator.push(MaterialPageRoute(builder: (ctx)=>SubjectDetailedDisplay(element)));
+              MainProgram.of(context).parentNavigator!.push(MaterialPageRoute(builder: (ctx)=>SubjectDetailedDisplay(element)));
             },)
             );
   }

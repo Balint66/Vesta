@@ -11,7 +11,7 @@ class WebDataCalendarResponse extends WebDataBase
   final CalendarDataList calendarData;
 
   WebDataCalendarResponse(StudentData data, List<CalendarData> calendarData)
-      : calendarData = calendarData,  super.studentSimplified(data);
+      : calendarData = CalendarDataList(other: calendarData),  super.studentSimplified(data);
 
   WebDataCalendarResponse.fromJsonString(String string) : this.fromJson(json.decode(string));
 

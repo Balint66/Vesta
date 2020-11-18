@@ -25,7 +25,7 @@ class SubjectData
     SubjectData.fromJsonString(String str) : this.fromJson(json.decode(str));
 
     SubjectData.fromJson(Map<String, dynamic> json) 
-    : this(Completed: json['Completed'], Credit: int.tryParse(json['Credit'].toString()), CurriculumTemplateID: json['CurriculumTemplateID'],
+    : this(Completed: json['Completed'], Credit: int.tryParse(json['Credit'].toString()) ?? -1, CurriculumTemplateID: json['CurriculumTemplateID'],
       CurriculumTemplatelineID: json['CurriculumTemplatelineID'], IsOnSubject: json['IsOnSubject'], SubjectCode: json['SubjectCode'],
       SubjectId: json['SubjectId'], SubjectName: json['SubjectName'], SubjectRequirement: json['SubjectRequirement'], 
       SubjectSignupType: json['SubjectSignupType'], TermID: json['TermID']);
@@ -47,5 +47,11 @@ class SubjectData
         
       };
     }
+
+    @override
+      bool operator ==(Object other) 
+      {
+        return other is SubjectData && other.SubjectCode == SubjectCode && other.SubjectId == SubjectId;
+      }
 
 }

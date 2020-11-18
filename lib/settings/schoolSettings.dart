@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:vesta/datastorage/Lists/schoolList.dart';
 import 'package:vesta/datastorage/data.dart';
 import 'package:vesta/datastorage/local/fileManager.dart';
 import 'package:vesta/i18n/appTranslations.dart';
@@ -27,16 +28,16 @@ class SchoolSettingsState extends State<SchoolSettings>
           {
             FileManager.clearFileData();
             FetchManager.clearRegistered();
-            Navigator.of(context).pushNamedAndRemoveUntil('/login', (route) => false);
+            Navigator.of(context)!.pushNamedAndRemoveUntil('/login', (route) => false);
           },),
           ListTile(
             title: Text(translator.translate('settings_schools_privacy')),
             onTap: ()=>showDialog(context: context, builder:(ctx)=>Dialog(child: FutureBuilder(
-              future: WebServices.getSchoolsPrivacyPolicy(Data.school),
+              future: WebServices.getSchoolsPrivacyPolicy(Data.school as School),
               builder: (context, snapshot) 
               {
                 if(snapshot.hasError) {
-                  return SingleChildScrollView(child: Center(child: Text(snapshot.error)));
+                  return SingleChildScrollView(child: Center(child: Text(snapshot.error!.toString())));
                 }
 
                 if(!snapshot.hasData) {

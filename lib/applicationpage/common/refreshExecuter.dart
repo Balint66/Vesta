@@ -16,9 +16,9 @@ class RefreshExecuter extends StatefulWidget
   final IncrementionCallback _callback;
   final IconData _icon;
 
-  RefreshExecuter({@required Widget child, @required IncrementionCallback asyncCallback,
-        IconData icon})
-      : _child = child, _callback = asyncCallback, _icon = icon;
+  RefreshExecuter({@required Widget? child, @required IncrementionCallback? asyncCallback,
+        IconData icon = Icons.add})
+      : _child = child ?? Container(), _callback = asyncCallback ?? (() async {}), _icon = icon;
 
   @override
   State<StatefulWidget> createState()
@@ -31,8 +31,8 @@ class RefreshExecuter extends StatefulWidget
 class RefreshExecuterState extends State<RefreshExecuter> with SingleTickerProviderStateMixin
 {
 
-  AnimationController _controller;
-  Animation<double> animation;
+  AnimationController? _controller;
+  Animation<double>? animation;
 
   bool _wasRequested = false;
 
@@ -43,7 +43,7 @@ class RefreshExecuterState extends State<RefreshExecuter> with SingleTickerProvi
     _controller = AnimationController(vsync: this,
         duration: const Duration(seconds: 1));
 
-    final _curved = CurvedAnimation(parent: _controller, curve: Curves.elasticInOut);
+    final _curved = CurvedAnimation(parent: _controller as AnimationController, curve: Curves.elasticInOut);
 
     animation = widget._waitingPlace
         .animate(_curved)
@@ -52,14 +52,14 @@ class RefreshExecuterState extends State<RefreshExecuter> with SingleTickerProvi
 
         setState(() {
 
-        if(animation.value == widget._waitingPlace.end && !_wasRequested)
+        if(animation?.value == widget._waitingPlace.end && !_wasRequested)
         {
           _wasRequested = true;
           Future.delayed(Duration(microseconds: 1), () async {
             await widget._callback();
 
             _animate = false;
-            _controller.value = 0;
+            _controller?.value = 0;
 
             _wasRequested = false;
 
@@ -74,7 +74,7 @@ class RefreshExecuterState extends State<RefreshExecuter> with SingleTickerProvi
 
   @override
   void dispose() {
-    _controller.dispose();
+    _controller?.dispose();
     super.dispose();
   }
 
@@ -97,12 +97,12 @@ class RefreshExecuterState extends State<RefreshExecuter> with SingleTickerProvi
             width: _size,
             height: _size,
             padding: EdgeInsets.all(5),
-            child: !_animate ? Center(child: Icon( widget._icon ?? Icons.add,
-                color: Theme.of(context).primaryColor,),)
+            child: !_animate ? Center(child: Icon( widget._icon,
+                color: Theme.of(context)!.primaryColor,),)
                 : CircularProgressIndicator(strokeWidth: 2.5,),),
           shape: CircleBorder(),),
         bottom: _animate
-            ? animation.value
+            ? animation?.value
             : widget._place.transform(_clampedPosition),
         left: ( MediaQuery.of(context).size.width - _size) / 2,
       )
@@ -129,7 +129,7 @@ class RefreshExecuterState extends State<RefreshExecuter> with SingleTickerProvi
         {
           _charged = false;
           _animate = true;
-          _controller.forward(from: 0);
+          _controller?.forward(from: 0);
         });
 
       }

@@ -18,7 +18,7 @@ class MenuSelector extends StatefulWidget
 class MenuSelectorState extends State<MenuSelector>
 {
 
-  String _home;
+  String _home = '';
 
   @override
   void initState() {
@@ -34,7 +34,7 @@ class MenuSelectorState extends State<MenuSelector>
 
     var translator = AppTranslations.of(context);
 
-    return ExpansionTile(leading: Icon(Icons.home_outlined), title: Text(translator.translate('popup_app_home') + ': ' + translator.translate('sidebar_' + _home)), 
+    return ExpansionTile(leading: Icon(Icons.home_outlined), title: Text((translator.translate('popup_app_home')) + ': ' + (translator.translate('sidebar_' + _home))), 
       children:<Widget>[_item('messages', translator), _item('forum', translator), _item('calendar', translator), 
       _item('subjects', translator), _item('exams', translator),
       _item('student_book', translator), _item('semesters', translator)]);
@@ -42,8 +42,8 @@ class MenuSelectorState extends State<MenuSelector>
 
   Widget _item(String str, translator)
   {
-    return RadioListTile(value: str, groupValue: _home, title: Text(translator.translate('sidebar_$str')), 
-      onChanged: (i)=> setState((){_home = i; Vesta.of(context).updateSettings(route: '/app/'+_home);}));
+    return RadioListTile<String>(value: str, groupValue: _home, title: Text(translator.translate('sidebar_$str')), 
+      onChanged: (i)=> setState((){_home = i as String; Vesta.of(context).updateSettings(route: '/app/'+_home);}));
   }
 
 }

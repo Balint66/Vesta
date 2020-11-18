@@ -5,11 +5,9 @@ import 'package:vesta/datastorage/Lists/schoolList.dart';
 abstract class Data
 {
 
-  static String username;
-  static String password;
-  static School school;
-
-  factory Data._()=> null; //ignore:unused_element
+  static String? username;
+  static String? password;
+  static School? school;
 
   static String toJsonString()
   {
@@ -18,7 +16,7 @@ abstract class Data
       return '{}';
     }
 
-    var map = <String, dynamic>{'username':username,'password':password,'school':school.asJson()};
+    var map = <String, dynamic>{'username':username,'password':password,'school':school?.asJson()};
 
     return json.encode(map);
 

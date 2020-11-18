@@ -24,11 +24,11 @@ class _KeepMeLoggedInButtonState extends State<KeepMeLoggedInButton>
       children: <Widget>[
         Checkbox(
             value: Vesta.of(context).settings.stayLogged,
-            onChanged: (bool value)=> Vesta.of(context).updateSettings(keepMeLogged: value),
+            onChanged: (bool? value)=> Vesta.of(context).updateSettings(keepMeLogged: value),
         ),
         Container(
           padding: EdgeInsets.only(top: 15),
-          child: Text(AppTranslations.of(context).translate('login_keepmeloggedin')),
+          child: Text((AppTranslations.of(context)).translate('login_keepmeloggedin')),
         ),
       ],
     );

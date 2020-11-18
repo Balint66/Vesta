@@ -13,9 +13,9 @@ abstract class PageSettingsBase extends StatefulWidget
 {
 
   final String page;
-  final PageSettingsData data;
+  final PageSettingsData? data;
 
-  factory PageSettingsBase(String page, PageSettingsData data)
+  factory PageSettingsBase(String page, PageSettingsData? data)
   {
     switch(page)
     {
@@ -47,7 +47,7 @@ class _EmptyState extends PageSettingsState
 {
   
   @override
-  List<BuildFunction> get body => null;
+  List<BuildFunction> get body => [];
 
   @override
   Widget build(BuildContext context) //ignore:invalid_override_of_non_virtual_member
@@ -64,25 +64,21 @@ abstract class PageSettingsState<T extends PageSettingsBase> extends State<T>
 
   @mustCallSuper
   List<BuildFunction> get body=> [
-    (context) => SwitchListTile( title: Text(AppTranslations.of(context).translateRaw('settings_page')['common']['enabled']?.toString()), value: widget.data.isEnabled , onChanged: (value)
+    (context) => SwitchListTile( title: Text((AppTranslations.of(context).translateRaw('settings_page')['common']['enabled']?.toString()) ?? ''), value: widget.data?.isEnabled ?? false, onChanged: (value)
     {
       setState((){
-        widget.data.isEnabled = !widget.data.isEnabled;
+        widget.data?.isEnabled = !(widget.data?.isEnabled ?? true);
         Vesta.of(context).updatePageSettings(widget.page, widget.data);
       });
     }),
-    (context) => ListTile(title: Text('${AppTranslations.of(context).translateRaw('settings_page')['common']['interval']} : ${widget.data.interval.inMinutes}m',
-    style: TextStyle(color: !widget.data.isEnabled ? Theme.of(context).disabledColor : Theme.of(context).textTheme.bodyText1.color )),
-    onTap: !widget.data.isEnabled ? null : () async
+    (context) => ListTile(title: Text('${AppTranslations.of(context).translateRaw('settings_page')['common']['interval']} : ${widget.data?.interval.inMinutes}m',
+    style: TextStyle(color: !(widget.data?.isEnabled ?? false) ? Theme.of(context)!.disabledColor : Theme.of(context)!.textTheme.bodyText1!.color )),
+    onTap: !(widget.data?.isEnabled ?? true) ? null : () async
     {
-      var dur = await showDurationPicker(context: context, initialTime: widget.data.interval, snapToMins: 1);
-
-      if(dur == null) {
-        return;
-      }
-
+      Duration dur = await showDurationPicker(context: context, initialTime: widget.data?.interval, snapToMins: 1);
+      
       setState(() {
-        widget.data.interval = dur;
+        widget.data?.interval = dur;
         Vesta.of(context).updatePageSettings(widget.page, widget.data);
       });
 
@@ -97,7 +93,7 @@ abstract class PageSettingsState<T extends PageSettingsBase> extends State<T>
     var translator = AppTranslations.of(context);
 
     return  Scaffold(appBar: AppBar(title: Text(translator.translate('sidebar_' + widget.page)),),
-      body: ListView(children: body?.map((e) => e?.call(context))?.toList()),
+      body: ListView(children: (body.map((e) => e.call(context)).toList().cast())),
     );
   }
 
