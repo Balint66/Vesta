@@ -97,6 +97,9 @@
     "settings_school": "School Settings",
     "settings_schools_privacy":"School's privacy policy",
     "settings_ui": "UI Settings",
+    "feltpen_title": "Why did the teacher change from chalk (KRÉTA) to feltpen (filc)?",
+    "feltpen_subtitle": "Long press me to get the answer!",
+    "feltpen_text": "Because it's faster!\n\nIt's a know statistic that writing with feltpen is faster then writing with chalk. But that's not the only reason why this button exists. Hungarian Education has a system for from elementaryschools to middleschools that is called KRÉTA. That system is not that bad but the default applications are not really suitable for the mass (and for those who does good sense of style and fashion). That's why some middleschool students and ex-students made the application 'filc' that translates to 'feltpen'. It's a very cool opensource project and you shoudl check it out in my opinion. :)",
     "cute_messages":
     [
         "I've found a bug. 🐛",

@@ -75,12 +75,15 @@ abstract class PageSettingsState<T extends PageSettingsBase> extends State<T>
     style: TextStyle(color: !(widget.data?.isEnabled ?? false) ? Theme.of(context)!.disabledColor : Theme.of(context)!.textTheme.bodyText1!.color )),
     onTap: !(widget.data?.isEnabled ?? true) ? null : () async
     {
-      Duration dur = await showDurationPicker(context: context, initialTime: widget.data?.interval, snapToMins: 1);
+      Duration? dur = await showDurationPicker(context: context, initialTime: widget.data?.interval, snapToMins: 1);
       
-      setState(() {
-        widget.data?.interval = dur;
-        Vesta.of(context).updatePageSettings(widget.page, widget.data);
-      });
+      if(dur != null)
+      {
+        setState(() {
+          widget.data?.interval = dur;
+          Vesta.of(context).updatePageSettings(widget.page, widget.data);
+        });
+      }
 
     })
   ];

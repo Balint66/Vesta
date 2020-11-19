@@ -97,6 +97,9 @@
     "settings_school": "Iskolai Beállítások",
     "settings_schools_privacy":"Iskola adatvédelmi irányelvei",
     "settings_ui": "UI Beállítások",
+    "feltpen_title": "Miért váltott a tanár krétáról filcre?",
+    "feltpen_subtitle": "Nyomj hosszan, hogy meg tudd a választ!",
+    "feltpen_text": "Mivel a filc gyorsabb!\n\nNem tudom, esetleg hallottál már-e a Filc nevezetű applikációról. Ez egy nem hivatalos app a KRÉTA rendszerhez, amelyett középiskolások (vagy egykori középiskolások) fejlesztenek, és a legjobb, hogy a forráskódja nyílt! Ha esetleg érdekel téged, vagy van egy kis tesvéred, aki küszköd a krétával, nyugodtan vess rá egy pillantást.",
     "cute_messages":
     [
         "Találtam egy kis hibát. 🐛",
