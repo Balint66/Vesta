@@ -1,5 +1,5 @@
 import 'package:logger/logger.dart';
-import 'package:vesta/datastorage/local/fileManager.dart';
+import 'package:vesta/datastorage/local/persistentDataManager.dart';
 
 abstract class LogManager
 {

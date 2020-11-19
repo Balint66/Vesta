@@ -5,7 +5,7 @@ import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/widgets.dart';
-import 'package:vesta/datastorage/local/fileManager.dart';
+import 'package:vesta/datastorage/local/persistentDataManager.dart';
 import 'package:vesta/datastorage/studentData.dart';
 import 'package:vesta/Vesta.dart';
 import 'package:vesta/datastorage/Lists/schoolList.dart';
@@ -92,30 +92,55 @@ abstract class WebServices
 
   static Dio _getClient()
   {
-    var client = Dio(BaseOptions(
-      headers: {'Content-Type':
-      PlatformHelper.isWeb() ? 'text/plain' : 'Application/json'
-      },
 
+    var contentType = PlatformHelper.isWeb() ? 'text/plain' : 'application/json';
+
+    var client = Dio(BaseOptions(
+      contentType: contentType,
+      headers:
+      {
+        'Accept-Language':'en-US'
+      }
     ));
 
-    (client.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (client)
+    if(client.httpClientAdapter is DefaultHttpClientAdapter)
     {
-      client.badCertificateCallback = (cert,host,port)
-      { 
-        
-        var nums = host.split('.');
-        if(nums.length > 2 && nums[0] == '192' && nums[1] == '168'){
+      (client.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (client)
+      {
+        client.badCertificateCallback = (cert,host,port)
+        { 
+          
+          var nums = host.split('.');
+          if(nums.length > 2 && nums[0] == '192' && nums[1] == '168'){
+            return false;
+          }
+          if(_certs.any((certString)=> cert.pem.trim().replaceAll('\n', '') == certString.trim().replaceAll('\n', '')) /*|| host == 'mobilecloudservice.cloudapp.net'*/)
+          {
+            return true;
+          }
+          Vesta.logger.d('$host:\n ${cert.pem.trim().replaceAll("\n", "")}');
           return false;
-        }
-        if(_certs.any((certString)=> cert.pem.trim().replaceAll('\n', '') == certString.trim().replaceAll('\n', '')) /*|| host == 'mobilecloudservice.cloudapp.net'*/)
-        {
-          return true;
-        }
-        Vesta.logger.d('$host:\n ${cert.pem.trim().replaceAll("\n", "")}');
-        return false;
+        };
       };
-    };
+    }
+    else if(client.httpClientAdapter is BrowserHttpClient)
+    {
+
+      (client.httpClientAdapter as BrowserHttpClient).badCertificateCallback = (cert,host,port)
+        { 
+          
+          var nums = host.split('.');
+          if(nums.length > 2 && nums[0] == '192' && nums[1] == '168'){
+            return false;
+          }
+          if(_certs.any((certString)=> cert.pem.trim().replaceAll('\n', '') == certString.trim().replaceAll('\n', '')) /*|| host == 'mobilecloudservice.cloudapp.net'*/)
+          {
+            return true;
+          }
+          Vesta.logger.d('$host:\n ${cert.pem.trim().replaceAll("\n", "")}');
+          return false;
+        };
+    }
 
     client.interceptors.add(_cookieManager);
 
@@ -246,9 +271,9 @@ abstract class WebServices
         '/MobileServiceLib/MobileCloudService.svc/GetAllNeptunMobileUrls')
         .toString();
 
-    Response? resp;
+    Response<String>? resp;
     try{
-      resp = await client.post(url,data:'{}');
+      resp = await client.post<String>(url,data:'{}');
     }
     catch(e)
     {
@@ -269,8 +294,7 @@ abstract class WebServices
 
     }
 
-
-    return SchoolList.fromJson(json.encode(resp?.data));
+    return SchoolList.fromJson(resp!.data.toString());
 
   }
 

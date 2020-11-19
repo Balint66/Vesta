@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:vesta/datastorage/Lists/schoolList.dart';
 import 'package:vesta/datastorage/data.dart';
-import 'package:vesta/datastorage/local/fileManager.dart';
+import 'package:vesta/datastorage/local/persistentDataManager.dart';
 import 'package:vesta/i18n/appTranslations.dart';
 import 'package:vesta/web/fetchManager.dart';
 import 'package:vesta/web/webServices.dart';

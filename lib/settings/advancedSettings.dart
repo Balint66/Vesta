@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:vesta/Vesta.dart';
-import 'package:vesta/datastorage/local/fileManager.dart';
+import 'package:vesta/datastorage/local/persistentDataManager.dart';
 import 'package:vesta/i18n/appTranslations.dart';
 import 'package:vesta/messaging/messageManager.dart';
 import 'package:vesta/web/fetchManager.dart';

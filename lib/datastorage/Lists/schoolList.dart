@@ -10,13 +10,17 @@ class SchoolList
   {
 
     var list = <School>[];
-    var inJSON = jsonDecode(json);
+    var inJSON = jsonDecode(json).cast<Map<String, dynamic>>();
 
-    for(var item in inJSON)
+    if(inJSON != null)
     {
 
-      list.add(School.fromJson(jsonEncode(item)));
+      for(var item in inJSON)
+      {
 
+        list.add(School.fromJson(jsonEncode(item)));
+
+      }
     }
 
     var schl = SchoolList._(list);
