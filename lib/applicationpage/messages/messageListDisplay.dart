@@ -5,9 +5,9 @@ import 'package:vesta/applicationpage/common/clickableCard.dart';
 import 'package:vesta/applicationpage/common/kamonjiDisplayer.dart';
 import 'package:vesta/applicationpage/common/popupOptionProvider.dart';
 import 'package:vesta/applicationpage/common/refreshExecuter.dart';
+import 'package:vesta/datastorage/Lists/basedataList.dart';
 import 'package:vesta/datastorage/data.dart';
 import 'package:vesta/applicationpage/messages/messageDisplay.dart';
-import 'package:vesta/datastorage/Lists/messagesList.dart';
 import 'package:vesta/datastorage/studentData.dart';
 import 'package:vesta/datastorage/message.dart';
 import 'package:vesta/i18n/appTranslations.dart';
@@ -51,7 +51,7 @@ with SingleTickerProviderStateMixin
 
     return StreamBuilder(
               stream: messages.getData(),
-              builder: (BuildContext context, AsyncSnapshot<MessageList> snap)
+              builder: (BuildContext context, AsyncSnapshot<BaseDataList<Message>> snap)
               {
 
                 var unread = translator.translate('messages_unread');
@@ -110,9 +110,9 @@ with SingleTickerProviderStateMixin
                   } 
                   else{
                     ls.add(KamonjiDisplayer(RichText(textAlign: TextAlign.center, text: TextSpan(text:translator.translate('messages_unread_kamonji'),
-                        style: Theme.of(context)!.textTheme.bodyText1,
+                        style: Theme.of(context).textTheme.bodyText1,
                         children:[
-                          TextSpan(text: '( ✧Д✧) YASSS!!', style: Theme.of(context)!.textTheme.bodyText1!.copyWith(fontSize: 25))
+                          TextSpan(text: '( ✧Д✧) YASSS!!', style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 25))
                     ])
                         ),
                       ),
@@ -140,10 +140,10 @@ with SingleTickerProviderStateMixin
                         Tab(text: translator.translate('messages_read'),)
                       ]
                   ),
-                  color: Theme.of(context)!.primaryColor,
+                  color: Theme.of(context).primaryColor,
                 ),
                 body: RefreshExecuter(icon: Icons.message,
-                            asyncCallback: messages.incrementWeeks,
+                            asyncCallback: messages.incrementDataIndex,
                             child: TabBarView(children: ls, controller: _tabController,)
 
                   )

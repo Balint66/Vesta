@@ -151,7 +151,7 @@ class MenuButtonState extends State<MenuButtons>
               if(enabled)
               {
                 MainProgram.navKey.currentState!.pushNamedAndRemoveUntil(widget.path, (_) => true);
-                Navigator.of(context)!.pop();
+                Navigator.of(context).pop();
               }
             },
           icon: Padding(padding: EdgeInsets.symmetric(horizontal: 1.0),

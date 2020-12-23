@@ -3,8 +3,8 @@ import 'package:vesta/Vesta.dart';
 import 'package:vesta/applicationpage/MainProgram.dart';
 import 'package:vesta/applicationpage/common/clickableCard.dart';
 import 'package:vesta/applicationpage/semesters/PeriodDetailedDisplay.dart';
-import 'package:vesta/datastorage/Lists/semestersDataList.dart';
 import 'package:collection/collection.dart';
+import 'package:vesta/datastorage/Lists/basedataList.dart';
 import 'package:vesta/datastorage/periodData.dart';
 import 'package:vesta/i18n/appTranslations.dart';
 
@@ -64,7 +64,7 @@ class _SemesterDisplayerState extends State<SemesterDisplayer>
       return Center(child: CircularProgressIndicator());
 
       }),
-      StreamBuilder(stream: list.getData(), builder: (BuildContext ctx, AsyncSnapshot<SemestersDataList> snap)
+      StreamBuilder(stream: list.getData(), builder: (BuildContext ctx, AsyncSnapshot<BaseDataList<PeriodData>> snap)
       {
         if(snap.hasData && snap.data!.isNotEmpty)
         {

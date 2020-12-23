@@ -1,14 +1,14 @@
-part of 'listHolder.dart';
+part of 'listDataHolder.dart';
 
-class CalendarListHolder extends ListDataHolder<CalendarDataList>
+class CalendarListHolder extends ListDataHolder<BaseDataList<CalendarData>>
 {
 
   static final Duration defaultInterval = Duration(minutes:10);
 
-  CalendarListHolder({Duration? timespan}) : super(CalendarDataList(), timespan: timespan ?? defaultInterval);
+  CalendarListHolder({Duration? timespan}) : super(BaseDataList<CalendarData>(), timespan: timespan ?? defaultInterval);
 
   @override
-  Future<CalendarDataList> _fetchNewData() async
+  Future<BaseDataList<CalendarData>> _fetchNewData() async
   {
     var end = DateTime.now().add(Duration(days: 7));
 

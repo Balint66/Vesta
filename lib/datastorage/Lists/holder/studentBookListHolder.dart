@@ -1,17 +1,17 @@
-part of 'listHolder.dart';
+part of 'listDataHolder.dart';
 
-class StudentBookListHolder extends ListDataHolder<StudentBookDataList>
+class StudentBookListHolder extends ListDataHolder<BaseDataList<StudentBookData>>
 {
 
   static final Duration defaultInterval = Duration(days:1);
 
-  StudentBookListHolder({Duration? timespan}) : super(StudentBookDataList(), timespan: timespan ?? defaultInterval);
+  StudentBookListHolder({Duration? timespan}) : super(BaseDataList<StudentBookData>(), timespan: timespan ?? defaultInterval);
   
   @override
-  Future<void> incrementWeeks() async{}
+  Future<void> incrementDataIndex() async{}
 
   @override
-  Future<StudentBookDataList> _fetchNewData() async 
+  Future<BaseDataList<StudentBookData>> _fetchNewData() async 
   {
     var base = WebDataBase.simplified(StudentData.Instance!.username,
       StudentData.Instance!.password,

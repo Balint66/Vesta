@@ -96,7 +96,7 @@ class LoginBtnState extends State<LoginButton>
       return MaterialButton(onPressed: LoginForm.of(context).ableToLogin
             ? () => startLogin(context) : null,
           child: Text(AppTranslations.of(context).translate('login_login_button'), maxLines: 1,),
-          color: Theme.of(context)!.primaryColor,
+          color: Theme.of(context).primaryColor,
           minWidth: 150.0,
       );
     }

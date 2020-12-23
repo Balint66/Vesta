@@ -135,7 +135,7 @@ class UISettingsState extends State<UISettings>
           },
           child: ListTile(
             title:Text('Neptun\'s language: ' + (StudentData.Instance!.LCID == hun_LCID ? 'Magyar' : StudentData.Instance!.LCID == de_LCID ? 'Deutsch' : 'English (US)'),
-            style: TextStyle(color: data.syncLangWithNeptun ? Theme.of(context)!.disabledColor : Theme.of(context)!.textTheme.bodyText1!.color )),
+            style: TextStyle(color: data.syncLangWithNeptun ? Theme.of(context).disabledColor : Theme.of(context).textTheme.bodyText1!.color )),
             ),
           )
     ];

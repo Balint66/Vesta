@@ -28,7 +28,7 @@ class SchoolSettingsState extends State<SchoolSettings>
           {
             FileManager.clearFileData();
             FetchManager.clearRegistered();
-            Navigator.of(context)!.pushNamedAndRemoveUntil('/login', (route) => false);
+            Navigator.of(context).pushNamedAndRemoveUntil('/login', (route) => false);
           },),
           ListTile(
             title: Text(translator.translate('settings_schools_privacy')),

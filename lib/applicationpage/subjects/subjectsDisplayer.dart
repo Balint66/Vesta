@@ -3,7 +3,7 @@ import 'package:vesta/applicationpage/MainProgram.dart';
 import 'package:vesta/applicationpage/common/clickableCard.dart';
 import 'package:vesta/applicationpage/common/refreshExecuter.dart';
 import 'package:vesta/applicationpage/subjects/subjectDetailedDisplay.dart';
-import 'package:vesta/datastorage/Lists/subjectDataList.dart';
+import 'package:vesta/datastorage/Lists/basedataList.dart';
 import 'package:collection/collection.dart';
 import 'package:vesta/datastorage/subjectData.dart';
 import 'package:vesta/i18n/appTranslations.dart';
@@ -31,7 +31,7 @@ class _SubjectDisplayerState extends State<SubjectDisplayer>
 
     var translator = AppTranslations.of(context);
 
-    return StreamBuilder(stream: MainProgram.of(context).subject.getData(), builder: (BuildContext ctx, AsyncSnapshot<SubjectDataList> snap)
+    return StreamBuilder(stream: MainProgram.of(context).subject.getData(), builder: (BuildContext ctx, AsyncSnapshot<BaseDataList<SubjectData>> snap)
       {
         if( !snap.hasData || snap.data == null) {
           return Center(child: CircularProgressIndicator());
@@ -64,7 +64,7 @@ class _SubjectDisplayerState extends State<SubjectDisplayer>
 
         return RefreshExecuter(
           child: ListView(children: ls,),
-        asyncCallback: MainProgram.of(context).subject.incrementWeeks,
+        asyncCallback: MainProgram.of(context).subject.incrementDataIndex,
         );
 
       }

@@ -1,14 +1,14 @@
-part of 'listHolder.dart';
+part of 'listDataHolder.dart';
 
-class SubjectDataListHolder extends ListDataHolder<SubjectDataList>
+class SubjectDataListHolder extends ListDataHolder<BaseDataList<SubjectData>>
 {
 
   static final Duration defaultInterval = Duration(hours:6);
 
-  SubjectDataListHolder({Duration? timespan}) : super(SubjectDataList(), timespan: timespan ?? defaultInterval);
+  SubjectDataListHolder({Duration? timespan}) : super(BaseDataList<SubjectData>(), timespan: timespan ?? defaultInterval);
 
   @override
-  Future<SubjectDataList> _fetchNewData() async 
+  Future<BaseDataList<SubjectData>> _fetchNewData() async 
   {
     var base = WebDataSubjectRequest(StudentData.Instance!);
 

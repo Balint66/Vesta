@@ -86,7 +86,7 @@ class AdvancedSettingsState extends State<AdvancedSettings>
             Vesta.of(context).resetSettings();
             FileManager.clearAllFileData();
             FetchManager.clearRegistered();
-            Navigator.of(context)!.pushNamedAndRemoveUntil('/eula', (route) => false);
+            Navigator.of(context).pushNamedAndRemoveUntil('/eula', (route) => false);
           }),
         ]);
         }

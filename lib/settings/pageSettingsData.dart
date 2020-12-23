@@ -16,7 +16,7 @@ abstract class PageSettingsData
     {
       case 'messages':
       default:
-        data = MessagePageData.fromJson(fromJson);
+        data = MessagePageData();
         break;
     }
 

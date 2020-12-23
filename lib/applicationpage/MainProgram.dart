@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vesta/Vesta.dart';
 import 'package:vesta/applicationpage/common/popupOptionProvider.dart';
 import 'package:vesta/applicationpage/innerMainProgRouter.dart';
-import 'package:vesta/datastorage/Lists/holder/listHolder.dart';
+import 'package:vesta/datastorage/Lists/holder/listDataHolder.dart';
 import 'package:vesta/applicationpage/popupSettings.dart';
 import 'package:vesta/applicationpage/sidebar.dart';
 import 'package:vesta/routing/replacementObserver.dart';
@@ -137,7 +137,7 @@ class MainProgramState extends State<MainProgram>
         appBar: AppBar(title: Text('Vesta'),
           actions: <Widget>[
                 IconButton(icon: Icon(Icons.settings), onPressed: (){
-                  Navigator.of(context)!.pushNamed('/pageSettings/' 
+                  Navigator.of(context).pushNamed('/pageSettings/' 
                   + ReplacementObserver.Instance.currentPath.split('/')[2]);
                   }),
         ],),

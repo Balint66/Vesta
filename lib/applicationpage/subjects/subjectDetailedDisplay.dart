@@ -62,7 +62,7 @@ class SubjectDetailedDisplay extends StatelessWidget
                     child: Container(
                       child: ListTile(
                         title: Center(child: Text(entries[index].key)),
-                        onTap: () => Navigator.of(context)!.push(MaterialPageRoute(builder: (context) => CoursesDisplayer(entries[index].value,(ind)
+                        onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => CoursesDisplayer(entries[index].value,(ind)
                         {
                             setState((){
                               courses[index] = ind;
@@ -70,7 +70,7 @@ class SubjectDetailedDisplay extends StatelessWidget
                             Navigator.pop(context);
                         }),)),
                         subtitle: Center(child: Text("${courses[index] < 0 ? 'None' : entries[index].value[courses[index]].CourseCode}"))),
-                    color: Theme.of(context)!.primaryColor, ), padding: EdgeInsets.symmetric(vertical: 7.5, horizontal: 10));
+                    color: Theme.of(context).primaryColor, ), padding: EdgeInsets.symmetric(vertical: 7.5, horizontal: 10));
 
                 }));
 
@@ -115,7 +115,7 @@ class SubjectDetailedDisplay extends StatelessWidget
                             Vesta.showSnackbar(Text('$e'));
                           }
                         }),
-                    color: Theme.of(context)!.primaryColor, ), padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10));
+                    color: Theme.of(context).primaryColor, ), padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10));
 
             })]);
             },)

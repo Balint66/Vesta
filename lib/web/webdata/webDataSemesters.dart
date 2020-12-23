@@ -1,14 +1,15 @@
-import 'package:vesta/datastorage/Lists/semestersDataList.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:vesta/datastorage/Lists/basedataList.dart';
 import 'package:vesta/datastorage/periodData.dart';
 import 'package:vesta/web/webdata/webDataBase.dart';
 
 class WebDataSemesters extends WebDataBase
 {
 
-  final SemestersDataList list;
+  final BaseDataList<PeriodData> list;
 
   WebDataSemesters.fromJson(Map<String, dynamic> json) :
-    list = SemestersDataList(other: List<Map<String, dynamic>>.from(json['PeriodList'])
+    list = BaseDataList(other: List<Map<String, dynamic>>.from(json['PeriodList'])
     .expand((i)=>[PeriodData.fromJson(i)]).toList().cast()),
     super.fromJson(json);
 

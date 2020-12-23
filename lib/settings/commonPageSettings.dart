@@ -18,7 +18,7 @@ class CommonPageSettingsState extends State<CommonPageSettings>
   {
     var translator = AppTranslations.of(context);
     var options = <Widget>[
-      ListTile(title:Text('Message settings'), onTap: ()=> Navigator.of(context)!.pushNamed('/pageSettings/messages')),
+      ListTile(title:Text('Message settings'), onTap: ()=> Navigator.of(context).pushNamed('/pageSettings/messages')),
       MenuSelector(Vesta.of(context).settings.appHomePage),
     ];
 

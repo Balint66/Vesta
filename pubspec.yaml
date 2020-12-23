@@ -12,6 +12,7 @@ description: Not offical, alternative neptun app
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 version: 0.0.2+1
+publish_to: none
 
 environment:
   sdk: ">=2.11.0-213.0.dev <3.0.0"
@@ -28,6 +29,7 @@ dependencies:
   fluro:
     git:
       url: https://github.com/theyakka/fluro
+      version: ^1.7.8
   url_launcher:
     git:
       url: https://github.com/flutter/plugins

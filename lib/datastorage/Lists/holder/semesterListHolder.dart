@@ -1,6 +1,6 @@
-part of 'listHolder.dart';
+part of 'listDataHolder.dart';
 
-class SemesterListHolder extends ListDataHolder<SemestersDataList>
+class SemesterListHolder extends ListDataHolder<BaseDataList<PeriodData>>
 {
 
   static final Duration defaultInterval = Duration(days:1);
@@ -15,10 +15,10 @@ class SemesterListHolder extends ListDataHolder<SemestersDataList>
     _periodtermList = <Map<String, dynamic>>[];
   }
 
-  SemesterListHolder({Duration? timespan}) : super(SemestersDataList(), timespan: timespan ?? defaultInterval);
+  SemesterListHolder({Duration? timespan}) : super(BaseDataList<PeriodData>(), timespan: timespan ?? defaultInterval);
 
   @override
-  Future<void> incrementWeeks() async{}
+  Future<void> incrementDataIndex() async{}
 
   Future<List<String>> getPeriodTerms() async
   { 
@@ -79,7 +79,7 @@ class SemesterListHolder extends ListDataHolder<SemestersDataList>
   }
 
   @override
-  Future<SemestersDataList> _fetchNewData() async
+  Future<BaseDataList<PeriodData>> _fetchNewData() async
   {
 
     if(_periodtermList.isEmpty)

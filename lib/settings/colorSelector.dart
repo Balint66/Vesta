@@ -219,7 +219,7 @@ class _ColorSelectorState extends State<ColorSelector>
         )),
         ]);}),
         actions: <Widget>[
-          MaterialButton(onPressed: ()=>Navigator.of(context)!.pop(),
+          MaterialButton(onPressed: ()=>Navigator.of(context).pop(),
           child: Text('Cancel'),),
 
           MaterialButton(onPressed: ()
@@ -235,7 +235,7 @@ class _ColorSelectorState extends State<ColorSelector>
             });
 
             Vesta.of(context).updateSettings(mainColor: col);
-            var nav = Navigator.of(context)!;
+            var nav = Navigator.of(context);
             nav.pop();
             nav.pop();
           },

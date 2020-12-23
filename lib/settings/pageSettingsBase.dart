@@ -72,7 +72,7 @@ abstract class PageSettingsState<T extends PageSettingsBase> extends State<T>
       });
     }),
     (context) => ListTile(title: Text('${AppTranslations.of(context).translateRaw('settings_page')['common']['interval']} : ${widget.data?.interval.inMinutes}m',
-    style: TextStyle(color: !(widget.data?.isEnabled ?? false) ? Theme.of(context)!.disabledColor : Theme.of(context)!.textTheme.bodyText1!.color )),
+    style: TextStyle(color: !(widget.data?.isEnabled ?? false) ? Theme.of(context).disabledColor : Theme.of(context).textTheme.bodyText1!.color )),
     onTap: !(widget.data?.isEnabled ?? true) ? null : () async
     {
       Duration? dur = await showDurationPicker(context: context, initialTime: widget.data?.interval, snapToMins: 1);

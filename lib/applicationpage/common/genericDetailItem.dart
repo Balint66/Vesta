@@ -14,7 +14,7 @@ class DetailItem extends StatelessWidget
   {
     var theme = Theme.of(context); 
     return Column(children: [
-      Text(category, style: theme?.textTheme.caption),
+      Text(category, style: theme.textTheme.caption),
       Container(child: item, padding: EdgeInsets.all(4))
     ],);
 

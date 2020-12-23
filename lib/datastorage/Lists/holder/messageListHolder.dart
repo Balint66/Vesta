@@ -1,14 +1,14 @@
-part of 'listHolder.dart';
+part of 'listDataHolder.dart';
 
-class MessageListHolder extends ListDataHolder<MessageList>
+class MessageListHolder extends ListDataHolder<BaseDataList<Message>>
 {
 
   static final Duration defaultInterval = Duration(minutes:30);
 
-  MessageListHolder({Duration? timespan}) : super(MessageList(), timespan: timespan ?? defaultInterval );
+  MessageListHolder({Duration? timespan}) : super(BaseDataList<Message>(), timespan: timespan ?? defaultInterval );
 
   @override
-  Future<MessageList> _fetchNewData() async
+  Future<BaseDataList<Message>> _fetchNewData() async
   {
     var body = WebDataBase.simplified(StudentData.Instance!.username,
       StudentData.Instance!.password,
@@ -23,6 +23,6 @@ class MessageListHolder extends ListDataHolder<MessageList>
 
   ListDataHolder._updateItemCount(resp, this);
 
-  return resp.MessagesList!;
+  return resp.MessagesList;
   }
 }

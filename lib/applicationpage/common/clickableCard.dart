@@ -21,12 +21,12 @@ class ClickableCard extends StatelessWidget
             margin: EdgeInsets.fromLTRB(0, 0, 0, 6)
           ),
         decoration: BoxDecoration(
-          gradient: LinearGradient(colors: [Theme.of(context)!.primaryColor.withOpacity(0), Theme.of(context)!.primaryColor.withOpacity(0), _secondaryColor ?? (Theme.of(context)!.primaryColor) ]),
+          gradient: LinearGradient(colors: [Theme.of(context).primaryColor.withOpacity(0), Theme.of(context).primaryColor.withOpacity(0), _secondaryColor ?? (Theme.of(context).primaryColor) ]),
           borderRadius: BorderRadius.circular(5)
         ),
       ),
       elevation: 3,
-      color: Theme.of(context)!.primaryColor,
+      color: Theme.of(context).primaryColor,
     ); 
   }
 

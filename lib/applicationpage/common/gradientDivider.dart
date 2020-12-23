@@ -16,7 +16,7 @@ class GradientDivider extends StatelessWidget
       return Center( child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-              colors: <Color>[theme?.primaryColor ?? Colors.red, theme?.canvasColor ?? Colors.grey],
+              colors: <Color>[theme.primaryColor, theme.canvasColor],
               stops: [0.0, 0.75]
           ),
         ),

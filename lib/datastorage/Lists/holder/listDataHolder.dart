@@ -3,13 +3,13 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:vesta/Vesta.dart';
 import 'package:vesta/datastorage/Lists/basedataList.dart';
-import 'package:vesta/datastorage/Lists/calendarDataList.dart';
-import 'package:vesta/datastorage/Lists/messagesList.dart';
-import 'package:vesta/datastorage/Lists/semestersDataList.dart';
-import 'package:vesta/datastorage/Lists/studentBookDataList.dart';
-import 'package:vesta/datastorage/Lists/subjectDataList.dart';
+import 'package:vesta/datastorage/calendarData.dart';
 import 'package:vesta/datastorage/data.dart';
+import 'package:vesta/datastorage/message.dart';
+import 'package:vesta/datastorage/periodData.dart';
+import 'package:vesta/datastorage/studentBookData.dart';
 import 'package:vesta/datastorage/studentData.dart';
+import 'package:vesta/datastorage/subjectData.dart';
 import 'package:vesta/web/backgroundFetchingServiceMixin.dart';
 import 'package:vesta/web/webServices.dart';
 import 'package:vesta/web/webdata/webDataBase.dart';
@@ -83,16 +83,19 @@ abstract class ListDataHolder<T extends BaseDataList> with BackgroundFetchingSer
 
   }
 
+  @nonVirtual
   void enableFetch()
   {
     _enabled = true;
   }
 
+  @nonVirtual
   void disableFetch()
   {
     _enabled = false;
   }
 
+  @nonVirtual
   void updateInterval(Duration interval)
   {
     if(interval.isNegative|| interval.inSeconds < 0)
@@ -104,8 +107,8 @@ abstract class ListDataHolder<T extends BaseDataList> with BackgroundFetchingSer
 
   }
 
-
-  Future<void> incrementWeeks() async
+  @nonVirtual
+  Future<void> incrementDataIndex() async
   {
     _dataIndex++;
     await onUpdate();

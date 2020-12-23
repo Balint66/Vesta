@@ -7,7 +7,8 @@ import 'package:vesta/applicationpage/common/kamonjiDisplayer.dart';
 import 'package:vesta/applicationpage/common/popupOptionProvider.dart';
 import 'package:vesta/applicationpage/common/refreshExecuter.dart';
 import 'package:vesta/applicationpage/lessons/lessonDetailedDisplay.dart';
-import 'package:vesta/datastorage/Lists/calendarDataList.dart';
+import 'package:vesta/datastorage/Lists/basedataList.dart';
+import 'package:vesta/datastorage/calendarData.dart';
 import 'package:vesta/web/webdata/bgFetchSateFullWidget.dart';
 
 class LessonDisplayer extends BgFetchSateFullWidget
@@ -69,9 +70,9 @@ static final PopupOptionData data = PopupOptionData(
     var list = MainProgram.of(context).calendarList;
 
     return RefreshExecuter(
-        asyncCallback: MainProgram.of(context).calendarList.incrementWeeks,
+        asyncCallback: MainProgram.of(context).calendarList.incrementDataIndex,
         child: StreamBuilder( stream: list.getData(),
-        builder: (BuildContext ctx, AsyncSnapshot<CalendarDataList> snap)
+        builder: (BuildContext ctx, AsyncSnapshot<BaseDataList<CalendarData>> snap)
       {
 
         if(snap.hasError)
@@ -86,9 +87,9 @@ static final PopupOptionData data = PopupOptionData(
           }
           else{
             return KamonjiDisplayer( RichText(textAlign: TextAlign.center, text: TextSpan(text:'You have got nothing new here pal.\n',
-              style: Theme.of(context)!.textTheme.bodyText1,
+              style: Theme.of(context).textTheme.bodyText1,
               children:[
-                TextSpan(text: '¯\\_(ツ)_/¯', style: Theme.of(context)!.textTheme.bodyText1!.copyWith(fontSize: 25))
+                TextSpan(text: '¯\\_(ツ)_/¯', style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 25))
               ]))
             );
           }
@@ -98,9 +99,9 @@ static final PopupOptionData data = PopupOptionData(
         { 
           if(shot.hasData){
             return KamonjiDisplayer( RichText(textAlign: TextAlign.center, text: TextSpan(text:'You have got nothing new here pal.\n',
-              style: Theme.of(context)!.textTheme.bodyText1,
+              style: Theme.of(context).textTheme.bodyText1,
               children:[
-                TextSpan(text: '¯\\_(ツ)_/¯', style: Theme.of(context)!.textTheme.bodyText1!.copyWith(fontSize: 25))
+                TextSpan(text: '¯\\_(ツ)_/¯', style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 25))
               ])),
             );}
           return Center(child: CircularProgressIndicator());
@@ -112,7 +113,7 @@ static final PopupOptionData data = PopupOptionData(
     
   }
 
-  Widget _drawWithMode(CalendarDisplayModes mode, CalendarDataList response, BuildContext context)
+  Widget _drawWithMode(CalendarDisplayModes mode, BaseDataList<CalendarData> response, BuildContext context)
   {
     switch(mode)
     {
@@ -123,10 +124,10 @@ static final PopupOptionData data = PopupOptionData(
     }
   }
 
-  Widget _drawList(CalendarDataList response, BuildContext context)
+  Widget _drawList(BaseDataList<CalendarData> response, BuildContext context)
   {
     
-    response = CalendarDataList(other: response
+    response = BaseDataList(other: response
         .where((element) => element.end.isAfter(DateTime.now()) ).toList());
 
     _nextEnd = response[0].end;

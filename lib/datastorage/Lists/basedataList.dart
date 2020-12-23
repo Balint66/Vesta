@@ -2,7 +2,7 @@ import 'dart:collection';
 
 import 'package:flutter/foundation.dart';
 
-abstract class BaseDataList<T> extends ListBase<T> implements List<T>
+class BaseDataList<T> extends ListBase<T> implements List<T>
 {
   final List<T> _l;
 
