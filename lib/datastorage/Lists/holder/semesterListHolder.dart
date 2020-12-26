@@ -1,5 +1,6 @@
 part of 'listDataHolder.dart';
 
+//TODO: Rethink this class
 class SemesterListHolder extends ListDataHolder<BaseDataList<PeriodData>>
 {
 
@@ -95,7 +96,7 @@ class SemesterListHolder extends ListDataHolder<BaseDataList<PeriodData>>
 
     Vesta.logger.d('Now tell me, what is the list? ${_periodtermList}');
 
-    var base = WebDataSemestersRequest(StudentData.Instance!, PeriodTermID: _periodtermList[_dataIndex]['Id']);
+    var base = WebDataSemestersRequest(StudentData.Instance, PeriodTermID: _periodtermList[_dataIndex]['Id']);
 
     var resp = await WebServices.getSemestersData(Data.school!, base);
 

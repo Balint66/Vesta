@@ -140,7 +140,7 @@ static final PopupOptionData data = PopupOptionData(
       {
         return ClickableCard(child: ListTile(
           title: Text( response[index].title),
-            onTap: ()=> MainProgram.of(context).parentNavigator!.push(MaterialPageRoute(
+            onTap: ()=> MainProgram.of(context).parentNavigator.push(MaterialPageRoute(
             builder: (BuildContext context){
           return LessonDetailedDisplay(response[index]);
           })),

@@ -38,12 +38,12 @@ class Message
     };
   }
 
-  static Message fromJsonString(String str)
+  factory Message.fromJsonString(String str)
   {
-    return fromJson(json.decode(str));
+    return Message.fromJson(json.decode(str));
   }
 
-  static Message fromJson(Map<String,dynamic> json)
+  factory Message.fromJson(Map<String,dynamic> json)
   {
     return Message(json['Subject'],((json['SendDate'] as String)
         .split('(')[1].split(')')[0]),json['PersonMessageId'].toString(),

@@ -46,8 +46,8 @@ class MainProgramState extends State<MainProgram>
 
   static final _popupSettingsKey = GlobalKey<PopupSettingsState>();
 
-  NavigatorState? _parentNavigator;
-  NavigatorState? get parentNavigator => _parentNavigator;
+  late NavigatorState _parentNavigator;
+  NavigatorState get parentNavigator => _parentNavigator;
 
   var _calendarList = CalendarListHolder();
   CalendarListHolder get calendarList => _calendarList;
@@ -63,6 +63,9 @@ class MainProgramState extends State<MainProgram>
 
   var _subjectList = SubjectDataListHolder();
   SubjectDataListHolder get subject => _subjectList;
+
+  var _examList = ExamListHolder();
+  ExamListHolder get examList => _examList;
   
   void refreshListHolders()
   {
@@ -75,12 +78,14 @@ class MainProgramState extends State<MainProgram>
         _studentBook = StudentBookListHolder();
         _semesterList = SemesterListHolder();
         _subjectList = SubjectDataListHolder();
+        _examList = ExamListHolder();
     
         FetchManager.register(_calendarList);
         FetchManager.register(_messageList);
         FetchManager.register(_studentBook);
         FetchManager.register(_semesterList);
         FetchManager.register(_subjectList);
+        FetchManager.register(_examList);
       
       }
     );
@@ -100,6 +105,7 @@ class MainProgramState extends State<MainProgram>
     FetchManager.register(_studentBook);
     FetchManager.register(_semesterList);
     FetchManager.register(_subjectList);
+    FetchManager.register(_examList);
 
   }
 

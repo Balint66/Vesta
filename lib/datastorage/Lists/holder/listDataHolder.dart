@@ -5,6 +5,7 @@ import 'package:vesta/Vesta.dart';
 import 'package:vesta/datastorage/Lists/basedataList.dart';
 import 'package:vesta/datastorage/calendarData.dart';
 import 'package:vesta/datastorage/data.dart';
+import 'package:vesta/datastorage/examData.dart';
 import 'package:vesta/datastorage/message.dart';
 import 'package:vesta/datastorage/periodData.dart';
 import 'package:vesta/datastorage/studentBookData.dart';
@@ -14,6 +15,7 @@ import 'package:vesta/web/backgroundFetchingServiceMixin.dart';
 import 'package:vesta/web/webServices.dart';
 import 'package:vesta/web/webdata/webDataBase.dart';
 import 'package:vesta/web/webdata/webDataCalendarRequest.dart';
+import 'package:vesta/web/webdata/webDataExamRequest.dart';
 import 'package:vesta/web/webdata/webDataSemestersRequest.dart';
 import 'package:vesta/web/webdata/webDataSubjectRequest.dart';
 
@@ -23,6 +25,7 @@ part 'messageListHolder.dart';
 part 'studentBookListHolder.dart';
 part 'semesterListHolder.dart';
 part 'subjectDataListHolder.dart';
+part 'examListHolder.dart';
 
 abstract class ListDataHolder<T extends BaseDataList> with BackgroundFetchingServiceMixin
 {

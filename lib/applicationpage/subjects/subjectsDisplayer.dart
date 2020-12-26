@@ -78,7 +78,7 @@ class _SubjectDisplayerState extends State<SubjectDisplayer>
             : element.Completed ? Icon(Icons.check_box , color: Colors.green) : Icon(Icons.check_box_outline_blank, color: Colors.grey),
             title: Text(element.SubjectName), subtitle: Text('${element.SubjectCode}\n${element.SubjectRequirement}'),
             onTap: () {
-              MainProgram.of(context).parentNavigator!.push(MaterialPageRoute(builder: (ctx)=>SubjectDetailedDisplay(element)));
+              MainProgram.of(context).parentNavigator.push(MaterialPageRoute(builder: (ctx)=>SubjectDetailedDisplay(element)));
             },)
             );
   }

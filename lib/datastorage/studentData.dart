@@ -8,8 +8,8 @@ class StudentData
 {
 
   // ignore: non_constant_identifier_names
-  static StudentData? get Instance => _instance;
-  static StudentData? _instance;
+  static StudentData get Instance => _instance;
+  static late StudentData _instance;
 
   final String? username;
   final String? password;
@@ -46,12 +46,12 @@ class StudentData
     return currentTraining;
   }
 
-  static StudentData fromJson(String str)
+  factory StudentData.fromJson(String str)
   {
     return StudentData.fromJsondata(json.decode(str));
   }
 
-  static StudentData fromJsondata(Map<String,dynamic> json)
+  factory StudentData.fromJsondata(Map<String,dynamic> json)
   {
     return StudentData._(json['NeptunCode'].toString(), json['Password'].toString(),
         TrainingData.listFromJson(json['TrainingList']), LCID: json['LCID'] as int);
@@ -79,6 +79,7 @@ class StudentData
 
 
 }
+
 class TrainingData
 {
 

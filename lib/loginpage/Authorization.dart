@@ -35,20 +35,18 @@ class AuthorizationState extends State<Authorization>
       Data.school = null;
     }
 
-    if(StudentData.Instance != null){
+    if(StudentData.Instance.username != null ||
+        StudentData.Instance.password != null ||
+        (StudentData.Instance.training.isNotEmpty))
+    {
 
-      if(StudentData.Instance!.username != null ||
-          StudentData.Instance!.password != null ||
-          (StudentData.Instance!.training.isNotEmpty))
+      if(StudentData.Instance.password?.isNotEmpty ?? false ||
+        (StudentData.Instance.username?.isNotEmpty ?? false))
       {
-
-        if(StudentData.Instance!.password?.isNotEmpty ?? false ||
-          (StudentData.Instance!.username?.isNotEmpty ?? false))
-          {
-            StudentData.setInstance('', '', null);
-          }
+        StudentData.setInstance('', '', null);
       }
     }
+
   }
 
   @override

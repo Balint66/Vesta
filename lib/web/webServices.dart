@@ -15,6 +15,10 @@ import 'package:vesta/web/webdata/webDataCalendarRequest.dart';
 import 'package:vesta/web/webdata/webDataCalendarResponse.dart';
 import 'package:vesta/web/webdata/webDataCourseRequest.dart';
 import 'package:vesta/web/webdata/webDataCourseResponse.dart';
+import 'package:vesta/web/webdata/webDataExamDetailsRequest.dart';
+import 'package:vesta/web/webdata/webDataExamDetailsResponse.dart';
+import 'package:vesta/web/webdata/webDataExamRequest.dart';
+import 'package:vesta/web/webdata/webDataExamResponse.dart';
 import 'package:vesta/web/webdata/webDataLogin.dart';
 import 'package:vesta/web/webdata/webDataMessageRead.dart';
 import 'package:vesta/web/webdata/webDataMessages.dart';
@@ -699,7 +703,7 @@ abstract class WebServices
 
   static Future<bool?> saveSubject(School school, WebDataSubjectSignupRequest body) async 
   {
-    return await _callFunction<bool>(_saveSubject, school, body);
+    return await _callFunction<bool?>(_saveSubject, school, body);
   }
     
     
@@ -723,6 +727,62 @@ abstract class WebServices
 
       Vesta.logger.e('${body.toJson()}\n\n$e');
       Vesta.showSnackbar(Text('$e'));
+      return null;
+
+    }
+  }
+
+  static Future<WebDataExamResponse?> getExams(School school, WebDataExamRequest body)
+  {
+    return _callFunction<WebDataExamResponse>(_getExams, school, body);
+  }
+
+  static Future<WebDataExamResponse?> _getExams(School school, WebDataBase body) async
+  {
+    try{
+
+      var resp = await client.post(school.Url + '/GetExams',
+        data: body.toJson(),);
+
+      Map<String,dynamic> jsonBody = resp.data;
+
+      _testResponse(jsonBody);
+
+      return WebDataExamResponse.fromJson(jsonBody, (body as WebDataExamRequest).ExamType);
+
+    }
+    catch(e)
+    {
+
+      Vesta.logger.e(body.toJson() + '\n\n' + e.toString());
+      return null;
+
+    }
+  }
+
+  static Future<WebDataExamDetailsResponse?> getExamDetails(School school, WebDataExamDetailsRequest body)
+  {
+    return _callFunction<WebDataExamDetailsResponse>(_getExamDetails, school, body);
+  }
+
+  static Future<WebDataExamDetailsResponse?> _getExamDetails(School school, WebDataBase body) async 
+  {
+    try{
+
+      var resp = await client.post(school.Url + '/GetExamDetails',
+        data: body.toJson(),);
+
+      Map<String,dynamic> jsonBody = resp.data;
+
+      _testResponse(jsonBody);
+
+      return WebDataExamDetailsResponse.fromJson(jsonBody);
+
+    }
+    catch(e)
+    {
+
+      Vesta.logger.e(body.toJson() + '\n\n' + e.toString());
       return null;
 
     }

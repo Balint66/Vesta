@@ -17,7 +17,7 @@ class CalendarListHolder extends ListDataHolder<BaseDataList<CalendarData>>
       end = end.add(Duration(days: 7 * _dataIndex));
     }
 
-    var body = WebDataCalendarRequest(StudentData.Instance!,
+    var body = WebDataCalendarRequest(StudentData.Instance,
         endDate: end);
 
     var resp = await WebServices.getCalendarData(Data.school!,

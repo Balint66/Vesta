@@ -49,9 +49,9 @@ class SubjectData
     }
 
     @override
-      bool operator ==(Object other) 
-      {
-        return other is SubjectData && other.SubjectCode == SubjectCode && other.SubjectId == SubjectId;
-      }
+    bool operator ==(Object other) 
+    {
+      return other is SubjectData && other.SubjectCode == SubjectCode && other.SubjectId == SubjectId;
+    }
 
 }

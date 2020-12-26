@@ -31,7 +31,7 @@ class SideBarState extends State<Sidebar>
     return Drawer(
         child: Scaffold(
             appBar: AppBar(
-              title: Text(StudentData.Instance!.username!),
+              title: Text(StudentData.Instance.username!),
               primary: false,
               automaticallyImplyLeading: false,
             ),
@@ -54,7 +54,7 @@ class SideBarState extends State<Sidebar>
                 MenuButtons(translator.translate('sidebar_forum'),Icons.wrap_text,'',key: widget.keys[1],),
                 MenuButtons(translator.translate('sidebar_calendar'),Icons.calendar_today,'/app/calendar',key: widget.keys[2],),
                 MenuButtons(translator.translate('sidebar_subjects'),Icons.book,'/app/subjects',key: widget.keys[3],),
-                MenuButtons(translator.translate('sidebar_exams'),Icons.school,'',key: widget.keys[4],),
+                MenuButtons(translator.translate('sidebar_exams'),Icons.school,'/app/exams',key: widget.keys[4],),
                 MenuButtons(translator.translate('sidebar_student_book'),Icons.local_library,'/app/student_book',key: widget.keys[5],),
                 MenuButtons(translator.translate('sidebar_semesters'),Icons.hourglass_empty,'/app/semesters',key: widget.keys[6],),
               ],

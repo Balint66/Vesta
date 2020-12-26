@@ -75,7 +75,7 @@ class _SemesterDisplayerState extends State<SemesterDisplayer>
           grouped = grouped.map<bool, List<Widget>>((key, value) => MapEntry(key, value.map<Widget>((element) => ClickableCard(
           child: ListTile(title: Text('${element.PeriodName}'), 
                 subtitle: Text('${element.PeriodTypeName}\n${Vesta.dateFormatter.format(element.FromDate)} - ${Vesta.dateFormatter.format(element.ToDate)}'),onTap:()
-                => MainProgram.of(context).parentNavigator!.push(MaterialPageRoute(builder: (context) => PeriodDetailedDisplay(element),))),
+                => MainProgram.of(context).parentNavigator.push(MaterialPageRoute(builder: (context) => PeriodDetailedDisplay(element),))),
           ) ).toList()));
 
           var ls = <Widget>[];

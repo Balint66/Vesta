@@ -10,11 +10,11 @@ class MessageListHolder extends ListDataHolder<BaseDataList<Message>>
   @override
   Future<BaseDataList<Message>> _fetchNewData() async
   {
-    var body = WebDataBase.simplified(StudentData.Instance!.username,
-      StudentData.Instance!.password,
-      StudentData.Instance!.username,
-      StudentData.Instance!.currentTraining!.id.toString(),
-      LCID: StudentData.Instance!.LCID,
+    var body = WebDataBase.simplified(StudentData.Instance.username,
+      StudentData.Instance.password,
+      StudentData.Instance.username,
+      StudentData.Instance.currentTraining!.id.toString(),
+      LCID: StudentData.Instance.LCID,
       currentPage: _dataIndex
   );
 

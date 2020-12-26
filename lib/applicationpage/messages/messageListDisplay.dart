@@ -46,8 +46,8 @@ with SingleTickerProviderStateMixin
   @override
   Widget build(BuildContext context)
   {
-    var messages = MainProgram.of(context).messageList;
-    var translator = AppTranslations.of(context);
+    final messages = MainProgram.of(context).messageList;
+    final translator = AppTranslations.of(context);
 
     return StreamBuilder(
               stream: messages.getData(),
@@ -78,7 +78,7 @@ with SingleTickerProviderStateMixin
 
                   Widget read =  SortedMessages(readls,
                     (item){
-                      MainProgram.of(context).parentNavigator!.push(MaterialPageRoute(builder: (ctx)=>MessageDisplay
+                      MainProgram.of(context).parentNavigator.push(MaterialPageRoute(builder: (ctx)=>MessageDisplay
                       (item.senderName,item.subject,item.detail)));
                   });
 
@@ -89,9 +89,9 @@ with SingleTickerProviderStateMixin
                           {
                             item.setReadState();
                           });
-                          MainProgram.of(context).parentNavigator!.push(MaterialPageRoute(builder: (ctx)=>MessageDisplay
+                          MainProgram.of(context).parentNavigator.push(MaterialPageRoute(builder: (ctx)=>MessageDisplay
                             (item.senderName,item.subject,item.detail)));
-                          var body = WebDataMessageRead(StudentData.Instance!,
+                          var body = WebDataMessageRead(StudentData.Instance,
                               item.personMessageId);
                           WebServices.setRead(Data.school!, body);
                       },
@@ -101,7 +101,7 @@ with SingleTickerProviderStateMixin
                         {
                           item.setReadState();
                         });
-                        var body = WebDataMessageRead(StudentData.Instance!,
+                        var body = WebDataMessageRead(StudentData.Instance,
                               item.personMessageId);
                           WebServices.setRead(Data.school!, body);
                       },);

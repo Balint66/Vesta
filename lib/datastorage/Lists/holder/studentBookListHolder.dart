@@ -13,11 +13,11 @@ class StudentBookListHolder extends ListDataHolder<BaseDataList<StudentBookData>
   @override
   Future<BaseDataList<StudentBookData>> _fetchNewData() async 
   {
-    var base = WebDataBase.simplified(StudentData.Instance!.username,
-      StudentData.Instance!.password,
-      StudentData.Instance!.username,
-      StudentData.Instance!.currentTraining!.id.toString(),
-      LCID: StudentData.Instance!.LCID);
+    var base = WebDataBase.simplified(StudentData.Instance.username,
+      StudentData.Instance.password,
+      StudentData.Instance.username,
+      StudentData.Instance.currentTraining!.id.toString(),
+      LCID: StudentData.Instance.LCID);
 
     var resp = await WebServices.getStudentBookData(Data.school!, base);
 

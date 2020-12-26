@@ -23,7 +23,7 @@ abstract class FileManager
     
     var map = <String, dynamic>
     {
-      'studentData': StudentData.Instance != null ? StudentData.toJsonMap(StudentData.Instance as StudentData) : null,
+      'studentData': StudentData.Instance != null ? StudentData.toJsonMap(StudentData.Instance) : null,
       'school': Data.school?.asJson()
     };
 
@@ -36,7 +36,7 @@ abstract class FileManager
     var str = await loadLoginFile();
     Map<String, dynamic> map = json.decode(str);
 
-    if(!(map.containsKey('studentData')&&map.containsKey('school'))) {
+    if(!(map.containsKey('studentData') && map.containsKey('school'))) {
       return false;
     }
 
@@ -46,14 +46,14 @@ abstract class FileManager
 
     var data = <String, dynamic>
     {
-      'username':StudentData.Instance!.username,
-      'password':StudentData.Instance!.password,
+      'username':StudentData.Instance.username,
+      'password':StudentData.Instance.password,
       'school':map['school']
     };
     return Data.fromJson(json.encode(data));
   }
 
-  static Future<void> clearFileData() async
+  static Future<void> clearLoginFileData() async
   {
     await init();
 
@@ -63,7 +63,7 @@ abstract class FileManager
 
   static Future<void> clearAllFileData() async
   {
-    await clearFileData();
+    await clearLoginFileData();
 
     await writeAsString('{}', 'settings.json');
 

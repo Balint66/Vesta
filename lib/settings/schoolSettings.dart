@@ -26,7 +26,7 @@ class SchoolSettingsState extends State<SchoolSettings>
       ListTile(title: Text(translator.translate('settings_logout')),
           onTap: ()
           {
-            FileManager.clearFileData();
+            FileManager.clearLoginFileData();
             FetchManager.clearRegistered();
             Navigator.of(context).pushNamedAndRemoveUntil('/login', (route) => false);
           },),
