@@ -15,7 +15,11 @@ class CalendarData
   final String location;
   final DateTime start;
   final String title;
-  final String type;
+  final String type; //Vajon ebből tudja, hogy milyen eseményről van szó?
+  //TODO: Mi különbözteti meg a naptári eventeket?
+  /*
+    type 1: vizsga?
+   */
 
   CalendarData({bool isAllDay = false, String description = '', DateTime? end,
     Color color = Colors.black, String id = '0', String location = '',

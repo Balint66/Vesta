@@ -51,6 +51,7 @@ class SchoolButtonState extends State<SchoolSelectionButton>
       color: Theme.of(context).brightness == Brightness.dark? Theme.of(context).backgroundColor : Colors.white,
       child: Container( child: Text(text ?? '',textWidthBasis: TextWidthBasis.parent, maxLines: 2,textScaleFactor: 1.125, textAlign: TextAlign.center,), width: 200.5, padding: EdgeInsets.all(10),),
       onPressed: ()=>displaySchoolsAndChoose(context),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
       ),
     );
 
@@ -80,9 +81,16 @@ class SchoolButtonState extends State<SchoolSelectionButton>
       builder: (BuildContext context)
       {
         return SimpleDialog(
-          title: Container(child: Text(AppTranslations.of(context).translate('login_schools')), padding: EdgeInsets.symmetric(vertical: 5)),
+          title: Container(
+            child: Center(child: Text(AppTranslations.of(context).translate('login_schools')), 
+            ),
+            padding: EdgeInsets.fromLTRB(0,0,0,24),
+            decoration: BoxDecoration(border: Border(bottom: BorderSide(width: 1))),
+            ),
           children: getChoosableSchools(widget._schools),
+          contentPadding: EdgeInsets.fromLTRB(10.0, 12.0, 10.0, 20.0),
           elevation: 1,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
         );
 
       },
@@ -105,11 +113,17 @@ class SchoolButtonState extends State<SchoolSelectionButton>
     for(var item in sch.schools)
     {
 
+      if(item.Url == null)
+      {
+        continue;
+      }
+
       list.add(Container(
         height: 70,
         child: SimpleDialogOption(
           child: Text(item.Name,
             textScaleFactor: 1.5,
+            textAlign: TextAlign.center,
           ),
           onPressed: ()
           {

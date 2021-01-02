@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:vesta/i18n/appTranslations.dart';
@@ -33,7 +34,7 @@ class AboutPage extends StatelessWidget
               return Center(child: CircularProgressIndicator());
             }),));
           }),
-          ListTile(leading: SvgPicture.network('https://www.ko-fi.com/img/cup.svg', width: 25,), title: Text(translator.translate('settings_kofi')),
+          ListTile(leading: Icon(FeatherIcons.coffee), title: Text(translator.translate('settings_kofi')),
           onTap: ()=> launch('https://ko-fi.com/projecttorok'),),
           FilcTile()
         ],

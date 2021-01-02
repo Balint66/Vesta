@@ -8,8 +8,8 @@ class StudentData
 {
 
   // ignore: non_constant_identifier_names
-  static StudentData get Instance => _instance;
-  static late StudentData _instance;
+  static StudentData? get Instance => _instance;
+  static StudentData? _instance;
 
   final String? username;
   final String? password;

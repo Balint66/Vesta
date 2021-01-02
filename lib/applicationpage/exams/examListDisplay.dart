@@ -27,7 +27,6 @@ class ExamListDisplayState extends State<ExamListDisplay>
   Widget build(BuildContext context) 
   {
     final exams = MainProgram.of(context).examList;
-    final translator = AppTranslations.of(context);
 
     return StreamBuilder(stream: exams.getData(), builder:(BuildContext context, AsyncSnapshot<BaseDataList<Exam>> snapshot)
     {
@@ -38,12 +37,18 @@ class ExamListDisplayState extends State<ExamListDisplay>
 
       if(!snapshot.hasData)
       {
-        return KamonjiDisplayer(RichText(
-          textAlign: TextAlign.center,
-          text: TextSpan(text:'', style: Theme.of(context).textTheme.bodyText1, children: <InlineSpan>[
-            TextSpan(text: 'Σ(･ω･ﾉ)ﾉ！', style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 25))
-          ])
-          ));
+        return FutureBuilder(future: Future.delayed(Duration(seconds: 3),()=>true), builder:(BuildContext context, snap)
+        {
+          if(snap.hasData){
+            return KamonjiDisplayer(RichText(
+            textAlign: TextAlign.center,
+            text: TextSpan(text:'', style: Theme.of(context).textTheme.bodyText1, children: <InlineSpan>[
+              TextSpan(text: 'Σ(･ω･ﾉ)ﾉ！', style: Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 25))
+            ])
+            ));
+            }
+            return Center(child:CircularProgressIndicator());
+          });
       }
       return ListView.builder(itemCount: snapshot.data!.length, itemBuilder: (BuildContext context ,int index)
       {
@@ -53,7 +58,7 @@ class ExamListDisplayState extends State<ExamListDisplay>
         return ClickableCard(child: ListTile(
           title: Text(snapshot.data![index].SubjectName, style: data.FilterExamType == 0 ? null : Theme.of(context).textTheme.bodyText2!.copyWith(color: Theme.of(context).primaryColor),),
           trailing: Text(ExamListDisplay.examDateFormat.format(data.FromDate) + '\n' + ExamListDisplay.examDateFormat.format(data.ToDate)),
-          onTap: ()=> MainProgram.of(context).parentNavigator.push(MaterialPageRoute(builder: (ctx)=> ExamDetailsDisplay(data.ExamID.toString())))));
+          onTap: ()=> MainProgram.of(context).parentNavigator.push(MaterialPageRoute(builder: (ctx)=> ExamDetailsDisplay(data)))));
       });
     });
 

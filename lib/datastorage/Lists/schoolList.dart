@@ -61,7 +61,7 @@ class School
   // ignore: non_constant_identifier_names
   final String OMCode;
   // ignore: non_constant_identifier_names
-  final String Url;
+  final String? Url;
 
   School(this.Languages, this.Name, this.NeptunMobileServiceVersion, this.OMCode, this.Url);
 

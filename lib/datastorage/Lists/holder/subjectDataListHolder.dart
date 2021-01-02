@@ -10,7 +10,7 @@ class SubjectDataListHolder extends ListDataHolder<BaseDataList<SubjectData>>
   @override
   Future<BaseDataList<SubjectData>> _fetchNewData() async 
   {
-    var base = WebDataSubjectRequest(StudentData.Instance);
+    var base = WebDataSubjectRequest(StudentData.Instance!);
 
     var resp = await WebServices.getSubjects(Data.school!, base);
 

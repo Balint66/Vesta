@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vesta/datastorage/data.dart';
@@ -72,18 +74,14 @@ class LoginFormState extends State<LoginForm>
   {
     super.initState();
 
-    Future.doWhile(() async
+    Timer.periodic(Duration(seconds: 1), (Timer timer)
     {
-      await Future.delayed(Duration(seconds: 1));
-
       if(_validPassword&&_validUsername&&_validSchool&&!ableToLogin) {
         ableToLogin = true;
       } 
       else if(!(_validSchool&&_validUsername&&_validPassword)&&ableToLogin) {
         ableToLogin = false;
       }
-
-      return true;
     });
 
   }
@@ -103,7 +101,7 @@ class LoginFormState extends State<LoginForm>
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              FormField<School>(builder: (FormFieldState<School> state)
+              Container(child:FormField<School>(builder: (FormFieldState<School> state)
               {
                 return FutureBuilder(
                   future: Future.delayed(Duration(seconds: 1), () async => await _post),
@@ -151,13 +149,18 @@ class LoginFormState extends State<LoginForm>
                   return null;
                 },
               ),
+              margin: EdgeInsets.symmetric(vertical: 15.0)
+              ),
               Container(
-                child: TextFormField(
+                child:TextFormField(
                   autocorrect: false,
                   autofocus: true,
                   decoration: InputDecoration(
+                    icon:Icon(Icons.person_outline_outlined),
                     labelText: translator.translate('login_username'),
-                    hintText: translator.translate('login_username_hint'),),
+                    hintText: translator.translate('login_username_hint'),
+                    border: OutlineInputBorder(borderSide: BorderSide(width: 1))
+                  ),
                   maxLines: 1,
                   controller: _userName,
                   onChanged: (str)
@@ -179,11 +182,34 @@ class LoginFormState extends State<LoginForm>
                     return null;
                   },
                 ),
-                width: 300.0,),
+                width: 300.0,
+                margin: EdgeInsets.symmetric(vertical: 5.0),
+                padding: EdgeInsets.only(right:30)
+                ),
               Container(
-                  child: Row(children: <Widget>[ Expanded(child: TextFormField(
+                  child: TextFormField(
                     autocorrect: false,
-                    decoration: InputDecoration(labelText: translator.translate('login_password')),
+                    decoration: InputDecoration(
+                      icon: Icon(Icons.lock_outlined),
+                      labelText: translator.translate('login_password'),
+                      border: OutlineInputBorder(borderSide: BorderSide(width: 1)),
+                      suffixIcon: Container(
+                    padding: EdgeInsets.fromLTRB(10,0,5,0),
+                    child: Container(width:40, padding: EdgeInsets.symmetric(vertical:5),
+                      child: MouseRegion(onEnter: (item)=>setState((){
+                        _obscure = false;
+                      }),
+                      onExit: (item)=>setState((){
+                        _obscure = true;
+                      }),
+                      child: GestureDetector(onTap: ()=>setState((){
+                        _obscure = !_obscure;
+                      }),
+                      child:  Icon(_obscure ? Icons.remove_red_eye : Icons.remove_red_eye_outlined),
+                      )
+                      ),)
+                  )
+                    ),
                     obscureText: _obscure,
                     maxLines: 1,
                     controller: _password,
@@ -205,25 +231,14 @@ class LoginFormState extends State<LoginForm>
                       }
                       return null;
                     },
-                  )),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal:10),
-                    child: Container(width:40, padding: EdgeInsets.symmetric(vertical:5),
-                      child: MouseRegion(onEnter: (item)=>setState((){
-                        _obscure = false;
-                      }),
-                      onExit: (item)=>setState((){
-                        _obscure = true;
-                      }),
-                      child: GestureDetector(onTap: ()=>setState((){
-                        _obscure = !_obscure;
-                      }),
-                      child:  Icon(_obscure ? Icons.remove_red_eye : Icons.remove_red_eye_outlined),
-                      )
-                      ),)
-                  )]),
-                  width: 300.0),
-              KeepMeLoggedInButton(),
+                  ),
+                  width: 300.0,
+                  margin: EdgeInsets.symmetric(vertical: 5.0),
+                  padding: EdgeInsets.only(right:30)
+              ),
+              Center( child:Container(
+                child:KeepMeLoggedInButton(),
+                margin: EdgeInsets.symmetric(vertical: 5.0),)),
               Container(
                 child: _login,
                 padding: EdgeInsets.only(top: 20),

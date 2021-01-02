@@ -159,6 +159,13 @@ packages:
       url: "https://github.com/cdharris/flutter_duration_picker.git"
     source: git
     version: "1.0.4"
+  flutter_feather_icons:
+    dependency: "direct main"
+    description:
+      name: flutter_feather_icons
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.3"
   flutter_launcher_icons:
     dependency: "direct dev"
     description:

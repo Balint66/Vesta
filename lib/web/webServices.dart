@@ -19,6 +19,8 @@ import 'package:vesta/web/webdata/webDataExamDetailsRequest.dart';
 import 'package:vesta/web/webdata/webDataExamDetailsResponse.dart';
 import 'package:vesta/web/webdata/webDataExamRequest.dart';
 import 'package:vesta/web/webdata/webDataExamResponse.dart';
+import 'package:vesta/web/webdata/webDataExamSignup.dart';
+import 'package:vesta/web/webdata/webDataExamSignupResponse.dart';
 import 'package:vesta/web/webdata/webDataLogin.dart';
 import 'package:vesta/web/webdata/webDataMessageRead.dart';
 import 'package:vesta/web/webdata/webDataMessages.dart';
@@ -318,7 +320,7 @@ abstract class WebServices
 
     var login = WebDataLogin.simplifiedOnly(userName, password);
 
-    var resp = await client.post(school.Url + '/GetTrainings',
+    var resp = await client.post(school.Url! + '/GetTrainings',
         data: login.toJson());
 
     Map<String, dynamic> respBody = resp.data;
@@ -370,7 +372,7 @@ abstract class WebServices
 
   static Future<WebDataMessages?> _getMessages(School school, WebDataBase body) async
   {
-    var resp = await client.post(school.Url + '/GetMessages',
+    var resp = await client.post(school.Url! + '/GetMessages',
         data: body.toJson());
 
 
@@ -401,7 +403,7 @@ abstract class WebServices
 
     try{
 
-      var resp = await client.post(school.Url + '/SetReadedMessage',
+      var resp = await client.post(school.Url! + '/SetReadedMessage',
         data: body.toJson(),);
 
       Map<String,dynamic> jsonBody = resp.data;
@@ -437,7 +439,7 @@ abstract class WebServices
 
       Vesta.logger.d('Never gonna give you up.');
 
-      var resp = await client.post(school.Url + '/GetCalendarData',
+      var resp = await client.post(school.Url! + '/GetCalendarData',
           data: body.toJson(),);
 
       Vesta.logger.d('Never gonna let you down.');
@@ -503,7 +505,7 @@ abstract class WebServices
   static Future<String?> _getSchoolsPrivacyPolicy(School school) async
   {
 
-    var resp = await client.post(school.Url + '/GetPrivacyStatement');
+    var resp = await client.post(school.Url! + '/GetPrivacyStatement');
 
     Map<String, dynamic> json = resp.data;
 
@@ -537,7 +539,7 @@ abstract class WebServices
 
     try{
 
-      var resp = await client.post(school.Url + '/GetMarkbookData', data: json.encode(jBody));
+      var resp = await client.post(school.Url! + '/GetMarkbookData', data: json.encode(jBody));
       Map<String, dynamic> jsonData = resp.data;
 
       _testResponse(jsonData);
@@ -564,7 +566,7 @@ abstract class WebServices
 
       var b = body.toJsonMap();
 
-      var resp = await client.post(school.Url + '/GetPeriods', data: json.encode(b));
+      var resp = await client.post(school.Url! + '/GetPeriods', data: json.encode(b));
       Map<String, dynamic> jsonData = resp.data;
       var periodlist = <Map<String,dynamic>>[];
 
@@ -576,7 +578,7 @@ abstract class WebServices
 
         b['CurrentPage'] += 1;
 
-        resp = await client.post(school.Url + '/GetPeriods', data: json.encode(b));
+        resp = await client.post(school.Url! + '/GetPeriods', data: json.encode(b));
 
         jsonData = resp.data;
 
@@ -606,7 +608,7 @@ abstract class WebServices
 
     try
     {
-    var resp = await client.post(school.Url + '/GetPeriodTerms', data: body.toJson());
+    var resp = await client.post(school.Url! + '/GetPeriodTerms', data: body.toJson());
 
     return ((resp.data as Map<String, dynamic>)['PeriodTermsList'] as List<dynamic>).cast<Map<String, dynamic>>();
     }
@@ -632,7 +634,7 @@ abstract class WebServices
 
       if(respBody['CurrentPage'] == 0) respBody['CurrentPage'] = 1;
 
-      var resp = await client.post(school.Url + '/GetSubjects',
+      var resp = await client.post(school.Url! + '/GetSubjects',
         data: json.encode(respBody));
 
       Map<String,dynamic> jsonBody = resp.data;
@@ -645,7 +647,7 @@ abstract class WebServices
 
         respBody['CurrentPage'] += 1;
 
-        resp = await client.post(school.Url + '/GetSubjects',
+        resp = await client.post(school.Url! + '/GetSubjects',
         data: json.encode(respBody));
 
         (resp.data['SubjectList'] as List<dynamic>).addAll(jsonBody['SubjectList']);
@@ -681,7 +683,7 @@ abstract class WebServices
   {
     try{
 
-      var resp = await client.post(school.Url + '/GetCourses',
+      var resp = await client.post(school.Url! + '/GetCourses',
         data: body.toJson(),);
 
       Map<String,dynamic> jsonBody = resp.data;
@@ -712,7 +714,7 @@ abstract class WebServices
   {
     try{
 
-      var resp = await client.post(school.Url + '/SaveSubject',
+      var resp = await client.post(school.Url! + '/SaveSubject',
         data: body.toJson(),);
 
       Map<String,dynamic> jsonBody = resp.data;
@@ -741,7 +743,7 @@ abstract class WebServices
   {
     try{
 
-      var resp = await client.post(school.Url + '/GetExams',
+      var resp = await client.post(school.Url! + '/GetExams',
         data: body.toJson(),);
 
       Map<String,dynamic> jsonBody = resp.data;
@@ -769,7 +771,7 @@ abstract class WebServices
   {
     try{
 
-      var resp = await client.post(school.Url + '/GetExamDetails',
+      var resp = await client.post(school.Url! + '/GetExamDetails',
         data: body.toJson(),);
 
       Map<String,dynamic> jsonBody = resp.data;
@@ -777,6 +779,36 @@ abstract class WebServices
       _testResponse(jsonBody);
 
       return WebDataExamDetailsResponse.fromJson(jsonBody);
+
+    }
+    catch(e)
+    {
+
+      Vesta.logger.e(body.toJson() + '\n\n' + e.toString());
+      return null;
+
+    }
+  }
+
+  static Future<WebDataExamSignupResponse?> setExamSigning(School school, WebDataExamSignup body) async
+  {
+    return _callFunction<WebDataExamSignupResponse?>(_SetExamSigning, school, body);
+  }
+
+  static Future<WebDataExamSignupResponse?> _SetExamSigning(School school, WebDataBase body) async
+  {
+    
+
+    try{
+
+      var resp = await client.post(school.Url! + '/SetExamSigning',
+        data: body.toJson(),);
+
+      Map<String,dynamic> jsonBody = resp.data;
+
+      _testResponse(jsonBody);
+
+      return WebDataExamSignupResponse.fromJson(jsonBody);
 
     }
     catch(e)

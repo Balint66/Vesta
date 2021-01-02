@@ -35,15 +35,19 @@ class AuthorizationState extends State<Authorization>
       Data.school = null;
     }
 
-    if(StudentData.Instance.username != null ||
-        StudentData.Instance.password != null ||
-        (StudentData.Instance.training.isNotEmpty))
-    {
+    print(StudentData.Instance);
 
-      if(StudentData.Instance.password?.isNotEmpty ?? false ||
-        (StudentData.Instance.username?.isNotEmpty ?? false))
+    if(StudentData.Instance != null){
+      if(StudentData.Instance!.username != null ||
+          StudentData.Instance!.password != null ||
+          (StudentData.Instance!.training.isNotEmpty))
       {
-        StudentData.setInstance('', '', null);
+
+        if(StudentData.Instance!.password?.isNotEmpty ?? false ||
+          (StudentData.Instance!.username?.isNotEmpty ?? false))
+        {
+          StudentData.setInstance('', '', null);
+        }
       }
     }
 
@@ -57,7 +61,12 @@ class AuthorizationState extends State<Authorization>
             child: SingleChildScrollView(
           child: LoginForm(),
           ),
-      )
+      ),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Color.fromARGB(0,0,0,0),
+        elevation: 0, actions: [FlatButton.icon(icon: Icon(Icons.settings), 
+        onPressed: ()=>Navigator.of(context).pushNamed('/settings/main'), label:Container())],), //Custom top for settings buton
     );
 
   }

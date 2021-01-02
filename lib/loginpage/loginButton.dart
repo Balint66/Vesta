@@ -98,6 +98,7 @@ class LoginBtnState extends State<LoginButton>
           child: Text(AppTranslations.of(context).translate('login_login_button'), maxLines: 1,),
           color: Theme.of(context).primaryColor,
           minWidth: 150.0,
+          shape: RoundedRectangleBorder(side: BorderSide(color: Theme.of(context).primaryColor, width:2.0), borderRadius: BorderRadius.circular(20.0)),
       );
     }
     return Container(width: 0.0,height: 0.0,);

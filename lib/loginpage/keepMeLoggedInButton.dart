@@ -20,7 +20,7 @@ class _KeepMeLoggedInButtonState extends State<KeepMeLoggedInButton>
   {
 
     return Wrap(
-      spacing: 10,
+      spacing: 5,
       children: <Widget>[
         Checkbox(
             value: Vesta.of(context).settings.stayLogged,

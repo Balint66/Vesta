@@ -23,7 +23,7 @@ abstract class FileManager
     
     var map = <String, dynamic>
     {
-      'studentData': StudentData.Instance != null ? StudentData.toJsonMap(StudentData.Instance) : null,
+      'studentData': StudentData.Instance != null ? StudentData.toJsonMap(StudentData.Instance!) : null,
       'school': Data.school?.asJson()
     };
 
@@ -46,8 +46,8 @@ abstract class FileManager
 
     var data = <String, dynamic>
     {
-      'username':StudentData.Instance.username,
-      'password':StudentData.Instance.password,
+      'username':StudentData.Instance!.username,
+      'password':StudentData.Instance!.password,
       'school':map['school']
     };
     return Data.fromJson(json.encode(data));

@@ -57,11 +57,11 @@ class UISettingsState extends State<UISettings>
                   switch(Vesta.of(context).settings.language)
                   {
                     case 'en':
-                      StudentData.setInstance(StudentData.Instance.username!, StudentData.Instance.password!, StudentData.Instance.training, LCID: en_us_LCID);
+                      StudentData.setInstance(StudentData.Instance!.username!, StudentData.Instance!.password!, StudentData.Instance!.training, LCID: en_us_LCID);
                       break;
                     case 'hu':
                     default:
-                      StudentData.setInstance(StudentData.Instance.username!, StudentData.Instance.password!, StudentData.Instance.training, LCID: hun_LCID);
+                      StudentData.setInstance(StudentData.Instance!.username!, StudentData.Instance!.password!, StudentData.Instance!.training, LCID: hun_LCID);
                       break;
                   }
                 }
@@ -88,14 +88,14 @@ class UISettingsState extends State<UISettings>
                   switch(value)
                   {
                     case 2:
-                      StudentData.setInstance(StudentData.Instance.username!, StudentData.Instance.password!, StudentData.Instance.training, LCID: de_LCID);
+                      StudentData.setInstance(StudentData.Instance!.username!, StudentData.Instance!.password!, StudentData.Instance!.training, LCID: de_LCID);
                       break;
                     case 1:
-                      StudentData.setInstance(StudentData.Instance.username!, StudentData.Instance.password!, StudentData.Instance.training, LCID: hun_LCID);
+                      StudentData.setInstance(StudentData.Instance!.username!, StudentData.Instance!.password!, StudentData.Instance!.training, LCID: hun_LCID);
                       break;
                     case 0:
                     default:
-                      StudentData.setInstance(StudentData.Instance.username!, StudentData.Instance.password!, StudentData.Instance.training, LCID: en_us_LCID);
+                      StudentData.setInstance(StudentData.Instance!.username!, StudentData.Instance!.password!, StudentData.Instance!.training, LCID: en_us_LCID);
                       break;
                   }
                 });
@@ -121,20 +121,20 @@ class UISettingsState extends State<UISettings>
               switch(value)
               {
                 case 2:
-                  StudentData.setInstance(StudentData.Instance.username!, StudentData.Instance.password!, StudentData.Instance.training, LCID: de_LCID);
+                  StudentData.setInstance(StudentData.Instance!.username!, StudentData.Instance!.password!, StudentData.Instance!.training, LCID: de_LCID);
                   break;
                 case 1:
-                  StudentData.setInstance(StudentData.Instance.username!, StudentData.Instance.password!, StudentData.Instance.training, LCID: en_us_LCID);
+                  StudentData.setInstance(StudentData.Instance!.username!, StudentData.Instance!.password!, StudentData.Instance!.training, LCID: en_us_LCID);
                   break;
                 case 0:
                 default:
-                  StudentData.setInstance(StudentData.Instance.username!, StudentData.Instance.password!, StudentData.Instance.training, LCID: hun_LCID);
+                  StudentData.setInstance(StudentData.Instance!.username!, StudentData.Instance!.password!, StudentData.Instance!.training, LCID: hun_LCID);
                   break;
               }
             });
           },
           child: ListTile(
-            title:Text('Neptun\'s language: ' + (StudentData.Instance.LCID == hun_LCID ? 'Magyar' : StudentData.Instance.LCID == de_LCID ? 'Deutsch' : 'English (US)'),
+            title:Text('Neptun\'s language: ' + (StudentData.Instance!.LCID == hun_LCID ? 'Magyar' : StudentData.Instance!.LCID == de_LCID ? 'Deutsch' : 'English (US)'),
             style: TextStyle(color: data.syncLangWithNeptun ? Theme.of(context).disabledColor : Theme.of(context).textTheme.bodyText1!.color )),
             ),
           )

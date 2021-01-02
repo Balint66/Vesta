@@ -7,7 +7,7 @@ import 'package:vesta/i18n/appTranslations.dart';
 
 class Eula extends StatefulWidget
 {
-  final textstile = TextStyle(fontSize: 15.0, color: Colors.white);
+  final textstile = TextStyle(fontSize: 18.0, color: Colors.white);
   final controller = PageController(); 
 
   @override
@@ -18,10 +18,10 @@ class Eula extends StatefulWidget
 
 }
 
-Widget _wrapTextInWidget(List<Widget> texts, {Color? color})
+Widget _wrapTextInWidget(List<InlineSpan> texts, {Color? color})
 {
   return _MyAnimatedOpacity(child:SafeArea(child:  Container(padding: EdgeInsets.all(10), child: Card(color: color ?? Colors.blue, child: Center(
-        child:Container(padding: EdgeInsets.all(12), child: Column(mainAxisAlignment: MainAxisAlignment.center, children: texts,)),),),),),);
+        child:Container(padding: EdgeInsets.all(12), child: RichText(textAlign: TextAlign.center, text: TextSpan(children: texts),)),),),),),);
 }
 
 class _EulaState extends State<Eula> with SingleTickerProviderStateMixin
@@ -40,30 +40,30 @@ class _EulaState extends State<Eula> with SingleTickerProviderStateMixin
 
     var widgetList = <Widget>[
       _wrapTextInWidget([
-          Image.asset('assets/icon/vesta.png',cacheWidth: 200,), //TODO:Better image display?
-          Text(translator.translate('welcome'), style: TextStyle(fontSize: 26.0, color: Colors.white),),
-          Text(translator.translate('short_description_0'), style: widget.textstile,),
-          Text(translator.translate('short_description_1'), style: widget.textstile,)
+          WidgetSpan(child: Image.asset('assets/icon/vesta.png',cacheWidth: 200,)), //TODO:Better image display?
+          TextSpan(text: '\n'+translator.translate('welcome')+'\n', style: TextStyle(fontSize: 26.0, color: Colors.white),),
+          TextSpan(text: translator.translate('short_description_0')+'\n', style: widget.textstile,),
+          TextSpan(text: translator.translate('short_description_1')+'\n', style: widget.textstile,)
         ]),
       _wrapTextInWidget([
-          Text(translator.translate('description_0'),
-          textAlign: TextAlign.center, style: widget.textstile,),
-          Text(translator.translate('description_1'),
-          textAlign: TextAlign.center, style: widget.textstile,),
-          Text(translator.translate('description_2'),
-          textAlign: TextAlign.center, style: widget.textstile,),
-          Text(translator.translate('description_3'),
-          textAlign: TextAlign.center, style: widget.textstile,)
+          TextSpan(text: translator.translate('description_0')+'\n', style: widget.textstile,),
+          TextSpan(text: translator.translate('description_1')+'\n', style: widget.textstile,),
+          TextSpan(text: translator.translate('description_2')+'\n', style: widget.textstile,),
+          TextSpan(text: translator.translate('description_3')+'\n', style: widget.textstile,)
         ], color: Colors.green),
       _wrapTextInWidget([
-          Text(translator.translate('notice_0'),
-          textAlign: TextAlign.center, style: widget.textstile,),
-          Text(translator.translate('notice_1'),textAlign: TextAlign.center, style: TextStyle(fontSize: 19.0, color: Colors.white),),
-          RaisedButton(child: Text(translator.translate('to_login')), onPressed: ()
-          {
-              Vesta.of(context).updateSettings(eulaWasAccepted:true);
-              Navigator.pushReplacementNamed(context, '/login');
-          })
+          TextSpan(text: translator.translate('notice_0')+'\n', style: widget.textstile,),
+          TextSpan(text: translator.translate('notice_1')+'\n', style: TextStyle(fontSize: 19.0, color: Colors.white),),
+          WidgetSpan(child: RaisedButton(
+            child: Text(translator.translate('to_login')), 
+            onPressed: ()
+            {
+                Vesta.of(context).updateSettings(eulaWasAccepted:true);
+                Navigator.pushReplacementNamed(context, '/login');
+            },
+            shape: RoundedRectangleBorder(side: BorderSide(color: Colors.white, width:2.0), borderRadius: BorderRadius.circular(20.0))
+            ),
+            )
         ], color: Colors.red)
     ];
 
@@ -75,9 +75,10 @@ class _EulaState extends State<Eula> with SingleTickerProviderStateMixin
             children: widgetList,
             onPageChanged: (int i)=>setState((){}),
           ),
-            _button(context) ,
+          
           ]
-        )
+        ),
+        floatingActionButton: _button(context),
     );
   }
 
@@ -90,10 +91,14 @@ class _EulaState extends State<Eula> with SingleTickerProviderStateMixin
     var min = (log((sqrt(lr*tb)+1)/2)+1)*35;
     var offset = 225;
 
-    var pos = Positioned(left: (query.width/2) - min, right: (query.width/2) - min, bottom: (query.height/2) - min - tb*offset , top: (query.height/2) - min + tb*offset,
-          child: GestureDetector(
+    var pos = /*Positioned(left: (query.width/2) - min, right: (query.width/2) - min, bottom: (query.height/2) - min - tb*offset , top: (query.height/2) - min + tb*offset,
+          child: */ Container(child: GestureDetector(
             onTap: ()=>widget.controller.nextPage(duration: Duration(seconds:3), curve: Curves.fastLinearToSlowEaseIn),
-            child: Card(shape: CircleBorder(), child: Icon(Icons.keyboard_arrow_right))),);
+            child: Card(shape: CircleBorder(), child: Icon(Icons.keyboard_arrow_right))),
+              width: min*2,
+              height: min*2,
+              margin: EdgeInsets.only(right: min, bottom: min)
+            )/*)*/;
 
     var noll = Container();
 

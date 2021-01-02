@@ -31,8 +31,8 @@ class SideBarState extends State<Sidebar>
     return Drawer(
         child: Scaffold(
             appBar: AppBar(
-              title: Text(StudentData.Instance.username!),
-              primary: false,
+              title: Text(StudentData.Instance!.username!),
+              primary: true,
               automaticallyImplyLeading: false,
             ),
             bottomNavigationBar: FlatButton.icon(
@@ -50,13 +50,13 @@ class SideBarState extends State<Sidebar>
             //TODO: implement missing buttons
             body: ListView(
               children: <Widget>[
-                MenuButtons(translator.translate('sidebar_messages'),Icons.message,'/app/messages', key: widget.keys[0],),
-                MenuButtons(translator.translate('sidebar_forum'),Icons.wrap_text,'',key: widget.keys[1],),
-                MenuButtons(translator.translate('sidebar_calendar'),Icons.calendar_today,'/app/calendar',key: widget.keys[2],),
-                MenuButtons(translator.translate('sidebar_subjects'),Icons.book,'/app/subjects',key: widget.keys[3],),
-                MenuButtons(translator.translate('sidebar_exams'),Icons.school,'/app/exams',key: widget.keys[4],),
-                MenuButtons(translator.translate('sidebar_student_book'),Icons.local_library,'/app/student_book',key: widget.keys[5],),
-                MenuButtons(translator.translate('sidebar_semesters'),Icons.hourglass_empty,'/app/semesters',key: widget.keys[6],),
+                MenuButtons(translator.translate('sidebar_messages'),Icons.message,'/app/messages', key: widget.keys[0],), //Done
+                MenuButtons(translator.translate('sidebar_forum'),Icons.wrap_text,'',key: widget.keys[1],), //TODO
+                MenuButtons(translator.translate('sidebar_calendar'),Icons.calendar_today,'/app/calendar',key: widget.keys[2],), //TODO: event specific display
+                MenuButtons(translator.translate('sidebar_subjects'),Icons.book,'/app/subjects',key: widget.keys[3],),//TODO: signing into the subjects (in paper it is implemented but I'm not sure)
+                MenuButtons(translator.translate('sidebar_exams'),Icons.school,'/app/exams',key: widget.keys[4],),//TODO: signing into exams
+                MenuButtons(translator.translate('sidebar_student_book'),Icons.local_library,'/app/student_book',key: widget.keys[5],),//Done
+                MenuButtons(translator.translate('sidebar_semesters'),Icons.hourglass_empty,'/app/semesters',key: widget.keys[6],),//TODO: cacheing the data?
               ],
             )
         )

@@ -91,7 +91,7 @@ with SingleTickerProviderStateMixin
                           });
                           MainProgram.of(context).parentNavigator.push(MaterialPageRoute(builder: (ctx)=>MessageDisplay
                             (item.senderName,item.subject,item.detail)));
-                          var body = WebDataMessageRead(StudentData.Instance,
+                          var body = WebDataMessageRead(StudentData.Instance!,
                               item.personMessageId);
                           WebServices.setRead(Data.school!, body);
                       },
@@ -101,7 +101,7 @@ with SingleTickerProviderStateMixin
                         {
                           item.setReadState();
                         });
-                        var body = WebDataMessageRead(StudentData.Instance,
+                        var body = WebDataMessageRead(StudentData.Instance!,
                               item.personMessageId);
                           WebServices.setRead(Data.school!, body);
                       },);

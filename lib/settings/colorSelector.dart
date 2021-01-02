@@ -192,7 +192,7 @@ class _ColorSelectorState extends State<ColorSelector>
               color: Color.fromARGB(255, r!, g!, b!),
           ),
         ), 
-        SingleChildScrollView(child: Center(
+        Expanded(child:SingleChildScrollView(child: Center(
           child: Wrap(
               alignment: WrapAlignment.center,
               children: <Widget>[
@@ -216,7 +216,7 @@ class _ColorSelectorState extends State<ColorSelector>
                 ),
               ],
           ),
-        )),
+        ))),
         ]);}),
         actions: <Widget>[
           MaterialButton(onPressed: ()=>Navigator.of(context).pop(),
