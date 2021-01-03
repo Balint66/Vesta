@@ -7,16 +7,16 @@ import 'package:overlay_support/overlay_support.dart';
 class MessageManager
 {
 
-  static final _defaultAndroidDetail = AndroidNotificationDetails('vesta_main', 'Vesta', 'Vesta notifications', importance: Importance.High, priority: Priority.High, ticker: 'ticker');
+  static final _defaultAndroidDetail = AndroidNotificationDetails('vesta_main', 'Vesta', 'Vesta notifications', importance: Importance.high, priority: Priority.high, ticker: 'ticker');
   static final _defaultIOSDetail = IOSNotificationDetails(presentAlert: true, presentSound: true,);
-  static final _notificationDetails = NotificationDetails(_defaultAndroidDetail, _defaultIOSDetail);
+  static final _notificationDetails = NotificationDetails(android: _defaultAndroidDetail, iOS: _defaultIOSDetail);
   static final _notificationPlugin = _initPlugin();
 
   static FlutterLocalNotificationsPlugin _initPlugin()
   {
     final android = AndroidInitializationSettings('@mipmap/launcher_icon');
     final ios = IOSInitializationSettings();
-    final init = InitializationSettings(android, ios);
+    final init = InitializationSettings(android: android, iOS: ios);
 
     final plugin = FlutterLocalNotificationsPlugin();
 
@@ -31,9 +31,9 @@ class MessageManager
     {
       
       case NotificationType.BIGTEXT:
-          var detail = NotificationDetails( AndroidNotificationDetails('vesta_main', 'Vesta', 'Vesta notifications', importance: Importance.High,
-          priority: Priority.High, ticker: 'ticker', styleInformation: BigTextStyleInformation(text)),
-          _defaultIOSDetail);
+          var detail = NotificationDetails( android: AndroidNotificationDetails('vesta_main', 'Vesta', 'Vesta notifications', importance: Importance.high,
+          priority: Priority.high, ticker: 'ticker', styleInformation: BigTextStyleInformation(text)),
+          iOS: _defaultIOSDetail);
           _notificationPlugin.show(0, 'Vesta', text, detail, payload: payload);
         break;
       case NotificationType.INBOX:
@@ -50,9 +50,9 @@ class MessageManager
 
         });
 
-        var detail = NotificationDetails(AndroidNotificationDetails('vetsa_main', 'Vesta', 'Vesta notifications', importance: Importance.High,
-          priority: Priority.High, ticker: 'ticker', styleInformation: InboxStyleInformation(ls)),
-        _defaultIOSDetail);
+        var detail = NotificationDetails(android: AndroidNotificationDetails('vetsa_main', 'Vesta', 'Vesta notifications', importance: Importance.high,
+          priority: Priority.high, ticker: 'ticker', styleInformation: InboxStyleInformation(ls)),
+        iOS: _defaultIOSDetail);
 
         _notificationPlugin.show(0, 'Vesta', text, detail);
 
@@ -62,8 +62,9 @@ class MessageManager
         {
           throw 'No bitmap was specified!';
         }
-        var detail = NotificationDetails( AndroidNotificationDetails('vesta_main', 'Vesta', 'Vesta notifications', importance: Importance.High,
-          priority: Priority.High, ticker: 'ticker', styleInformation: BigPictureStyleInformation(bitmap, summaryText: text)), _defaultIOSDetail);
+        var detail = NotificationDetails( android: AndroidNotificationDetails('vesta_main', 'Vesta', 'Vesta notifications', importance: Importance.high,
+          priority: Priority.high, ticker: 'ticker', styleInformation: BigPictureStyleInformation(bitmap, summaryText: text)),
+          iOS: _defaultIOSDetail);
 
           _notificationPlugin.show(0, 'Vesta', text, detail);
 

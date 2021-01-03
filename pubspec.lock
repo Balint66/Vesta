@@ -178,17 +178,19 @@ packages:
   flutter_local_notifications:
     dependency: "direct main"
     description:
-      name: flutter_local_notifications
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.5.0+1"
+      path: flutter_local_notifications
+      ref: HEAD
+      resolved-ref: "235538f246ac81544ead9b17b6d67f15d4bc34be"
+      url: "https://github.com/MaikuB/flutter_local_notifications"
+    source: git
+    version: "3.0.2"
   flutter_local_notifications_platform_interface:
     dependency: transitive
     description:
       name: flutter_local_notifications_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.1"
+    version: "2.0.0+1"
   flutter_localizations:
     dependency: "direct main"
     description: flutter
@@ -211,7 +213,7 @@ packages:
     description:
       path: "packages/core"
       ref: HEAD
-      resolved-ref: ab8637130ec6aaf38bcd5af18f2a32ee17206a9f
+      resolved-ref: eab67e86508442451a827fa4a37b52a10ed3c874
       url: "https://github.com/daohoangson/flutter_widget_from_html"
     source: git
     version: "0.5.1+4"
@@ -246,9 +248,11 @@ packages:
   logger:
     dependency: "direct main"
     description:
-      name: logger
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: HEAD
+      resolved-ref: abeea0fcafea650d90d03ef18be9adfec3fab981
+      url: "https://github.com/leisim/logger"
+    source: git
     version: "0.9.4"
   matcher:
     dependency: transitive
@@ -299,7 +303,7 @@ packages:
     description:
       path: "packages/path_provider/path_provider"
       ref: HEAD
-      resolved-ref: "622ba57c3960e511bdd4adabe800aef844e263fc"
+      resolved-ref: cfa709835ab85702ee8a9ed24bbe7a3fe736c3f5
       url: "https://github.com/flutter/plugins"
     source: git
     version: "1.6.26"
@@ -413,6 +417,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.19-nullsafety.6"
+  timezone:
+    dependency: transitive
+    description:
+      name: timezone
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.9"
   typed_data:
     dependency: transitive
     description:
@@ -426,20 +437,22 @@ packages:
       name: universal_html
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.3"
+    version: "1.0.1"
   universal_io:
     dependency: "direct main"
     description:
-      name: universal_io
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.1"
+      path: "packages/universal_io"
+      ref: HEAD
+      resolved-ref: "08532dccd77455ed413c4b837207488d8ca29f4f"
+      url: "https://github.com/dint-dev/universal_io"
+    source: git
+    version: "1.0.2"
   url_launcher:
     dependency: "direct main"
     description:
       path: "packages/url_launcher/url_launcher/"
       ref: HEAD
-      resolved-ref: "622ba57c3960e511bdd4adabe800aef844e263fc"
+      resolved-ref: cfa709835ab85702ee8a9ed24bbe7a3fe736c3f5
       url: "https://github.com/flutter/plugins"
     source: git
     version: "6.0.0-nullsafety.3"
