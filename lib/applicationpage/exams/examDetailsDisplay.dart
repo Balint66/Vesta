@@ -35,7 +35,7 @@ class ExamDetailsDisplayState extends State<ExamDetailsDisplay>
     final translator = AppTranslations.of(context);
 
     return Scaffold(
-      body: FutureBuilder(future: ExamDetailsDisplay.cache.getItem(widget.exam.ExamID.toString()), builder: (BuildContext context, AsyncSnapshot<ExamDetails> snapshot)
+      body: FutureBuilder(future: ExamDetailsDisplay.cache.getItem(widget.exam.ExamID), builder: (BuildContext context, AsyncSnapshot<ExamDetails> snapshot)
     {
       if(snapshot.hasError)
       {

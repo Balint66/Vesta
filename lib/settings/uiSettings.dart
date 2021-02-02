@@ -104,7 +104,7 @@ class UISettingsState extends State<UISettings>
 
             },
             child: ListTile(title: Text("${translator.translate("settings_lang")} ${application.supportedLanguages[application.supportedLanguagesCodes.indexOf(
-              application.appDelegate.newLocale == null ? Localizations.localeOf(context)!.languageCode : application.appDelegate.newLocale!.languageCode
+              application.appDelegate.newLocale == null ? Localizations.localeOf(context).languageCode : application.appDelegate.newLocale!.languageCode
               )]}"),
             ),
             tooltip: translator.translate('settings_lang_tooltip'),

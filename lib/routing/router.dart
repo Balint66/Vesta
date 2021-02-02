@@ -41,16 +41,16 @@ abstract class VestaRouter
 
   }
 
-  static final _loginHandler = Handler(handlerFunc: (widgets.BuildContext ctx, Map<String, dynamic> query)
+  static final _loginHandler = Handler(handlerFunc: (widgets.BuildContext ctx, Map<String, List<String>>? query)
   {
 
     return _authorization;
 
-  });
+  }as HandlerFunc);
 
-  static final _settingsHandler = Handler(handlerFunc: (widgets.BuildContext ctx, Map<String, dynamic> query)
+  static final _settingsHandler = Handler(handlerFunc: (widgets.BuildContext ctx, Map<String, List<String>>? query)
   {
-    switch(query['type'][0]?.toString())
+    switch(query?['type']?[0])
     {
       case 'about':
         return _aboutSettingsPage;
@@ -66,17 +66,17 @@ abstract class VestaRouter
       default:
         return _mainSettingsPage;
     }
-  });
+  } as HandlerFunc);
 
-  static final _eulaHandler = Handler(handlerFunc: (widgets.BuildContext ctx, Map<String,dynamic> query)
+  static final _eulaHandler = Handler(handlerFunc: (widgets.BuildContext ctx, Map<String,List<String>>? query)
   {
     return Eula();
-  });
+  } as HandlerFunc);
 
-  static final _pageSettingsHandler = Handler(handlerFunc: (widgets.BuildContext ctx, Map<String,dynamic> query)
+  static final _pageSettingsHandler = Handler(handlerFunc: (widgets.BuildContext ctx, Map<String,List<String>>? query)
   {
-    var str = query['page'][0].toString();
+    var str = query!['page']![0].toString();
     return PageSettingsBase(str, Vesta.of(ctx).settings.pageSettings[str]);
-  });
+  } as HandlerFunc);
 
 }

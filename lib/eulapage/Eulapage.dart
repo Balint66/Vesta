@@ -54,14 +54,14 @@ class _EulaState extends State<Eula> with SingleTickerProviderStateMixin
       _wrapTextInWidget([
           TextSpan(text: translator.translate('notice_0')+'\n', style: widget.textstile,),
           TextSpan(text: translator.translate('notice_1')+'\n', style: TextStyle(fontSize: 19.0, color: Colors.white),),
-          WidgetSpan(child: RaisedButton(
+          WidgetSpan(child: ElevatedButton(
             child: Text(translator.translate('to_login')), 
             onPressed: ()
             {
                 Vesta.of(context).updateSettings(eulaWasAccepted:true);
                 Navigator.pushReplacementNamed(context, '/login');
             },
-            shape: RoundedRectangleBorder(side: BorderSide(color: Colors.white, width:2.0), borderRadius: BorderRadius.circular(20.0))
+            style: ButtonStyle(/*shape: RoundedRectangleBorder(side: BorderSide(color: Colors.white, width:2.0), borderRadius: BorderRadius.circular(20.0))*/) //TODO:Redo this!
             ),
             )
         ], color: Colors.red)

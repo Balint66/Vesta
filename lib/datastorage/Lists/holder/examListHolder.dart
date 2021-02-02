@@ -6,9 +6,6 @@ class ExamListHolder extends ListDataHolder<BaseDataList<Exam>>
   ExamListHolder() : super(BaseDataList<Exam>());
 
   @override
-  Future<void> incrementDataIndex() async{}
-
-  @override
   Future<BaseDataList<Exam>> _fetchNewData() async
   {
     var body = WebDataExamRequest.studentSimplified(StudentData.Instance, ExamType: 1);

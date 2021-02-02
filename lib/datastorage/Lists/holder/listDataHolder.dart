@@ -27,6 +27,8 @@ part 'semesterListHolder.dart';
 part 'subjectDataListHolder.dart';
 part 'examListHolder.dart';
 
+typedef IncrementFunction = Future<void> Function();
+
 abstract class ListDataHolder<T extends BaseDataList> with BackgroundFetchingServiceMixin
 {
 
@@ -38,9 +40,11 @@ abstract class ListDataHolder<T extends BaseDataList> with BackgroundFetchingSer
   bool get enabled => _enabled;
   bool _enabled = true;
   final _streamController = StreamController<T>.broadcast();
+  @nonVirtual
+  late final IncrementFunction incrementDataIndex;
 
   int _maxItemCount = -255;
-  int _dataIndex = 1;
+  late int _dataIndex;
   int get maxItemCount => _maxItemCount;
 
   static void _updateItemCount(WebDataBase base, ListDataHolder holder)
@@ -48,8 +52,24 @@ abstract class ListDataHolder<T extends BaseDataList> with BackgroundFetchingSer
     holder._maxItemCount = base.TotalRowCount;
   } 
 
-  ListDataHolder(T data, {Duration? timespan}) : _list = data,
-        _timespan = timespan ?? Duration();
+  ListDataHolder(T data, {Duration? timespan, bool hasDataIndex = true}) : _list = data,
+        _timespan = timespan ?? Duration()
+        {
+          if(hasDataIndex)
+          {
+            _dataIndex = 1;
+            incrementDataIndex = () async
+              {
+                _dataIndex++;
+                await onUpdate();
+              };
+          } 
+          else
+          {
+            incrementDataIndex = () async {};
+          }
+
+        }
 
   @nonVirtual
   Stream<T> getData() 
@@ -108,13 +128,6 @@ abstract class ListDataHolder<T extends BaseDataList> with BackgroundFetchingSer
 
     _timespan = interval;
 
-  }
-
-  @nonVirtual
-  Future<void> incrementDataIndex() async
-  {
-    _dataIndex++;
-    await onUpdate();
   }
 
 }

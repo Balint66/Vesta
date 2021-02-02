@@ -36,7 +36,7 @@ class MainProgRouter
     _mainProgRouter.define('/app$innerPath', handler: handler, transitionType: transitionType);
   }
 
-  static Route route(RouteSettings settings)
+  static Route? route(RouteSettings settings)
   {
     return _mainProgRouter.generator(settings);
   }
@@ -49,34 +49,34 @@ class MainProgRouter
   static final SubjectDisplayer _subjectInfoDisplayer = SubjectDisplayer(key: keys[4]);
   static final ExamListDisplay _examDisplay = ExamListDisplay(key: keys[5]);
 
-  static final Handler _messageHandler = Handler(handlerFunc: (BuildContext ctx, Map<String, dynamic> query)
+  static final Handler _messageHandler = Handler(handlerFunc: (BuildContext ctx, Map<String, List<String>>? query)
   {
     return _messageListDisplay;
-  });
+  }as HandlerFunc);
 
   static final Handler _calendarHandler = Handler(handlerFunc: (BuildContext ctx, Map<String, dynamic> query)
   {
     return _lessonDisplayer;
-  });
+  }as HandlerFunc);
 
   static final Handler _studentBookHandler = Handler(handlerFunc: (BuildContext ctx, Map<String,dynamic> query)
   {
     return _studentBookDisplayer;
-  });
+  }as HandlerFunc);
 
   static final Handler _semesterInfoHandler = Handler(handlerFunc: (BuildContext ctx, Map<String,dynamic> query)
   {
     return _semesterInfoDisplayer;
-  });
+  }as HandlerFunc);
 
   static final Handler _subjectHandler = Handler(handlerFunc: (BuildContext ctx, Map<String,dynamic> query)
   {  
     return _subjectInfoDisplayer;
-  });
+  }as HandlerFunc);
 
   static final Handler _examsHandler = Handler(handlerFunc: (BuildContext ctx, Map<String,dynamic> query){
     return _examDisplay;
-  });
+  }as HandlerFunc);
 
   static final Handler _appNestedHandler = Handler(handlerFunc: (BuildContext ctx, Map<String, dynamic> query)
   {
@@ -88,7 +88,7 @@ class MainProgRouter
     }
 
     return MainProgram(key:VestaRouter.mainKey, route: path,);
-  });
+  }as HandlerFunc);
 
   /*static Widget _wrapinFutureBuilder(BuildContext ctx ,Widget child, PopupMenuItemBuilder<int> builder, PopupMenuItemSelected<int> selector)
   {

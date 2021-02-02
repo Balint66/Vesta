@@ -163,13 +163,16 @@ class LoginFormState extends State<LoginForm>
                   ),
                   maxLines: 1,
                   controller: _userName,
+                  textCapitalization: TextCapitalization.characters,
                   onChanged: (str)
                   {
-                    Data.username = _userName.text;
+                    Data.username = _userName.text.toUpperCase();
                   },
                   validator: (String? value)
                   {
-                    if((value?.isEmpty ?? true ) || (value?.length ?? 0) < 6)
+                    if((value?.isEmpty ?? true )
+                    || (((value?.runes.first ?? 0) >= ('0').runes.first) 
+                        && ((value?.runes.first ?? 0) <= ('9').runes.first)))
                     {
                       if(_validUsername) {
                         _validUsername = false;

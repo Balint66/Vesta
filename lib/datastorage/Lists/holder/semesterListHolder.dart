@@ -18,9 +18,6 @@ class SemesterListHolder extends ListDataHolder<BaseDataList<PeriodData>>
 
   SemesterListHolder({Duration? timespan}) : super(BaseDataList<PeriodData>(), timespan: timespan ?? defaultInterval);
 
-  @override
-  Future<void> incrementDataIndex() async{}
-
   Future<List<String>> getPeriodTerms() async
   { 
     

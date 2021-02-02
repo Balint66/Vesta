@@ -33,7 +33,7 @@ class Vesta extends StatefulWidget
   static final showSnackbar = (Widget widget)=>MessageManager.showSnackBar(widget);
   static final dateFormatter = DateFormat('yy. MM. dd. HH:mm');
 
-  static Route<dynamic> generateRoutes(RouteSettings settings)
+  static Route<dynamic>? generateRoutes(RouteSettings settings)
   {
     if(settings.name == '/home')
     {

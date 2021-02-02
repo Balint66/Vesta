@@ -721,7 +721,9 @@ abstract class WebServices
 
       _testResponse(jsonBody);
 
-      return (WebDataBase as WebDataSubjectSignupRequest).SubjectSignin;
+      print(json.encode(jsonBody));
+
+      return (body as WebDataSubjectSignupRequest).SubjectSignin;
 
     }
     catch(e)

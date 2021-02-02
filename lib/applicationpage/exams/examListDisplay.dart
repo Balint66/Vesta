@@ -6,7 +6,6 @@ import 'package:vesta/applicationpage/common/kamonjiDisplayer.dart';
 import 'package:vesta/applicationpage/exams/examDetailsDisplay.dart';
 import 'package:vesta/datastorage/Lists/basedataList.dart';
 import 'package:vesta/datastorage/examData.dart';
-import 'package:vesta/i18n/appTranslations.dart';
 import 'package:intl/intl.dart';
 
 class ExamListDisplay extends StatefulWidget

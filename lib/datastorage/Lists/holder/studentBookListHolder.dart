@@ -6,9 +6,6 @@ class StudentBookListHolder extends ListDataHolder<BaseDataList<StudentBookData>
   static final Duration defaultInterval = Duration(days:1);
 
   StudentBookListHolder({Duration? timespan}) : super(BaseDataList<StudentBookData>(), timespan: timespan ?? defaultInterval);
-  
-  @override
-  Future<void> incrementDataIndex() async{}
 
   @override
   Future<BaseDataList<StudentBookData>> _fetchNewData() async 
