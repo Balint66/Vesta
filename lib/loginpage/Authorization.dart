@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vesta/datastorage/data.dart';
 import 'package:vesta/loginpage/loginForm.dart';
-import 'package:vesta/datastorage/studentData.dart';
 
 class Authorization extends StatefulWidget
 {
@@ -35,22 +34,6 @@ class AuthorizationState extends State<Authorization>
       Data.school = null;
     }
 
-    print(StudentData.Instance);
-
-    if(StudentData.Instance != null){
-      if(StudentData.Instance!.username != null ||
-          StudentData.Instance!.password != null ||
-          (StudentData.Instance!.training.isNotEmpty))
-      {
-
-        if(StudentData.Instance!.password?.isNotEmpty ?? false ||
-          (StudentData.Instance!.username?.isNotEmpty ?? false))
-        {
-          StudentData.setInstance('', '', null);
-        }
-      }
-    }
-
   }
 
   @override
@@ -65,7 +48,7 @@ class AuthorizationState extends State<Authorization>
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Color.fromARGB(0,0,0,0),
-        elevation: 0, actions: [FlatButton.icon(icon: Icon(Icons.settings), 
+        elevation: 0, actions: [TextButton.icon(icon: Icon(Icons.settings), 
         onPressed: ()=>Navigator.of(context).pushNamed('/settings/main'), label:Container())],), //Custom top for settings buton
     );
 

@@ -25,7 +25,7 @@ class CoursesDisplayer extends StatelessWidget
 
       if(index == 0) {
         return Container(padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-        child: FlatButton(child: Text('None'),
+        child: TextButton(child: Text('None'),
          onPressed: ()=> _setter(-1))
        );
       }

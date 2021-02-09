@@ -4,17 +4,18 @@ import 'package:vesta/datastorage/Lists/schoolList.dart';
 import 'package:vesta/datastorage/data.dart';
 import 'package:vesta/datastorage/local/persistentDataManager.dart';
 import 'package:vesta/i18n/appTranslations.dart';
+import 'package:vesta/managers/accountManager.dart';
 import 'package:vesta/web/fetchManager.dart';
 import 'package:vesta/web/webServices.dart';
 
-class SchoolSettings extends StatefulWidget
+class AccountSettings extends StatefulWidget
 {
   @override
-  State<StatefulWidget> createState() => SchoolSettingsState();
+  State<StatefulWidget> createState() => AccountSettingsState();
 
 }
 
-class SchoolSettingsState extends State<SchoolSettings>
+class AccountSettingsState extends State<AccountSettings>
 {
   @override
   Widget build(BuildContext context) 
@@ -28,12 +29,16 @@ class SchoolSettingsState extends State<SchoolSettings>
           {
             FileManager.clearLoginFileData();
             FetchManager.clearRegistered();
-            Navigator.of(context).pushNamedAndRemoveUntil('/login', (route) => false);
+            AccountManager.removeCurrentAcount();
+            if(AccountManager.acountsCount == 0)
+            {
+              Navigator.of(context).pushNamedAndRemoveUntil('/login', (route) => false);
+            }
           },),
           ListTile(
             title: Text(translator.translate('settings_schools_privacy')),
             onTap: ()=>showDialog(context: context, builder:(ctx)=>Dialog(child: FutureBuilder(
-              future: WebServices.getSchoolsPrivacyPolicy(Data.school as School),
+              future: WebServices.getSchoolsPrivacyPolicy(AccountManager.currentAcount.school),
               builder: (context, snapshot) 
               {
                 if(snapshot.hasError) {

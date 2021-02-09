@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:vesta/applicationpage/MainProgram.dart';
-import 'package:vesta/datastorage/studentData.dart';
+import 'package:vesta/applicationpage/common/accountDisplayer.dart';
 import 'package:vesta/i18n/appTranslations.dart';
+import 'package:vesta/managers/accountManager.dart';
 import 'package:vesta/routing/replacementObserver.dart';
 
 class Sidebar extends StatefulWidget
@@ -31,11 +32,25 @@ class SideBarState extends State<Sidebar>
     return Drawer(
         child: Scaffold(
             appBar: AppBar(
-              title: Text(StudentData.Instance!.username!),
+              title: GestureDetector(
+                child: Text(AccountManager.currentAcount.username),
+                onLongPress: () => showModalBottomSheet(context: context,
+                 useRootNavigator: true,
+                 backgroundColor: Color(0),
+                 isScrollControlled: true,
+                 builder: (ctx){
+                  var ls = AccountManager.accounts;
+                  return Container(
+                    decoration: BoxDecoration(color: Theme.of(ctx).canvasColor, borderRadius: BorderRadius.circular(20.0)),
+                    constraints: BoxConstraints(minHeight: 100.0),
+                    child: ListView.builder(shrinkWrap: true, itemCount: ls.length, itemBuilder: (ctx,i) => AccountDisplayer(ls[i]))
+                  );
+                }),
+              ),
               primary: true,
               automaticallyImplyLeading: false,
             ),
-            bottomNavigationBar: FlatButton.icon(
+            bottomNavigationBar: TextButton.icon(
                 onPressed: ()
                 {
                   Navigator.pop(context);
@@ -46,6 +61,9 @@ class SideBarState extends State<Sidebar>
                     translator.translate('sidebar_settings'),
                     style: TextStyle(fontSize: 20),
                   ),
+                  style: ButtonStyle(
+                    foregroundColor: MaterialStateProperty.all(Theme.of(context).textTheme.bodyText1!.color)
+                  )
                 ),
             //TODO: implement missing buttons
             body: ListView(
@@ -144,8 +162,10 @@ class MenuButtonState extends State<MenuButtons>
   Widget build(BuildContext context)
   {
 
+    final theme = Theme.of(context);
+
     return Align( alignment: Alignment.centerLeft,
-        child: FlatButton.icon(onPressed:
+        child: TextButton.icon(onPressed:
             () 
             {
               if(enabled)
@@ -157,6 +177,7 @@ class MenuButtonState extends State<MenuButtons>
           icon: Padding(padding: EdgeInsets.symmetric(horizontal: 1.0),
               child: Icon(widget.icon)),
           label: Expanded(child: Text(widget.text)),
+          style: ButtonStyle(foregroundColor: MaterialStateProperty.all(theme.textTheme.bodyText1!.color)),
       )
     );
   }

@@ -5,9 +5,9 @@ import 'package:vesta/applicationpage/subjects/coursesDisplayer.dart';
 import 'package:vesta/applicationpage/subjects/subjectDetailItem.dart';
 import 'package:vesta/datastorage/courseData.dart';
 import 'package:vesta/datastorage/data.dart';
-import 'package:vesta/datastorage/studentData.dart';
 import 'package:vesta/datastorage/subjectData.dart';
 import 'package:vesta/i18n/appTranslations.dart';
+import 'package:vesta/managers/accountManager.dart';
 import 'package:vesta/web/webServices.dart';
 import 'package:vesta/web/webdata/webDataCourseRequest.dart';
 import 'package:vesta/web/webdata/webDataCourseResponse.dart';
@@ -24,7 +24,7 @@ class SubjectDetailedDisplay extends StatelessWidget
   Widget build(BuildContext context) 
   {
 
-    var f = WebServices.getCourses(Data.school!, WebDataCourseRequest(StudentData.Instance!, Id: data.SubjectId, CurriculumID: data.CurriculumTemplateID, TermID: data.TermID));
+    var f = WebServices.getCourses(AccountManager.currentAcount.school, WebDataCourseRequest(AccountManager.currentAcount, Id: data.SubjectId, CurriculumID: data.CurriculumTemplateID, TermID: data.TermID));
     var translator = AppTranslations.of(context);
 
 
@@ -85,7 +85,7 @@ class SubjectDetailedDisplay extends StatelessWidget
                         {
                           try
                           {
-                            var signed = await WebServices.saveSubject(Data.school!, WebDataSubjectSignupRequest(StudentData.Instance!, TermID: data.TermID,
+                            var signed = await WebServices.saveSubject(AccountManager.currentAcount.school, WebDataSubjectSignupRequest(AccountManager.currentAcount, TermID: data.TermID,
                             SubjectID: data.SubjectId, CurriculumID: data.CurriculumTemplateID, IsOnSubject: data.IsOnSubject,
                             SubjectSignin: !data.IsOnSubject, CurriculumTemplatelineID: data.CurriculumTemplatelineID,
                             AllType: entries.map((e) => e.value[0].CourseType).toList(), CourseIDs: (()

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:vesta/datastorage/studentData.dart';
+import 'package:vesta/datastorage/acountData.dart';
 
 Map<T,V> remove<T,V>(Map<T,V> orig, Object key)
 {
@@ -37,22 +37,20 @@ class WebDataBase
   // ignore: non_constant_identifier_names
   final String MobileServiceVersion;
 
-  StudentData get studentdata =>  StudentData.fromJson(json.encode(this));
-
   WebDataBase(this.TotalRowCount, this.ExceptionsEnum, this.ErrorMessage,
       this.UserLogin, this.Password, this.Neptuncode, this.CurrentPage,
       this.StudentTrainingID, this.LCID, this.MobileVersion,
       this.MobileServiceVersion);
 
   // ignore: non_constant_identifier_names
-  WebDataBase.simplified(String? User, String? Password, String? NeptunCode, String? TrainingData, {int currentPage = 0, int? LCID})
-      : this(-1, 0, null, User, Password, NeptunCode, currentPage, TrainingData, LCID ?? 1038, '1.5.2',0.toString());
+  WebDataBase.simplified(String? User, String? Password, String? NeptunCode, String? TrainingId, {int currentPage = 0, int LCID = 1038})
+      : this(-1, 0, null, User, Password, NeptunCode, currentPage, TrainingId, LCID, '1.5.2',0.toString());
 
-  WebDataBase.studentSimplified(StudentData? data, {int currentPage = 0}) : this.simplified(data?.username,
-      data?.password, data?.username, data?.currentTraining?.id.toString(), currentPage: currentPage, LCID: data?.LCID);
+  WebDataBase.studentSimplified(AccountData data, {int currentPage = 0, int LCID = 1038}) : this.simplified(data.username,
+      data.password, data.username, data.training.id.toString(), currentPage: currentPage, LCID: LCID);
 
-  WebDataBase.loginSimplified(StudentData data, {int currentPage = 0}) 
-  : this.simplified(data.username, data.password, null, null, currentPage: currentPage, LCID: data.LCID);
+  WebDataBase.loginSimplified(AccountData data, {int currentPage = 0, int LCID = 1038}) 
+  : this.simplified(data.username, data.password, null, null, currentPage: currentPage, LCID: LCID);
 
   String toJson()
   {

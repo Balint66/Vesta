@@ -8,9 +8,9 @@ import 'package:vesta/applicationpage/common/refreshExecuter.dart';
 import 'package:vesta/datastorage/Lists/basedataList.dart';
 import 'package:vesta/datastorage/data.dart';
 import 'package:vesta/applicationpage/messages/messageDisplay.dart';
-import 'package:vesta/datastorage/studentData.dart';
 import 'package:vesta/datastorage/message.dart';
 import 'package:vesta/i18n/appTranslations.dart';
+import 'package:vesta/managers/accountManager.dart';
 import 'package:vesta/web/webServices.dart';
 import 'package:vesta/web/webdata/bgFetchSateFullWidget.dart';
 import 'package:vesta/web/webdata/webDataMessageRead.dart';
@@ -91,9 +91,9 @@ with SingleTickerProviderStateMixin
                           });
                           MainProgram.of(context).parentNavigator.push(MaterialPageRoute(builder: (ctx)=>MessageDisplay
                             (item.senderName,item.subject,item.detail)));
-                          var body = WebDataMessageRead(StudentData.Instance!,
+                          var body = WebDataMessageRead(AccountManager.currentAcount,
                               item.personMessageId);
-                          WebServices.setRead(Data.school!, body);
+                          WebServices.setRead(AccountManager.currentAcount.school, body);
                       },
                       onLongPress: (item)
                       {
@@ -101,9 +101,9 @@ with SingleTickerProviderStateMixin
                         {
                           item.setReadState();
                         });
-                        var body = WebDataMessageRead(StudentData.Instance!,
+                        var body = WebDataMessageRead(AccountManager.currentAcount,
                               item.personMessageId);
-                          WebServices.setRead(Data.school!, body);
+                          WebServices.setRead(AccountManager.currentAcount.school, body);
                       },);
                   if(unreadls.isNotEmpty){
                     ls.add(unread);

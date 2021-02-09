@@ -4,6 +4,10 @@ abstract class BaseCache<K>
 {
 
   final items = <Object, K>{};
+  late final bool ShouldRunTimer;
+  final int deletionTime;
+
+  BaseCache({required this.ShouldRunTimer, this.deletionTime = 3});
 
   @nonVirtual
   Future<K> getItem(Object key) async
@@ -18,7 +22,10 @@ abstract class BaseCache<K>
     {
       item = await getNewItem(key);
       items[key] = item;
-      Future.delayed(Duration(minutes: 3), () async { items.remove(key); });
+      if(ShouldRunTimer)
+      {
+        Future.delayed(Duration(minutes: deletionTime), () async { items.remove(key); });
+      }
     }
 
     return item;

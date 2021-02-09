@@ -16,9 +16,16 @@ class CalendarData
   final DateTime start;
   final String title;
   final String type; //Vajon ebből tudja, hogy milyen eseményről van szó?
-  //TODO: Mi különbözteti meg a naptári eventeket?
   /*
-    type 1: vizsga?
+    type 0: óra
+    type 1: vizsga
+    type 2: feladatok
+    type 3: Találkozó/Egyéni
+    type 4: Feliratkozások
+    type 5: Konzultációk
+    type 6: oktató mentessítések
+    type 7: szünnapok
+    type 8: intézmény
    */
 
   CalendarData({bool isAllDay = false, String description = '', DateTime? end,

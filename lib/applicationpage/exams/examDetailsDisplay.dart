@@ -7,8 +7,8 @@ import 'package:vesta/datastorage/Lists/cache/examsCache.dart';
 import 'package:vesta/datastorage/data.dart';
 import 'package:vesta/datastorage/examData.dart';
 import 'package:vesta/datastorage/examDetails.dart';
-import 'package:vesta/datastorage/studentData.dart';
 import 'package:vesta/i18n/appTranslations.dart';
+import 'package:vesta/managers/accountManager.dart';
 import 'package:vesta/web/webServices.dart';
 import 'package:vesta/web/webdata/webDataExamSignup.dart';
 
@@ -74,10 +74,10 @@ class ExamDetailsDisplayState extends State<ExamDetailsDisplay>
 
     }),
     appBar: AppBar(title: Text(translator.translate('exam')),),
-    floatingActionButton: Container(child:FlatButton.icon(icon: Icon(widget.exam.FilterExamType == 1 ? FeatherIcons.minus : FeatherIcons.plus,), //TODO:replace icons
+    floatingActionButton: Container(child:TextButton.icon(icon: Icon(widget.exam.FilterExamType == 1 ? FeatherIcons.minus : FeatherIcons.plus,), //TODO:replace icons
       label: Container(),
       onPressed: () async {
-          var resp = await WebServices.setExamSigning(Data.school!, WebDataExamSignup(StudentData.Instance!, widget.exam.CourseID, widget.exam.ExamID));
+          var resp = await WebServices.setExamSigning(AccountManager.currentAcount.school, WebDataExamSignup(AccountManager.currentAcount, widget.exam.CourseID, widget.exam.ExamID));
           widget.exam.FilterExamType == 1 ? 0 : 1;
           await showDialog(context: context, builder: (ctx) => AlertDialog(content: Text(resp!.Message!),));
         }),height: 60, width:60, margin: EdgeInsets.only(bottom: 50, right: 10),
