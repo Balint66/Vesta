@@ -76,11 +76,12 @@ class _StudentBookDisplayState extends State<StudentBookDisplay>
         var translator = AppTranslations.of(context);
 
         return Column(children: [
-          Column(children:[
-            Container(child: Text("${translator.translate("studentbook_av")}: ${average.toStringAsFixed(2)}"), padding: EdgeInsets.fromLTRB(30, 15, 30, 7)),
-            Container(child: Text("${translator.translate("studentbook_ci")}: ${credIndex.toStringAsFixed(2)}"), padding: EdgeInsets.symmetric(horizontal:30, vertical:7)),
-            Container(child: Text("${translator.translate("studentbook_cci")}: ${ (credIndex * credPercent).toStringAsFixed(2)}"), padding: EdgeInsets.fromLTRB(30, 7, 30, 15))],
-                      mainAxisAlignment: MainAxisAlignment.center),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children:[
+            Container( padding: EdgeInsets.fromLTRB(30, 15, 30, 7),child: Text("${translator.translate("studentbook_av")}: ${average.toStringAsFixed(2)}"), ),
+            Container( padding: EdgeInsets.symmetric(horizontal:30, vertical:7),child: Text("${translator.translate("studentbook_ci")}: ${credIndex.toStringAsFixed(2)}"), ),
+            Container( padding: EdgeInsets.fromLTRB(30, 7, 30, 15),child: Text("${translator.translate("studentbook_cci")}: ${ (credIndex * credPercent).toStringAsFixed(2)}"), )], ),
           Expanded( child: ListView(children: snap.data!.expand((element) => [Card(child: ListTile(
           leading: Icon(element.Completed ? Icons.check : Icons.close, color: element.Completed ? Colors.green : Colors.red),
           title: Text(element.SubjectName), 

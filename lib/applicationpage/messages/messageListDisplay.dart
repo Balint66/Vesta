@@ -132,6 +132,7 @@ with SingleTickerProviderStateMixin
 
                 return Scaffold(
                 bottomNavigationBar: BottomAppBar (
+                  color: Theme.of(context).primaryColor,
                   child: TabBar(
                       controller: _tabController,
                       tabs: <Widget>
@@ -140,11 +141,10 @@ with SingleTickerProviderStateMixin
                         Tab(text: translator.translate('messages_read'),)
                       ]
                   ),
-                  color: Theme.of(context).primaryColor,
                 ),
                 body: RefreshExecuter(icon: Icons.message,
                             asyncCallback: messages.incrementDataIndex,
-                            child: TabBarView(children: ls, controller: _tabController,)
+                            child: TabBarView(controller: _tabController, children: ls, )
 
                   )
                 );

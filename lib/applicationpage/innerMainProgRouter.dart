@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:vesta/applicationpage/MainProgram.dart';
 import 'package:vesta/applicationpage/exams/examListDisplay.dart';
+import 'package:vesta/applicationpage/forums/forums.dart';
 import 'package:vesta/applicationpage/lessons/lessonDisplay.dart';
 import 'package:vesta/applicationpage/messages/messageListDisplay.dart';
 import 'package:vesta/applicationpage/semesters/semesterDisplayer.dart';
@@ -15,7 +16,7 @@ class MainProgRouter
 
   static final _mainProgRouter = FluroRouter();
 
-  static final List<UniqueKey> keys = List.of([UniqueKey(), UniqueKey(), UniqueKey(), UniqueKey(), UniqueKey(), UniqueKey()],growable: false);
+  static final List<UniqueKey> keys = List.of([UniqueKey(), UniqueKey(), UniqueKey(), UniqueKey(), UniqueKey(), UniqueKey(), UniqueKey()],growable: false);
 
   static void registerRoutes()
   {
@@ -28,6 +29,7 @@ class MainProgRouter
     define('/semesters', handler: _semesterInfoHandler);
     define('/subjects', handler: _subjectHandler);
     define('/exams', handler: _examsHandler);
+    define('/forums', handler: _forumHandler);
 
   }
 
@@ -48,6 +50,7 @@ class MainProgRouter
   static final SemesterDisplayer _semesterInfoDisplayer = SemesterDisplayer(key: keys[3]);
   static final SubjectDisplayer _subjectInfoDisplayer = SubjectDisplayer(key: keys[4]);
   static final ExamListDisplay _examDisplay = ExamListDisplay(key: keys[5]);
+  static final Forums _forums = Forums(key: keys[6]);
 
   static final Handler _messageHandler = Handler(handlerFunc: (BuildContext ctx, Map<String, List<String>>? query)
   {
@@ -76,6 +79,11 @@ class MainProgRouter
 
   static final Handler _examsHandler = Handler(handlerFunc: (BuildContext ctx, Map<String,dynamic> query){
     return _examDisplay;
+  }as HandlerFunc);
+
+  static final Handler _forumHandler = Handler(handlerFunc: (BuildContext ctx, Map<String, dynamic> query)
+  {
+    return _forums;
   }as HandlerFunc);
 
   static final Handler _appNestedHandler = Handler(handlerFunc: (BuildContext ctx, Map<String, dynamic> query)

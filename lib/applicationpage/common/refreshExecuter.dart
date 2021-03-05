@@ -92,19 +92,19 @@ class RefreshExecuterState extends State<RefreshExecuter> with SingleTickerProvi
           )
       ),
       Positioned(
+        bottom: _animate
+            ? animation?.value
+            : widget._place.transform(_clampedPosition),
+        left: ( MediaQuery.of(context).size.width - _size) / 2,
         child: Card(
+          shape: CircleBorder(),
           child: Container(
             width: _size,
             height: _size,
             padding: EdgeInsets.all(5),
             child: !_animate ? Center(child: Icon( widget._icon,
                 color: Theme.of(context).primaryColor,),)
-                : CircularProgressIndicator(strokeWidth: 2.5,),),
-          shape: CircleBorder(),),
-        bottom: _animate
-            ? animation?.value
-            : widget._place.transform(_clampedPosition),
-        left: ( MediaQuery.of(context).size.width - _size) / 2,
+                : CircularProgressIndicator(strokeWidth: 2.5,),),),
       )
     ]);
   }

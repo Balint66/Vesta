@@ -59,7 +59,9 @@ class SubjectDetailedDisplay extends StatelessWidget
                 {
 
                   return Container(
+                    padding: EdgeInsets.symmetric(vertical: 7.5, horizontal: 10),
                     child: Container(
+                    color: Theme.of(context).primaryColor,
                       child: ListTile(
                         title: Center(child: Text(entries[index].key)),
                         onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => CoursesDisplayer(entries[index].value,(ind)
@@ -69,8 +71,7 @@ class SubjectDetailedDisplay extends StatelessWidget
                             });
                             Navigator.pop(context);
                         }),)),
-                        subtitle: Center(child: Text("${courses[index] < 0 ? 'None' : entries[index].value[courses[index]].CourseCode}"))),
-                    color: Theme.of(context).primaryColor, ), padding: EdgeInsets.symmetric(vertical: 7.5, horizontal: 10));
+                        subtitle: Center(child: Text("${courses[index] < 0 ? 'None' : entries[index].value[courses[index]].CourseCode}"))), ), );
 
                 }));
 
@@ -78,44 +79,48 @@ class SubjectDetailedDisplay extends StatelessWidget
             StatefulBuilder(builder: ( BuildContext context, StateSetter setState)
             {
               return Container(
-                    child: Container(
-                      child: ListTile(
-                        title: Center(child: Text(data.IsOnSubject ? translator.translate('subject_leave') : translator.translate('subject_signup'))),
-                        onTap: () async
+                padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10),
+                child: Container(
+                  color: Theme.of(context).primaryColor,
+                  child: ListTile(
+                    title: Center(child: Text(data.IsOnSubject ? translator.translate('subject_leave') : translator.translate('subject_signup'))),
+                    onTap: () async
+                    {
+                      try
+                      {
+                        var signed = await WebServices.saveSubject(Data.school!, WebDataSubjectSignupRequest(StudentData.Instance!, TermID: data.TermID,
+                        SubjectID: data.SubjectId, CurriculumID: data.CurriculumTemplateID, IsOnSubject: data.IsOnSubject,
+                        SubjectSignin: !data.IsOnSubject, CurriculumTemplatelineID: data.CurriculumTemplatelineID,
+                        AllType: entries.map((e) => e.value[0].CourseType).toList(), CourseIDs: (()
                         {
-                          try
+                          var list = List<int>.generate(courses.length, (index) => 0);
+
+                          for(var i = 0; i < courses.length; i++)
                           {
-                            var signed = await WebServices.saveSubject(Data.school!, WebDataSubjectSignupRequest(StudentData.Instance!, TermID: data.TermID,
-                            SubjectID: data.SubjectId, CurriculumID: data.CurriculumTemplateID, IsOnSubject: data.IsOnSubject,
-                            SubjectSignin: !data.IsOnSubject, CurriculumTemplatelineID: data.CurriculumTemplatelineID,
-                            AllType: entries.map((e) => e.value[0].CourseType).toList(), CourseIDs: (()
-                            {
-                              var list = List<int>.generate(courses.length, (index) => 0);
+                            if(courses[i] == -1) {
+                              continue;
+                            }
 
-                              for(var i = 0; i < courses.length; i++)
-                              {
-                                if(courses[i] == -1) {
-                                  continue;
-                                }
-
-                                list[i] = entries[i].value[courses[i]].Id;
-                                
-                              }
-
-                              return list;
-                            }).call()));
-
-                            setState((){
-                              data.IsOnSubject = signed!;
-                            });
-
+                            list[i] = entries[i].value[courses[i]].Id;
+                            
                           }
-                          catch(e)
-                          {
-                            Vesta.showSnackbar(Text('$e'));
-                          }
-                        }),
-                    color: Theme.of(context).primaryColor, ), padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10));
+
+                          return list;
+                        }).call()));
+
+                        setState((){
+                          data.IsOnSubject = signed!;
+                        });
+
+                      }
+                      catch(e)
+                      {
+                        Vesta.showSnackbar(Text('$e'));
+                      }
+                    },
+                  ),
+                ),
+              );
 
             })]);
             },)

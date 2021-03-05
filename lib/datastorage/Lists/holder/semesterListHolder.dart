@@ -91,7 +91,7 @@ class SemesterListHolder extends ListDataHolder<BaseDataList<PeriodData>>
 
     }
 
-    Vesta.logger.d('Now tell me, what is the list? ${_periodtermList}');
+    Vesta.logger.d('Now tell me, what is the list? $_periodtermList');
 
     var base = WebDataSemestersRequest(StudentData.Instance!, PeriodTermID: _periodtermList[_dataIndex]['Id']);
 

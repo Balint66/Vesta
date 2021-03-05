@@ -28,7 +28,7 @@ class AboutPage extends StatelessWidget
               }
               if(snapshot.hasData)
               {
-                return Center(child: SingleChildScrollView(child:Container(child: Text(snapshot.data!.toString()), padding: EdgeInsets.all(25),)));
+                return Center(child: SingleChildScrollView(child:Container( padding: EdgeInsets.all(25),child: Text(snapshot.data!.toString()),)));
               }
               return Center(child: CircularProgressIndicator());
             }),));

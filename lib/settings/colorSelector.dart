@@ -33,17 +33,17 @@ class _ColorSelectorState extends State<ColorSelector>
       (title: Text('Colors'),
       content: Center(
           child: Wrap(
-            children: generateGrid(context, ratio, width, height),
             alignment: WrapAlignment.center,
             spacing: 10 * ratio * height/600,
             direction: Axis.vertical,
+            children: generateGrid(context, ratio, width, height),
           )
       ),
       actions:  <Widget>[
         MaterialButton(
-            child: Text('Custom'),
             onPressed: () => showDialog(context: context,
-                builder: _customColorSelector())),
+                builder: _customColorSelector()),
+            child: Text('Custom'), ),
         MaterialButton(
           onPressed: () => Navigator.pop(context),
           child: Text('Cancel'),
@@ -98,6 +98,12 @@ class _ColorSelectorState extends State<ColorSelector>
         else
         {
           children.add( InkWell(
+              onTap: ()
+              {
+                setState(() {
+                    _chosenColor = Colors.primaries[(i*sqrtt).floor() + j];
+                });
+              },
               child:Container(
                 width: 35,
                 height: 35,
@@ -106,12 +112,6 @@ class _ColorSelectorState extends State<ColorSelector>
                   color: Colors.primaries[(i*sqrtt).floor() + j],
                 ),
               ),
-              onTap: ()
-              {
-                setState(() {
-                    _chosenColor = Colors.primaries[(i*sqrtt).floor() + j];
-                });
-              },
             )
           );
         }
@@ -124,9 +124,9 @@ class _ColorSelectorState extends State<ColorSelector>
 
       list.add(
           Wrap(
-            children: rowList,
             alignment: WrapAlignment.center,
             spacing: 10 * ratio * width/800,
+            children: rowList,
           )
       );
       

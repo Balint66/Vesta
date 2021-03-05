@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:logger/logger.dart';
-import 'package:universal_io/prefer_universal/io.dart';
 import 'package:vesta/applicationpage/innerMainProgRouter.dart';
 import 'package:vesta/datastorage/local/persistentDataManager.dart';
 import 'package:vesta/datastorage/studentData.dart';

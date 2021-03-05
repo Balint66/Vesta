@@ -48,14 +48,15 @@ class _SemesterDisplayerState extends State<SemesterDisplayer>
             {
               return Center(child: CircularProgressIndicator());
             }
-            return PopupMenuButton(child: ListTile(title: Center(child: Text(shot.data!))), itemBuilder:(BuildContext cont)
+            return PopupMenuButton(itemBuilder:(BuildContext cont)
               => List.generate(data.data!.length, (index) => PopupMenuItem(value: index, child: Text(data.data![index])),),
               onSelected: (int index){
                   setState((){
                     list.setPeriodTermIndex(index);
                     list.onUpdate();
                   });
-                });
+                },
+                child: ListTile(title: Center(child: Text(shot.data!))),);
             
           });
         }

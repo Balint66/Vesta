@@ -101,7 +101,9 @@ class LoginFormState extends State<LoginForm>
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Container(child:FormField<School>(builder: (FormFieldState<School> state)
+              Container(
+              margin: EdgeInsets.symmetric(vertical: 15.0),
+                child:FormField<School>(builder: (FormFieldState<School> state)
               {
                 return FutureBuilder(
                   future: Future.delayed(Duration(seconds: 1), () async => await _post),
@@ -148,10 +150,12 @@ class LoginFormState extends State<LoginForm>
                   }
                   return null;
                 },
-              ),
-              margin: EdgeInsets.symmetric(vertical: 15.0)
+              ), 
               ),
               Container(
+                width: 300.0,
+                margin: EdgeInsets.symmetric(vertical: 5.0),
+                padding: EdgeInsets.only(right:30),
                 child:TextFormField(
                   autocorrect: false,
                   autofocus: true,
@@ -184,12 +188,12 @@ class LoginFormState extends State<LoginForm>
                     }
                     return null;
                   },
-                ),
-                width: 300.0,
-                margin: EdgeInsets.symmetric(vertical: 5.0),
-                padding: EdgeInsets.only(right:30)
+                ), 
                 ),
               Container(
+                  width: 300.0,
+                  margin: EdgeInsets.symmetric(vertical: 5.0),
+                  padding: EdgeInsets.only(right:30),
                   child: TextFormField(
                     autocorrect: false,
                     decoration: InputDecoration(
@@ -235,16 +239,13 @@ class LoginFormState extends State<LoginForm>
                       return null;
                     },
                   ),
-                  width: 300.0,
-                  margin: EdgeInsets.symmetric(vertical: 5.0),
-                  padding: EdgeInsets.only(right:30)
               ),
               Center( child:Container(
-                child:KeepMeLoggedInButton(),
-                margin: EdgeInsets.symmetric(vertical: 5.0),)),
+                margin: EdgeInsets.symmetric(vertical: 5.0),
+                child:KeepMeLoggedInButton(),)),
               Container(
-                child: _login,
                 padding: EdgeInsets.only(top: 20),
+                child: _login,
               ),
             ],
           ),

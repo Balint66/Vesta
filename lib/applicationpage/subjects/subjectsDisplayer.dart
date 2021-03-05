@@ -63,8 +63,8 @@ class _SubjectDisplayerState extends State<SubjectDisplayer>
         }
 
         return RefreshExecuter(
+          asyncCallback: MainProgram.of(context).subject.incrementDataIndex,
           child: ListView(children: ls,),
-        asyncCallback: MainProgram.of(context).subject.incrementDataIndex,
         );
 
       }

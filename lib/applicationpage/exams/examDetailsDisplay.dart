@@ -74,13 +74,16 @@ class ExamDetailsDisplayState extends State<ExamDetailsDisplay>
 
     }),
     appBar: AppBar(title: Text(translator.translate('exam')),),
-    floatingActionButton: Container(child:FlatButton.icon(icon: Icon(widget.exam.FilterExamType == 1 ? FeatherIcons.minus : FeatherIcons.plus,), //TODO:replace icons
-      label: Container(),
-      onPressed: () async {
-          var resp = await WebServices.setExamSigning(Data.school!, WebDataExamSignup(StudentData.Instance!, widget.exam.CourseID, widget.exam.ExamID));
-          widget.exam.FilterExamType == 1 ? 0 : 1;
-          await showDialog(context: context, builder: (ctx) => AlertDialog(content: Text(resp!.Message!),));
-        }),height: 60, width:60, margin: EdgeInsets.only(bottom: 50, right: 10),
+    floatingActionButton: Container(
+      height: 60, width:60, margin: EdgeInsets.only(bottom: 50, right: 10),
+      child:TextButton.icon(icon: Icon(widget.exam.FilterExamType == 1 ? FeatherIcons.minus : FeatherIcons.plus,), //TODO:replace icons
+        label: Container(),
+        onPressed: () async {
+            var resp = await WebServices.setExamSigning(Data.school!, WebDataExamSignup(StudentData.Instance!, widget.exam.CourseID, widget.exam.ExamID));
+            widget.exam.FilterExamType == 1 ? 0 : 1;
+            await showDialog(context: context, builder: (ctx) => AlertDialog(content: Text(resp!.Message!),));
+          }
+        ),
     ),);  
   }
   

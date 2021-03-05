@@ -14,19 +14,19 @@ class ClickableCard extends StatelessWidget
   Widget build(BuildContext context)
   {
     return Card(
+      elevation: 3,
+      color: Theme.of(context).primaryColor,
     child:Container(
-      child: Card(
-          child: _child,
-            elevation: 0,
-            margin: EdgeInsets.fromLTRB(0, 0, 0, 6)
-          ),
         decoration: BoxDecoration(
           gradient: LinearGradient(colors: [Theme.of(context).primaryColor.withOpacity(0), Theme.of(context).primaryColor.withOpacity(0), _secondaryColor ?? (Theme.of(context).primaryColor) ]),
           borderRadius: BorderRadius.circular(5)
         ),
+      child: Card(
+            elevation: 0,
+            margin: EdgeInsets.fromLTRB(0, 0, 0, 6),
+            child: _child,
+          ),
       ),
-      elevation: 3,
-      color: Theme.of(context).primaryColor,
     ); 
   }
 

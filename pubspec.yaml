@@ -52,7 +52,10 @@ dependencies:
       url: https://github.com/flutter/plugins
       path: packages/path_provider/path_provider
       version: ^1.6.5
-  flutter_svg: ^0.19.2
+  #flutter_svg:
+  #  git:
+  #    url: https://github.com/dnfield/flutter_svg
+  #    ref: v19
   flutter_widget_from_html_core:
     git:
       url: https://github.com/daohoangson/flutter_widget_from_html
@@ -61,12 +64,7 @@ dependencies:
   dio_cookie_manager: ^1.0.0
   flutter_duration_picker:
     git:
-      url: https://github.com/cdharris/flutter_duration_picker.git
-  universal_io:
-    git:
-      url: https://github.com/dint-dev/universal_io
-      version: ^1.0.0
-      path: packages/universal_io
+      url: https://github.com/bartektartanus/flutter_duration_picker.git
   universal_html: 
     version: ^1.0.0
   flutter_feather_icons: ^1.0.3
@@ -74,6 +72,14 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+
+dependency_overrides:
+  html: ^0.15.0
+  universal_io:
+    git:
+      url: https://github.com/dint-dev/universal_io
+      version: ^1.0.0
+  csslib: ^0.17.0
 
 dev_dependencies:
   pedantic: ^1.9.0

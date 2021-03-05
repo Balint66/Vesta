@@ -35,7 +35,7 @@ class AuthorizationState extends State<Authorization>
       Data.school = null;
     }
 
-    print(StudentData.Instance);
+    //print(StudentData.Instance);
 
     if(StudentData.Instance != null){
       if(StudentData.Instance!.username != null ||
@@ -65,7 +65,7 @@ class AuthorizationState extends State<Authorization>
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Color.fromARGB(0,0,0,0),
-        elevation: 0, actions: [FlatButton.icon(icon: Icon(Icons.settings), 
+        elevation: 0, actions: [TextButton.icon(icon: Icon(Icons.settings), 
         onPressed: ()=>Navigator.of(context).pushNamed('/settings/main'), label:Container())],), //Custom top for settings buton
     );
 

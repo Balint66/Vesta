@@ -71,7 +71,7 @@ class UISettingsState extends State<UISettings>
             }),
           PopupMenuButton(itemBuilder: (context) 
             {
-              return application.supportedLanguages.map((e) => PopupMenuItem<int>(child: Text(e), value: application.supportedLanguages.indexOf(e),)).toList();
+              return application.supportedLanguages.map((e) => PopupMenuItem<int>( value: application.supportedLanguages.indexOf(e),child: Text(e),), ).toList();
             },
             padding: const EdgeInsets.all(0),
             onSelected: (int value)
@@ -103,14 +103,14 @@ class UISettingsState extends State<UISettings>
               }
 
             },
+            tooltip: translator.translate('settings_lang_tooltip'),
             child: ListTile(title: Text("${translator.translate("settings_lang")} ${application.supportedLanguages[application.supportedLanguagesCodes.indexOf(
               application.appDelegate.newLocale == null ? Localizations.localeOf(context).languageCode : application.appDelegate.newLocale!.languageCode
               )]}"),
             ),
-            tooltip: translator.translate('settings_lang_tooltip'),
           ),
           PopupMenuButton(itemBuilder: (context){
-            return [PopupMenuItem<int>(child: Text('Magyar'), value: 0), PopupMenuItem<int>(child: Text('English (US)'), value: 1), PopupMenuItem<int>(child: Text('Deutsch'), value: 2)];
+            return [PopupMenuItem<int>( value: 0,child: Text('Magyar'), ), PopupMenuItem<int>( value: 1,child: Text('English (US)'), ), PopupMenuItem<int>( value: 2,child: Text('Deutsch'), )];
           },
           enabled: !data.syncLangWithNeptun,
           onSelected: (int value)
