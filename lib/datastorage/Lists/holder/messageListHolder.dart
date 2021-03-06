@@ -21,7 +21,7 @@ class MessageListHolder extends ListDataHolder<BaseDataList<Message>>
   var resp = await WebServices
       .getMessages(AccountManager.currentAcount.school, body);
 
-  ListDataHolder._updateItemCount(resp, this);
+  ListDataHolder._updateItemCount(resp.base, this);
 
   return resp.MessagesList;
   }

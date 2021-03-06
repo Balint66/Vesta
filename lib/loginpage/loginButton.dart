@@ -1,6 +1,3 @@
-
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:vesta/datastorage/data.dart';
@@ -25,83 +22,54 @@ class LoginButton extends StatefulWidget
 class LoginBtnState extends State<LoginButton>
 {
 
-
   bool _loggingIn=false;
 
   @override
   Widget build(BuildContext context)
   {
 
-    return Stack(children: <Widget>[
-      button(context),
-      loading(),
-    ],);
-
-  }
-
-  Future<void> startLogin(BuildContext context) async
-  {
-
-    setState(() {
-      _loggingIn = true;
-    });
-
-    try
+    if(!_loggingIn)
     {
-
-      var res = await WebServices.login(Data.username, Data.password, Data.school,
-          Vesta.of(context).settings.stayLogged);
-
-      setState(() {
-        _loggingIn = false;
-      });
-
-      if(res)
-      {
-
-        if(VestaRouter.mainKey.currentContext != null)
-        {
-          (VestaRouter.mainKey.currentState)?.refreshListHolders();
-        }
-
-        await Navigator.pushReplacementNamed(context, '/app/home');
-        return;
-      }
-
-
-      Vesta.showSnackbar(Text(AppTranslations.of(context).translate('login_login_error')));
-
-    }
-    catch(e)
-    {
-      setState(() {
-        _loggingIn = false;
-      });
-      Vesta.logger.e(e);
-    }
-
-  }
-
-  Widget loading()
-  {
-    if(_loggingIn) {
-      return CircularProgressIndicator();
-    }
-    return Container(width: 0.0,height: 0.0,);
-  }
-
-  Widget button(BuildContext context)
-  {
-    if(!_loggingIn) {
       return MaterialButton(onPressed: LoginForm.of(context).ableToLogin
-            ? () => startLogin(context) : null,
+            ? () => setState(() {
+                      _loggingIn = true;
+                    }) : null,
           color: Theme.of(context).primaryColor,
           minWidth: 150.0,
           shape: RoundedRectangleBorder(side: BorderSide(color: Theme.of(context).primaryColor, width:2.0), borderRadius: BorderRadius.circular(20.0)),
           child: Text(AppTranslations.of(context).translate('login_login_button'), maxLines: 1,),
       );
     }
-    return Container(width: 0.0,height: 0.0,);
+    else
+    {
+      return FutureBuilder(future: WebServices.login(Data.username, Data.password, Data.school,
+          Vesta.of(context).settings.stayLogged), builder: (BuildContext context, AsyncSnapshot snapshot)
+          {
+            if(!snapshot.hasData && !snapshot.hasError)
+            {
+              return CircularProgressIndicator();
+            }
+            if(snapshot.hasError)
+            {
+              Vesta.showSnackbar(Text(AppTranslations.of(context).translate('login_login_error')));
+              Vesta.logger.e(snapshot.error);
+            }
+
+            setState(() {
+                _loggingIn = false;
+              });
+
+            if(VestaRouter.mainKey.currentContext != null)
+            {
+              (VestaRouter.mainKey.currentState)?.refreshListHolders();
+            }
+
+            Navigator.pushReplacementNamed(context, '/app/home');
+            return Container(width: 0.0,height: 0.0,);
+
+          },);
+    }
+
   }
 
 

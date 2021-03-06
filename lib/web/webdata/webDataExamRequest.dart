@@ -1,9 +1,14 @@
 import 'package:vesta/datastorage/acountData.dart';
 import 'package:vesta/utils/DateUtil.dart';
 import 'package:vesta/web/webdata/webDataBase.dart';
+import 'package:vesta/web/webdata/webDataContainer.dart';
 
-class WebDataExamRequest extends WebDataBase
+class WebDataExamRequest extends WebDataContainer
 {
+
+  @override
+  final WebDataBase base;
+
   final int ExamType;
   final int Term;
   final int SubjectID;
@@ -14,9 +19,9 @@ class WebDataExamRequest extends WebDataBase
   final String? SubjectCode;
   final String? CourseCode;
   final String? KurzusOktato;
-  WebDataExamRequest.studentSimplified(AccountData data, {this.ExamType = 0, this.Term = 0, this.SubjectID = 0, DateTime? ExamStart, this.ExamTypeSpinner = 0,
+  WebDataExamRequest.studentSimplified(this.base, {this.ExamType = 0, this.Term = 0, this.SubjectID = 0, DateTime? ExamStart, this.ExamTypeSpinner = 0,
     this.IsFromSearch = true, this.SubjectName, this.SubjectCode, this.CourseCode, this.KurzusOktato}) 
-    : ExamStart = ExamStart ?? DateTime.fromMillisecondsSinceEpoch(-62135596800000, isUtc: true), super.studentSimplified(data);
+    : ExamStart = ExamStart ?? DateTime.fromMillisecondsSinceEpoch(-62135596800000, isUtc: true);
 
     @override
       Map<String, dynamic> toJsonMap() {
@@ -35,7 +40,7 @@ class WebDataExamRequest extends WebDataBase
             'KurzusOktato': KurzusOktato,
           }
         };
-        map.addAll(super.toJsonMap());
+        map.addAll(base.toJsonMap());
         return map;
       }
 

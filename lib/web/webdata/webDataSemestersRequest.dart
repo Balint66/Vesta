@@ -1,12 +1,16 @@
 import 'package:vesta/datastorage/acountData.dart';
 import 'package:vesta/web/webdata/webDataBase.dart';
+import 'package:vesta/web/webdata/webDataContainer.dart';
 
-class WebDataSemestersRequest extends WebDataBase
+class WebDataSemestersRequest extends WebDataContainer
 {
+
+  @override
+  final WebDataBase base;
 
   final int PeriodTermID;
 
-  WebDataSemestersRequest(AccountData data, {int PeriodTermID = 0}) : PeriodTermID = PeriodTermID, super.studentSimplified(data);
+  WebDataSemestersRequest(this.base, {int PeriodTermID = 0}) : PeriodTermID = PeriodTermID;
 
   @override
   Map<String, dynamic> toJsonMap()
@@ -16,7 +20,7 @@ class WebDataSemestersRequest extends WebDataBase
       'PeriodTermID': PeriodTermID
     };
 
-    data.addAll(super.toJsonMap());
+    data.addAll(base.toJsonMap());
 
     return data;
 

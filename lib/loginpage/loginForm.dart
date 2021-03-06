@@ -52,29 +52,32 @@ class LoginFormState extends State<LoginForm>
   final TextEditingController _password = TextEditingController();
   final LoginButton _login = LoginButton();
 
+  String get userName => _userName.value.text;
+  String get password => _password.value.text;
+
   bool _validSchool = false;
   bool _validUsername = false;
   bool _validPassword = false;
 
-  bool _ableToLogin = false;
+  //bool _ableToLogin = false;
 
-  bool get ableToLogin => _ableToLogin;
+  bool get ableToLogin => _validPassword && _validSchool && _validUsername;
 
   bool _obscure = true;
 
-  set ableToLogin(bool value)
+  /*set ableToLogin(bool value)
   {
     setState(() {
       _ableToLogin = value;
     });
-  }
+  }*/
 
   @override
   void initState()
   {
     super.initState();
 
-    Timer.periodic(Duration(seconds: 1), (Timer timer)
+    /*Timer.periodic(Duration(seconds: 1), (Timer timer)
     {
       if(_validPassword&&_validUsername&&_validSchool&&!ableToLogin) {
         ableToLogin = true;
@@ -82,7 +85,7 @@ class LoginFormState extends State<LoginForm>
       else if(!(_validSchool&&_validUsername&&_validPassword)&&ableToLogin) {
         ableToLogin = false;
       }
-    });
+    });*/
 
   }
 
@@ -168,10 +171,6 @@ class LoginFormState extends State<LoginForm>
                   maxLines: 1,
                   controller: _userName,
                   textCapitalization: TextCapitalization.characters,
-                  onChanged: (str)
-                  {
-                    Data.username = _userName.text.toUpperCase();
-                  },
                   validator: (String? value)
                   {
                     if((value?.isEmpty ?? true )
@@ -220,10 +219,6 @@ class LoginFormState extends State<LoginForm>
                     obscureText: _obscure,
                     maxLines: 1,
                     controller: _password,
-                    onChanged: (str)
-                    {
-                      Data.password = _password.text;
-                    },
                     validator: (String? value)
                     {
                       if(value?.isEmpty ?? true)

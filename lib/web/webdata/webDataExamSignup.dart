@@ -1,8 +1,12 @@
 import 'package:vesta/datastorage/acountData.dart';
 import 'package:vesta/web/webdata/webDataBase.dart';
+import 'package:vesta/web/webdata/webDataContainer.dart';
 
-class WebDataExamSignup extends WebDataBase
+class WebDataExamSignup extends WebDataContainer
 {
+
+  @override
+  final WebDataBase base;
 
   final String ExamIdentifier;
   final int CourseID;
@@ -11,8 +15,8 @@ class WebDataExamSignup extends WebDataBase
   final int? SubjectID;
   final int ExamType;
 
-  WebDataExamSignup(AccountData data, this.CourseID, this.ExamID,
-  {this.ExamIdentifier = '', this.TermID = 0, this.SubjectID, this.ExamType = 0}) : super.studentSimplified(data);
+  WebDataExamSignup(this.base, this.CourseID, this.ExamID,
+  {this.ExamIdentifier = '', this.TermID = 0, this.SubjectID, this.ExamType = 0});
 
   @override
     Map<String, dynamic> toJsonMap() {
@@ -27,7 +31,7 @@ class WebDataExamSignup extends WebDataBase
           'ExamType': ExamType
         }
       };
-      ls.addAll(super.toJsonMap());
+      ls.addAll(base.toJsonMap());
       return ls;
     }
   

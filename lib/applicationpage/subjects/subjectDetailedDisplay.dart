@@ -88,36 +88,12 @@ class SubjectDetailedDisplay extends StatelessWidget
                     {
                       try
                       {
-                        var signed = await WebServices.saveSubject(Data.school!, WebDataSubjectSignupRequest(StudentData.Instance!, TermID: data.TermID,
+                        var signed = await WebServices.saveSubject(Data.school!, WebDataSubjectSignupRequest(StudentData.Instance, TermID: data.TermID,
                         SubjectID: data.SubjectId, CurriculumID: data.CurriculumTemplateID, IsOnSubject: data.IsOnSubject,
                         SubjectSignin: !data.IsOnSubject, CurriculumTemplatelineID: data.CurriculumTemplatelineID,
                         AllType: entries.map((e) => e.value[0].CourseType).toList(), CourseIDs: (()
                         {
-<<<<<<< HEAD
                           var list = List<int>.generate(courses.length, (index) => 0);
-=======
-                          try
-                          {
-                            var signed = await WebServices.saveSubject(AccountManager.currentAcount.school, WebDataSubjectSignupRequest(AccountManager.currentAcount, TermID: data.TermID,
-                            SubjectID: data.SubjectId, CurriculumID: data.CurriculumTemplateID, IsOnSubject: data.IsOnSubject,
-                            SubjectSignin: !data.IsOnSubject, CurriculumTemplatelineID: data.CurriculumTemplatelineID,
-                            AllType: entries.map((e) => e.value[0].CourseType).toList(), CourseIDs: (()
-                            {
-                              var list = List<int>.generate(courses.length, (index) => 0);
-
-                              for(var i = 0; i < courses.length; i++)
-                              {
-                                if(courses[i] == -1) {
-                                  continue;
-                                }
-
-                                list[i] = entries[i].value[courses[i]].Id;
-                                
-                              }
-
-                              return list;
-                            }).call()));
->>>>>>> 009b6fd... Basic account management and bugfixes
 
                           for(var i = 0; i < courses.length; i++)
                           {

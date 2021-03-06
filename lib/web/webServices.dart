@@ -14,6 +14,7 @@ import 'package:vesta/utils/PlatformHelper.dart';
 import 'package:vesta/web/webdata/webDataBase.dart';
 import 'package:vesta/web/webdata/webDataCalendarRequest.dart';
 import 'package:vesta/web/webdata/webDataCalendarResponse.dart';
+import 'package:vesta/web/webdata/webDataContainer.dart';
 import 'package:vesta/web/webdata/webDataCourseRequest.dart';
 import 'package:vesta/web/webdata/webDataCourseResponse.dart';
 import 'package:vesta/web/webdata/webDataExamDetailsRequest.dart';
@@ -33,7 +34,7 @@ import 'package:vesta/web/webdata/webDataSubjectRequest.dart';
 import 'package:vesta/web/webdata/webDataSubjectResponse.dart';
 import 'package:vesta/web/webdata/webDataSubjectSignup.dart';
 
-typedef _ServicesCallback = Future<Object?> Function(School school, WebDataBase request);
+typedef _ServicesCallback = Future<Object?> Function(School school, WebDataContainer request);
 typedef _VoidFutureCallback = Future<void> Function();
 
 abstract class WebServices
@@ -213,7 +214,7 @@ abstract class WebServices
     _loop.then((value) => null);
   }
 
-  static Future<T?> _callFunction<T>(_ServicesCallback callback, School school , WebDataBase request) async
+  static Future<T?> _callFunction<T>(_ServicesCallback callback, School school , WebDataContainer request) async
   {
 
     try{
@@ -305,7 +306,7 @@ abstract class WebServices
 
   }
 
-  static Future<bool> login(String? userName, String? password, School? school, bool keepLoggedIn) async
+  static Future<SimpleConatiner?> login(String? userName, String? password, School? school, bool keepLoggedIn) async
   {
     try{
 
@@ -319,22 +320,22 @@ abstract class WebServices
       throw 'Please type in a valid password!';
     }
 
-    var login = WebDataLogin.simplifiedOnly(userName, password);
+    var login = WebDataLogin(userName, password);
 
     var resp = await client.post(school.Url! + '/GetTrainings',
         data: login.toJson());
 
-    Map<String, dynamic> respBody = resp.data;
+    var respBody = SimpleConatiner.fromJson(resp.data);
 
-    _testResponse(respBody);
+    _testResponse(resp.data);
 
-    if(respBody['TrainingList']==null) {
+    if(resp.data['TrainingList']==null) {
       throw "There isn't any associated training for this student";
     }
 
 
     AccountManager.addNeptunUser(userName, password, school,
-      TrainingData.listFromJsonString(json.encode(respBody['TrainingList'])));
+      TrainingData.listFromJsonString(json.encode(resp.data['TrainingList'])));
 
 
     try
@@ -351,7 +352,7 @@ abstract class WebServices
       Vesta.logger.e(e);
     }
 
-    return true;
+    return respBody;
 
     }
     catch(e)
@@ -360,18 +361,18 @@ abstract class WebServices
       Vesta.showSnackbar(Text('$e'));
     }
     
-    return false;
+    return null;
 
   }
 
-  static Future<WebDataMessages> getMessages(School school, WebDataBase body) async
+  static Future<WebDataMessages> getMessages(School school, WebDataContainer body) async
   {
 
     return await _callFunction(_getMessages, school, body);
 
   }
 
-  static Future<WebDataMessages?> _getMessages(School school, WebDataBase body) async
+  static Future<WebDataMessages?> _getMessages(School school, WebDataContainer body) async
   {
     var resp = await client.post(school.Url! + '/GetMessages',
         data: body.toJson());
@@ -399,7 +400,7 @@ abstract class WebServices
 
   }
 
-  static Future<bool> _setRead(School school, WebDataBase body) async
+  static Future<bool> _setRead(School school, WebDataContainer body) async
   {
 
     try{
@@ -433,7 +434,7 @@ abstract class WebServices
   }
 
   static Future<WebDataCalendarResponse?> _getCalendarData
-      (School school, WebDataBase body) async
+      (School school, WebDataContainer body) async
   {
     try
     {
@@ -520,12 +521,12 @@ abstract class WebServices
 
   }
 
-  static Future<WebDataStudentBook?> getStudentBookData(School school, WebDataBase body) async 
+  static Future<WebDataStudentBook?> getStudentBookData(School school, WebDataContainer body) async 
   {
     return await _callFunction<WebDataStudentBook>(_getStudentBookData, school, body);
   }
 
-  static Future<WebDataStudentBook?> _getStudentBookData(School school, WebDataBase body) async
+  static Future<WebDataStudentBook?> _getStudentBookData(School school, WebDataContainer body) async
   {
 
     var jBody = <String, dynamic>
@@ -560,7 +561,7 @@ abstract class WebServices
     return await _callFunction<WebDataSemesters>(_getSemestersData, school, body);
   }
 
-  static Future<WebDataSemesters?> _getSemestersData(School school, WebDataBase body) async 
+  static Future<WebDataSemesters?> _getSemestersData(School school, WebDataContainer body) async 
   {
 
     try{
@@ -599,12 +600,12 @@ abstract class WebServices
     }
   }
 
-  static Future<List<Map<String, dynamic>>> getPeriodTerms(School school, WebDataBase body) async
+  static Future<List<Map<String, dynamic>>> getPeriodTerms(School school, WebDataContainer body) async
   {
     return await _callFunction(_getPeriodTerms, school, body);
   }
 
-  static Future<List<Map<String, dynamic>>> _getPeriodTerms(School school, WebDataBase body) async
+  static Future<List<Map<String, dynamic>>> _getPeriodTerms(School school, WebDataContainer body) async
   {
 
     try
@@ -628,7 +629,7 @@ abstract class WebServices
     return await _callFunction<WebDataSubjectResponse>(_getSubjects, school, body);
   }
 
-  static Future<WebDataSubjectResponse?> _getSubjects(School school, WebDataBase body) async
+  static Future<WebDataSubjectResponse?> _getSubjects(School school, WebDataContainer body) async
   {
 
     try{
@@ -682,7 +683,7 @@ abstract class WebServices
     
     
     
-  static Future<WebDataCourseResponse?> _getCourses(School school, WebDataBase body) async
+  static Future<WebDataCourseResponse?> _getCourses(School school, WebDataContainer body) async
   {
     try{
 
@@ -713,7 +714,7 @@ abstract class WebServices
     
     
     
-  static Future<bool?> _saveSubject(School school, WebDataBase body) async
+  static Future<bool?> _saveSubject(School school, WebDataContainer body) async
   {
     try{
 
@@ -744,7 +745,7 @@ abstract class WebServices
     return _callFunction<WebDataExamResponse>(_getExams, school, body);
   }
 
-  static Future<WebDataExamResponse?> _getExams(School school, WebDataBase body) async
+  static Future<WebDataExamResponse?> _getExams(School school, WebDataContainer body) async
   {
     try{
 
@@ -772,7 +773,7 @@ abstract class WebServices
     return _callFunction<WebDataExamDetailsResponse>(_getExamDetails, school, body);
   }
 
-  static Future<WebDataExamDetailsResponse?> _getExamDetails(School school, WebDataBase body) async 
+  static Future<WebDataExamDetailsResponse?> _getExamDetails(School school, WebDataContainer body) async 
   {
     try{
 
@@ -800,7 +801,7 @@ abstract class WebServices
     return _callFunction<WebDataExamSignupResponse?>(_SetExamSigning, school, body);
   }
 
-  static Future<WebDataExamSignupResponse?> _SetExamSigning(School school, WebDataBase body) async
+  static Future<WebDataExamSignupResponse?> _SetExamSigning(School school, WebDataContainer body) async
   {
     
 

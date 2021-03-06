@@ -9,7 +9,7 @@ import 'package:vesta/applicationpage/common/refreshExecuter.dart';
 import 'package:vesta/applicationpage/lessons/lessonDetailedDisplay.dart';
 import 'package:vesta/datastorage/Lists/basedataList.dart';
 import 'package:vesta/datastorage/calendarData.dart';
-import 'package:vesta/web/webdata/bgFetchSateFullWidget.dart';
+import 'package:vesta/web/bgFetchSateFullWidget.dart';
 
 class LessonDisplayer extends BgFetchSateFullWidget
 {
@@ -138,14 +138,14 @@ static final PopupOptionData data = PopupOptionData(
       itemCount: response.length,
       itemBuilder: (BuildContext ctx, int index)
       {
-        return ClickableCard(child: ListTile(
+        return ClickableCard(
+          secondColor: response[index].eventColor,child: ListTile(
           title: Text( response[index].title),
             onTap: ()=> MainProgram.of(context).parentNavigator.push(MaterialPageRoute(
             builder: (BuildContext context){
           return LessonDetailedDisplay(response[index]);
           })),
           ),
-          secondColor: response[index].eventColor,
         );
       }
     );

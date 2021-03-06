@@ -12,7 +12,7 @@ import 'package:vesta/datastorage/message.dart';
 import 'package:vesta/i18n/appTranslations.dart';
 import 'package:vesta/managers/accountManager.dart';
 import 'package:vesta/web/webServices.dart';
-import 'package:vesta/web/webdata/bgFetchSateFullWidget.dart';
+import 'package:vesta/web/bgFetchSateFullWidget.dart';
 import 'package:vesta/web/webdata/webDataMessageRead.dart';
 
 class MessageListDisplay extends BgFetchSateFullWidget

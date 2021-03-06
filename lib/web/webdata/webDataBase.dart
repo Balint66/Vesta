@@ -1,18 +1,10 @@
 import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 import 'package:vesta/datastorage/acountData.dart';
+import 'package:vesta/datastorage/studentData.dart';
+import 'package:vesta/web/webdata/iWebData.dart';
 
-Map<T,V> remove<T,V>(Map<T,V> orig, Object key)
-{
-
-orig.remove(key);
-
-return orig;
-
-}
-
-class WebDataBase
+class WebDataBase extends IWebData
 {
   // ignore: non_constant_identifier_names
   final int TotalRowCount;
@@ -21,9 +13,9 @@ class WebDataBase
   // ignore: non_constant_identifier_names
   final String? ErrorMessage;
   // ignore: non_constant_identifier_names
-  final String? UserLogin;
+  final String UserLogin;
   // ignore: non_constant_identifier_names
-  final String? Password;
+  final String Password;
   // ignore: non_constant_identifier_names
   final String? Neptuncode;
   // ignore: non_constant_identifier_names
@@ -32,19 +24,15 @@ class WebDataBase
   final String? StudentTrainingID;
   // ignore: non_constant_identifier_names
   final int LCID;
-  // ignore: non_constant_identifier_names
-  final String MobileVersion;
-  // ignore: non_constant_identifier_names
-  final String MobileServiceVersion;
 
-  WebDataBase(this.TotalRowCount, this.ExceptionsEnum, this.ErrorMessage,
-      this.UserLogin, this.Password, this.Neptuncode, this.CurrentPage,
-      this.StudentTrainingID, this.LCID, this.MobileVersion,
-      this.MobileServiceVersion);
+  WebDataBase(this.UserLogin, this.Password, this.Neptuncode,
+      this.StudentTrainingID,
+      {this.TotalRowCount = -1, this.ExceptionsEnum = 0, this.ErrorMessage,
+      this.CurrentPage = 0, int? LCID}) : LCID = (LCID ?? 1038) ;
 
   // ignore: non_constant_identifier_names
-  WebDataBase.simplified(String? User, String? Password, String? NeptunCode, String? TrainingId, {int currentPage = 0, int LCID = 1038})
-      : this(-1, 0, null, User, Password, NeptunCode, currentPage, TrainingId, LCID, '1.5.2',0.toString());
+  WebDataBase.simplified(String User, String Password, String? NeptunCode, String? TrainingData, {int currentPage = 0, int? LCID})
+      : this(User, Password, NeptunCode, TrainingData, CurrentPage: currentPage, LCID: LCID);
 
   WebDataBase.studentSimplified(AccountData data, {int currentPage = 0, int LCID = 1038}) : this.simplified(data.username,
       data.password, data.username, data.training.id.toString(), currentPage: currentPage, LCID: LCID);
@@ -52,12 +40,7 @@ class WebDataBase
   WebDataBase.loginSimplified(AccountData data, {int currentPage = 0, int LCID = 1038}) 
   : this.simplified(data.username, data.password, null, null, currentPage: currentPage, LCID: LCID);
 
-  String toJson()
-  {
-    return json.encode(toJsonMap());
-  }
-
-  @mustCallSuper
+  @override
   Map<String, dynamic> toJsonMap()
   {
     return  <String,dynamic>
@@ -71,8 +54,8 @@ class WebDataBase
       'CurrentPage' : CurrentPage,
       'StudentTrainingID' : StudentTrainingID,
       'LCID' : LCID,
-      'MobileVersion' : MobileVersion,
-      'MobileServiceVersion' : MobileServiceVersion
+      'MobileVersion' : '1.5.2',
+      'MobileServiceVersion' : '0'
     };
   }
 
@@ -82,8 +65,9 @@ class WebDataBase
   }
 
   WebDataBase.fromJson(Map<String, dynamic> json)
-  : this(json['TotalRowCount'], json['ExceptionsEnum'], json['ErrorMessage'],
-        json['UserLogin'], json['Password'], json['Neptuncode'], json['CurrentPage'],
-        json['StudentTrainingID'].toString(), json['LCID'], json['MobileVersion'].toString(), json['MobileServiceVersion'].toString());
+  : this(json['UserLogin'], json['Password'], json['Neptuncode'],
+        json['StudentTrainingID'].toString(), LCID: json['LCID'],
+        CurrentPage: json['CurrentPage'], TotalRowCount: json['TotalRowCount'],
+        ExceptionsEnum: json['ExceptionsEnum'], ErrorMessage: json['ErrorMessage'],);
 
 }

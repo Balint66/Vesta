@@ -23,7 +23,7 @@ class CalendarListHolder extends ListDataHolder<BaseDataList<CalendarData>>
     var resp = await WebServices.getCalendarData(AccountManager.currentAcount.school,
         body);
 
-    ListDataHolder._updateItemCount(resp!, this);
+    ListDataHolder._updateItemCount(resp!.base, this);
 
     return resp.calendarData;  
   }

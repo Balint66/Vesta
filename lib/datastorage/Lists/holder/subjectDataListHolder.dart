@@ -14,7 +14,7 @@ class SubjectDataListHolder extends ListDataHolder<BaseDataList<SubjectData>>
 
     var resp = await WebServices.getSubjects(AccountManager.currentAcount.school, base);
 
-    ListDataHolder._updateItemCount(resp!, this);
+    ListDataHolder._updateItemCount(resp!.base, this);
 
     return resp.list;
   }

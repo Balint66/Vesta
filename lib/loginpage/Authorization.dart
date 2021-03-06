@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:vesta/datastorage/data.dart';
 import 'package:vesta/loginpage/loginForm.dart';
 
 class Authorization extends StatefulWidget
@@ -27,12 +26,6 @@ class AuthorizationState extends State<Authorization>
 
   void clearData()
   {
-    if (((Data.password?.isNotEmpty ?? false) || (Data.username?.isNotEmpty ?? false)) ||
-          Data.school != null) {
-      Data.password = '';
-      Data.username = '';
-      Data.school = null;
-    }
 
   }
 

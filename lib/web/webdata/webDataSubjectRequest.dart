@@ -1,8 +1,12 @@
 import 'package:vesta/datastorage/acountData.dart';
 import 'package:vesta/web/webdata/webDataBase.dart';
+import 'package:vesta/web/webdata/webDataContainer.dart';
 
-class WebDataSubjectRequest extends WebDataBase
+class WebDataSubjectRequest extends WebDataContainer
 {
+
+  @override
+  final WebDataBase base;
 
   final String? CurriculumID;
   final int SubjectType;
@@ -12,12 +16,10 @@ class WebDataSubjectRequest extends WebDataBase
   final String? CourseTutor;
   final String? CourseCode;
 
-  WebDataSubjectRequest(AccountData data, {String? CurriculumID, int SubjectType = 0, int TermID = 0,
+  WebDataSubjectRequest(this.base, {String? CurriculumID, int SubjectType = 0, int TermID = 0,
   String? SubjectName, String? SubjectCode, String? CourseTutor, String? CourseCode, int CurrentPage = 0})
     : CurriculumID = CurriculumID, SubjectType = SubjectType, TermID = TermID, 
-    SubjectName = SubjectName, SubjectCode = SubjectCode, CourseCode = CourseCode, CourseTutor = CourseTutor,
-    super.simplified(data.username,
-      data.password, data.username, data.training.id.toString(), currentPage: CurrentPage, LCID: data.LCID);
+    SubjectName = SubjectName, SubjectCode = SubjectCode, CourseCode = CourseCode, CourseTutor = CourseTutor;
 
     @override
   Map<String, dynamic> toJsonMap() 
@@ -34,7 +36,7 @@ class WebDataSubjectRequest extends WebDataBase
         'CourseCode' : CourseCode
       }
     };
-    json.addAll(super.toJsonMap());
+    json.addAll(base.toJsonMap());
     return json;
   }
 

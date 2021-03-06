@@ -1,9 +1,13 @@
 import 'package:vesta/datastorage/acountData.dart';
 import 'package:vesta/utils/DateUtil.dart';
 import 'package:vesta/web/webdata/webDataBase.dart';
+import 'package:vesta/web/webdata/webDataContainer.dart';
 
-class WebDataCalendarRequest extends WebDataBase
+class WebDataCalendarRequest extends WebDataContainer
 {
+
+  @override
+  final WebDataBase base;
 
   final bool needAllDayLong;
   final bool Time; // ignore: non_constant_identifier_names
@@ -16,7 +20,7 @@ class WebDataCalendarRequest extends WebDataBase
   final DateTime endDate;
   final int entityLimit;
 
-  WebDataCalendarRequest(AccountData data, {bool needAllDayLong = false ,bool time = true, bool exam = true, bool task = true,
+  WebDataCalendarRequest(this.base, {bool needAllDayLong = false ,bool time = true, bool exam = true, bool task = true,
           bool appointment = true, bool registerList = true, bool consulation = true,
           DateTime? starDate, DateTime? endDate, int entityLimit = 0})
       : Time = time, Exam = exam, Task = task,
@@ -24,8 +28,7 @@ class WebDataCalendarRequest extends WebDataBase
         RegisterList = registerList, Consulation = consulation,
         startDate = starDate ?? DateTime.now(),
         endDate = endDate ?? DateTime.now().add(Duration(days: 7)),
-        entityLimit = entityLimit,
-        super.studentSimplified(data);
+        entityLimit = entityLimit;
 
 
   @override
@@ -44,7 +47,7 @@ class WebDataCalendarRequest extends WebDataBase
           + DateUtil.epochFlooredToDays(endDate).toString() + ')\/',
       'entityLimit': entityLimit
     };
-    map.addAll(super.toJsonMap());
+    map.addAll(base.toJsonMap());
     return map;
   }
 

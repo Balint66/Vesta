@@ -1,18 +1,22 @@
 import 'package:vesta/datastorage/acountData.dart';
 import 'package:vesta/web/webdata/webDataBase.dart';
+import 'package:vesta/web/webdata/webDataContainer.dart';
 
-class WebDataMessageRead extends WebDataBase
+class WebDataMessageRead extends WebDataContainer
 {
+
+  @override
+  final WebDataBase base;
 
   final String id;
 
-  WebDataMessageRead(AccountData data, this.id) : super.studentSimplified(data);
+  WebDataMessageRead(this.base, this.id);
 
   @override
   Map<String, dynamic> toJsonMap() {
     var map = <String,dynamic>{'PersonMessageId':id};
 
-    map.addAll(super.toJsonMap());
+    map.addAll(base.toJsonMap());
 
     return map;
 
