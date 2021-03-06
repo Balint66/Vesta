@@ -8,9 +8,9 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:logger/logger.dart';
 import 'package:vesta/applicationpage/innerMainProgRouter.dart';
 import 'package:vesta/datastorage/local/persistentDataManager.dart';
-import 'package:vesta/datastorage/studentData.dart';
 import 'package:vesta/i18n/appTranslations.dart';
 import 'package:vesta/i18n/localizedApp.dart';
+import 'package:vesta/managers/settingsManager.dart';
 import 'package:vesta/messaging/logManager.dart';
 import 'package:vesta/messaging/messageManager.dart';
 import 'package:vesta/routing/router.dart';
@@ -76,6 +76,27 @@ class _VestaInherited extends InheritedWidget
 class VestaState extends State<Vesta> with WidgetsBindingObserver
 {
 
+
+  final SettingsManager _settingsmanager = SettingsManager();
+
+  void updateSettings({Color? mainColor, bool? isDarkTheme, bool? keepMeLogged,
+    String? route, bool? eulaWasAccepted, String? language, bool? devMode, bool? syncLang})
+  {
+
+    if(mainColor == null && isDarkTheme == null && keepMeLogged == null
+        && route == null && eulaWasAccepted == null && language == null && devMode == null && syncLang == null) {
+      return;
+    }
+    setState((){
+      _settingsmanager.updateSettings(mainColor:mainColor, isDarkTheme:isDarkTheme, keepMeLogged:keepMeLogged,
+          route:route, eulaWasAccepted:eulaWasAccepted, language:language, devMode:devMode, syncLang:syncLang);
+    });
+  }
+  void resetSettings()
+  {
+    setState(_settingsmanager.resetSettings);
+  }
+
   @override
   void initState()
   {
@@ -86,14 +107,12 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
     _post = Future.delayed(Duration(milliseconds: 1),() async
     {
 
-      var newSettings = await FileManager.loadSettings();
-      if(newSettings != null) {
-        _settings = newSettings;
-      }
+      _settingsmanager.loadSettings();
       
-      application.changeLocal(application.supportedLocales().where((element) => element.languageCode == _settings.language).first);
+      application.changeLocal(application.supportedLocales().where((element) 
+        => element.languageCode == settings.language).first);
 
-      MainProgRouter.defaultRoute = '/app' + _settings.appHomePage;
+      MainProgRouter.defaultRoute = '/app' + settings.appHomePage;
 
       return FileManager.readData();
     });
@@ -135,81 +154,27 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
     });
   }
 
-  var _settings = SettingsData();
-
-  void resetSettings()
-  {
-
-    setState(()
-    {
-      _settings = SettingsData();
-    });
-
-  }
-
-  void updateSettings({Color? mainColor, bool? isDarkTheme, bool? keepMeLogged,
-    String? route, bool? eulaWasAccepted, String? language, bool? devMode, bool? syncLang})
-  {
-    if(mainColor == null && isDarkTheme == null && keepMeLogged == null
-        && route == null && eulaWasAccepted == null && language == null && devMode == null && syncLang == null) {
-      return;
-    }
-
-    setState(() {
-      if(mainColor != null) {
-        _settings.mainColor = mainColor;
-      }
-      if(isDarkTheme != null) {
-        _settings.isDarkTheme = isDarkTheme;
-      }
-      if(keepMeLogged != null) {
-        _settings.stayLogged = keepMeLogged;
-      }
-      if(eulaWasAccepted != null) {
-        _settings.eulaAccepted = eulaWasAccepted;
-      }
-      if(route!= null)
-      {
-        _settings.appHomePage = '/' + route.split('/')[2];
-        MainProgRouter.defaultRoute = route;
-      }
-      if(language != null){
-        _settings.language = language;
-      }
-      if(devMode != null){
-        _settings.devMode = devMode;
-      }
-      if(syncLang != null)
-      {
-        _settings.syncLangWithNeptun = syncLang;
-      }
-      FileManager.saveSettings(_settings);
-    });
-
-  }
-
   bool get pageSettingsChanged => _pagesettings;
   void resetpageChange() => _pagesettings = false;
   bool _pagesettings = false;
 
   void manuallySetPageChange() => setState((){ _pagesettings = true;});
 
-  void updatePageSettings(String page, PageSettingsData? data)
+  void updatePageSettings(String page, PageSettingsData data)
   {
 
-    if(!_settings.pageSettings.containsKey(page)){
+    if(!settings.pageSettings.containsKey(page)){
       return;
     }
 
     setState(() {
-      _settings.pageSettings[page] = data;
+      _settingsmanager.updatePageSettings(page, data);
       _pagesettings = true;
-      FileManager.saveSettings(_settings);
     });
 
   }
 
-  SettingsData get settings => SettingsData.copyOf(_settings);
+  SettingsData get settings => _settingsmanager.settings;
 
   Future<void> initPlatform() async
   {
@@ -259,7 +224,6 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
 
             if(!snapshot.hasError && (snapshot.data ?? false)){
               Vesta.home = '/app/home';
-              StudentData.Instance;
             }
 
           return OverlaySupport(
@@ -277,7 +241,7 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
                       Brightness.dark,
                     ),
                     onGenerateRoute: Vesta.generateRoutes,
-                    initialRoute: _settings.eulaAccepted ? '/home' : '/eula',
+                    initialRoute: settings.eulaAccepted ? '/home' : '/eula',
                     localizationsDelegates: 
                     [
                       application.appDelegate,
@@ -288,7 +252,7 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
                       Locale('en'),
                       Locale('hu')
                     ],
-                    themeMode: _settings.isDarkTheme ? ThemeMode.dark : ThemeMode.light,
+                    themeMode: settings.isDarkTheme ? ThemeMode.dark : ThemeMode.light,
                   )
                 )
               )

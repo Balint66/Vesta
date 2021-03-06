@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:vesta/datastorage/data.dart';
-import 'package:vesta/datastorage/studentData.dart';
+import 'package:vesta/datastorage/acountData.dart';
+import 'package:vesta/managers/accountManager.dart';
 import 'package:vesta/settings/settingsData.dart';
 
 import './noneStorageProvider.dart' 
@@ -21,11 +22,7 @@ abstract class FileManager
 
     await init();
     
-    var map = <String, dynamic>
-    {
-      'studentData': StudentData.Instance != null ? StudentData.toJsonMap(StudentData.Instance!) : null,
-      'school': Data.school?.asJson()
-    };
+    var map = AccountManager.toJsonList();
 
     await writeAsString(json.encode(map), 'login_data.json');
 
@@ -33,24 +30,38 @@ abstract class FileManager
 
   static Future<bool> readData() async
   {
+    
     var str = await loadLoginFile();
-    Map<String, dynamic> map = json.decode(str);
+    var map = json.decode(str);
 
-    if(!(map.containsKey('studentData') && map.containsKey('school'))) {
+    if(map is Map)
+    {
+
+      if(!(map.containsKey('studentData') && map.containsKey('school'))) {
+        return false;
+      }
+
+      var std = AccountData.fromJsondata(map as Map<String, dynamic>);
+
+      AccountManager.setAscurrent(std);
+
+      var data = <String, dynamic>
+      {
+        'username':std.username,
+        'password':std.password,
+        'school':map['school']
+      };
+      return Data.fromJson(json.encode(data));
+    }
+    else if( map is List)
+    {
+      AccountManager.loadFromFullJson(map.cast());
+      return true;
+    }
+    else
+    {
       return false;
     }
-
-    var std = StudentData.fromJsondata(map['studentData']);
-
-    StudentData.setInstance(std.username!, std.password!, std.training);
-
-    var data = <String, dynamic>
-    {
-      'username':StudentData.Instance!.username,
-      'password':StudentData.Instance!.password,
-      'school':map['school']
-    };
-    return Data.fromJson(json.encode(data));
   }
 
   static Future<void> clearLoginFileData() async

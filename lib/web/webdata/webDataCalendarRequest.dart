@@ -1,4 +1,4 @@
-import 'package:vesta/datastorage/studentData.dart';
+import 'package:vesta/datastorage/acountData.dart';
 import 'package:vesta/utils/DateUtil.dart';
 import 'package:vesta/web/webdata/webDataBase.dart';
 
@@ -16,7 +16,7 @@ class WebDataCalendarRequest extends WebDataBase
   final DateTime endDate;
   final int entityLimit;
 
-  WebDataCalendarRequest(StudentData data, {bool needAllDayLong = false ,bool time = true, bool exam = true, bool task = true,
+  WebDataCalendarRequest(AccountData data, {bool needAllDayLong = false ,bool time = true, bool exam = true, bool task = true,
           bool appointment = true, bool registerList = true, bool consulation = true,
           DateTime? starDate, DateTime? endDate, int entityLimit = 0})
       : Time = time, Exam = exam, Task = task,

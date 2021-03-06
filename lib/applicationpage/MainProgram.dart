@@ -46,6 +46,7 @@ class MainProgramState extends State<MainProgram>
 
   static final _popupSettingsKey = GlobalKey<PopupSettingsState>();
 
+  //TODO:Move these into a DataManager
   late NavigatorState _parentNavigator;
   NavigatorState get parentNavigator => _parentNavigator;
 

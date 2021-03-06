@@ -2,7 +2,9 @@
 //so minimalized the package size.
 //If changes were made then that is indicated
 
+import 'dart:convert';
 import 'dart:math';
+import 'package:crypto/crypto.dart';
 
 class ColorUtils {
   static const String BASIC_COLOR_RED = 'red';
@@ -195,4 +197,44 @@ class ColorUtils {
     }
     return colors;
   }
+
+  static List<int> colorFromTraining(String code, int id)
+  {
+
+    var hash = 0;
+
+    var str = md5.convert(utf8.encode(code)).toString();
+
+    for (var i = 0; i < str.length; i++) {
+      hash = str.codeUnitAt(i) + ((hash << 5) - hash);
+    }
+
+    var MSB8 = id & 0xFF;
+    return List.generate(3, (index){
+      return (((hash >> ((index+1) * 8)) & 0xFF) ^ MSB8) ^ ((id >> (index+1) * 8) & 0xFF);
+    }, growable: false);
+
+  }
+
+  static String listToHex(List<int> list)
+  {
+
+    return intToHex(listToInt(list));
+
+  }
+
+  static int listToInt(List<int> list)
+  {
+     if(list.length < 3)
+    {
+
+      throw 'Not enough numbers!';
+
+    }
+
+    return ((list[0] & 0xFF) << 16) +
+      ((list[1] & 0xFF) << 8) +
+      ((list[2] & 0xFF));
+  }
+
 }

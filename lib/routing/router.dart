@@ -10,7 +10,7 @@ import 'package:vesta/settings/aboutpage.dart';
 import 'package:vesta/settings/advancedSettings.dart';
 import 'package:vesta/settings/commonPageSettings.dart';
 import 'package:vesta/settings/pageSettingsBase.dart';
-import 'package:vesta/settings/schoolSettings.dart';
+import 'package:vesta/settings/accountSettings.dart';
 import 'package:vesta/settings/uiSettings.dart';
 
 abstract class VestaRouter 
@@ -25,7 +25,7 @@ abstract class VestaRouter
   static final _uiSettingsPage = UISettings();
   static final _advancedSettingsPage = AdvancedSettings();
   static final _commonPageSettings = CommonPageSettings();
-  static final _schoolSettingsPage = SchoolSettings();
+  static final _schoolSettingsPage = AccountSettings();
   static final _aboutSettingsPage = AboutPage();
 
   static void registerRoutes()

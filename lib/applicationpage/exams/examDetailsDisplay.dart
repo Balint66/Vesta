@@ -7,8 +7,8 @@ import 'package:vesta/datastorage/Lists/cache/examsCache.dart';
 import 'package:vesta/datastorage/data.dart';
 import 'package:vesta/datastorage/examData.dart';
 import 'package:vesta/datastorage/examDetails.dart';
-import 'package:vesta/datastorage/studentData.dart';
 import 'package:vesta/i18n/appTranslations.dart';
+import 'package:vesta/managers/accountManager.dart';
 import 'package:vesta/web/webServices.dart';
 import 'package:vesta/web/webdata/webDataExamSignup.dart';
 

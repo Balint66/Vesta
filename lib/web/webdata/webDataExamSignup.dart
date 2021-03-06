@@ -1,4 +1,4 @@
-import 'package:vesta/datastorage/studentData.dart';
+import 'package:vesta/datastorage/acountData.dart';
 import 'package:vesta/web/webdata/webDataBase.dart';
 
 class WebDataExamSignup extends WebDataBase
@@ -11,7 +11,7 @@ class WebDataExamSignup extends WebDataBase
   final int? SubjectID;
   final int ExamType;
 
-  WebDataExamSignup(StudentData data, this.CourseID, this.ExamID,
+  WebDataExamSignup(AccountData data, this.CourseID, this.ExamID,
   {this.ExamIdentifier = '', this.TermID = 0, this.SubjectID, this.ExamType = 0}) : super.studentSimplified(data);
 
   @override

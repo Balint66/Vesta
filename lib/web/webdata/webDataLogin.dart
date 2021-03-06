@@ -1,4 +1,4 @@
-import 'package:vesta/datastorage/studentData.dart';
+import 'package:vesta/datastorage/acountData.dart';
 import 'webDataBase.dart';
 
 class WebDataLogin extends WebDataBase
@@ -17,10 +17,10 @@ class WebDataLogin extends WebDataBase
 
   WebDataLogin.simplified(String User, String Password, this.OnlyLogin) : super.simplified(User,Password,null,null); // ignore: non_constant_identifier_names
   WebDataLogin.simplifiedOnly(String User, String Password) : this.simplified(User,Password,false); // ignore: non_constant_identifier_names
-  WebDataLogin.loginSimplified(StudentData data, this.OnlyLogin) : super.loginSimplified(data);
-  WebDataLogin.loginOnlySimplified(StudentData data): this.loginSimplified(data, false);
-  WebDataLogin.studentOnlySimplified(StudentData data): this.studentSimplified(data, false);
-  WebDataLogin.studentSimplified(StudentData data, this.OnlyLogin) : super.studentSimplified(data);
+  WebDataLogin.loginSimplified(AccountData data, this.OnlyLogin) : super.loginSimplified(data);
+  WebDataLogin.loginOnlySimplified(AccountData data): this.loginSimplified(data, false);
+  WebDataLogin.studentOnlySimplified(AccountData data): this.studentSimplified(data, false);
+  WebDataLogin.studentSimplified(AccountData data, this.OnlyLogin) : super.studentSimplified(data);
   WebDataLogin.fromJson(Map<String, dynamic> json) : OnlyLogin = json['OnlyLogin'], super.fromJson(remove<String, dynamic>(json, 'OnlyLogin'));
 
   @override

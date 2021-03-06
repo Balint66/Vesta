@@ -6,9 +6,6 @@ class SemesterListHolder extends ListDataHolder<BaseDataList<PeriodData>>
 
   static final Duration defaultInterval = Duration(days:1);
 
-  @override
-  int _dataIndex = 0;
-
   List<Map<String, dynamic>> _periodtermList = <Map<String, dynamic>>[];
 
   void resetPeridtermList()
@@ -16,7 +13,11 @@ class SemesterListHolder extends ListDataHolder<BaseDataList<PeriodData>>
     _periodtermList = <Map<String, dynamic>>[];
   }
 
-  SemesterListHolder({Duration? timespan}) : super(BaseDataList<PeriodData>(), timespan: timespan ?? defaultInterval);
+  SemesterListHolder({Duration? timespan}) :
+  super(BaseDataList<PeriodData>(), timespan: timespan ?? defaultInterval, hasDataIndex: true)
+  {
+    _dataIndex = 0;
+  }
 
   Future<List<String>> getPeriodTerms() async
   { 
@@ -85,17 +86,17 @@ class SemesterListHolder extends ListDataHolder<BaseDataList<PeriodData>>
 
       Vesta.logger.d('So, the list is null? Okay then!');
 
-      var termbase = WebDataBase.studentSimplified(StudentData.Instance);
+      var termbase = WebDataBase.studentSimplified(AccountManager.currentAcount);
 
-      _periodtermList = await WebServices.getPeriodTerms(Data.school!, termbase);
+      _periodtermList = await WebServices.getPeriodTerms(AccountManager.currentAcount.school, termbase);
 
     }
 
     Vesta.logger.d('Now tell me, what is the list? $_periodtermList');
 
-    var base = WebDataSemestersRequest(StudentData.Instance!, PeriodTermID: _periodtermList[_dataIndex]['Id']);
+    var base = WebDataSemestersRequest(AccountManager.currentAcount, PeriodTermID: _periodtermList[_dataIndex]['Id']);
 
-    var resp = await WebServices.getSemestersData(Data.school!, base);
+    var resp = await WebServices.getSemestersData(AccountManager.currentAcount.school, base);
 
     ListDataHolder._updateItemCount(resp!, this);
 

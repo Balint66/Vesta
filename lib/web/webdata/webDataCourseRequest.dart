@@ -1,4 +1,4 @@
-import 'package:vesta/datastorage/studentData.dart';
+import 'package:vesta/datastorage/acountData.dart';
 import 'package:vesta/web/webdata/webDataBase.dart';
 
 class WebDataCourseRequest extends WebDataBase
@@ -8,7 +8,7 @@ class WebDataCourseRequest extends WebDataBase
     final int CurriculumID;
     final int TermID;
 
-    WebDataCourseRequest(StudentData data, {int Id = 0, int SubjectType = -1, int CurriculumID = 0, int TermID = 0}) 
+    WebDataCourseRequest(AccountData data, {int Id = 0, int SubjectType = -1, int CurriculumID = 0, int TermID = 0}) 
     : Id = Id, TermID = TermID, CurriculumID = CurriculumID, SubjectType = SubjectType, super.studentSimplified(data);
 
     @override

@@ -6,9 +6,10 @@ import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/widgets.dart';
 import 'package:vesta/datastorage/local/persistentDataManager.dart';
-import 'package:vesta/datastorage/studentData.dart';
+import 'package:vesta/datastorage/acountData.dart';
 import 'package:vesta/Vesta.dart';
 import 'package:vesta/datastorage/Lists/schoolList.dart';
+import 'package:vesta/managers/accountManager.dart';
 import 'package:vesta/utils/PlatformHelper.dart';
 import 'package:vesta/web/webdata/webDataBase.dart';
 import 'package:vesta/web/webdata/webDataCalendarRequest.dart';
@@ -332,9 +333,9 @@ abstract class WebServices
     }
 
 
+    AccountManager.addNeptunUser(userName, password, school,
+      TrainingData.listFromJsonString(json.encode(respBody['TrainingList'])));
 
-    StudentData.setInstance(userName, password,
-        TrainingData.listFromJsonString(json.encode(respBody['TrainingList'])));
 
     try
     {
@@ -609,6 +610,8 @@ abstract class WebServices
     try
     {
     var resp = await client.post(school.Url! + '/GetPeriodTerms', data: body.toJson());
+
+    _testResponse(resp.data);
 
     return ((resp.data as Map<String, dynamic>)['PeriodTermsList'] as List<dynamic>).cast<Map<String, dynamic>>();
     }

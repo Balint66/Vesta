@@ -54,15 +54,22 @@ class _EulaState extends State<Eula> with SingleTickerProviderStateMixin
       _wrapTextInWidget([
           TextSpan(text: translator.translate('notice_0')+'\n', style: widget.textstile,),
           TextSpan(text: translator.translate('notice_1')+'\n', style: TextStyle(fontSize: 19.0, color: Colors.white),),
-          WidgetSpan(
-            child: ElevatedButton( 
-              onPressed: ()
-              {
-                  Vesta.of(context).updateSettings(eulaWasAccepted:true);
-                  Navigator.pushReplacementNamed(context, '/login');
-              },
-              style: ButtonStyle(/*shape: RoundedRectangleBorder(side: BorderSide(color: Colors.white, width:2.0), borderRadius: BorderRadius.circular(20.0))*/), //TODO:Redo this!
-              child: Text(translator.translate('to_login'), ),
+          WidgetSpan(child: ElevatedButton(
+            child: Text(translator.translate('to_login')), 
+            onPressed: ()
+            {
+                Vesta.of(context).updateSettings(eulaWasAccepted:true);
+                Navigator.pushReplacementNamed(context, '/login');
+            },
+            style: ButtonStyle(
+              shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                side: BorderSide(
+                  color: Colors.white, 
+                  width:2.0), 
+                borderRadius: BorderRadius.circular(20.0)
+                )
+              )
+            )
             ),
           )
         ], color: Colors.red)
@@ -90,16 +97,13 @@ class _EulaState extends State<Eula> with SingleTickerProviderStateMixin
     var lr = (query.width/1280);
     var tb = (query.height/720);
     var min = (log((sqrt(lr*tb)+1)/2)+1)*35;
-    //var offset = 225;
 
-    var pos = /*Positioned(left: (query.width/2) - min, right: (query.width/2) - min, bottom: (query.height/2) - min - tb*offset , top: (query.height/2) - min + tb*offset,
-          child: */ Container(
-            width: min*2,
-            height: min*2,
-            margin: EdgeInsets.only(right: min, bottom: min),
-            child: GestureDetector(
-              onTap: ()=>widget.controller.nextPage(duration: Duration(seconds:3), curve: Curves.fastLinearToSlowEaseIn),
-              child: Card(shape: CircleBorder(), child: Icon(Icons.keyboard_arrow_right))),
+    var pos = Container(child: GestureDetector(
+            onTap: ()=>widget.controller.nextPage(duration: Duration(seconds:3), curve: Curves.fastLinearToSlowEaseIn),
+            child: Card(shape: CircleBorder(), child: Icon(Icons.keyboard_arrow_right))),
+              width: min*2,
+              height: min*2,
+              margin: EdgeInsets.only(right: min, bottom: min)
             )/*)*/;
 
     var noll = Container();
