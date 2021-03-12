@@ -1,3 +1,4 @@
+import 'package:vesta/settings/pageSettings/data/calendarPageData.dart';
 import 'package:vesta/settings/pageSettings/data/messagePageData.dart';
 
 abstract class PageSettingsData 
@@ -14,9 +15,12 @@ abstract class PageSettingsData
     PageSettingsData data;
     switch(fromJson['type'])
     {
+      case 'calendar':
+        data = CalendarPageData.fromJson(fromJson);
+        break;
       case 'messages':
       default:
-        data = MessagePageData();
+        data = MessagePageData.fromJson(fromJson);
         break;
     }
 

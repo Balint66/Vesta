@@ -6,9 +6,12 @@ import 'package:vesta/applicationpage/common/clickableCard.dart';
 import 'package:vesta/applicationpage/common/kamonjiDisplayer.dart';
 import 'package:vesta/applicationpage/common/popupOptionProvider.dart';
 import 'package:vesta/applicationpage/common/refreshExecuter.dart';
+import 'package:vesta/applicationpage/lessons/calendarDailyView.dart';
+import 'package:vesta/applicationpage/lessons/calendarListView.dart';
 import 'package:vesta/applicationpage/lessons/lessonDetailedDisplay.dart';
 import 'package:vesta/datastorage/Lists/basedataList.dart';
 import 'package:vesta/datastorage/calendarData.dart';
+import 'package:vesta/settings/pageSettings/data/calendarPageData.dart';
 import 'package:vesta/web/bgFetchSateFullWidget.dart';
 
 class LessonDisplayer extends BgFetchSateFullWidget
@@ -31,7 +34,7 @@ static final PopupOptionData data = PopupOptionData(
     builder:(BuildContext ctx){ return []; }, selector: (int value){}
   );
 
-  DateTime? _nextEnd;
+  DateTime? nextEnd;
 
   static Future? _testingFuture;
 
@@ -49,12 +52,10 @@ static final PopupOptionData data = PopupOptionData(
       while(true)
       {
 
-        do
-        {
-
-          await Future.delayed(Duration(seconds: 1));
-
-        }while(_nextEnd == null || _nextEnd!.isAfter(DateTime.now()));
+        await Future
+          .doWhile(() async =>
+            Future.delayed(Duration(seconds: 1), ()=>
+            nextEnd == null || nextEnd!.isAfter(DateTime.now())));
 
         setState(() {});
 
@@ -83,7 +84,8 @@ static final PopupOptionData data = PopupOptionData(
         else if(snap.hasData)
         {
           if(list.maxItemCount != 0){
-            return _drawWithMode(CalendarDisplayModes.LISTVIEW, snap.data!, context);
+            return _drawWithMode((Vesta.of(context).settings.pageSettings['calendar'] as CalendarPageData).mode,
+              snap.data!, context);
           }
           else{
             return KamonjiDisplayer( RichText(textAlign: TextAlign.center, text: TextSpan(text:'You have got nothing new here pal.\n',
@@ -117,38 +119,12 @@ static final PopupOptionData data = PopupOptionData(
   {
     switch(mode)
     {
-      
+      case CalendarDisplayModes.DAILYVIEW:
+        return CalendarDailyView(response);
       case CalendarDisplayModes.LISTVIEW:
       default:
-        return _drawList(response, context);
+        return CalendarListView(response);
     }
-  }
-
-  Widget _drawList(BaseDataList<CalendarData> response, BuildContext context)
-  {
-    
-    response = BaseDataList(other: response
-        .where((element) => element.end.isAfter(DateTime.now()) ).toList());
-
-    _nextEnd = response[0].end;
-    
-    return ListView.builder(
-      shrinkWrap: false,
-      physics: AlwaysScrollableScrollPhysics(),
-      itemCount: response.length,
-      itemBuilder: (BuildContext ctx, int index)
-      {
-        return ClickableCard(
-          secondColor: response[index].eventColor,child: ListTile(
-          title: Text( response[index].title),
-            onTap: ()=> MainProgram.of(context).parentNavigator.push(MaterialPageRoute(
-            builder: (BuildContext context){
-          return LessonDetailedDisplay(response[index]);
-          })),
-          ),
-        );
-      }
-    );
   }
 
 }

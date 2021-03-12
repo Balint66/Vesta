@@ -25,11 +25,11 @@ class AccountSettingsState extends State<AccountSettings>
       ListTile(title: Text(translator.translate('settings_logout')),
           onTap: ()
           {
-            FileManager.clearLoginFileData();
             FetchManager.clearRegistered();
             AccountManager.removeCurrentAcount();
             if(AccountManager.acountsCount == 0)
             {
+              FileManager.clearLoginFileData();
               Navigator.of(context).pushNamedAndRemoveUntil('/login', (route) => false);
             }
           },),

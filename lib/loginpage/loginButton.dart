@@ -6,6 +6,7 @@ import 'package:vesta/i18n/appTranslations.dart';
 import 'package:vesta/loginpage/loginForm.dart';
 import 'package:vesta/routing/router.dart';
 import 'package:vesta/web/webServices.dart';
+import 'package:vesta/web/webdata/webDataContainer.dart';
 
 class LoginButton extends StatefulWidget
 {
@@ -42,8 +43,30 @@ class LoginBtnState extends State<LoginButton>
     }
     else
     {
-      return FutureBuilder(future: WebServices.login(LoginForm.of(context).userName, LoginForm.of(context).password, Data.school,
-          Vesta.of(context).settings.stayLogged), builder: (BuildContext context, AsyncSnapshot snapshot)
+      return FutureBuilder(future:(() async 
+        {
+
+          SimpleConatiner? cont;
+
+          try{
+          cont = await WebServices.login(LoginForm.of(context).userName, LoginForm.of(context).password, Data.school,
+          Vesta.of(context).settings.stayLogged);
+          }
+          catch(e)
+          {
+            Vesta.showSnackbar(Text(AppTranslations.of(context).translate('login_login_error')));
+            rethrow;
+          }
+          finally
+          {
+            Future.delayed(Duration(seconds:10),()=>setState(() {
+              _loggingIn = false;
+              Navigator.pushReplacementNamed(context, '/app/home');
+            }));
+            return cont;
+          }
+        })(),
+          builder: (BuildContext context, AsyncSnapshot snapshot)
           {
             if(!snapshot.hasData && !snapshot.hasError)
             {
@@ -51,19 +74,14 @@ class LoginBtnState extends State<LoginButton>
             }
             if(snapshot.hasError)
             {
-              Vesta.showSnackbar(Text(AppTranslations.of(context).translate('login_login_error')));
               Vesta.logger.e(snapshot.error);
             }
-            Future.delayed(Duration(seconds: 1), (){
-                _loggingIn = false;
-              });
 
             if(VestaRouter.mainKey.currentContext != null)
             {
               (VestaRouter.mainKey.currentState)?.refreshListHolders();
             }
 
-            Navigator.pushReplacementNamed(context, '/app/home');
             return Container(width: 0.0,height: 0.0,);
 
           },);

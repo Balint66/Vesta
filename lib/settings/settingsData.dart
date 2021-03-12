@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:vesta/settings/pageSettings/data/calendarPageData.dart';
 import 'package:vesta/settings/pageSettings/data/messagePageData.dart';
 import 'package:vesta/settings/pageSettingsData.dart';
 
@@ -18,7 +19,8 @@ class SettingsData
   bool devMode = false;
   bool syncLangWithNeptun = true;
   Map<String, PageSettingsData?> pageSettings = <String, PageSettingsData>{
-    'messages': MessagePageData()
+    'messages': MessagePageData(),
+    'calendar': CalendarPageData(),
   };
 
   String toJsonString()

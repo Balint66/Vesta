@@ -3,24 +3,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_duration_picker/flutter_duration_picker.dart';
 import 'package:vesta/Vesta.dart';
+import 'package:vesta/applicationpage/lessons/lessonDisplay.dart';
 import 'package:vesta/i18n/appTranslations.dart';
+import 'package:vesta/settings/pageSettings/data/calendarPageData.dart';
 import 'package:vesta/settings/pageSettings/data/messagePageData.dart';
 import 'package:vesta/settings/pageSettingsData.dart';
 
 part './pageSettings/messagePageSettings.dart';
+part './pageSettings/calendarPageSettings.dart';
 
-abstract class PageSettingsBase extends StatefulWidget
+abstract class PageSettingsBase<T extends PageSettingsData> extends StatefulWidget
 {
 
   final String page;
-  final PageSettingsData? data;
+  final T? data;
 
   factory PageSettingsBase(String page, PageSettingsData? data)
   {
     switch(page)
     {
+      case 'calendar':
+        return CalendarPageSettings(page, data ?? CalendarPageData()) as PageSettingsBase<T>;
       case 'messages':
-        return MessagePageSettings(page, data ?? MessagePageData());
+        return MessagePageSettings(page, data ?? MessagePageData()) as PageSettingsBase<T>;
       default:
         return _Empty(page);
     }
@@ -33,7 +38,7 @@ abstract class PageSettingsBase extends StatefulWidget
 
 }
 
-class _Empty extends PageSettingsBase
+class _Empty<T extends PageSettingsData> extends PageSettingsBase<T>
 {
 
   _Empty(String page) : super._(page, null);

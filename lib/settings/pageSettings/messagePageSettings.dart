@@ -1,9 +1,9 @@
 part of '../pageSettingsBase.dart';
 
-class MessagePageSettings extends PageSettingsBase
+class MessagePageSettings extends PageSettingsBase<MessagePageData>
 {
 
-  MessagePageSettings(String page, PageSettingsData data) : super._(page, data);
+  MessagePageSettings(String page, PageSettingsData data) : super._(page, data as MessagePageData);
 
   @override
   PageSettingsState<PageSettingsBase> createState() => MessagePageSettingsState();

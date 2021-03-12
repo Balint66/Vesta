@@ -8,9 +8,16 @@ class MessagePageData extends PageSettingsData
 
   MessagePageData();
 
-  factory MessagePageData._fromJson(Map<String, dynamic> fromJson)
+  factory MessagePageData.fromJson(Map<String, dynamic> fromJson)
   {
     return MessagePageData();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    var base = super.toJson();
+    base['type'] = 'message';
+    return base;
   }
 
 }

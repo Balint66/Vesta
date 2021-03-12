@@ -10,15 +10,11 @@ class CalendarListHolder extends ListDataHolder<BaseDataList<CalendarData>>
   @override
   Future<BaseDataList<CalendarData>> _fetchNewData() async
   {
-    var end = DateTime.now().add(Duration(days: 7));
-
-    if(_dataIndex>0)
-    {
-      end = end.add(Duration(days: 7 * _dataIndex));
-    }
+    var start = DateTime.now().add(Duration(days: 7 * (_dataIndex-1)));
+    var end = start.add(Duration(days: 7));
 
     var body = WebDataCalendarRequest(AccountManager.currentAcount.webBase,
-        endDate: end);
+        starDate: start, endDate: end);
 
     var resp = await WebServices.getCalendarData(AccountManager.currentAcount.school,
         body);
@@ -26,6 +22,16 @@ class CalendarListHolder extends ListDataHolder<BaseDataList<CalendarData>>
     ListDataHolder._updateItemCount(resp!.base, this);
 
     return resp.calendarData;  
+  }
+
+  void setDataIndex(int index) async
+  {
+    var old = _dataIndex;
+    _dataIndex = index;
+    if(old != _dataIndex)
+    {
+      await onUpdate();
+    }
   }
 
 }

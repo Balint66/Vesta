@@ -45,7 +45,8 @@ class AccountData
     => AccountData(other.username, other.password, other.training, other.school);
 
 
-  bool operator(Object other) => other is AccountData
+  @override
+  bool operator==(Object other) => other is AccountData
     && other.username == username && other.password == password && other.training == training
     && other.school == school;
 
