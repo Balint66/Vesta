@@ -1,7 +1,7 @@
 import 'package:vesta/datastorage/Lists/cache/baseCache.dart';
 import 'package:vesta/managers/accountManager.dart';
 import 'package:vesta/web/webServices.dart';
-import 'package:vesta/web/webdata/webDataBase.dart';
+import 'package:vesta/web/webdata/webDataContainer.dart';
 
 class SemesterDateCache extends BaseCache<List<Map<String, dynamic>>>
 {
@@ -15,7 +15,7 @@ class SemesterDateCache extends BaseCache<List<Map<String, dynamic>>>
     }
 
     return await WebServices.getPeriodTerms(AccountManager.currentAcount.school,
-      WebDataBase.studentSimplified(AccountManager.currentAcount));
+      SimpleConatiner(AccountManager.currentAcount.webBase));
     
   }
   

@@ -24,7 +24,7 @@ class SubjectDetailedDisplay extends StatelessWidget
   Widget build(BuildContext context) 
   {
 
-    var f = WebServices.getCourses(AccountManager.currentAcount.school, WebDataCourseRequest(AccountManager.currentAcount, Id: data.SubjectId, CurriculumID: data.CurriculumTemplateID, TermID: data.TermID));
+    var f = WebServices.getCourses(AccountManager.currentAcount.school, WebDataCourseRequest(AccountManager.currentAcount.webBase, Id: data.SubjectId, CurriculumID: data.CurriculumTemplateID, TermID: data.TermID));
     var translator = AppTranslations.of(context);
 
 
@@ -88,7 +88,7 @@ class SubjectDetailedDisplay extends StatelessWidget
                     {
                       try
                       {
-                        var signed = await WebServices.saveSubject(Data.school!, WebDataSubjectSignupRequest(StudentData.Instance, TermID: data.TermID,
+                        var signed = await WebServices.saveSubject(Data.school!, WebDataSubjectSignupRequest(AccountManager.currentAcount.webBase, TermID: data.TermID,
                         SubjectID: data.SubjectId, CurriculumID: data.CurriculumTemplateID, IsOnSubject: data.IsOnSubject,
                         SubjectSignin: !data.IsOnSubject, CurriculumTemplatelineID: data.CurriculumTemplatelineID,
                         AllType: entries.map((e) => e.value[0].CourseType).toList(), CourseIDs: (()

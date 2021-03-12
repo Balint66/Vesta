@@ -6,7 +6,6 @@ import 'package:vesta/applicationpage/common/kamonjiDisplayer.dart';
 import 'package:vesta/applicationpage/common/popupOptionProvider.dart';
 import 'package:vesta/applicationpage/common/refreshExecuter.dart';
 import 'package:vesta/datastorage/Lists/basedataList.dart';
-import 'package:vesta/datastorage/data.dart';
 import 'package:vesta/applicationpage/messages/messageDisplay.dart';
 import 'package:vesta/datastorage/message.dart';
 import 'package:vesta/i18n/appTranslations.dart';
@@ -91,7 +90,7 @@ with SingleTickerProviderStateMixin
                           });
                           MainProgram.of(context).parentNavigator.push(MaterialPageRoute(builder: (ctx)=>MessageDisplay
                             (item.senderName,item.subject,item.detail)));
-                          var body = WebDataMessageRead(AccountManager.currentAcount,
+                          var body = WebDataMessageRead(AccountManager.currentAcount.webBase,
                               item.personMessageId);
                           WebServices.setRead(AccountManager.currentAcount.school, body);
                       },
@@ -101,7 +100,7 @@ with SingleTickerProviderStateMixin
                         {
                           item.setReadState();
                         });
-                        var body = WebDataMessageRead(AccountManager.currentAcount,
+                        var body = WebDataMessageRead(AccountManager.currentAcount.webBase,
                               item.personMessageId);
                           WebServices.setRead(AccountManager.currentAcount.school, body);
                       },);

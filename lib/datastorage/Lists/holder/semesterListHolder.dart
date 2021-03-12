@@ -86,19 +86,18 @@ class SemesterListHolder extends ListDataHolder<BaseDataList<PeriodData>>
 
       Vesta.logger.d('So, the list is null? Okay then!');
 
-      var termbase = WebDataBase.studentSimplified(AccountManager.currentAcount);
-
-      _periodtermList = await WebServices.getPeriodTerms(AccountManager.currentAcount.school, termbase);
+      _periodtermList = await WebServices.getPeriodTerms(AccountManager.currentAcount.school,
+        SimpleConatiner(AccountManager.currentAcount.webBase));
 
     }
 
     Vesta.logger.d('Now tell me, what is the list? $_periodtermList');
 
-    var base = WebDataSemestersRequest(AccountManager.currentAcount, PeriodTermID: _periodtermList[_dataIndex]['Id']);
+    var base = WebDataSemestersRequest(AccountManager.currentAcount.webBase, PeriodTermID: _periodtermList[_dataIndex]['Id']);
 
     var resp = await WebServices.getSemestersData(AccountManager.currentAcount.school, base);
 
-    ListDataHolder._updateItemCount(resp!, this);
+    ListDataHolder._updateItemCount(resp!.base, this);
 
     return resp.list;
   }

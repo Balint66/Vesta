@@ -10,15 +10,10 @@ class StudentBookListHolder extends ListDataHolder<BaseDataList<StudentBookData>
   @override
   Future<BaseDataList<StudentBookData>> _fetchNewData() async 
   {
-    var base = WebDataBase.simplified(AccountManager.currentAcount.username,
-      AccountManager.currentAcount.password,
-      AccountManager.currentAcount.username,
-      AccountManager.currentAcount.training.id.toString(),
-      LCID: AccountManager.currentAcount.LCID);
 
-    var resp = await WebServices.getStudentBookData(AccountManager.currentAcount.school, base);
+    var resp = await WebServices.getStudentBookData(AccountManager.currentAcount.school, SimpleConatiner(AccountManager.currentAcount.webBase));
 
-    ListDataHolder._updateItemCount(resp!, this);
+    ListDataHolder._updateItemCount(resp!.base, this);
 
     return resp.list;
 

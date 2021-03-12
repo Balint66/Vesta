@@ -35,10 +35,10 @@ class SideBarState extends State<Sidebar>
               title: GestureDetector(
                 child: Text(AccountManager.currentAcount.username),
                 onLongPress: () => showModalBottomSheet(context: context,
-                 useRootNavigator: true,
-                 backgroundColor: Color(0),
-                 isScrollControlled: true,
-                 builder: (ctx){
+                useRootNavigator: true,
+                backgroundColor: Color(0x00000000),
+                isScrollControlled: true,
+                builder: (ctx){
                   var ls = AccountManager.accounts;
                   return Container(
                     decoration: BoxDecoration(color: Theme.of(ctx).canvasColor, borderRadius: BorderRadius.circular(20.0)),

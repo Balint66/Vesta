@@ -42,7 +42,7 @@ class LoginBtnState extends State<LoginButton>
     }
     else
     {
-      return FutureBuilder(future: WebServices.login(Data.username, Data.password, Data.school,
+      return FutureBuilder(future: WebServices.login(LoginForm.of(context).userName, LoginForm.of(context).password, Data.school,
           Vesta.of(context).settings.stayLogged), builder: (BuildContext context, AsyncSnapshot snapshot)
           {
             if(!snapshot.hasData && !snapshot.hasError)
@@ -54,8 +54,7 @@ class LoginBtnState extends State<LoginButton>
               Vesta.showSnackbar(Text(AppTranslations.of(context).translate('login_login_error')));
               Vesta.logger.e(snapshot.error);
             }
-
-            setState(() {
+            Future.delayed(Duration(seconds: 1), (){
                 _loggingIn = false;
               });
 

@@ -17,7 +17,7 @@ class ExamsCache extends BaseCache<ExamDetails>
       throw 'THE KEY TYPE IS INVALID!';
     }
     return (await WebServices.getExamDetails(AccountManager.currentAcount.school,
-      WebDataExamDetailsRequest.studentSimplified(AccountManager.currentAcount, key)))!.examDetails;
+      WebDataExamDetailsRequest.studentSimplified(AccountManager.currentAcount.webBase, key)))!.examDetails;
   }
   
 }

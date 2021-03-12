@@ -7,7 +7,7 @@ packages:
       name: archive
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.0-nullsafety.0"
+    version: "3.1.2"
   args:
     dependency: transitive
     description:
@@ -65,7 +65,7 @@ packages:
       name: collection
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.15.0-nullsafety.5"
+    version: "1.15.0"
   cookie_jar:
     dependency: transitive
     description:
@@ -79,7 +79,7 @@ packages:
       name: crypto
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.0-nullsafety.0"
+    version: "3.0.0"
   csslib:
     dependency: "direct overridden"
     description:
@@ -121,7 +121,7 @@ packages:
       name: ffi
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.0-nullsafety.1"
+    version: "1.0.0"
   file:
     dependency: transitive
     description:
@@ -137,7 +137,7 @@ packages:
       resolved-ref: ebecb8f19f6a13921cfebb827b17e1780d3c4660
       url: "https://github.com/theyakka/fluro"
     source: git
-    version: "2.0.3"
+    version: "1.8.0-nullsafety.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -164,10 +164,10 @@ packages:
     description:
       path: "."
       ref: null-safety
-      resolved-ref: baa4a620673a29f6bf390aaaddd79aa4e6bbc468
+      resolved-ref: "856cb7f22985d1cd7af3824b44890f24f74d0008"
       url: "https://github.com/fluttercommunity/flutter_launcher_icons"
     source: git
-    version: "1.0.0-nullsafety.0"
+    version: "0.9.0"
   flutter_local_notifications:
     dependency: "direct main"
     description:
@@ -189,20 +189,8 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_svg:
-    dependency: "direct main"
-    description:
-      name: flutter_svg
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.20.0-nullsafety.3"
   flutter_test:
     dependency: "direct dev"
-    description: flutter
-    source: sdk
-    version: "0.0.0"
-  flutter_web_plugins:
-    dependency: transitive
     description: flutter
     source: sdk
     version: "0.0.0"
@@ -211,7 +199,7 @@ packages:
     description:
       path: "packages/core/"
       ref: HEAD
-      resolved-ref: "9078066d864b4972ae22c2c4e921527443898c57"
+      resolved-ref: "57e28e27da12b4f66ee8f44940f8bd3551c16140"
       url: "https://github.com/daohoangson/flutter_widget_from_html"
     source: git
     version: "0.6.0-rc.2021030401"
@@ -235,7 +223,7 @@ packages:
       name: image
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.0-nullsafety.0"
+    version: "3.0.1"
   intl:
     dependency: transitive
     description:
@@ -243,19 +231,12 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.17.0"
-  js:
-    dependency: transitive
-    description:
-      name: js
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.6.3"
   logger:
     dependency: "direct main"
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "54c8df4025f95c83e9a9c91ed09e0a3077696e7a"
+      resolved-ref: a8c5ad3e67fa5ee1aacd2c4744ebdd33dd905d22
       url: "https://github.com/leisim/logger"
     source: git
     version: "1.0.0-nullsafety.0"
@@ -288,21 +269,7 @@ packages:
       name: path
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.8.0-nullsafety.3"
-  path_drawing:
-    dependency: transitive
-    description:
-      name: path_drawing
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.5.0-nullsafety.0"
-  path_parsing:
-    dependency: transitive
-    description:
-      name: path_parsing
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.2.0-nullsafety.0"
+    version: "1.8.0"
   path_provider:
     dependency: "direct main"
     description:
@@ -332,28 +299,28 @@ packages:
       name: path_provider_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0-nullsafety"
+    version: "2.0.0"
   path_provider_windows:
     dependency: transitive
     description:
       name: path_provider_windows
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.0-nullsafety.2"
+    version: "0.1.0-nullsafety.3"
   pedantic:
     dependency: "direct dev"
     description:
       name: pedantic
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.10.0"
+    version: "1.11.0"
   petitparser:
     dependency: transitive
     description:
       name: petitparser
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.0-nullsafety.1"
+    version: "4.0.2"
   platform:
     dependency: transitive
     description:
@@ -446,10 +413,12 @@ packages:
   universal_io:
     dependency: "direct overridden"
     description:
-      name: universal_io
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.0-nullsafety.2"
+      path: "."
+      ref: HEAD
+      resolved-ref: b3a9c5bdcf378de916ce498eb8762236ea3f420a
+      url: "https://github.com/dint-dev/universal_io"
+    source: git
+    version: "2.0.0"
   url_launcher:
     dependency: "direct main"
     description:
@@ -458,21 +427,21 @@ packages:
       resolved-ref: "647f69875803314f044730847a2263cd71c714e6"
       url: "https://github.com/flutter/plugins"
     source: git
-    version: "6.0.2"
+    version: "6.0.0-nullsafety.6"
   url_launcher_linux:
     dependency: transitive
     description:
       name: url_launcher_linux
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "0.1.0-nullsafety.3"
   url_launcher_macos:
     dependency: transitive
     description:
       name: url_launcher_macos
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "0.1.0-nullsafety.2"
   url_launcher_platform_interface:
     dependency: transitive
     description:
@@ -480,20 +449,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
-  url_launcher_web:
-    dependency: transitive
-    description:
-      name: url_launcher_web
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.0"
   url_launcher_windows:
     dependency: transitive
     description:
       name: url_launcher_windows
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "0.1.0-nullsafety.2"
   vector_math:
     dependency: transitive
     description:
@@ -507,28 +469,28 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0-nullsafety.10"
+    version: "2.0.0"
   xdg_directories:
     dependency: transitive
     description:
       name: xdg_directories
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.0-nullsafety.1"
+    version: "0.2.0"
   xml:
     dependency: transitive
     description:
       name: xml
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.0.0-nullsafety.1"
+    version: "5.0.2"
   yaml:
     dependency: transitive
     description:
       name: yaml
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.0-nullsafety.0"
+    version: "3.1.0"
   zone_local:
     dependency: transitive
     description:
@@ -537,5 +499,5 @@ packages:
     source: hosted
     version: "0.1.2"
 sdks:
-  dart: ">=2.12.0-259.8.beta <3.0.0"
-  flutter: ">=1.24.0-7.0"
+  dart: ">=2.12.0 <3.0.0"
+  flutter: ">=2.0.0"

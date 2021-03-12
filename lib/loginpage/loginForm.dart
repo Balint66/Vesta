@@ -59,25 +59,25 @@ class LoginFormState extends State<LoginForm>
   bool _validUsername = false;
   bool _validPassword = false;
 
-  //bool _ableToLogin = false;
+  bool _ableToLogin = false;
 
-  bool get ableToLogin => _validPassword && _validSchool && _validUsername;
+  bool get ableToLogin => _ableToLogin;
 
   bool _obscure = true;
 
-  /*set ableToLogin(bool value)
+  set ableToLogin(bool value)
   {
     setState(() {
       _ableToLogin = value;
     });
-  }*/
+  }
 
   @override
   void initState()
   {
     super.initState();
 
-    /*Timer.periodic(Duration(seconds: 1), (Timer timer)
+    Timer.periodic(Duration(seconds: 1), (Timer timer)
     {
       if(_validPassword&&_validUsername&&_validSchool&&!ableToLogin) {
         ableToLogin = true;
@@ -85,7 +85,7 @@ class LoginFormState extends State<LoginForm>
       else if(!(_validSchool&&_validUsername&&_validPassword)&&ableToLogin) {
         ableToLogin = false;
       }
-    });*/
+    });
 
   }
 
@@ -144,12 +144,12 @@ class LoginFormState extends State<LoginForm>
                   if(value == null)
                   {
                     if(_validSchool) {
-                      _validSchool = false;
+                          _validSchool = false;
                     }
                     return translator.translate('login_select_school');
                   }
                   if(!_validSchool) {
-                    _validSchool = true;
+                        _validSchool = true;
                   }
                   return null;
                 },
@@ -203,13 +203,13 @@ class LoginFormState extends State<LoginForm>
                     padding: EdgeInsets.fromLTRB(10,0,5,0),
                     child: Container(width:40, padding: EdgeInsets.symmetric(vertical:5),
                       child: MouseRegion(onEnter: (item)=>setState((){
-                        _obscure = false;
+                          _obscure = false;
                       }),
                       onExit: (item)=>setState((){
-                        _obscure = true;
+                          _obscure = true;
                       }),
                       child: GestureDetector(onTap: ()=>setState((){
-                        _obscure = !_obscure;
+                          _obscure = !_obscure;
                       }),
                       child:  Icon(_obscure ? Icons.remove_red_eye : Icons.remove_red_eye_outlined),
                       )
@@ -224,12 +224,12 @@ class LoginFormState extends State<LoginForm>
                       if(value?.isEmpty ?? true)
                       {
                         if(_validPassword) {
-                          _validPassword = false;
+                            _validPassword = false;
                         }
                         return translator.translate('login_password_error');
                       }
                       if(!_validPassword) {
-                        _validPassword = true;
+                          _validPassword = true;
                       }
                       return null;
                     },

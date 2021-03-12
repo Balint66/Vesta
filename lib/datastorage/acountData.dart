@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:vesta/utils/ColorUtils.dart';
+import 'package:vesta/web/webdata/webDataBase.dart';
 
 import 'Lists/schoolList.dart';
 
@@ -16,6 +17,7 @@ class AccountData
   final String password;
   final TrainingData training;
   final School school;
+  final WebDataBase webBase;
   int LCID = hun_LCID;
 
   Color? _color;
@@ -24,7 +26,7 @@ class AccountData
   AccountData(this.username,this.password, this.training, this.school, {this.LCID = hun_LCID, Color? color})
     : _color = (color 
       ?? Color(ColorUtils.listToInt(ColorUtils.colorFromTraining(training.code, training.id))))
-          .withAlpha(255);
+          .withAlpha(255), webBase = WebDataBase(username, password, username, training.id.toString());
 
   factory AccountData.fromJsondata(Map<String, dynamic> data)
   {

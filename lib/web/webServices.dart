@@ -636,7 +636,10 @@ abstract class WebServices
 
       var respBody = body.toJsonMap();
 
-      if(respBody['CurrentPage'] == 0) respBody['CurrentPage'] = 1;
+      if(respBody['CurrentPage'] == 0)
+      {
+        respBody['CurrentPage'] = 1;
+      }
 
       var resp = await client.post(school.Url! + '/GetSubjects',
         data: json.encode(respBody));

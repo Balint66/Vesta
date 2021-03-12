@@ -8,13 +8,13 @@ class ExamListHolder extends ListDataHolder<BaseDataList<Exam>>
   @override
   Future<BaseDataList<Exam>> _fetchNewData() async
   {
-    var body = WebDataExamRequest.studentSimplified(AccountManager.currentAcount, ExamType: 1);
+    var body = WebDataExamRequest.studentSimplified(AccountManager.currentAcount.webBase, ExamType: 1);
 
     var resp = (await WebServices.getExams(AccountManager.currentAcount.school, body))!;
 
     var ls = resp.exams;
 
-    body = WebDataExamRequest.studentSimplified(AccountManager.currentAcount);
+    body = WebDataExamRequest.studentSimplified(AccountManager.currentAcount.webBase);
 
     resp = (await WebServices.getExams(AccountManager.currentAcount.school, body))!;
 

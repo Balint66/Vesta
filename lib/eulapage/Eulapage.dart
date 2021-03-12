@@ -98,12 +98,13 @@ class _EulaState extends State<Eula> with SingleTickerProviderStateMixin
     var tb = (query.height/720);
     var min = (log((sqrt(lr*tb)+1)/2)+1)*35;
 
-    var pos = Container(child: GestureDetector(
-            onTap: ()=>widget.controller.nextPage(duration: Duration(seconds:3), curve: Curves.fastLinearToSlowEaseIn),
-            child: Card(shape: CircleBorder(), child: Icon(Icons.keyboard_arrow_right))),
+    var pos = Container(
               width: min*2,
               height: min*2,
-              margin: EdgeInsets.only(right: min, bottom: min)
+              margin: EdgeInsets.only(right: min, bottom: min),
+              child: GestureDetector(
+            onTap: ()=>widget.controller.nextPage(duration: Duration(seconds:3), curve: Curves.fastLinearToSlowEaseIn),
+            child: Card(shape: CircleBorder(), child: Icon(Icons.keyboard_arrow_right))),
             )/*)*/;
 
     var noll = Container();

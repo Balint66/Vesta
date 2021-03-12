@@ -19,7 +19,7 @@ class SemesterCache extends BaseCache<BaseDataList<PeriodData>>
     }
 
     return (await WebServices.getSemestersData(AccountManager.currentAcount.school,
-      WebDataSemestersRequest(AccountManager.currentAcount, PeriodTermID: key)))!.list;
+      WebDataSemestersRequest(AccountManager.currentAcount.webBase, PeriodTermID: key)))!.list;
 
   }
   

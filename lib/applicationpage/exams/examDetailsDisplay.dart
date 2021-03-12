@@ -79,7 +79,7 @@ class ExamDetailsDisplayState extends State<ExamDetailsDisplay>
       child:TextButton.icon(icon: Icon(widget.exam.FilterExamType == 1 ? FeatherIcons.minus : FeatherIcons.plus,), //TODO:replace icons
         label: Container(),
         onPressed: () async {
-            var resp = await WebServices.setExamSigning(Data.school!, WebDataExamSignup(StudentData.Instance, widget.exam.CourseID, widget.exam.ExamID));
+            var resp = await WebServices.setExamSigning(Data.school!, WebDataExamSignup(AccountManager.currentAcount.webBase , widget.exam.CourseID, widget.exam.ExamID));
             widget.exam.FilterExamType == 1 ? 0 : 1;
             await showDialog(context: context, builder: (ctx) => AlertDialog(content: Text(resp!.Message!),));
           }
