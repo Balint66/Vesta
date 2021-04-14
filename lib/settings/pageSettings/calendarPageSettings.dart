@@ -19,7 +19,7 @@ class CalendarPageSettingsState extends PageSettingsState<CalendarPageSettings>
     base.add((conetxt){
       return PopupMenuButton(itemBuilder:
         (context)=>CalendarDisplayModes.values
-          .map((e)=>PopupMenuItem<int>( value:e.index, child: Text(e.toString()))).toList(),
+          .map((e)=>PopupMenuItem<int>( value:e.index, child: Text(e.displayName))).toList(),
         onSelected: (int value)
         {
           setState((){
@@ -27,7 +27,7 @@ class CalendarPageSettingsState extends PageSettingsState<CalendarPageSettings>
             Vesta.of(context).updatePageSettings(widget.page, widget.data!);
           });
         },
-        child: ListTile(title: Text('Mode: ${widget.data!.mode.toString().split(".")[1]}'),)
+        child: ListTile(title: Text('Mode: ${widget.data!.mode.displayName}'),)
       );
     });
     return base;

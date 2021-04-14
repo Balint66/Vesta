@@ -7,6 +7,10 @@ import 'package:vesta/settings/pageSettings/data/calendarPageData.dart';
 import 'package:vesta/settings/pageSettings/data/messagePageData.dart';
 import 'package:vesta/settings/pageSettingsData.dart';
 
+const de_LCID = 1031;
+const en_us_LCID = 1033; //uk in the future?
+const hun_LCID = 1038;
+
 class SettingsData
 {
 
@@ -22,6 +26,7 @@ class SettingsData
     'messages': MessagePageData(),
     'calendar': CalendarPageData(),
   };
+  int neptunLang = hun_LCID;
 
   String toJsonString()
   {
@@ -41,7 +46,8 @@ class SettingsData
         'b':mainColor.blue,
         'a':mainColor.alpha
       },
-      'pageSettings': pageSettings.map((key, value) => MapEntry(key, value?.toJson()))
+      'pageSettings': pageSettings.map((key, value) => MapEntry(key, value?.toJson())),
+      'neptunLang': neptunLang,
     });
   }
 
@@ -52,13 +58,14 @@ class SettingsData
 
     var data = SettingsData();
 
-    data.isDarkTheme = map['isDarkTheme'] ?? false;
+    data.isDarkTheme = map['isDarkTheme'] ?? data.isDarkTheme;
     data.stayLogged = map['stayLogged'] ?? data.stayLogged;
     data.appHomePage = map['appHomePage'] ?? '/messages';
-    data.eulaAccepted = map['eulaAccepted'] ?? false;
+    data.eulaAccepted = map['eulaAccepted'] ?? data.eulaAccepted;
     data.language = map['language'] ?? 'en';
-    data.devMode = map['devMode'] ?? false;
+    data.devMode = map['devMode'] ?? data.devMode;
     data.syncLangWithNeptun = map['syncLang'] ?? data.syncLangWithNeptun;
+    data.neptunLang = map['neptunLang'] ?? data.neptunLang;
     if(colormap != null)
     {
     data.mainColor = Color.fromARGB(colormap['a'] ?? 255,
@@ -92,6 +99,7 @@ class SettingsData
     data.language = other.language;
     data.devMode = other.devMode;
     data.syncLangWithNeptun = other.syncLangWithNeptun;
+    data.neptunLang = other.neptunLang;
     data.pageSettings = other.pageSettings;
 
     return data;

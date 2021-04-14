@@ -19,7 +19,7 @@ class WebDataSubjectResponse extends WebDataContainer
   @override
   Map<String, dynamic> toJsonMap()
   {
-    var sup = base.toJsonMap();
+    var sup = super.toJsonMap();
 
     sup.addAll(<String, dynamic>{'SubjectList':list.expand((element) => [element.toJson()])});
 

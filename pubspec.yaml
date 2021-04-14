@@ -29,7 +29,7 @@ dependencies:
     git:
       url: https://github.com/MaikuB/flutter_local_notifications
       path: flutter_local_notifications/
-      ref: null_safety_platform_interface
+      ref: nnbd
   fluro:
     git:
       url: https://github.com/theyakka/fluro
@@ -60,15 +60,23 @@ dependencies:
     git:
       url: https://github.com/daohoangson/flutter_widget_from_html
       path: packages/core/
-  dio: ^3.0.0
-  dio_cookie_manager: ^1.0.0
-  flutter_duration_picker:
+  dio_cookie_manager:
     git:
-      url: https://github.com/bartektartanus/flutter_duration_picker.git
+      url: https://github.com/flutterchina/dio.git
+      ref: "4.0"
+      path: plugins/cookie_manager
+  duration_picker:
+    git:
+      url: https://github.com/juliansteenbakker/duration_picker
+
   universal_html: 
     version: ^1.0.0
-  flutter_feather_icons: ^1.0.3
-  crypto: ^3.0.0-nullsafety.0 
+  flutter_feather_icons:
+    git:
+      url: https://github.com/II11II/flutter_feather_icons
+      version: ^1.0.3
+  encrypt: ^5.0.0 
+  flutter_secure_storage: ^4.1.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -81,6 +89,11 @@ dependency_overrides:
       url: https://github.com/dint-dev/universal_io
       version: ^1.0.0
   csslib: ^0.17.0
+  dio:
+    git:
+      url: https://github.com/flutterchina/dio.git
+      ref: "4.0"
+      path: dio
 
 dev_dependencies:
   pedantic: ^1.10.0

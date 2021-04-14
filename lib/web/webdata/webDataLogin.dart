@@ -26,7 +26,7 @@ class WebDataLogin extends WebDataContainer
       'OnlyLogin':OnlyLogin
     };
 
-    map.addAll(base.toJsonMap());
+    map.addAll(super.toJsonMap());
 
     return map;
 

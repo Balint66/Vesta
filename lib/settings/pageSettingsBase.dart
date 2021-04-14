@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_duration_picker/flutter_duration_picker.dart';
+import 'package:duration_picker/duration_picker.dart';
 import 'package:vesta/Vesta.dart';
 import 'package:vesta/applicationpage/lessons/lessonDisplay.dart';
 import 'package:vesta/i18n/appTranslations.dart';
@@ -84,7 +84,7 @@ abstract class PageSettingsState<T extends PageSettingsBase> extends State<T>
       style: TextStyle(color: !(widget.data?.isEnabled ?? false) ? Theme.of(context).disabledColor : Theme.of(context).textTheme.bodyText1!.color )),
     onTap: !(widget.data?.isEnabled ?? true) ? null : () async
     {
-      Duration? dur = await showDurationPicker(context: context, initialTime: widget.data?.interval, snapToMins: 1);
+      var dur = await showDurationPicker(context: context, initialTime: widget.data!.interval, snapToMins: 1);
       
       if(dur != null && widget.data != null)
       {

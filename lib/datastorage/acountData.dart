@@ -6,10 +6,6 @@ import 'package:vesta/web/webdata/webDataBase.dart';
 
 import 'Lists/schoolList.dart';
 
-const de_LCID = 1031;
-const en_us_LCID = 1033; //uk in the future?
-const hun_LCID = 1038;
-
 class AccountData
 {
 
@@ -18,12 +14,11 @@ class AccountData
   final TrainingData training;
   final School school;
   final WebDataBase webBase;
-  int LCID = hun_LCID;
 
   Color? _color;
   Color get color => _color ?? (throw 'The color wasn\'t specified!');
 
-  AccountData(this.username,this.password, this.training, this.school, {this.LCID = hun_LCID, Color? color})
+  AccountData(this.username,this.password, this.training, this.school, {Color? color})
     : _color = (color 
       ?? Color(ColorUtils.listToInt(ColorUtils.colorFromTraining(training.code, training.id))))
           .withAlpha(255), webBase = WebDataBase(username, password, username, training.id.toString());

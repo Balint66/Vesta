@@ -33,7 +33,6 @@ class SideBarState extends State<Sidebar>
         child: Scaffold(
             appBar: AppBar(
               title: GestureDetector(
-                child: Text(AccountManager.currentAcount.username),
                 onLongPress: () => showModalBottomSheet(context: context,
                 useRootNavigator: true,
                 backgroundColor: Color(0x00000000),
@@ -46,6 +45,7 @@ class SideBarState extends State<Sidebar>
                     child: ListView.builder(shrinkWrap: true, itemCount: ls.length, itemBuilder: (ctx,i) => AccountDisplayer(ls[i]))
                   );
                 }),
+                child: Text(AccountManager.currentAcount.username),
               ),
               primary: true,
               automaticallyImplyLeading: false,

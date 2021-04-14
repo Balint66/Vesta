@@ -59,7 +59,7 @@ class LoginBtnState extends State<LoginButton>
           }
           finally
           {
-            Future.delayed(Duration(seconds:10),()=>setState(() {
+            Future.delayed(Duration(seconds:2),()=>setState(() {
               _loggingIn = false;
               Navigator.pushReplacementNamed(context, '/app/home');
             }));

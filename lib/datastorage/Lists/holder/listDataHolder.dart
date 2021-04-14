@@ -10,6 +10,7 @@ import 'package:vesta/datastorage/periodData.dart';
 import 'package:vesta/datastorage/studentBookData.dart';
 import 'package:vesta/datastorage/subjectData.dart';
 import 'package:vesta/managers/accountManager.dart';
+import 'package:vesta/managers/settingsManager.dart';
 import 'package:vesta/web/backgroundFetchingServiceMixin.dart';
 import 'package:vesta/web/webServices.dart';
 import 'package:vesta/web/webdata/webDataBase.dart';
@@ -74,7 +75,10 @@ abstract class ListDataHolder<T extends BaseDataList> with BackgroundFetchingSer
   @nonVirtual
   Stream<T> getData() 
   {
-    Future.delayed(Duration(seconds: 1),() {if(_list.isNotEmpty) _streamController.add(_list);});
+    Future.delayed(Duration(seconds: 1),() {if(_list.isNotEmpty) 
+    {
+      _streamController.add(_list);
+    }});
     return _streamController.stream;
   }
 

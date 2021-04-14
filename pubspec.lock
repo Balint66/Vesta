@@ -15,6 +15,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
+  asn1lib:
+    dependency: transitive
+    description:
+      name: asn1lib
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   async:
     dependency: transitive
     description:
@@ -27,10 +34,10 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "378340015a47f3e64198cfddc7915192ee28d454"
+      resolved-ref: "31fbadd16a2cc842b46788fc75b1102c72cb3080"
       url: "https://github.com/transistorsoft/flutter_background_fetch"
     source: git
-    version: "1.0.0-nullsafety.1"
+    version: "1.0.0-nullsafety.2"
   boolean_selector:
     dependency: transitive
     description:
@@ -72,14 +79,14 @@ packages:
       name: cookie_jar
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.1"
+    version: "3.0.1"
   crypto:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: crypto
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.0"
+    version: "3.0.1"
   csslib:
     dependency: "direct overridden"
     description:
@@ -95,19 +102,39 @@ packages:
     source: hosted
     version: "1.0.2"
   dio:
-    dependency: "direct main"
+    dependency: "direct overridden"
     description:
-      name: dio
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.0.10"
+      path: dio
+      ref: "4.0"
+      resolved-ref: "184b23397678703bd551480443599f51a1c830cd"
+      url: "https://github.com/flutterchina/dio.git"
+    source: git
+    version: "4.0.0"
   dio_cookie_manager:
     dependency: "direct main"
     description:
-      name: dio_cookie_manager
+      path: "plugins/cookie_manager"
+      ref: "4.0"
+      resolved-ref: "184b23397678703bd551480443599f51a1c830cd"
+      url: "https://github.com/flutterchina/dio.git"
+    source: git
+    version: "2.0.0-prev1"
+  duration_picker:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: ca950977ef5868256a79761da9cd019a0e0a6883
+      url: "https://github.com/juliansteenbakker/duration_picker"
+    source: git
+    version: "1.0.1"
+  encrypt:
+    dependency: "direct main"
+    description:
+      name: encrypt
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0"
+    version: "5.0.0"
   fake_async:
     dependency: transitive
     description:
@@ -143,22 +170,15 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_duration_picker:
+  flutter_feather_icons:
     dependency: "direct main"
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "285ff19ad8b440fb6b8727ea849b7ce679d67c75"
-      url: "https://github.com/bartektartanus/flutter_duration_picker.git"
+      resolved-ref: "06c2da1e8e22a6b5b6c2fed7d479dee2a428862d"
+      url: "https://github.com/II11II/flutter_feather_icons"
     source: git
-    version: "1.0.4"
-  flutter_feather_icons:
-    dependency: "direct main"
-    description:
-      name: flutter_feather_icons
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.3"
+    version: "1.0.5-nullsafety.0"
   flutter_launcher_icons:
     dependency: "direct dev"
     description:
@@ -172,23 +192,30 @@ packages:
     dependency: "direct main"
     description:
       path: "flutter_local_notifications/"
-      ref: null_safety_platform_interface
-      resolved-ref: f113f461beffcc67ba37fbbe5c4a8aa6b1f5714c
+      ref: nnbd
+      resolved-ref: "12f06c1dd377cdf16163ea2d7a6331486eaad6ec"
       url: "https://github.com/MaikuB/flutter_local_notifications"
     source: git
-    version: "4.0.0"
+    version: "5.0.0-nullsafety.1"
   flutter_local_notifications_platform_interface:
     dependency: transitive
     description:
       name: flutter_local_notifications_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0+1"
+    version: "3.0.0"
   flutter_localizations:
     dependency: "direct main"
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_secure_storage:
+    dependency: "direct main"
+    description:
+      name: flutter_secure_storage
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.1.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -199,10 +226,10 @@ packages:
     description:
       path: "packages/core/"
       ref: HEAD
-      resolved-ref: "57e28e27da12b4f66ee8f44940f8bd3551c16140"
+      resolved-ref: "8a614027cdb43d9bd8398bedd669077c5c26c727"
       url: "https://github.com/daohoangson/flutter_widget_from_html"
     source: git
-    version: "0.6.0-rc.2021030401"
+    version: "0.6.0"
   html:
     dependency: "direct overridden"
     description:
@@ -216,14 +243,14 @@ packages:
       name: http_parser
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.1.4"
+    version: "4.0.0"
   image:
     dependency: transitive
     description:
       name: image
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.1"
+    version: "3.0.2"
   intl:
     dependency: transitive
     description:
@@ -236,10 +263,10 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: a8c5ad3e67fa5ee1aacd2c4744ebdd33dd905d22
+      resolved-ref: cf216e03d111b524c220db75c5e243fec8c8a081
       url: "https://github.com/leisim/logger"
     source: git
-    version: "1.0.0-nullsafety.0"
+    version: "1.0.0"
   matcher:
     dependency: transitive
     description:
@@ -259,10 +286,10 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "2b099b25b861b9412a3290b546d2a6c344b1b09b"
+      resolved-ref: dcde2f0af9497e5c6edaa09bd98a3d0eca5e2688
       url: "https://github.com/boyan01/overlay_support"
     source: git
-    version: "1.2.0-nullsafety.0"
+    version: "1.2.0"
   path:
     dependency: transitive
     description:
@@ -299,7 +326,7 @@ packages:
       name: path_provider_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "2.0.1"
   path_provider_windows:
     dependency: transitive
     description:
@@ -320,7 +347,7 @@ packages:
       name: petitparser
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.2"
+    version: "4.1.0"
   platform:
     dependency: transitive
     description:
@@ -334,14 +361,21 @@ packages:
       name: plugin_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.3"
+    version: "2.0.0"
+  pointycastle:
+    dependency: transitive
+    description:
+      name: pointycastle
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.1"
   process:
     dependency: transitive
     description:
       name: process
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.1.0"
+    version: "4.2.1"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -395,7 +429,7 @@ packages:
       name: timezone
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.6.1"
+    version: "0.7.0"
   typed_data:
     dependency: transitive
     description:
@@ -415,10 +449,10 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: b3a9c5bdcf378de916ce498eb8762236ea3f420a
+      resolved-ref: "221ea9a5938d6cac68fe92238b7bf91d09ee566b"
       url: "https://github.com/dint-dev/universal_io"
     source: git
-    version: "2.0.0"
+    version: "2.0.4"
   url_launcher:
     dependency: "direct main"
     description:
@@ -448,7 +482,7 @@ packages:
       name: url_launcher_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.1"
+    version: "2.0.2"
   url_launcher_windows:
     dependency: transitive
     description:
@@ -469,7 +503,7 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "2.0.5"
   xdg_directories:
     dependency: transitive
     description:
@@ -483,7 +517,7 @@ packages:
       name: xml
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.0.2"
+    version: "5.1.0"
   yaml:
     dependency: transitive
     description:

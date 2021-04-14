@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:vesta/Vesta.dart';
 import 'package:vesta/applicationpage/MainProgram.dart';
-import 'package:vesta/applicationpage/common/clickableCard.dart';
 import 'package:vesta/applicationpage/common/kamonjiDisplayer.dart';
 import 'package:vesta/applicationpage/common/popupOptionProvider.dart';
 import 'package:vesta/applicationpage/common/refreshExecuter.dart';
 import 'package:vesta/applicationpage/lessons/calendarDailyView.dart';
 import 'package:vesta/applicationpage/lessons/calendarListView.dart';
-import 'package:vesta/applicationpage/lessons/lessonDetailedDisplay.dart';
 import 'package:vesta/datastorage/Lists/basedataList.dart';
 import 'package:vesta/datastorage/calendarData.dart';
 import 'package:vesta/settings/pageSettings/data/calendarPageData.dart';
@@ -133,4 +131,19 @@ enum CalendarDisplayModes
 {
   LISTVIEW,
   DAILYVIEW
+}
+
+extension DisplayNames on CalendarDisplayModes
+{
+  String get displayName {
+    switch(this)
+    {
+      case CalendarDisplayModes.LISTVIEW:
+        return 'List';
+      case CalendarDisplayModes.DAILYVIEW:
+        return 'daily';
+      default:
+        return 'NONE';
+    }
+  }
 }

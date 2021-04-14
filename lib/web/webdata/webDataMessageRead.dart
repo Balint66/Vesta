@@ -15,7 +15,7 @@ class WebDataMessageRead extends WebDataContainer
   Map<String, dynamic> toJsonMap() {
     var map = <String,dynamic>{'PersonMessageId':id};
 
-    map.addAll(base.toJsonMap());
+    map.addAll(super.toJsonMap());
 
     return map;
 

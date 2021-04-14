@@ -20,7 +20,7 @@ class WebDataStudentBook extends WebDataContainer
   @override
   Map<String, dynamic> toJsonMap()
   {
-    var sup = base.toJsonMap();
+    var sup = super.toJsonMap();
 
     sup.addAll(<String, dynamic>{'MarkBookList':list.expand((element) => [element.toJson()])});
 

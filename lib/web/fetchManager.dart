@@ -73,13 +73,7 @@ abstract class FetchManager
         continue;
       }
 
-      /*if(item.lastFetch == null)
-      {
-          Vesta.logger.i("I'm null and I dee-dobu-daa, deee dobu da");
-          item.lastFetch = DateTime.now();
-          await item.onUpdate();
-      }
-      else*/ if(DateTime.now().difference(item.lastFetch) >= item.timespan)
+      if(DateTime.now().difference(item.lastFetch) >= item.timespan)
       {
 
           item.lastFetch = DateTime.now();

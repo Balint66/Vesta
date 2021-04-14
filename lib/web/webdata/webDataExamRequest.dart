@@ -39,7 +39,7 @@ class WebDataExamRequest extends WebDataContainer
             'KurzusOktato': KurzusOktato,
           }
         };
-        map.addAll(base.toJsonMap());
+        map.addAll(super.toJsonMap());
         return map;
       }
 

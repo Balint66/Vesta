@@ -30,7 +30,7 @@ class WebDataExamSignup extends WebDataContainer
           'ExamType': ExamType
         }
       };
-      ls.addAll(base.toJsonMap());
+      ls.addAll(super.toJsonMap());
       return ls;
     }
   

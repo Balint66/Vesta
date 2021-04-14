@@ -46,7 +46,7 @@ class WebDataCalendarRequest extends WebDataContainer
           + DateUtil.epochFlooredToDays(endDate).toString() + ')\/',
       'entityLimit': entityLimit
     };
-    map.addAll(base.toJsonMap());
+    map.addAll(super.toJsonMap());
     return map;
   }
 

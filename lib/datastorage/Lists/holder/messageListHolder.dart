@@ -10,16 +10,11 @@ class MessageListHolder extends ListDataHolder<BaseDataList<Message>>
   @override
   Future<BaseDataList<Message>> _fetchNewData() async
   {
-    var body = WebDataBase.simplified(AccountManager.currentAcount.username,
-      AccountManager.currentAcount.password,
-      AccountManager.currentAcount.username,
-      AccountManager.currentAcount.training.id.toString(),
-      LCID: AccountManager.currentAcount.LCID,
-      currentPage: _dataIndex
-  );
 
   var resp = await WebServices
-      .getMessages(AccountManager.currentAcount.school, SimpleConatiner(body));
+      .getMessages(AccountManager.currentAcount.school,
+        SimpleConatiner(AccountManager.currentAcount.webBase,
+        CurrentPage: _dataIndex, LCID: SettingsManager.settings.neptunLang));
 
   ListDataHolder._updateItemCount(resp.base, this);
 

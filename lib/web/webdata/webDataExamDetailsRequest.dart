@@ -24,7 +24,7 @@ class WebDataExamDetailsRequest extends WebDataContainer
         }
       };
 
-      ls.addAll(base.toJsonMap());
+      ls.addAll(super.toJsonMap());
 
       return ls;
     }

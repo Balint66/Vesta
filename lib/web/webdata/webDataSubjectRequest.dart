@@ -35,7 +35,7 @@ class WebDataSubjectRequest extends WebDataContainer
         'CourseCode' : CourseCode
       }
     };
-    json.addAll(base.toJsonMap());
+    json.addAll(super.toJsonMap());
     return json;
   }
 

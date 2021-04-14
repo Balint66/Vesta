@@ -40,7 +40,7 @@ class WebDataSubjectSignupRequest extends WebDataContainer
       'AllType': AllType,
     };
 
-    map.addAll(base.toJsonMap());
+    map.addAll(super.toJsonMap());
 
     return map;
 

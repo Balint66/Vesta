@@ -11,8 +11,8 @@ import 'package:vesta/datastorage/local/persistentDataManager.dart';
 import 'package:vesta/i18n/appTranslations.dart';
 import 'package:vesta/i18n/localizedApp.dart';
 import 'package:vesta/managers/settingsManager.dart';
-import 'package:vesta/messaging/logManager.dart';
-import 'package:vesta/messaging/messageManager.dart';
+import 'package:vesta/managers/logManager.dart';
+import 'package:vesta/managers/messageManager.dart';
 import 'package:vesta/routing/router.dart';
 import 'package:vesta/settings/pageSettingsData.dart';
 import 'package:vesta/settings/settingsData.dart';
@@ -76,25 +76,24 @@ class _VestaInherited extends InheritedWidget
 class VestaState extends State<Vesta> with WidgetsBindingObserver
 {
 
-
-  final SettingsManager _settingsmanager = SettingsManager();
-
   void updateSettings({Color? mainColor, bool? isDarkTheme, bool? keepMeLogged,
-    String? route, bool? eulaWasAccepted, String? language, bool? devMode, bool? syncLang})
+    String? route, bool? eulaWasAccepted, String? language, bool? devMode, bool? syncLang,
+    int? neptunLang})
   {
 
     if(mainColor == null && isDarkTheme == null && keepMeLogged == null
-        && route == null && eulaWasAccepted == null && language == null && devMode == null && syncLang == null) {
+        && route == null && eulaWasAccepted == null && language == null
+        && devMode == null && syncLang == null && neptunLang == null) {
       return;
     }
     setState((){
-      _settingsmanager.updateSettings(mainColor:mainColor, isDarkTheme:isDarkTheme, keepMeLogged:keepMeLogged,
-          route:route, eulaWasAccepted:eulaWasAccepted, language:language, devMode:devMode, syncLang:syncLang);
+      SettingsManager.updateSettings(mainColor:mainColor, isDarkTheme:isDarkTheme, keepMeLogged:keepMeLogged,
+          route:route, eulaWasAccepted:eulaWasAccepted, language:language, devMode:devMode, syncLang:syncLang, neptunLang: neptunLang);
     });
   }
   void resetSettings()
   {
-    setState(_settingsmanager.resetSettings);
+    setState(SettingsManager.resetSettings);
   }
 
   @override
@@ -107,7 +106,7 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
     _post = Future.delayed(Duration(milliseconds: 1),() async
     {
 
-      _settingsmanager.loadSettings();
+      SettingsManager.loadSettings();
       
       application.changeLocal(application.supportedLocales().where((element) 
         => element.languageCode == settings.language).first);
@@ -168,13 +167,13 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
     }
 
     setState(() {
-      _settingsmanager.updatePageSettings(page, data);
+      SettingsManager.updatePageSettings(page, data);
       _pagesettings = true;
     });
 
   }
 
-  SettingsData get settings => _settingsmanager.settings;
+  SettingsData get settings => SettingsManager.settings;
 
   Future<void> initPlatform() async
   {

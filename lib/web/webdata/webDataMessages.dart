@@ -20,7 +20,7 @@ class WebDataMessages extends WebDataContainer
 
   @override
   Map<String, dynamic> toJsonMap() {
-    var sup = base.toJsonMap();
+    var sup = super.toJsonMap();
     sup.addAll(<String, dynamic>{
       'MessagesList' : MessagesList.expand((e){
         return [e.toJson()];

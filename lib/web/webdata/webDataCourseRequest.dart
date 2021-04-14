@@ -30,7 +30,7 @@ class WebDataCourseRequest extends WebDataContainer
         }
       };
 
-      map.addAll(base.toJsonMap());
+      map.addAll(super.toJsonMap());
 
       return map;
 

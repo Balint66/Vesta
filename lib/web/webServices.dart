@@ -11,7 +11,6 @@ import 'package:vesta/Vesta.dart';
 import 'package:vesta/datastorage/Lists/schoolList.dart';
 import 'package:vesta/managers/accountManager.dart';
 import 'package:vesta/utils/PlatformHelper.dart';
-import 'package:vesta/web/webdata/webDataBase.dart';
 import 'package:vesta/web/webdata/webDataCalendarRequest.dart';
 import 'package:vesta/web/webdata/webDataCalendarResponse.dart';
 import 'package:vesta/web/webdata/webDataContainer.dart';
@@ -161,7 +160,7 @@ abstract class WebServices
   static final _loop = Future.doWhile(() async
   {
 
-    await Future.delayed(Duration(milliseconds: 50));
+    await Future.delayed(Duration(milliseconds: 1),);
 
     if(_callbacks.isNotEmpty)
     {
@@ -170,7 +169,7 @@ abstract class WebServices
 
       try
       {
-        await _callbacks[0]();
+        await _callbacks[0]().then((a)=>_callbacks.removeAt(0));
       }
       on DioError  catch(e)
       {
@@ -197,10 +196,6 @@ abstract class WebServices
         }
         
       }
-      finally
-      {
-        _callbacks.removeAt(0);
-      }
 
       Vesta.logger.d('${_callbacks.length} bottles on the shelf!', null, null );
     }
@@ -211,7 +206,7 @@ abstract class WebServices
 
   static void init()
   {
-    _loop.then((value) => null);
+    _loop.whenComplete(()=>Vesta.logger.d('We have ended our life. This blood line has died out with out our loop and it will never return.'));
   }
 
   static Future<T?> _callFunction<T>(_ServicesCallback callback, School school , WebDataContainer request) async
@@ -458,7 +453,7 @@ abstract class WebServices
     }
     on DioError catch(e)
     {
-      Vesta.logger.e(e.request.uri.toString() + '\nSomething went wrong...\n' + e.response.data.toString() + '\n' + e.request.data,e);
+      Vesta.logger.e( '${e.error?.uri}\nSomething went wrong...\n${e.response?.data}\n${e.error?.data}',e);
       return null;
     }
     catch(e)

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:vesta/Vesta.dart';
-import 'package:vesta/datastorage/acountData.dart';
 import 'package:vesta/i18n/appTranslations.dart';
 import 'package:vesta/i18n/localizedApp.dart';
-import 'package:vesta/managers/accountManager.dart';
 import 'package:vesta/settings/colorSelector.dart';
+import 'package:vesta/settings/settingsData.dart';
 
 class UISettings extends StatefulWidget
 {
@@ -58,10 +57,12 @@ class UISettingsState extends State<UISettings>
                   switch(Vesta.of(context).settings.language)
                   {
                     case 'en':
+                      Vesta.of(context).updateSettings(neptunLang:en_us_LCID);
                       //AccountData.setInstance(AccountData.Instance!.username!, AccountData.Instance!.password!, AccountData.Instance!.training, LCID: en_us_LCID);
                       break;
                     case 'hu':
                     default:
+                      Vesta.of(context).updateSettings(neptunLang:hun_LCID);
                       //AccountData.setInstance(AccountData.Instance!.username!, AccountData.Instance!.password!, AccountData.Instance!.training, LCID: hun_LCID);
                       break;
                   }
@@ -89,13 +90,16 @@ class UISettingsState extends State<UISettings>
                   switch(value)
                   {
                     case 2:
+                      Vesta.of(context).updateSettings(neptunLang:de_LCID);
                       //AccountData.setInstance(AccountData.Instance!.username!, AccountData.Instance!.password!, AccountData.Instance!.training, LCID: de_LCID);
                       break;
                     case 1:
+                      Vesta.of(context).updateSettings(neptunLang:hun_LCID);
                       //AccountData.setInstance(AccountData.Instance!.username!, AccountData.Instance!.password!, AccountData.Instance!.training, LCID: hun_LCID);
                       break;
                     case 0:
                     default:
+                      Vesta.of(context).updateSettings(neptunLang:en_us_LCID);
                       //AccountData.setInstance(AccountData.Instance!.username!, AccountData.Instance!.password!, AccountData.Instance!.training, LCID: en_us_LCID);
                       break;
                   }
@@ -122,20 +126,23 @@ class UISettingsState extends State<UISettings>
               switch(value)
               {
                 case 2:
+                  Vesta.of(context).updateSettings(neptunLang:de_LCID);
                   //AccountData.setInstance(AccountData.Instance!.username!, AccountData.Instance!.password!, AccountData.Instance!.training, LCID: de_LCID);
                   break;
                 case 1:
+                  Vesta.of(context).updateSettings(neptunLang:en_us_LCID);
                   //AccountData.setInstance(AccountData.Instance!.username!, AccountData.Instance!.password!, AccountData.Instance!.training, LCID: en_us_LCID);
                   break;
                 case 0:
                 default:
+                  Vesta.of(context).updateSettings(neptunLang:hun_LCID);
                   //AccountData.setInstance(AccountData.Instance!.username!, AccountData.Instance!.password!, AccountData.Instance!.training, LCID: hun_LCID);
                   break;
               }
             });
           },
           child: ListTile(
-            title:Text('Neptun\'s language: ' + (AccountManager.currentAcount.LCID == hun_LCID ? 'Magyar' : AccountManager.currentAcount.LCID == de_LCID ? 'Deutsch' : 'English (US)'),
+            title:Text('Neptun\'s language: ' + (data.neptunLang == hun_LCID ? 'Magyar' : data.neptunLang == de_LCID ? 'Deutsch' : 'English (US)'),
             style: TextStyle(color: data.syncLangWithNeptun ? Theme.of(context).disabledColor : Theme.of(context).textTheme.bodyText1!.color )),
             ),
           )

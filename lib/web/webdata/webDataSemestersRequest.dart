@@ -19,7 +19,7 @@ class WebDataSemestersRequest extends WebDataContainer
       'PeriodTermID': PeriodTermID
     };
 
-    data.addAll(base.toJsonMap());
+    data.addAll(super.toJsonMap());
 
     return data;
 
