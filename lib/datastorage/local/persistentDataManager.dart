@@ -1,7 +1,5 @@
 import 'dart:convert';
 import 'dart:math';
-import 'package:vesta/datastorage/data.dart';
-import 'package:vesta/datastorage/acountData.dart';
 import 'package:vesta/managers/accountManager.dart';
 import 'package:vesta/settings/settingsData.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -25,9 +23,12 @@ abstract class FileManager
   static Future<void> saveData() async
   {
     
-    var map = AccountManager.toJsonList();
+    var ls = AccountManager.toJsonList();
+    var str = codec.encode(ls.asMap().map(
+      (el, mp)=> MapEntry('$el',mp))
+    );
 
-    await writeAsString(codec.encode(map.asMap().map((e, map)=> MapEntry('$e',map[e]))), 'login_data.json');
+    await writeAsString(str, 'login_data.json');
 
   }
 
@@ -36,26 +37,7 @@ abstract class FileManager
     
     var map = await loadLoginFile();
 
-    if(map is Map)
-    {
-
-      if(!(map.containsKey('studentData') && map.containsKey('school'))) {
-        return false;
-      }
-
-      var std = AccountData.fromJsondata(map as Map<String, dynamic>);
-
-      AccountManager.setAscurrent(std);
-
-      var data = <String, dynamic>
-      {
-        'username':std.username,
-        'password':std.password,
-        'school':map['school']
-      };
-      return Data.fromJson(json.encode(data));
-    }
-    else if( map is List)
+    if( map is List)
     {
       AccountManager.loadFromFullJson(map.cast());
       return true;
@@ -81,19 +63,38 @@ abstract class FileManager
 
   }
 
-  static Future<dynamic> loadLoginFile() async
+  static Future<List<Map<String, dynamic>>> loadLoginFile() async
   {
     
     var str = await readAsString('login_data.json');
-    late dynamic map;
+    late List<Map<String, dynamic>> map;
     try{
-      map = json.decode(str);
+      var m = json.decode(str);
+      if(m is Map && m.isEmpty)
+      {
+        throw 'UNABLE TO CONVERT';
+      }
+      else if(m is List)
+      {
+        map = m.cast<Map<String, dynamic>>();
+      }
+      else
+      {
+        map = [m];
+      }
+      await writeAsString(
+        codec
+          .encode(map.asMap()
+            .map<String, dynamic>((i, el)=> MapEntry(i.toString(), el)))
+            ,'login_data.json');
     }
     catch(e)
     {
       var mp = codec.decode(str);
       var ls = <Map<String, dynamic>>[];
-      mp.map((i, ma)=>MapEntry<int, Map<String, dynamic>>(int.parse(i), map[i])).forEach((i, m)=>ls[i]=m);
+      mp
+        .map((i, ma)=>MapEntry<int, Map<String, dynamic>>(int.parse(i), mp[i]))
+        .forEach((i, m)=>ls.insert(i, m));
       map = ls;
 
     }
@@ -137,7 +138,14 @@ abstract class FileManager
   static Future<void> init() async
   {
     var _secureStorage = FlutterSecureStorage();
-    var cryptKey = await _secureStorage.read(key: 'crypt_key');
+    late String? cryptKey;
+    try{
+      cryptKey = await _secureStorage.read(key: 'crypt_key');
+    }
+    catch(e)
+    {
+      cryptKey = null;
+    }
     if(cryptKey == null)
     {
       var rnn = Random.secure().nextInt(4294967296);

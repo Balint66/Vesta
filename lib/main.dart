@@ -3,7 +3,6 @@ import 'package:background_fetch/background_fetch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show debugDefaultTargetPlatformOverride;
 import 'package:vesta/Vesta.dart';
-import 'package:vesta/datastorage/local/persistentDataManager.dart';
 import 'package:vesta/web/fetchManager.dart';
 import 'package:vesta/web/webServices.dart';
 
@@ -16,8 +15,7 @@ void main() async
   {
     debugDefaultTargetPlatformOverride = TargetPlatform.android;
   }
-
-  await FileManager.init();
+  
   WebServices.init();
 
   runApp(Vesta());

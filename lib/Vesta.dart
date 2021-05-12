@@ -99,12 +99,13 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
   @override
   void initState()
   {
-
     super.initState();
     application.addListener(onLocaleChanged);
     initPlatform();
     _post = Future.delayed(Duration(milliseconds: 1),() async
     {
+
+      await FileManager.init();
 
       SettingsManager.loadSettings();
       
@@ -218,7 +219,7 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
             }
 
             if(snapshot.hasError && !(snapshot.error is MissingPluginException)) {
-              Vesta.logger.e(snapshot.error);
+              Vesta.logger.e('It wasn\'t me! I swear...', snapshot.error, snapshot.stackTrace );
             }
 
             if(!snapshot.hasError && (snapshot.data ?? false)){

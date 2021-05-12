@@ -45,7 +45,7 @@ with SingleTickerProviderStateMixin
   @override
   Widget build(BuildContext context)
   {
-    final messages = MainProgram.of(context).messageList;
+    final messages = AccountManager.currentAccount.messageList;
     final translator = AppTranslations.of(context);
 
     return StreamBuilder(
@@ -90,9 +90,9 @@ with SingleTickerProviderStateMixin
                           });
                           MainProgram.of(context).parentNavigator.push(MaterialPageRoute(builder: (ctx)=>MessageDisplay
                             (item.senderName,item.subject,item.detail)));
-                          var body = WebDataMessageRead(AccountManager.currentAcount.webBase,
+                          var body = WebDataMessageRead(AccountManager.currentAccount.webBase,
                               item.personMessageId);
-                          WebServices.setRead(AccountManager.currentAcount.school, body);
+                          WebServices.setRead(AccountManager.currentAccount.school, body);
                       },
                       onLongPress: (item)
                       {
@@ -100,9 +100,9 @@ with SingleTickerProviderStateMixin
                         {
                           item.setReadState();
                         });
-                        var body = WebDataMessageRead(AccountManager.currentAcount.webBase,
+                        var body = WebDataMessageRead(AccountManager.currentAccount.webBase,
                               item.personMessageId);
-                          WebServices.setRead(AccountManager.currentAcount.school, body);
+                          WebServices.setRead(AccountManager.currentAccount.school, body);
                       },);
                   if(unreadls.isNotEmpty){
                     ls.add(unread);

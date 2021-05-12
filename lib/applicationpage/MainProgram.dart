@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:vesta/Vesta.dart';
 import 'package:vesta/applicationpage/common/popupOptionProvider.dart';
 import 'package:vesta/applicationpage/innerMainProgRouter.dart';
-import 'package:vesta/datastorage/Lists/holder/listDataHolder.dart';
 import 'package:vesta/applicationpage/popupSettings.dart';
 import 'package:vesta/applicationpage/sidebar.dart';
+import 'package:vesta/managers/accountManager.dart';
 import 'package:vesta/routing/replacementObserver.dart';
 import 'package:vesta/settings/pageSettingsData.dart';
-import 'package:vesta/web/fetchManager.dart';
 
 class MainProgram extends StatefulWidget
 {
@@ -46,76 +45,17 @@ class MainProgramState extends State<MainProgram>
 
   static final _popupSettingsKey = GlobalKey<PopupSettingsState>();
 
-  //TODO:Move these into a DataManager
   late NavigatorState _parentNavigator;
   NavigatorState get parentNavigator => _parentNavigator;
 
-  var _calendarList = CalendarListHolder();
-  CalendarListHolder get calendarList => _calendarList;
-
-  var _messageList;
-  MessageListHolder get messageList => _messageList;
-
-  var _studentBook = StudentBookListHolder();
-  StudentBookListHolder get studentBook => _studentBook;
-
-  var _semesterList = SemesterListHolder();
-  SemesterListHolder get semesterList => _semesterList;
-
-  var _subjectList = SubjectDataListHolder();
-  SubjectDataListHolder get subject => _subjectList;
-
-  var _examList = ExamListHolder();
-  ExamListHolder get examList => _examList;
-  
-  void refreshListHolders()
-  {
-
-    setState(() {
-        FetchManager.clearRegistered();
-
-        _calendarList = CalendarListHolder();
-        _messageList = MessageListHolder(timespan: Vesta.of(context).settings.pageSettings['messages']!.interval);
-        _studentBook = StudentBookListHolder();
-        _semesterList = SemesterListHolder();
-        _subjectList = SubjectDataListHolder();
-        _examList = ExamListHolder();
-    
-        FetchManager.register(_calendarList);
-        FetchManager.register(_messageList);
-        FetchManager.register(_studentBook);
-        FetchManager.register(_semesterList);
-        FetchManager.register(_subjectList);
-        FetchManager.register(_examList);
-      
-      }
-    );
-
-  }
-
-  @override
-  void initState()
-  {
-
-    super.initState();
-
-    _messageList = MessageListHolder(timespan: widget.baseSettings['messages']?.interval);
-
-    FetchManager.register(_calendarList);
-    FetchManager.register(_messageList);
-    FetchManager.register(_studentBook);
-    FetchManager.register(_semesterList);
-    FetchManager.register(_subjectList);
-    FetchManager.register(_examList);
-
-  }
 
   void makeRefresh()
   {
     if(Vesta.of(context).pageSettingsChanged)
     {
       Vesta.of(context).resetpageChange();
-      refreshListHolders();
+      setState(() {
+      AccountManager.currentAccount.refreshListHolders();});
     }
   }
 

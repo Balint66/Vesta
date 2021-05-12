@@ -28,7 +28,7 @@ packages:
       name: async
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.5.0"
+    version: "2.6.0"
   background_fetch:
     dependency: "direct main"
     description:
@@ -100,7 +100,7 @@ packages:
       name: cupertino_icons
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.2"
+    version: "1.0.3"
   dio:
     dependency: "direct overridden"
     description:
@@ -215,7 +215,7 @@ packages:
       name: flutter_secure_storage
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.1.0"
+    version: "4.2.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -226,10 +226,10 @@ packages:
     description:
       path: "packages/core/"
       ref: HEAD
-      resolved-ref: "8a614027cdb43d9bd8398bedd669077c5c26c727"
+      resolved-ref: "0fc7a3d196dfb28dcb24a6b9bba8853030ec8f66"
       url: "https://github.com/daohoangson/flutter_widget_from_html"
     source: git
-    version: "0.6.0"
+    version: "0.6.1+1"
   html:
     dependency: "direct overridden"
     description:
@@ -263,7 +263,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: cf216e03d111b524c220db75c5e243fec8c8a081
+      resolved-ref: "9ee56c3806fc19e178fc5b68c19390e65ad6d19a"
       url: "https://github.com/leisim/logger"
     source: git
     version: "1.0.0"
@@ -286,10 +286,10 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: dcde2f0af9497e5c6edaa09bd98a3d0eca5e2688
+      resolved-ref: "40e31cf04545c42fb5c7d81c7b2f1fad0e297746"
       url: "https://github.com/boyan01/overlay_support"
     source: git
-    version: "1.2.0"
+    version: "1.2.1"
   path:
     dependency: transitive
     description:
@@ -422,7 +422,7 @@ packages:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.19"
+    version: "0.3.0"
   timezone:
     dependency: transitive
     description:
@@ -443,7 +443,7 @@ packages:
       name: universal_html
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.4"
+    version: "2.0.8"
   universal_io:
     dependency: "direct overridden"
     description:
@@ -525,13 +525,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.0"
-  zone_local:
-    dependency: transitive
-    description:
-      name: zone_local
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.2"
 sdks:
   dart: ">=2.12.0 <3.0.0"
   flutter: ">=2.0.0"

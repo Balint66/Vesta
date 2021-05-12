@@ -4,6 +4,30 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:vesta/utils/DateUtil.dart';
 
+/*
+    type 0: óra
+    type 1: vizsga
+    type 2: feladatok
+    type 3: Találkozó/Egyéni
+    type 4: Feliratkozások
+    type 5: Konzultációk
+    type 6: oktató mentessítések
+    type 7: szünnapok
+    type 8: intézmény
+   */
+enum EventType
+{
+  LESSON,
+  EXAM,
+  TASK,
+  CUSTOM,
+  SUBSCRIPTION,
+  CONSULTING,
+  SMTH,
+  HOLIDAY,
+  INSTITUTION
+}
+
 class CalendarData
 {
 
@@ -15,22 +39,11 @@ class CalendarData
   final String location;
   final DateTime start;
   final String title;
-  final String type; //Vajon ebből tudja, hogy milyen eseményről van szó?
-  /*
-    type 0: óra
-    type 1: vizsga
-    type 2: feladatok
-    type 3: Találkozó/Egyéni
-    type 4: Feliratkozások
-    type 5: Konzultációk
-    type 6: oktató mentessítések
-    type 7: szünnapok
-    type 8: intézmény
-   */
+  final EventType type;
 
   CalendarData({bool isAllDay = false, String description = '', DateTime? end,
     Color color = Colors.black, String id = '0', String location = '',
-    DateTime? start, String title = '', String type = '0'})
+    DateTime? start, String title = '', EventType type = EventType.LESSON})
       : allDayLong = isAllDay, description = description,
         end = end ?? DateTime(0).add(Duration(hours: 4, minutes: 30)),
         start = start ?? DateTime(0), eventColor = color,
@@ -51,7 +64,7 @@ class CalendarData
       id:jsonMap['id'].toString(), location:jsonMap['location'],
       start:DateTime.fromMillisecondsSinceEpoch(
           int.tryParse(jsonMap['start'].toString().split('(')[1].split(')')[0]) ?? 0, isUtc: true),
-      title:jsonMap['title'], type: jsonMap['type'].toString());
+      title:jsonMap['title'], type: EventType.values[(jsonMap['type'] as int)]);
 
   static DateTime _getEndDate(int start, int neptunEnd)
   {

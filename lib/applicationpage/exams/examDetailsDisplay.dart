@@ -3,7 +3,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:vesta/applicationpage/common/gradientDivider.dart';
 import 'package:vesta/applicationpage/common/textDetailItem.dart';
-import 'package:vesta/datastorage/Lists/cache/examsCache.dart';
 import 'package:vesta/datastorage/data.dart';
 import 'package:vesta/datastorage/examData.dart';
 import 'package:vesta/datastorage/examDetails.dart';
@@ -15,7 +14,6 @@ import 'package:vesta/web/webdata/webDataExamSignup.dart';
 class ExamDetailsDisplay extends StatefulWidget
 {
 
-  static final cache = ExamsCache();
 
   final Exam exam;
 
@@ -35,7 +33,7 @@ class ExamDetailsDisplayState extends State<ExamDetailsDisplay>
     final translator = AppTranslations.of(context);
 
     return Scaffold(
-      body: FutureBuilder(future: ExamDetailsDisplay.cache.getItem(widget.exam.ExamID), builder: (BuildContext context, AsyncSnapshot<ExamDetails> snapshot)
+      body: FutureBuilder(future: AccountManager.currentAccount.examCache.getItem(widget.exam.ExamID), builder: (BuildContext context, AsyncSnapshot<ExamDetails> snapshot)
     {
       if(snapshot.hasError)
       {
@@ -79,7 +77,7 @@ class ExamDetailsDisplayState extends State<ExamDetailsDisplay>
       child:TextButton.icon(icon: Icon(widget.exam.FilterExamType == 1 ? FeatherIcons.minus : FeatherIcons.plus,), //TODO:replace icons
         label: Container(),
         onPressed: () async {
-            var resp = await WebServices.setExamSigning(Data.school!, WebDataExamSignup(AccountManager.currentAcount.webBase , widget.exam.CourseID, widget.exam.ExamID));
+            var resp = await WebServices.setExamSigning(Data.school!, WebDataExamSignup(AccountManager.currentAccount.webBase , widget.exam.CourseID, widget.exam.ExamID));
             widget.exam.FilterExamType == 1 ? 0 : 1;
             await showDialog(context: context, builder: (ctx) => AlertDialog(content: Text(resp!.Message!),));
           }

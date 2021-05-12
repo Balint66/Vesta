@@ -7,6 +7,7 @@ import 'package:collection/collection.dart';
 import 'package:vesta/datastorage/Lists/basedataList.dart';
 import 'package:vesta/datastorage/periodData.dart';
 import 'package:vesta/i18n/appTranslations.dart';
+import 'package:vesta/managers/accountManager.dart';
 
 class SemesterDisplayer extends StatefulWidget
 {
@@ -28,7 +29,7 @@ class _SemesterDisplayerState extends State<SemesterDisplayer>
   Widget build(BuildContext context) 
   {
 
-    var list = MainProgram.of(context).semesterList;
+    var list = AccountManager.currentAccount.semesterList;
     var translator = AppTranslations.of(context);
 
 

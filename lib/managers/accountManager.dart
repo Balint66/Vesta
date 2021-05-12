@@ -10,7 +10,7 @@ abstract class AccountManager
   static List<AccountData> get accounts => List.of(_accounts, growable: false);
   static int get acountsCount => _accounts.length;
   
-  static AccountData get currentAcount => _accounts.isNotEmpty ? _accounts[_index] : throw 'There is no account in the list';
+  static AccountData get currentAccount => _accounts.isNotEmpty ? _accounts[_index] : throw 'There is no account in the list';
   static int _index = 0;
 
   static void loadFromJson(String str, School school) =>

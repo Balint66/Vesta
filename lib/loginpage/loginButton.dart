@@ -4,6 +4,7 @@ import 'package:vesta/datastorage/data.dart';
 import 'package:vesta/Vesta.dart';
 import 'package:vesta/i18n/appTranslations.dart';
 import 'package:vesta/loginpage/loginForm.dart';
+import 'package:vesta/managers/accountManager.dart';
 import 'package:vesta/routing/router.dart';
 import 'package:vesta/web/webServices.dart';
 import 'package:vesta/web/webdata/webDataContainer.dart';
@@ -57,14 +58,11 @@ class LoginBtnState extends State<LoginButton>
             Vesta.showSnackbar(Text(AppTranslations.of(context).translate('login_login_error')));
             rethrow;
           }
-          finally
-          {
-            Future.delayed(Duration(seconds:2),()=>setState(() {
-              _loggingIn = false;
-              Navigator.pushReplacementNamed(context, '/app/home');
-            }));
-            return cont;
-          }
+          Future.delayed(Duration(seconds:2),()=>setState(() {
+            _loggingIn = false;
+            Navigator.pushReplacementNamed(context, '/app/home');
+          }));
+          return cont;
         })(),
           builder: (BuildContext context, AsyncSnapshot snapshot)
           {
@@ -79,7 +77,7 @@ class LoginBtnState extends State<LoginButton>
 
             if(VestaRouter.mainKey.currentContext != null)
             {
-              (VestaRouter.mainKey.currentState)?.refreshListHolders();
+              AccountManager.currentAccount.refreshListHolders();
             }
 
             return Container(width: 0.0,height: 0.0,);

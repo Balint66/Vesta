@@ -30,7 +30,7 @@ class LessonDetailedDisplay extends StatelessWidget
           case 3: return TextDetailItem(translator.translate('lessons_start'), data.start.toString() );
           case 4: return TextDetailItem(translator.translate('lessons_end'), data.end.toString() );
           case 5: return TextDetailItem(translator.translate('lessons_aday'), data.allDayLong ? '✔️' : '❌');
-          case 6: return TextDetailItem(translator.translate('lessons_type'), data.type);
+          case 6: return TextDetailItem(translator.translate('lessons_type'), data.type.index.toString());
           case 7: return TextDetailItem(translator.translate('lessons_id'), data.id);
           case 8 : return DetailItem(translator.translate('lessons_cl'),
               Container(decoration: BoxDecoration(color: data.eventColor), width: 10, height: 10));

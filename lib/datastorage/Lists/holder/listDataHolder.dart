@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:vesta/Vesta.dart';
 import 'package:vesta/datastorage/Lists/basedataList.dart';
+import 'package:vesta/datastorage/acountData.dart';
 import 'package:vesta/datastorage/calendarData.dart';
 import 'package:vesta/datastorage/examData.dart';
 import 'package:vesta/datastorage/message.dart';
@@ -34,6 +35,7 @@ abstract class ListDataHolder<T extends BaseDataList> with BackgroundFetchingSer
 {
 
   final T _list;
+  final AccountData _account;
   @override
   Duration get timespan => _timespan;
   Duration _timespan;
@@ -53,7 +55,7 @@ abstract class ListDataHolder<T extends BaseDataList> with BackgroundFetchingSer
     holder._maxItemCount = base.TotalRowCount;
   } 
 
-  ListDataHolder(T data, {Duration? timespan, bool hasDataIndex = true}) : _list = data,
+  ListDataHolder(this._account, T data, {Duration? timespan, bool hasDataIndex = true}) : _list = data,
         _timespan = timespan ?? Duration()
         {
           if(hasDataIndex)
@@ -82,13 +84,13 @@ abstract class ListDataHolder<T extends BaseDataList> with BackgroundFetchingSer
     return _streamController.stream;
   }
 
-  Future<T> _fetchNewData();
+  Future<T> _fetchNewData(AccountData account);
 
   @override
   @nonVirtual
   Future<void> onUpdate() async
   {
-    var resp = await _fetchNewData();
+    var resp = await _fetchNewData(_account);
 
     var newData = false;
 

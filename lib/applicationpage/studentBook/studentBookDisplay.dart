@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:vesta/applicationpage/MainProgram.dart';
 import 'package:vesta/datastorage/Lists/basedataList.dart';
 import 'package:vesta/datastorage/studentBookData.dart';
 import 'package:vesta/i18n/appTranslations.dart';
+import 'package:vesta/managers/accountManager.dart';
 
 class StudentBookDisplay extends StatefulWidget
 {
@@ -23,7 +23,7 @@ class _StudentBookDisplayState extends State<StudentBookDisplay>
   @override
   Widget build(BuildContext context)
   {
-    return StreamBuilder(stream: MainProgram.of(context).studentBook.getData(),builder:(BuildContext ctx, AsyncSnapshot<BaseDataList<StudentBookData>> snap)
+    return StreamBuilder(stream: AccountManager.currentAccount.studentBook.getData(),builder:(BuildContext ctx, AsyncSnapshot<BaseDataList<StudentBookData>> snap)
     {
 
       if(snap.hasData)

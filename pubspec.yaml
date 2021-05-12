@@ -70,7 +70,7 @@ dependencies:
       url: https://github.com/juliansteenbakker/duration_picker
 
   universal_html: 
-    version: ^1.0.0
+    version: ^2.0.8
   flutter_feather_icons:
     git:
       url: https://github.com/II11II/flutter_feather_icons

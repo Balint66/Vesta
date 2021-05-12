@@ -13,8 +13,8 @@ class SemesterListHolder extends ListDataHolder<BaseDataList<PeriodData>>
     _periodtermList = <Map<String, dynamic>>[];
   }
 
-  SemesterListHolder({Duration? timespan}) :
-  super(BaseDataList<PeriodData>(), timespan: timespan ?? defaultInterval, hasDataIndex: true)
+  SemesterListHolder(AccountData account, {Duration? timespan}) :
+  super(account, BaseDataList<PeriodData>(), timespan: timespan ?? defaultInterval, hasDataIndex: true)
   {
     _dataIndex = 0;
   }
@@ -71,14 +71,14 @@ class SemesterListHolder extends ListDataHolder<BaseDataList<PeriodData>>
   Future<void> onUpdate() async //ignore:invalid_override_of_non_virtual_member
   {
     _list.removeWhere((element) => true);
-    _list.addAll( await _fetchNewData());
+    _list.addAll( await _fetchNewData(_account));
     if(_list.isNotEmpty) {
       _streamController.add(_list);
     }  
   }
 
   @override
-  Future<BaseDataList<PeriodData>> _fetchNewData() async
+  Future<BaseDataList<PeriodData>> _fetchNewData(AccountData account) async
   {
 
     if(_periodtermList.isEmpty)
@@ -86,16 +86,16 @@ class SemesterListHolder extends ListDataHolder<BaseDataList<PeriodData>>
 
       Vesta.logger.d('So, the list is null? Okay then!');
 
-      _periodtermList = await WebServices.getPeriodTerms(AccountManager.currentAcount.school,
-        SimpleConatiner(AccountManager.currentAcount.webBase));
+      _periodtermList = await WebServices.getPeriodTerms(account.school,
+        SimpleConatiner(account.webBase));
 
     }
 
     Vesta.logger.d('Now tell me, what is the list? $_periodtermList');
 
-    var base = WebDataSemestersRequest(AccountManager.currentAcount.webBase, PeriodTermID: _periodtermList[_dataIndex]['Id']);
+    var base = WebDataSemestersRequest(account.webBase, PeriodTermID: _periodtermList[_dataIndex]['Id']);
 
-    var resp = await WebServices.getSemestersData(AccountManager.currentAcount.school, base);
+    var resp = await WebServices.getSemestersData(AccountManager.currentAccount.school, base);
 
     ListDataHolder._updateItemCount(resp!.base, this);
 

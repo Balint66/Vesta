@@ -19,17 +19,6 @@ class AuthorizationState extends State<Authorization>
 {
 
   @override
-  void initState() {
-    super.initState();
-    clearData();
-  }
-
-  void clearData()
-  {
-
-  }
-
-  @override
   Widget build(BuildContext context)
   {
     return Scaffold(

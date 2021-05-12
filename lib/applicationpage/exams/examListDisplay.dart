@@ -7,6 +7,7 @@ import 'package:vesta/applicationpage/exams/examDetailsDisplay.dart';
 import 'package:vesta/datastorage/Lists/basedataList.dart';
 import 'package:vesta/datastorage/examData.dart';
 import 'package:intl/intl.dart';
+import 'package:vesta/managers/accountManager.dart';
 
 class ExamListDisplay extends StatefulWidget
 {
@@ -25,7 +26,7 @@ class ExamListDisplayState extends State<ExamListDisplay>
   @override
   Widget build(BuildContext context) 
   {
-    final exams = MainProgram.of(context).examList;
+    final exams = AccountManager.currentAccount.examList;
 
     return StreamBuilder(stream: exams.getData(), builder:(BuildContext context, AsyncSnapshot<BaseDataList<Exam>> snapshot)
     {

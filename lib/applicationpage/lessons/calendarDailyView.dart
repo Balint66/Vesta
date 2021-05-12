@@ -7,6 +7,7 @@ import 'package:vesta/applicationpage/lessons/lessonDetailedDisplay.dart';
 import 'package:vesta/applicationpage/lessons/lessonDisplay.dart';
 import 'package:vesta/datastorage/Lists/basedataList.dart';
 import 'package:vesta/datastorage/calendarData.dart';
+import 'package:vesta/managers/accountManager.dart';
 import 'package:vesta/utils/DateUtil.dart';
 import 'package:intl/intl.dart';
 
@@ -82,23 +83,23 @@ class CalendarDailyViewState extends State<CalendarDailyView>
               setState(()
               {
                 day = day.subtract(Duration(days:1));
-                MainProgram.of(context).calendarList.setDataIndex((DateTime.now().difference(day).inDays/7).floor());
+                AccountManager.currentAccount.calendarList.setDataIndex((DateTime.now().difference(day).inDays/7).floor());
               }),
-              child:Icon(FeatherIcons.arrowLeft, color: Theme.of(context).accentIconTheme.color)
+              child:Icon(FeatherIcons.arrowLeft, color: Theme.of(context).colorScheme.secondary)
             ,),
             GestureDetector(onTap: ()=>
             setState((){
               day = DateTime.fromMillisecondsSinceEpoch(DateUtil.epochFlooredToDays(DateTime.now()));
-              MainProgram.of(context).calendarList.setDataIndex(1);
+              AccountManager.currentAccount.calendarList.setDataIndex(1);
             }),
               child:Text(DateFormat('yy. MM. dd.').format(day), style: Theme.of(context).primaryTextTheme.button)
             ),
             GestureDetector(onTap: ()=>
             setState((){
               day = day.add(Duration(days:1));
-              MainProgram.of(context).calendarList.setDataIndex((DateTime.now().difference(day).inDays/7).floor());
+              AccountManager.currentAccount.calendarList.setDataIndex((DateTime.now().difference(day).inDays/7).floor());
             }),
-            child: Icon(FeatherIcons.arrowRight, color: Theme.of(context).accentIconTheme.color),
+            child: Icon(FeatherIcons.arrowRight, color: Theme.of(context).colorScheme.secondary),
             ),
           ],),)),
       body: body);

@@ -7,6 +7,7 @@ import 'package:vesta/datastorage/Lists/basedataList.dart';
 import 'package:collection/collection.dart';
 import 'package:vesta/datastorage/subjectData.dart';
 import 'package:vesta/i18n/appTranslations.dart';
+import 'package:vesta/managers/accountManager.dart';
 
 class SubjectDisplayer extends StatefulWidget
 {
@@ -31,7 +32,7 @@ class _SubjectDisplayerState extends State<SubjectDisplayer>
 
     var translator = AppTranslations.of(context);
 
-    return StreamBuilder(stream: MainProgram.of(context).subject.getData(), builder: (BuildContext ctx, AsyncSnapshot<BaseDataList<SubjectData>> snap)
+    return StreamBuilder(stream: AccountManager.currentAccount.subject.getData(), builder: (BuildContext ctx, AsyncSnapshot<BaseDataList<SubjectData>> snap)
       {
         if( !snap.hasData || snap.data == null) {
           return Center(child: CircularProgressIndicator());
@@ -63,7 +64,7 @@ class _SubjectDisplayerState extends State<SubjectDisplayer>
         }
 
         return RefreshExecuter(
-          asyncCallback: MainProgram.of(context).subject.incrementDataIndex,
+          asyncCallback: AccountManager.currentAccount.subject.incrementDataIndex,
           child: ListView(children: ls,),
         );
 

@@ -1,9 +1,12 @@
 import 'dart:convert';
 import 'dart:ui';
 
+import 'package:vesta/datastorage/Lists/cache/examsCache.dart';
 import 'package:vesta/utils/ColorUtils.dart';
+import 'package:vesta/web/fetchManager.dart';
 import 'package:vesta/web/webdata/webDataBase.dart';
 
+import 'Lists/holder/listDataHolder.dart';
 import 'Lists/schoolList.dart';
 
 class AccountData
@@ -21,7 +24,19 @@ class AccountData
   AccountData(this.username,this.password, this.training, this.school, {Color? color})
     : _color = (color 
       ?? Color(ColorUtils.listToInt(ColorUtils.colorFromTraining(training.code, training.id))))
-          .withAlpha(255), webBase = WebDataBase(username, password, username, training.id.toString());
+          .withAlpha(255), webBase = WebDataBase(username, password, username, training.id.toString())
+  {
+    _calendarList = CalendarListHolder(this);
+    _messageList = MessageListHolder(this);
+    _semesterList = SemesterListHolder(this);
+    _studentBook = StudentBookListHolder(this);
+    _examList = ExamListHolder(this);
+    _subjectList = SubjectDataListHolder(this);
+    _examCache = ExamsCache(this);
+
+    registerDataHolders();
+
+  }
 
   factory AccountData.fromJsondata(Map<String, dynamic> data)
   {
@@ -45,6 +60,66 @@ class AccountData
     && other.username == username && other.password == password && other.training == training
     && other.school == school;
 
+
+  //for fetching
+  late CalendarListHolder _calendarList;
+  CalendarListHolder get calendarList => _calendarList;
+
+  late MessageListHolder _messageList;
+  MessageListHolder get messageList => _messageList;
+
+  late StudentBookListHolder _studentBook;
+  StudentBookListHolder get studentBook => _studentBook;
+
+  late SemesterListHolder _semesterList;
+  SemesterListHolder get semesterList => _semesterList;
+
+  late SubjectDataListHolder _subjectList;
+  SubjectDataListHolder get subject => _subjectList;
+
+  late ExamListHolder _examList;
+  ExamListHolder get examList => _examList;
+
+  late ExamsCache _examCache;
+  ExamsCache get examCache => _examCache;
+
+  void deregisterDataHolders()
+  {
+    FetchManager.deregister(_calendarList);
+    FetchManager.deregister(_messageList);
+    FetchManager.deregister(_studentBook);
+    FetchManager.deregister(_semesterList);
+    FetchManager.deregister(_subjectList);
+    FetchManager.deregister(_examList);
+  }
+
+  void registerDataHolders()
+  {
+    FetchManager.register(_calendarList);
+    FetchManager.register(_messageList);
+    FetchManager.register(_studentBook);
+    FetchManager.register(_semesterList);
+    FetchManager.register(_subjectList);
+    FetchManager.register(_examList);
+  }
+  
+  void refreshListHolders()
+  {
+
+    deregisterDataHolders();
+
+    _calendarList = CalendarListHolder(this);
+    _messageList = MessageListHolder(this);
+    _studentBook = StudentBookListHolder(this);
+    _semesterList = SemesterListHolder(this);
+    _subjectList = SubjectDataListHolder(this);
+    _examList = ExamListHolder(this);
+
+    registerDataHolders();
+
+  }
+
+
 }
 
 class TrainingData
@@ -64,7 +139,7 @@ class TrainingData
   static TrainingData fromJson(Map<String, dynamic> jsonObj)
   {
     return TrainingData(jsonObj['Description'], jsonObj['Id'],
-     jsonObj['Code']);
+    jsonObj['Code']);
   }
 
   static List<TrainingData> listFromJsonString(String str)

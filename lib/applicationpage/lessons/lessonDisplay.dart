@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:vesta/Vesta.dart';
-import 'package:vesta/applicationpage/MainProgram.dart';
 import 'package:vesta/applicationpage/common/kamonjiDisplayer.dart';
 import 'package:vesta/applicationpage/common/popupOptionProvider.dart';
 import 'package:vesta/applicationpage/common/refreshExecuter.dart';
@@ -9,6 +8,7 @@ import 'package:vesta/applicationpage/lessons/calendarDailyView.dart';
 import 'package:vesta/applicationpage/lessons/calendarListView.dart';
 import 'package:vesta/datastorage/Lists/basedataList.dart';
 import 'package:vesta/datastorage/calendarData.dart';
+import 'package:vesta/managers/accountManager.dart';
 import 'package:vesta/settings/pageSettings/data/calendarPageData.dart';
 import 'package:vesta/web/bgFetchSateFullWidget.dart';
 
@@ -66,10 +66,10 @@ static final PopupOptionData data = PopupOptionData(
   Widget build(BuildContext context )
   {
 
-    var list = MainProgram.of(context).calendarList;
+    var list = AccountManager.currentAccount.calendarList;
 
     return RefreshExecuter(
-        asyncCallback: MainProgram.of(context).calendarList.incrementDataIndex,
+        asyncCallback: AccountManager.currentAccount.calendarList.incrementDataIndex,
         child: StreamBuilder( stream: list.getData(),
         builder: (BuildContext ctx, AsyncSnapshot<BaseDataList<CalendarData>> snap)
       {

@@ -45,7 +45,7 @@ class SideBarState extends State<Sidebar>
                     child: ListView.builder(shrinkWrap: true, itemCount: ls.length, itemBuilder: (ctx,i) => AccountDisplayer(ls[i]))
                   );
                 }),
-                child: Text(AccountManager.currentAcount.username),
+                child: Text(AccountManager.currentAccount.username),
               ),
               primary: true,
               automaticallyImplyLeading: false,
@@ -176,7 +176,7 @@ class MenuButtonState extends State<MenuButtons>
             },
           icon: Padding(padding: EdgeInsets.symmetric(horizontal: 1.0),
               child: Icon(widget.icon)),
-          label: Expanded(child: Text(widget.text)),
+          label: Text(widget.text),
           style: ButtonStyle(foregroundColor: MaterialStateProperty.all(theme.textTheme.bodyText1!.color)),
       )
     );

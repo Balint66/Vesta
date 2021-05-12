@@ -5,7 +5,6 @@ import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
 import 'package:encrypt/encrypt.dart';
-import 'package:meta/meta.dart';
 
 var _random = Random.secure();
 
