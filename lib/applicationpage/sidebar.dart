@@ -164,9 +164,7 @@ class MenuButtonState extends State<MenuButtons>
 
     final theme = Theme.of(context);
 
-    return Align( alignment: Alignment.centerLeft,
-        child: TextButton.icon(onPressed:
-            () 
+    return TextButton.icon(onPressed: () 
             {
               if(enabled)
               {
@@ -176,9 +174,10 @@ class MenuButtonState extends State<MenuButtons>
             },
           icon: Padding(padding: EdgeInsets.symmetric(horizontal: 1.0),
               child: Icon(widget.icon)),
-          label: Text(widget.text),
+          label: Align( alignment: Alignment.centerLeft,
+        child: Text(widget.text),),
           style: ButtonStyle(foregroundColor: MaterialStateProperty.all(theme.textTheme.bodyText1!.color)),
-      )
+      
     );
   }
 

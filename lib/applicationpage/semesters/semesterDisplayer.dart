@@ -83,7 +83,7 @@ class _SemesterDisplayerState extends State<SemesterDisplayer>
           var ls = <Widget>[];
           if(grouped[true] != null)
           {
-            ls.add(ExpansionTile(title: Text(translator.translate('semesters_ended')), children: grouped[true]));
+            ls.add(ExpansionTile(title: Text(translator.translate('semesters_ended')), children: grouped[true],));
           }
 
           if(grouped[false] != null)

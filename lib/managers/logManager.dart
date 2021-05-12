@@ -12,15 +12,17 @@ abstract class LogManager
     var filter = ProductionFilter();
     LogPrinter printer = PrefixPrinter(SimplePrinter(printTime: true));
     LogOutput output = _MyOutput();
+    var level = Level.warning;
 
     assert(((){
       output = ConsoleOutput();
       printer = PrettyPrinter(printTime: true);
+      level = Level.verbose;
       return true;
     })());
 
 
-    return Logger(filter: filter, printer: printer, output: output);
+    return Logger(filter: filter, printer: printer, output: output, level: level);
   }
 }
 
