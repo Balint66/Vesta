@@ -196,7 +196,7 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
     }
     catch(e)
     {
-      Vesta.logger.w('Dabiri-dabirido! What does this button do?\n Unable to configure background fetch. Something is not implemented? \n error:$e');
+      Vesta.logger.w('Dabiri-dabirido! What does this button do?\n Unable to configure background fetch. Something is not implemented?', e);
     }
   }
 

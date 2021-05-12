@@ -175,7 +175,7 @@ abstract class WebServices
       {
         if(!e.error is SocketException || (e.error as SocketException?)?.osError?.errorCode != 7)
         {
-          Vesta.logger.e(e.error);
+          Vesta.logger.e('Am I the bad guy?', e, e.stackTrace);
         }
         else
         {
@@ -192,7 +192,7 @@ abstract class WebServices
         }
         else
         {
-          Vesta.logger.e(e);
+          Vesta.logger.e('Thi si a but funky.', e);
         }
         
       }
@@ -221,7 +221,7 @@ abstract class WebServices
     }
     on SocketException catch(_)
     {
-      Vesta.logger.e('No connection');
+      Vesta.logger.e('No connection', _);
       Vesta.showSnackbar(Text('There is no internet connection!'));
       return null;
     }
@@ -293,7 +293,7 @@ abstract class WebServices
         print(e.toString());
       }
 
-      Vesta.logger.e(e);
+      Vesta.logger.e('No schools for me',e);
 
     }
 
@@ -343,8 +343,7 @@ abstract class WebServices
     }
     catch(e)
     {
-      Vesta.logger.d('Seems like we have problems with saving data...', null, null );
-      Vesta.logger.e(e);
+      Vesta.logger.e('Seems like we have problems with saving data...', e);
     }
 
     return respBody;
@@ -352,7 +351,7 @@ abstract class WebServices
     }
     catch(e)
     {
-      Vesta.logger.e(e);
+      Vesta.logger.e('Have you tried to turn it off and on again?', e);
       Vesta.showSnackbar(Text('$e'));
     }
     
@@ -381,7 +380,7 @@ abstract class WebServices
     }
     catch(e)
     {
-      Vesta.logger.e(e);
+      Vesta.logger.e('MZ/X... MZ/X... Is there any message?', e);
       return null;
     }
 
@@ -413,7 +412,7 @@ abstract class WebServices
     catch(e)
     {
 
-      Vesta.logger.e(body.toJson() + '\n\n' + e.toString());
+      Vesta.logger.e('I have no memory of this text.', e);
       return false;
 
     }
@@ -459,7 +458,7 @@ abstract class WebServices
     catch(e)
     {
 
-      Vesta.logger.e('Something went wrong...\n' + e.toString(),e);
+      Vesta.logger.e('Something went wrong..',e);
       return null;
 
     }
@@ -546,7 +545,7 @@ abstract class WebServices
     }
     catch(e)
     {
-      Vesta.logger.e(body.toJson() + '\n\n$e',e);
+      Vesta.logger.e('Maybe it\'s better if I don\'t se this...', e);
       return null;
     }
   }
@@ -590,7 +589,7 @@ abstract class WebServices
     }
     catch(e)
     {
-      Vesta.logger.e(body.toJson() + '\n\n$e',e);
+      Vesta.logger.e('This year went by so fast!',e);
       return null;
     }
   }
@@ -613,7 +612,7 @@ abstract class WebServices
     }
     catch(e)
     {
-      Vesta.logger.e(body.toJson() + '\n\n' + e.toString());
+      Vesta.logger.e('Years? They are just numbers.', e);
       return [];
     }
 
@@ -666,7 +665,7 @@ abstract class WebServices
     catch(e)
     {
 
-      Vesta.logger.e(body.toJson() + '\n\n' + e.toString());
+      Vesta.logger.e('I can\'t make the reservations anyway.', e);
       return null;
 
     }
@@ -698,7 +697,7 @@ abstract class WebServices
     catch(e)
     {
 
-      Vesta.logger.e(body.toJson() + '\n\n' + e.toString());
+      Vesta.logger.e('Just let me lie down here. Just for a sec.', e);
       return null;
 
     }
@@ -723,15 +722,13 @@ abstract class WebServices
 
       _testResponse(jsonBody);
 
-      //print(json.encode(jsonBody));
-
       return (body as WebDataSubjectSignupRequest).SubjectSignin;
 
     }
     catch(e)
     {
 
-      Vesta.logger.e('${body.toJson()}\n\n$e');
+      Vesta.logger.e('Let me look at the calendar... Yeh, it\'s empty.', e);
       Vesta.showSnackbar(Text('$e'));
       return null;
 
@@ -760,7 +757,7 @@ abstract class WebServices
     catch(e)
     {
 
-      Vesta.logger.e(body.toJson() + '\n\n' + e.toString());
+      Vesta.logger.e('The test of bravery and mind. But still failed.', e);
       return null;
 
     }
@@ -788,7 +785,7 @@ abstract class WebServices
     catch(e)
     {
 
-      Vesta.logger.e(body.toJson() + '\n\n' + e.toString());
+      Vesta.logger.e('The devil is in the details.', e);
       return null;
 
     }
@@ -818,7 +815,7 @@ abstract class WebServices
     catch(e)
     {
 
-      Vesta.logger.e(body.toJson() + '\n\n' + e.toString());
+      Vesta.logger.e('Show me where to sign.', e);
       return null;
 
     }

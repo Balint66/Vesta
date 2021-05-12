@@ -76,7 +76,7 @@ static final PopupOptionData data = PopupOptionData(
 
         if(snap.hasError)
         {
-          Vesta.logger.e(snap.error);
+          Vesta.logger.e('Garbage! Utterly garbage!', snap.error);
           return Text('${snap.error}');
         }
         else if(snap.hasData)

@@ -99,152 +99,154 @@ class LoginFormState extends State<LoginForm>
 
       return _LoginForm(
         data: this,
-        child: Form(
-          autovalidateMode: AutovalidateMode.always,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Container(
-              margin: EdgeInsets.symmetric(vertical: 15.0),
-                child:FormField<School>(builder: (FormFieldState<School> state)
-              {
-                return FutureBuilder(
-                  future: Future.delayed(Duration(seconds: 1), () async => await _post),
-                  builder: (BuildContext context, AsyncSnapshot<SchoolList?> snapshot)
-                  {
-
-                    if(snapshot.hasData)
-                    {
-
-                      return SchoolSelectionButton(snapshot.data as SchoolList, state);
-
-                    }
-                    else if(snapshot.hasError)
-                    {
-
-                      return MaterialButton(
-                        onPressed: () => setState(() {
-                          _post = null;
-                        }),
-                        child: Text(translator.translate('login_retry')),);
-
-                    }
-
-                    return CircularProgressIndicator();
-
-                  },
-                );},
-                initialValue: null,
-                onSaved: (School? value)
+        child: AutofillGroup(
+          child: Form(
+            autovalidateMode: AutovalidateMode.always,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                margin: EdgeInsets.symmetric(vertical: 15.0),
+                  child:FormField<School>(builder: (FormFieldState<School> state)
                 {
-                  Data.school = value;
-                },
-                validator: (School? value)
-                {
-                  if(value == null)
-                  {
-                    if(_validSchool) {
-                          _validSchool = false;
-                    }
-                    return translator.translate('login_select_school');
-                  }
-                  if(!_validSchool) {
-                        _validSchool = true;
-                  }
-                  return null;
-                },
-              ), 
-              ),
-              Container(
-                width: 300.0,
-                margin: EdgeInsets.symmetric(vertical: 5.0),
-                padding: EdgeInsets.only(right:30),
-                child:TextFormField(
-                  autocorrect: false,
-                  autofocus: true,
-                  decoration: InputDecoration(
-                    icon:Icon(Icons.person_outline_outlined),
-                    labelText: translator.translate('login_username'),
-                    hintText: translator.translate('login_username_hint'),
-                    border: OutlineInputBorder(borderSide: BorderSide(width: 1))
-                  ),
-                  maxLines: 1,
-                  controller: _userName,
-                  textCapitalization: TextCapitalization.characters,
-                  validator: (String? value)
-                  {
-                    if((value?.isEmpty ?? true )
-                    || (((value?.runes.first ?? 0) >= ('0').runes.first) 
-                        && ((value?.runes.first ?? 0) <= ('9').runes.first)))
+                  return FutureBuilder(
+                    future: Future.delayed(Duration(seconds: 1), () async => await _post),
+                    builder: (BuildContext context, AsyncSnapshot<SchoolList?> snapshot)
                     {
-                      if(_validUsername) {
-                        _validUsername = false;
+
+                      if(snapshot.hasData)
+                      {
+
+                        return SchoolSelectionButton(snapshot.data as SchoolList, state);
+
                       }
-                      return translator.translate('login_username_character_error');
+                      else if(snapshot.hasError)
+                      {
+
+                        return MaterialButton(
+                          onPressed: () => setState(() {
+                            _post = null;
+                          }),
+                          child: Text(translator.translate('login_retry')),);
+
+                      }
+
+                      return CircularProgressIndicator();
+
+                    },
+                  );},
+                  initialValue: null,
+                  onSaved: (School? value)
+                  {
+                    Data.school = value;
+                  },
+                  validator: (School? value)
+                  {
+                    if(value == null)
+                    {
+                      if(_validSchool) {
+                            _validSchool = false;
+                      }
+                      return translator.translate('login_select_school');
                     }
-                    if(!_validUsername) {
-                      _validUsername = true;
+                    if(!_validSchool) {
+                          _validSchool = true;
                     }
                     return null;
                   },
                 ), 
                 ),
-              Container(
+                Container(
                   width: 300.0,
                   margin: EdgeInsets.symmetric(vertical: 5.0),
                   padding: EdgeInsets.only(right:30),
-                  child: TextFormField(
+                  child:TextFormField(
                     autocorrect: false,
+                    autofocus: true,
                     decoration: InputDecoration(
-                      icon: Icon(Icons.lock_outlined),
-                      labelText: translator.translate('login_password'),
-                      border: OutlineInputBorder(borderSide: BorderSide(width: 1)),
-                      suffixIcon: Container(
-                    padding: EdgeInsets.fromLTRB(10,0,5,0),
-                    child: Container(width:40, padding: EdgeInsets.symmetric(vertical:5),
-                      child: MouseRegion(onEnter: (item)=>setState((){
-                          _obscure = false;
-                      }),
-                      onExit: (item)=>setState((){
-                          _obscure = true;
-                      }),
-                      child: GestureDetector(onTap: ()=>setState((){
-                          _obscure = !_obscure;
-                      }),
-                      child:  Icon(_obscure ? Icons.remove_red_eye : Icons.remove_red_eye_outlined),
-                      )
-                      ),)
-                  )
+                      icon:Icon(Icons.person_outline_outlined),
+                      labelText: translator.translate('login_username'),
+                      hintText: translator.translate('login_username_hint'),
+                      border: OutlineInputBorder(borderSide: BorderSide(width: 1))
                     ),
-                    obscureText: _obscure,
                     maxLines: 1,
-                    controller: _password,
+                    controller: _userName,
+                    textCapitalization: TextCapitalization.characters,
                     validator: (String? value)
                     {
-                      if(value?.isEmpty ?? true)
+                      if((value?.isEmpty ?? true )
+                      || (((value?.runes.first ?? 0) >= ('0').runes.first) 
+                          && ((value?.runes.first ?? 0) <= ('9').runes.first)))
                       {
-                        if(_validPassword) {
-                            _validPassword = false;
+                        if(_validUsername) {
+                          _validUsername = false;
                         }
-                        return translator.translate('login_password_error');
+                        return translator.translate('login_username_character_error');
                       }
-                      if(!_validPassword) {
-                          _validPassword = true;
+                      if(!_validUsername) {
+                        _validUsername = true;
                       }
                       return null;
                     },
+                  ), 
                   ),
-              ),
-              Center( child:Container(
-                margin: EdgeInsets.symmetric(vertical: 5.0),
-                child:KeepMeLoggedInButton(),)),
-              Container(
-                padding: EdgeInsets.only(top: 20),
-                child: _login,
-              ),
-            ],
+                Container(
+                    width: 300.0,
+                    margin: EdgeInsets.symmetric(vertical: 5.0),
+                    padding: EdgeInsets.only(right:30),
+                    child: TextFormField(
+                      autocorrect: false,
+                      decoration: InputDecoration(
+                        icon: Icon(Icons.lock_outlined),
+                        labelText: translator.translate('login_password'),
+                        border: OutlineInputBorder(borderSide: BorderSide(width: 1)),
+                        suffixIcon: Container(
+                      padding: EdgeInsets.fromLTRB(10,0,5,0),
+                      child: Container(width:40, padding: EdgeInsets.symmetric(vertical:5),
+                        child: MouseRegion(onEnter: (item)=>setState((){
+                            _obscure = false;
+                        }),
+                        onExit: (item)=>setState((){
+                            _obscure = true;
+                        }),
+                        child: GestureDetector(onTap: ()=>setState((){
+                            _obscure = !_obscure;
+                        }),
+                        child:  Icon(_obscure ? Icons.remove_red_eye : Icons.remove_red_eye_outlined),
+                        )
+                        ),)
+                    )
+                      ),
+                      obscureText: _obscure,
+                      maxLines: 1,
+                      controller: _password,
+                      validator: (String? value)
+                      {
+                        if(value?.isEmpty ?? true)
+                        {
+                          if(_validPassword) {
+                              _validPassword = false;
+                          }
+                          return translator.translate('login_password_error');
+                        }
+                        if(!_validPassword) {
+                            _validPassword = true;
+                        }
+                        return null;
+                      },
+                    ),
+                ),
+                Center( child:Container(
+                  margin: EdgeInsets.symmetric(vertical: 5.0),
+                  child:KeepMeLoggedInButton(),)),
+                Container(
+                  padding: EdgeInsets.only(top: 20),
+                  child: _login,
+                ),
+              ],
+            ),
           ),
-        ),
+        )
       );
 
   }

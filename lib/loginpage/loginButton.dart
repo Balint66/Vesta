@@ -72,7 +72,7 @@ class LoginBtnState extends State<LoginButton>
             }
             if(snapshot.hasError)
             {
-              Vesta.logger.e(snapshot.error);
+              Vesta.logger.e('LET ME IIIN!', snapshot.error);
             }
 
             if(VestaRouter.mainKey.currentContext != null)
