@@ -74,7 +74,7 @@ class ExamDetailsDisplayState extends State<ExamDetailsDisplay>
     appBar: AppBar(title: Text(translator.translate('exam')),),
     floatingActionButton: Container(
       height: 60, width:60, margin: EdgeInsets.only(bottom: 50, right: 10),
-      child:TextButton.icon(icon: Icon(widget.exam.FilterExamType == 1 ? FeatherIcons.minus : FeatherIcons.plus,), //TODO:replace icons
+      child:TextButton.icon(icon: Icon(widget.exam.FilterExamType == 1 ? FeatherIcons.minus : FeatherIcons.plus,),
         label: Container(),
         onPressed: () async {
             var resp = await WebServices.setExamSigning(Data.school!, WebDataExamSignup(AccountManager.currentAccount.webBase , widget.exam.CourseID, widget.exam.ExamID));

@@ -6,7 +6,7 @@ class ClickableCard extends StatelessWidget
   final Color? _secondaryColor;
 
   ClickableCard({
-    @required ListTile? child,
+    @required Widget? child,
     Color? secondColor
     }): _child = child ?? ListTile(), _secondaryColor = secondColor;
 
@@ -15,22 +15,18 @@ class ClickableCard extends StatelessWidget
   {
     return Card(
       elevation: 3,
-      color: Theme.of(context).primaryColor,
+      color: _secondaryColor ?? Theme.of(context).primaryColor,
     child:Container(
         decoration: BoxDecoration(
           color: Theme.of(context).primaryColor.withOpacity(0),
-          borderRadius: BorderRadius.circular(5)
+          borderRadius: BorderRadius.circular(10)
         ),
       child: Card(
             elevation: 0,
             margin: EdgeInsets.fromLTRB(0, 0, 0, 6),
           child: Container(
             decoration: BoxDecoration( 
-              border: _secondaryColor == null 
-                ? null 
-                : Border.all(color: _secondaryColor!,
-                  width: 3.0),
-              borderRadius: BorderRadius.circular(5)
+              borderRadius: BorderRadius.circular(10)
               ), 
             child: _child,
             ), 

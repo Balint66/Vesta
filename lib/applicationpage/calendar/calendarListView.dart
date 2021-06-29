@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:vesta/applicationpage/MainProgram.dart';
 import 'package:vesta/applicationpage/common/clickableCard.dart';
-import 'package:vesta/applicationpage/lessons/lessonDetailedDisplay.dart';
-import 'package:vesta/applicationpage/lessons/lessonDisplay.dart';
+import 'package:vesta/applicationpage/calendar/calendarBody.dart';
+import 'package:vesta/applicationpage/calendar/calendarDataDisplay.dart';
 import 'package:vesta/datastorage/Lists/basedataList.dart';
 import 'package:vesta/datastorage/calendarData.dart';
 
@@ -35,13 +34,8 @@ class CalendarListViewState extends State<CalendarListView>
       itemBuilder: (BuildContext ctx, int index)
       {
         return ClickableCard(
-          secondColor: response[index].eventColor,child: ListTile(
-          title: Text( response[index].title),
-            onTap: ()=> MainProgram.of(context).parentNavigator.push(MaterialPageRoute(
-            builder: (BuildContext context){
-          return LessonDetailedDisplay(response[index]);
-          })),
-          ),
+          secondColor: response[index].eventColor,
+          child: CalendarBody(response[index]),
         );
       }
     );

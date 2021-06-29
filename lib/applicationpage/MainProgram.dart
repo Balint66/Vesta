@@ -59,6 +59,8 @@ class MainProgramState extends State<MainProgram>
     }
   }
 
+  void Reload() => setState((){});
+
  // final PopupSettings _popupSettings = PopupSettings(key: _popupSettingsKey);
 
   @override

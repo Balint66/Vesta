@@ -1,4 +1,4 @@
-import 'package:vesta/applicationpage/lessons/lessonDisplay.dart';
+import 'package:vesta/applicationpage/calendar/calendarDataDisplay.dart';
 import 'package:vesta/datastorage/Lists/holder/listDataHolder.dart';
 import 'package:vesta/settings/pageSettingsData.dart';
 

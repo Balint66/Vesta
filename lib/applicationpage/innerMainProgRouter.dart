@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:vesta/applicationpage/MainProgram.dart';
 import 'package:vesta/applicationpage/exams/examListDisplay.dart';
 import 'package:vesta/applicationpage/forums/forums.dart';
-import 'package:vesta/applicationpage/lessons/lessonDisplay.dart';
+import 'package:vesta/applicationpage/calendar/calendarDataDisplay.dart';
 import 'package:vesta/applicationpage/messages/messageListDisplay.dart';
 import 'package:vesta/applicationpage/semesters/semesterDisplayer.dart';
 import 'package:vesta/applicationpage/studentBook/studentBookDisplay.dart';

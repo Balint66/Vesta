@@ -42,7 +42,13 @@ class SideBarState extends State<Sidebar>
                   return Container(
                     decoration: BoxDecoration(color: Theme.of(ctx).canvasColor, borderRadius: BorderRadius.circular(20.0)),
                     constraints: BoxConstraints(minHeight: 100.0),
-                    child: ListView.builder(shrinkWrap: true, itemCount: ls.length, itemBuilder: (ctx,i) => AccountDisplayer(ls[i]))
+                    child: ListView.builder(shrinkWrap: true, itemCount: ls.length, itemBuilder: (ctx,i) => GestureDetector(
+                      onTap: (){
+                        AccountManager.setAscurrent(ls[i]);
+                        Navigator.pop(ctx);
+                        MainProgram.of(ctx).Reload();
+                        },
+                      child: AccountDisplayer(ls[i])))
                   );
                 }),
                 child: Text(AccountManager.currentAccount.username),

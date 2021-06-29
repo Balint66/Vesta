@@ -69,8 +69,12 @@ abstract class AccountManager
     {
       _accounts.add(data);
     }
+    var i = _accounts.indexOf(data);
 
-    _index = _accounts.indexOf(data);
+    if(_index != i)
+    {
+      _index = i;
+    }
 
   }
 

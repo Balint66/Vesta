@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:vesta/applicationpage/MainProgram.dart';
 import 'package:vesta/applicationpage/common/clickableCard.dart';
 import 'package:vesta/applicationpage/common/kamonjiDisplayer.dart';
-import 'package:vesta/applicationpage/lessons/lessonDetailedDisplay.dart';
-import 'package:vesta/applicationpage/lessons/lessonDisplay.dart';
+import 'package:vesta/applicationpage/calendar/calendarBody.dart';
+import 'package:vesta/applicationpage/calendar/calendarDataDisplay.dart';
 import 'package:vesta/datastorage/Lists/basedataList.dart';
 import 'package:vesta/datastorage/calendarData.dart';
 import 'package:vesta/managers/accountManager.dart';
@@ -60,13 +59,8 @@ class CalendarDailyViewState extends State<CalendarDailyView>
         itemBuilder: (BuildContext ctx, int index)
         {
           return ClickableCard(
-            secondColor: response[index].eventColor,child: ListTile(
-            title: Text( response[index].title),
-              onTap: ()=> MainProgram.of(context).parentNavigator.push(MaterialPageRoute(
-              builder: (BuildContext context){
-            return LessonDetailedDisplay(response[index]);
-            })),
-            ),
+            secondColor: response[index].eventColor,
+            child: CalendarBody(response[index]),
           );
         }
       );
@@ -85,7 +79,7 @@ class CalendarDailyViewState extends State<CalendarDailyView>
                 day = day.subtract(Duration(days:1));
                 AccountManager.currentAccount.calendarList.setDataIndex((DateTime.now().difference(day).inDays/7).floor());
               }),
-              child:Icon(FeatherIcons.arrowLeft, color: Theme.of(context).colorScheme.secondary)
+              child:Icon(FeatherIcons.arrowLeft)
             ,),
             GestureDetector(onTap: ()=>
             setState((){
@@ -99,7 +93,7 @@ class CalendarDailyViewState extends State<CalendarDailyView>
               day = day.add(Duration(days:1));
               AccountManager.currentAccount.calendarList.setDataIndex((DateTime.now().difference(day).inDays/7).floor());
             }),
-            child: Icon(FeatherIcons.arrowRight, color: Theme.of(context).colorScheme.secondary),
+            child: Icon(FeatherIcons.arrowRight),
             ),
           ],),)),
       body: body);

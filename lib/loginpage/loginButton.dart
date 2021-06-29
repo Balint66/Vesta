@@ -52,16 +52,16 @@ class LoginBtnState extends State<LoginButton>
           try{
           cont = await WebServices.login(LoginForm.of(context).userName, LoginForm.of(context).password, Data.school,
           Vesta.of(context).settings.stayLogged);
+          Future.delayed(Duration(seconds:2),()=>setState(() {
+            _loggingIn = false;
+            Navigator.pushReplacementNamed(context, '/app/home');
+          }));
           }
           catch(e)
           {
             Vesta.showSnackbar(Text(AppTranslations.of(context).translate('login_login_error')));
             rethrow;
           }
-          Future.delayed(Duration(seconds:2),()=>setState(() {
-            _loggingIn = false;
-            Navigator.pushReplacementNamed(context, '/app/home');
-          }));
           return cont;
         })(),
           builder: (BuildContext context, AsyncSnapshot snapshot)

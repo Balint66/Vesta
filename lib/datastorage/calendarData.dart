@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:vesta/utils/DateUtil.dart';
 
 /*
@@ -23,9 +24,25 @@ enum EventType
   CUSTOM,
   SUBSCRIPTION,
   CONSULTING,
-  SMTH,
+  FREED,
   HOLIDAY,
   INSTITUTION
+}
+
+Map<EventType, IconData> icons = <EventType, IconData>{
+  EventType.LESSON: FeatherIcons.bookOpen,
+  EventType.EXAM: FeatherIcons.penTool,
+  EventType.TASK: FeatherIcons.list,
+  EventType.CUSTOM: FeatherIcons.hexagon,
+  EventType.SUBSCRIPTION: FeatherIcons.star,
+  EventType.CONSULTING: FeatherIcons.messageSquare,
+  EventType.FREED: Icons.free_breakfast,
+  EventType.HOLIDAY: FeatherIcons.home,
+  EventType.INSTITUTION: Icons.school,
+};
+
+extension TypeIcons on EventType{
+  IconData get icon => icons[this] as IconData;
 }
 
 class CalendarData
