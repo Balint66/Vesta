@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:vesta/applicationpage/MainProgram.dart';
 import 'package:vesta/applicationpage/common/clickableCard.dart';
 import 'package:vesta/applicationpage/common/kamonjiDisplayer.dart';
@@ -28,7 +27,7 @@ class ExamListDisplayState extends State<ExamListDisplay>
   {
     final exams = AccountManager.currentAccount.examList;
 
-    return StreamBuilder(stream: exams.getData(), builder:(BuildContext context, AsyncSnapshot<BaseDataList<Exam>> snapshot)
+    return StreamBuilder(stream: exams.getData(), builder:(BuildContext context, AsyncSnapshot<BaseDataList<Exam?>> snapshot)
     {
       if(snapshot.hasError)
       {
@@ -56,7 +55,7 @@ class ExamListDisplayState extends State<ExamListDisplay>
         var data = snapshot.data![index];
 
         return ClickableCard(child: ListTile(
-          title: Text(snapshot.data![index].SubjectName, style: data.FilterExamType == 0 ? null : Theme.of(context).textTheme.bodyText2!.copyWith(color: Theme.of(context).primaryColor),),
+          title: Text(snapshot.data![index]!.SubjectName, style: data!.FilterExamType == 0 ? null : Theme.of(context).textTheme.bodyText2!.copyWith(color: Theme.of(context).primaryColor),),
           trailing: Text(ExamListDisplay.examDateFormat.format(data.FromDate) + '\n' + ExamListDisplay.examDateFormat.format(data.ToDate)),
           onTap: ()=> MainProgram.of(context).parentNavigator.push(MaterialPageRoute(builder: (ctx)=> ExamDetailsDisplay(data)))));
       });

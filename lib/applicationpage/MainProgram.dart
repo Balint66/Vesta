@@ -1,28 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:vesta/Vesta.dart';
-import 'package:vesta/applicationpage/common/popupOptionProvider.dart';
 import 'package:vesta/applicationpage/innerMainProgRouter.dart';
-import 'package:vesta/applicationpage/popupSettings.dart';
 import 'package:vesta/applicationpage/sidebar.dart';
 import 'package:vesta/managers/accountManager.dart';
-import 'package:vesta/routing/replacementObserver.dart';
+import 'package:vesta/managers/settingsManager.dart';
+import 'package:vesta/routing/router.dart';
 import 'package:vesta/settings/pageSettingsData.dart';
 
 class MainProgram extends StatefulWidget
 {
 
-  final String startingRoute;
+  final AppPath startingRoute;
   final Map<String, PageSettingsData> baseSettings;
 
-  MainProgram({Key? key, String? route, Map<String, PageSettingsData>? baseSettings}) 
-  : startingRoute = route == null || route.isEmpty ? MainProgRouter.defaultRoute : route, baseSettings = baseSettings ?? {}, super(key: key)
-  {
-    if(ReplacementObserver.Instance.currentPath.isEmpty && (route != null && route.isNotEmpty)) {
-      ReplacementObserver.Instance.currentPath = route;
-    }
-  }
+  MainProgram({Key? key, required AppPath route, Map<String, PageSettingsData>? baseSettings}) 
+  : startingRoute = route, baseSettings = baseSettings ?? {}, super(key: key);
 
-  static final GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
+  static final GlobalKey<State<Router>> routerKey = GlobalKey<State<Router>>();
 
   final UniqueKey sidebarKey = UniqueKey();
 
@@ -43,8 +37,6 @@ class MainProgram extends StatefulWidget
 class MainProgramState extends State<MainProgram>
 {
 
-  static final _popupSettingsKey = GlobalKey<PopupSettingsState>();
-
   late NavigatorState _parentNavigator;
   NavigatorState get parentNavigator => _parentNavigator;
 
@@ -61,6 +53,20 @@ class MainProgramState extends State<MainProgram>
 
   void Reload() => setState((){});
 
+  AppPath _getPath(){
+    return widget.startingRoute;
+  }
+
+  var _delegate;
+
+
+  @override
+  void initState() {
+    super.initState();
+    _delegate = AppDelegate(_getPath);
+  }
+
+
  // final PopupSettings _popupSettings = PopupSettings(key: _popupSettingsKey);
 
   @override
@@ -69,30 +75,28 @@ class MainProgramState extends State<MainProgram>
     
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) { makeRefresh(); });
 
-    MainProgRouter.defaultRoute = '/app'+Vesta.of(context).settings.appHomePage;
+    MainProgRouter.defaultRoute = '/app'+SettingsManager.INSTANCE.settings.appHomePage;
 
     _parentNavigator = Navigator.of(context);
 
-    final _navigator = Navigator(
-      key: MainProgram.navKey,
-      onGenerateRoute: MainProgRouter.route,
-      initialRoute: ReplacementObserver.Instance.currentPath.isEmpty ? widget.startingRoute : ReplacementObserver.Instance.currentPath,
-      observers: [ReplacementObserver.Instance],
+    final _router = Router(
+      key: MainProgram.routerKey,
+      routerDelegate: _delegate,
     );
 
-    return PopupOptionProviderWidget(data: ()=> _popupSettingsKey.currentState!, child: _MainProgramInherited(data: this,
+    return _MainProgramInherited(data: this,
       child: Scaffold(
-        body: _navigator,
+        body: _router,
         appBar: AppBar(title: Text('Vesta'),
           actions: <Widget>[
                 IconButton(icon: Icon(Icons.settings), onPressed: (){
-                  Navigator.of(context).pushNamed('/pageSettings/' 
-                  + ReplacementObserver.Instance.currentPath.split('/')[2]);
+                  /*Navigator.of(context).pushNamed('/pageSettings/' 
+                  + ReplacementObserver.Instance.currentPath.split('/')[2]);*/
                   }),
         ],),
         drawer: Sidebar(key: widget.sidebarKey),
       ),
-    ));
+    );
   }
 
 }

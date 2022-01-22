@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'dart:math' as math;
 
 
@@ -145,13 +144,10 @@ class RefreshExecuterState extends State<RefreshExecuter> with SingleTickerProvi
 
     if(_scrolledDown && (notification is OverscrollNotification))
     {
-      if(notification is OverscrollNotification)
-      {
-        setState(() {
-        _overScrollPosition += notification.overscroll;
+      setState(() {
+      _overScrollPosition += notification.overscroll;
 
-        });
-      }
+      });      
 
     }
     else

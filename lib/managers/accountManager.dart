@@ -63,7 +63,7 @@ abstract class AccountManager
     }
   }
 
-  static void setAscurrent(AccountData data)
+  static void setAsCurrent(AccountData data)
   {
     if(!_accounts.contains(data))
     {

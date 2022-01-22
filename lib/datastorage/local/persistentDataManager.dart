@@ -37,7 +37,7 @@ abstract class FileManager
     
     var map = await loadLoginFile();
 
-    if( map is List)
+    if( map.isNotEmpty )
     {
       AccountManager.loadFromFullJson(map.cast());
       return true;
@@ -67,41 +67,18 @@ abstract class FileManager
   {
     
     var str = await readAsString('login_data.json');
-    late List<Map<String, dynamic>> map;
-    try{
-      var m = json.decode(str);
-      if(m is Map && m.isEmpty)
-      {
-        throw 'UNABLE TO CONVERT';
-      }
-      else if(m is List)
-      {
-        map = m.cast<Map<String, dynamic>>();
-      }
-      else
-      {
-        map = [m];
-      }
-      await writeAsString(
-        codec
-          .encode(map.asMap()
-            .map<String, dynamic>((i, el)=> MapEntry(i.toString(), el)))
-            ,'login_data.json');
-    }
-    catch(e)
-    {
+    var map = <Map<String, dynamic>>[];
+    
+    if(str.isNotEmpty && str != '{}'){
       var mp = codec.decode(str);
       var ls = <Map<String, dynamic>>[];
       mp
         .map((i, ma)=>MapEntry<int, Map<String, dynamic>>(int.parse(i), mp[i]))
         .forEach((i, m)=>ls.insert(i, m));
       map = ls;
+    }
 
-    }
-    finally
-    {
-      return map;
-    }
+    return map;
 
   }
 

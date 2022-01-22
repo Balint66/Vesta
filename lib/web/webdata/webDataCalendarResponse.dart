@@ -10,7 +10,7 @@ class WebDataCalendarResponse extends WebDataContainer
   @override
   final WebDataBase base;
 
-  WebDataCalendarResponse(this.base, List<CalendarData> calendarData)
+  WebDataCalendarResponse(this.base, List<CalendarData?> calendarData)
       : calendarData = BaseDataList(other: calendarData);
 
   factory WebDataCalendarResponse.fromJson(Map<String, dynamic> map){
@@ -18,12 +18,13 @@ class WebDataCalendarResponse extends WebDataContainer
     BaseDataList(other: List.generate((map['calendarData'] as List<dynamic>).length, (index)
     {
       return CalendarData.fromJson((map['calendarData'] as List<dynamic>)[index] as Map<String, dynamic>);
-    })): BaseDataList<CalendarData>();
+    })): BaseDataList<CalendarData?>();
     var base = WebDataBase.fromJson(map);
     return WebDataCalendarResponse(base, data);
   }
 
   @override
+  // ignore: must_call_super
   Map<String, dynamic> toJsonMap() 
   {
     throw UnimplementedError();

@@ -33,7 +33,8 @@ import 'package:vesta/web/webdata/webDataSubjectRequest.dart';
 import 'package:vesta/web/webdata/webDataSubjectResponse.dart';
 import 'package:vesta/web/webdata/webDataSubjectSignup.dart';
 
-typedef _ServicesCallback = Future<Object?> Function(School school, WebDataContainer request);
+typedef _ServicesCallback<T> 
+  = Future<void> Function(School school, WebDataContainer request, Completer<T?> completer);
 typedef _VoidFutureCallback = Future<void> Function();
 
 abstract class WebServices
@@ -91,7 +92,8 @@ abstract class WebServices
 ''',
 '''
 -----BEGIN CERTIFICATE-----MIIFUTCCBDmgAwIBAgISAw1q6Yf19BxdTu+HtDNyOALoMA0GCSqGSIb3DQEBCwUAMEoxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MSMwIQYDVQQDExpMZXQncyBFbmNyeXB0IEF1dGhvcml0eSBYMzAeFw0yMDA4MTMyMzI4MjhaFw0yMDExMTEyMzI4MjhaMBcxFTATBgNVBAMTDG5lcHR1bi50Zi5odTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAIgfj1oygUqTBFets/jreMYL5KTfD98e2+WKwQo5+RLGQXwGfYjAhkPENWXF9B59PtFbPJd+LfFUHvz086NyKt79imPRR2ZcAoIDHaYWHlobER1hT+YK6rphFv1FAPgdJlOCHKr2wQZGMtNqczK7/LrxOvCQ/LhR9v0B6TszeXCqPgGFgFMBBWmAvtOLLTwAWIhObHx9aPQcE7HYUWcudHYIUXDiSB1UfvnuCvcGkikGFN6wwiGrbTv0YMKJZJ592F54MxKuJlANwxztnBLppwmTpiyJVWLSSyhSrstbZaSixr4gi/WRZYXUasKLv7NNcDIYVXbL7NO6vBSxUVv+hCUCAwEAAaOCAmIwggJeMA4GA1UdDwEB/wQEAwIFoDAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDAYDVR0TAQH/BAIwADAdBgNVHQ4EFgQUrIk2SYTqlhe3N5p8d9z1zRx8bxgwHwYDVR0jBBgwFoAUqEpqYwR93brm0Tm3pkVl7/Oo7KEwbwYIKwYBBQUHAQEEYzBhMC4GCCsGAQUFBzABhiJodHRwOi8vb2NzcC5pbnQteDMubGV0c2VuY3J5cHQub3JnMC8GCCsGAQUFBzAChiNodHRwOi8vY2VydC5pbnQteDMubGV0c2VuY3J5cHQub3JnLzAXBgNVHREEEDAOggxuZXB0dW4udGYuaHUwTAYDVR0gBEUwQzAIBgZngQwBAgEwNwYLKwYBBAGC3xMBAQEwKDAmBggrBgEFBQcCARYaaHR0cDovL2Nwcy5sZXRzZW5jcnlwdC5vcmcwggEFBgorBgEEAdZ5AgQCBIH2BIHzAPEAdgDwlaRZ8gDRgkAQLS+TiI6tS/4dR+OZ4dA0prCoqo6ycwAAAXPqXjI3AAAEAwBHMEUCIQCMwP6ZfH0WrwK7Vxjbrg/O0vsbC6VWyNrPK2eKPtzLNwIgNMYVDlnY5lENm5LHDVmm13AyjAPtgRRtHq37Hy2HiwAAdwAHt1wb5X1o//Gwxh0jFce65ld8V5S3au68YToaadOiHAAAAXPqXjJtAAAEAwBIMEYCIQDUaKMHRvXvsCv/8O0ujD4kEI3rJFDxCTTtHp5BADeHLgIhALb7o7UG9yDMNkvx2V8vOiNZkU6fAtqRlgoLkFQd+XIRMA0GCSqGSIb3DQEBCwUAA4IBAQB+gsDtyQ5fuAaR3lFljH3aQNGcPuI8WJ7Dck6aAi31PTeFsTAgJ/D+nziC51JQvi10jUaVNcFxqu4alfJxZiRcxJcOhP/m8ydhWEfVwPpgD67RtkD62eSOVEZ+b+EIWYkG7vgIdjeBQdeBpGJ2Q5oOdXSIImzyp+lbNR5MIRl1uly37cQR7jsIdPN8+eTG6ifV7CK/tm0xS33VQ3JAGMIuEnUYDsqYy/cqPwOag0sZHs6rMitnHok2BTBekUUf6//9USzfPLw9pZ/7ZPjuzcyfR3+n2iyFn6ovTd0cJ9bg7BgZiZ9bdmquRpYX5Vw3/SIlGgIQyowpsfoAYYo5IWP7-----END CERTIFICATE-----
-'''];
+''',
+];
 
   static final Dio client = _getClient();
   
@@ -110,11 +112,7 @@ abstract class WebServices
       }
     ));
 
-    if(client.httpClientAdapter is DefaultHttpClientAdapter)
-    {
-      (client.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (client)
-      {
-        client.badCertificateCallback = (cert,host,port)
+    final fn = (cert,host,port)
         { 
           
           var nums = host.split('.');
@@ -128,25 +126,18 @@ abstract class WebServices
           Vesta.logger.d('$host:\n ${cert.pem.trim().replaceAll("\n", "")}');
           return false;
         };
+
+    if(client.httpClientAdapter is DefaultHttpClientAdapter)
+    {
+      (client.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (client)
+      {
+        client.badCertificateCallback = fn;
       };
     }
     else if(client.httpClientAdapter is BrowserHttpClient)
     {
 
-      (client.httpClientAdapter as BrowserHttpClient).badCertificateCallback = (cert,host,port)
-        { 
-          
-          var nums = host.split('.');
-          if(nums.length > 2 && nums[0] == '192' && nums[1] == '168'){
-            return false;
-          }
-          if(_certs.any((certString)=> cert.pem.trim().replaceAll('\n', '') == certString.trim().replaceAll('\n', '')) /*|| host == 'mobilecloudservice.cloudapp.net'*/)
-          {
-            return true;
-          }
-          Vesta.logger.d('$host:\n ${cert.pem.trim().replaceAll("\n", "")}');
-          return false;
-        };
+      (client.httpClientAdapter as BrowserHttpClient).badCertificateCallback = fn;
     }
 
     client.interceptors.add(_cookieManager);
@@ -209,63 +200,37 @@ abstract class WebServices
     _loop.whenComplete(()=>Vesta.logger.d('We have ended our life. This blood line has died out with out our loop and it will never return.'));
   }
 
-  static Future<T?> _callFunction<T>(_ServicesCallback callback, School school , WebDataContainer request) async
+  static Future<T?> _callFunctionRaw<T>(_ServicesCallback callback, School school , WebDataContainer request) async
   {
 
-    try{
-      final result = await InternetAddress.lookup('www.example.com');
-      if(result.isEmpty || result[0].rawAddress.isEmpty)
-      {
-        throw SocketException('No connection!');
-      }
-    }
-    on SocketException catch(_)
+    final result = await InternetAddress.lookup('www.example.com');
+    if(result.isEmpty || result[0].rawAddress.isEmpty)
     {
-      Vesta.logger.e('No connection', _);
+      Vesta.logger.e('No connection');
       Vesta.showSnackbar(Text('There is no internet connection!'));
       return null;
     }
 
-    Object? obj;
+    var comp = Completer<T?>();
 
-    var clb = () async
-    {
-      obj = await callback(school, request);
-    };
+    _callbacks.add(() async => await callback(school, request, comp));
 
-    _callbacks.add(clb);
-
-    await Future.doWhile(() async
-    {
-      await Future.delayed(Duration(milliseconds: 50));
-
-      return obj == null;
-    });
-
-    return obj as T;
+    return comp.future;
 
   }
 
-  static Future<SchoolList?> fetchSchools() async
+  static Future<T?> _callFunction<T extends WebDataContainer>(_ServicesCallback callback, School school , WebDataContainer request) async
+    => _callFunctionRaw<T>(callback, school, request);
+
+  static Future<SchoolList?> fetchSchools()
   {
 
-    return await (() async { Object? obj;
+    var completer = Completer<SchoolList?>();
 
-    var clb = () async
-    {
-      obj = await _fetchSchools();
-    };
+    _fetchSchools().then(completer.complete).catchError(completer.completeError);
 
-    _callbacks.add(clb);
+    return completer.future;
 
-    await Future.doWhile(() async
-    {
-      await Future.delayed(Duration(milliseconds: 50));
-
-      return obj == null;
-    });
-
-    return obj as SchoolList?;})();
   }
 
   static Future<SchoolList> _fetchSchools() async
@@ -359,14 +324,14 @@ abstract class WebServices
 
   }
 
-  static Future<WebDataMessages> getMessages(School school, WebDataContainer body) async
+  static Future<WebDataMessages?> getMessages(School school, WebDataContainer body) async
   {
 
     return await _callFunction(_getMessages, school, body);
 
   }
 
-  static Future<WebDataMessages?> _getMessages(School school, WebDataContainer body) async
+  static Future<void> _getMessages(School school, WebDataContainer body, Completer comp) async
   {
     var resp = await client.post(school.Url! + '/GetMessages',
         data: body.toJson());
@@ -381,41 +346,37 @@ abstract class WebServices
     catch(e)
     {
       Vesta.logger.e('MZ/X... MZ/X... Is there any message?', e);
-      return null;
+      comp.complete(null);
     }
 
-    return WebDataMessages.fromJson(jsonBody);
+    comp.complete(WebDataMessages.fromJson(jsonBody));
   }
 
   static Future<bool> setRead(School school, WebDataMessageRead body) async
   {
 
-    return await _callFunction(_setRead, school, body);
+    return await _callFunctionRaw(_setRead, school, body) != null;
 
   }
 
-  static Future<bool> _setRead(School school, WebDataContainer body) async
+  static Future<void> _setRead(School school, WebDataContainer body, Completer comp) async
   {
 
-    try{
 
-      var resp = await client.post(school.Url! + '/SetReadedMessage',
-        data: body.toJson(),);
+    var resp = await client.post(school.Url! + '/SetReadedMessage',
+      data: body.toJson(),);
 
-      Map<String,dynamic> jsonBody = resp.data;
+    Map<String,dynamic> jsonBody = resp.data;
 
-      _testResponse(jsonBody);
-
-      return true;
-
-    }
-    catch(e)
-    {
-
+    var e = _testResponse(jsonBody);
+    if( e != null){
       Vesta.logger.e('I have no memory of this text.', e);
-      return false;
-
+      comp.complete(null);
+      return;
     }
+
+    comp.complete(true);
+
 
   }
 
@@ -427,8 +388,8 @@ abstract class WebServices
 
   }
 
-  static Future<WebDataCalendarResponse?> _getCalendarData
-      (School school, WebDataContainer body) async
+  static Future<void> _getCalendarData
+      (School school, WebDataContainer body, Completer comp) async
   {
     try
     {
@@ -442,76 +403,39 @@ abstract class WebServices
 
       Map<String, dynamic> jsonMap = resp.data;
 
-      Vesta.logger.d('Never gonna turn around...');
+      Vesta.logger.d('Never gonna run around...');
 
       _testResponse(jsonMap);
 
-      Vesta.logger.d('To hurt ya\'!.', null, null );
+      Vesta.logger.d('and desert ya\'!.', null, null );
 
-      return WebDataCalendarResponse.fromJson(jsonMap);
+      comp.complete(WebDataCalendarResponse.fromJson(jsonMap));
     }
     on DioError catch(e)
     {
       Vesta.logger.e( '${e.error?.uri}\nSomething went wrong...\n${e.response?.data}\n${e.error?.data}',e);
-      return null;
+      comp.complete(null);
     }
     catch(e)
     {
 
       Vesta.logger.e('Something went wrong..',e);
-      return null;
+      comp.complete(null);
 
     }
   }
 
-  static void _testResponse(Map<String, dynamic> jsonBody)
+  static String? _testResponse(Map<String, dynamic> jsonBody)
   {
     if(jsonBody['ExceptionData'] != null || jsonBody['ErrorMessage'] != null)
     {
       if(jsonBody['ExceptionData'] == null) {
-        throw jsonBody['ErrorMessage'] as String;
+        return jsonBody['ErrorMessage'] as String;
       }
-      throw jsonBody['ExceptionData'] as String;
+      return jsonBody['ExceptionData'] as String;
     }
 
-  }
-
-  static Future<String?> getSchoolsPrivacyPolicy(School school) async
-  {
-
-    return await (() async { Object? obj;
-
-    var clb = () async
-    {
-      obj = await _getSchoolsPrivacyPolicy(school);
-    };
-
-    _callbacks.add(clb);
-
-    await Future.doWhile(() async
-    {
-      await Future.delayed(Duration(milliseconds: 50));
-
-      return obj == null;
-    });
-
-    return obj as String?;})();
-  }
-
-  static Future<String?> _getSchoolsPrivacyPolicy(School school) async
-  {
-
-    var resp = await client.post(school.Url! + '/GetPrivacyStatement');
-
-    Map<String, dynamic> json = resp.data;
-
-    var url = json['URL'] as String?;
-
-    if(url == null) {
-      return 'No data to display';
-    }
-
-    return (await client.get(url)).data.toString();
+    return null;
 
   }
 
@@ -520,7 +444,7 @@ abstract class WebServices
     return await _callFunction<WebDataStudentBook>(_getStudentBookData, school, body);
   }
 
-  static Future<WebDataStudentBook?> _getStudentBookData(School school, WebDataContainer body) async
+  static Future<WebDataStudentBook?> _getStudentBookData(School school, WebDataContainer body, Completer comp) async
   {
 
     var jBody = <String, dynamic>
@@ -555,66 +479,62 @@ abstract class WebServices
     return await _callFunction<WebDataSemesters>(_getSemestersData, school, body);
   }
 
-  static Future<WebDataSemesters?> _getSemestersData(School school, WebDataContainer body) async 
+  static Future<void> _getSemestersData(School school, WebDataContainer body, Completer comp) async 
   {
 
-    try{
+    var b = body.toJsonMap();
 
-      var b = body.toJsonMap();
+    var resp = await client.post(school.Url! + '/GetPeriods', data: json.encode(b));
+    var jsonData = <String, dynamic>{'PeriodList': []};
+    var periodlist = <Map<String,dynamic>>[];
 
-      var resp = await client.post(school.Url! + '/GetPeriods', data: json.encode(b));
-      Map<String, dynamic> jsonData = resp.data;
-      var periodlist = <Map<String,dynamic>>[];
-
-      do
-      {
-
-        _testResponse(jsonData);
-        periodlist.addAll((jsonData['PeriodList'] as List<dynamic>).cast());
-
-        b['CurrentPage'] += 1;
-
-        resp = await client.post(school.Url! + '/GetPeriods', data: json.encode(b));
-
-        jsonData = resp.data;
-
-      }while(jsonData['PeriodList'] != null && (jsonData['PeriodList'] as List<dynamic>).isNotEmpty 
-      && (resp.data['PeriodList'] as List<dynamic>).length < jsonData['TotalRowCount']);
-
-      jsonData['PeriodList'] = periodlist;
-
-
-      return WebDataSemesters.fromJson(jsonData);
-
-    }
-    catch(e)
+    do
     {
-      Vesta.logger.e('This year went by so fast!',e);
-      return null;
-    }
+
+      var e = _testResponse(jsonData);
+      if( e != null)
+      {
+        Vesta.logger.e('This year went by so fast!',e);
+        comp.complete(null);
+      }
+      periodlist.addAll((jsonData['PeriodList'] as List<dynamic>).cast());
+
+      b['CurrentPage'] += 1;
+
+      resp = await client.post(school.Url! + '/GetPeriods', data: json.encode(b));
+
+      jsonData = resp.data;
+
+    }while(jsonData['PeriodList'] != null && (jsonData['PeriodList'] as List<dynamic>).isNotEmpty 
+    && (resp.data['PeriodList'] as List<dynamic>).length < jsonData['TotalRowCount']);
+
+    jsonData['PeriodList'] = periodlist;
+
+
+    comp.complete(WebDataSemesters.fromJson(jsonData));
+
   }
 
   static Future<List<Map<String, dynamic>>> getPeriodTerms(School school, WebDataContainer body) async
   {
-    return await _callFunction(_getPeriodTerms, school, body);
+    return await _callFunctionRaw(_getPeriodTerms, school, body);
   }
 
-  static Future<List<Map<String, dynamic>>> _getPeriodTerms(School school, WebDataContainer body) async
+  static Future<void> _getPeriodTerms(School school, WebDataContainer body, Completer comp) async
   {
 
-    try
-    {
     var resp = await client.post(school.Url! + '/GetPeriodTerms', data: body.toJson());
 
-    _testResponse(resp.data);
+    var e = _testResponse(resp.data);
 
-    return ((resp.data as Map<String, dynamic>)['PeriodTermsList'] as List<dynamic>).cast<Map<String, dynamic>>();
-    }
-    catch(e)
+    if( e != null)
     {
       Vesta.logger.e('Years? They are just numbers.', e);
-      return [];
+      comp.complete([]);
+      return;
     }
+
+    comp.complete(((resp.data as Map<String, dynamic>)['PeriodTermsList'] as List<dynamic>).cast<Map<String, dynamic>>());
 
   }
 
@@ -623,53 +543,46 @@ abstract class WebServices
     return await _callFunction<WebDataSubjectResponse>(_getSubjects, school, body);
   }
 
-  static Future<WebDataSubjectResponse?> _getSubjects(School school, WebDataContainer body) async
+  static Future<void> _getSubjects(School school, WebDataContainer body, Completer comp) async
   {
 
-    try{
+    var respBody = body.toJsonMap();
 
-      var respBody = body.toJsonMap();
-
-      if(respBody['CurrentPage'] == 0)
-      {
-        respBody['CurrentPage'] = 1;
-      }
-
-      var resp = await client.post(school.Url! + '/GetSubjects',
-        data: json.encode(respBody));
-
-      Map<String,dynamic> jsonBody = resp.data;
-
-      _testResponse(jsonBody);
-
-      while(respBody['CurrentPage'] < 25 &&(resp.data['SubjectList'] != null || (resp.data['SubjectList'] as List<dynamic>).isNotEmpty ) 
-      && (resp.data['SubjectList'] as List<dynamic>).length < jsonBody['TotalRowCount'])
-      {
-
-        respBody['CurrentPage'] += 1;
-
-        resp = await client.post(school.Url! + '/GetSubjects',
-        data: json.encode(respBody));
-
-        (resp.data['SubjectList'] as List<dynamic>).addAll(jsonBody['SubjectList']);
-
-        jsonBody = resp.data;
-
-        _testResponse(jsonBody);
-
-      }
-
-      return WebDataSubjectResponse.fromJson(jsonBody);
-
+    if(respBody['CurrentPage'] <= 0)
+    {
+      respBody['CurrentPage'] = 1;
     }
-    catch(e)
+
+    var jsonBody = <String, dynamic>{'SubjectList': []};
+
+    String? e;
+    late Response<dynamic> resp;
+
+    do
     {
 
-      Vesta.logger.e('I can\'t make the reservations anyway.', e);
-      return null;
+      resp = await client.post<Map<String, dynamic>>(school.Url! + '/GetSubjects',
+      data: json.encode(respBody));
 
-    }
+      (resp.data['SubjectList'] as List<dynamic>).addAll(jsonBody['SubjectList']);
 
+      jsonBody = resp.data;
+
+      e = _testResponse(jsonBody);
+
+      if(e != null)
+      {
+        Vesta.logger.e('I can\'t make the reservations anyway.', e);
+        comp.complete(null);
+        return;
+      }
+
+      respBody['CurrentPage'] += 1;
+
+    } while(respBody['CurrentPage'] < 25 &&(resp.data['SubjectList'] != null || (resp.data['SubjectList'] as List<dynamic>).isNotEmpty ) 
+    && (resp.data['SubjectList'] as List<dynamic>).length < jsonBody['TotalRowCount']);
+
+    comp.complete(WebDataSubjectResponse.fromJson(jsonBody));
 
   }
 
@@ -680,59 +593,56 @@ abstract class WebServices
     
     
     
-  static Future<WebDataCourseResponse?> _getCourses(School school, WebDataContainer body) async
+  static Future<void> _getCourses(School school, WebDataContainer body, Completer comp) async
   {
-    try{
+  
 
-      var resp = await client.post(school.Url! + '/GetCourses',
-        data: body.toJson(),);
+    var resp = await client.post(school.Url! + '/GetCourses',
+      data: body.toJson(),);
 
-      Map<String,dynamic> jsonBody = resp.data;
+    Map<String,dynamic> jsonBody = resp.data;
 
-      _testResponse(jsonBody);
+    var e = _testResponse(jsonBody);
 
-      return WebDataCourseResponse.fromJson(jsonBody);
-
-    }
-    catch(e)
+    if(e != null)
     {
-
       Vesta.logger.e('Just let me lie down here. Just for a sec.', e);
-      return null;
-
+      comp.complete(null);
+      return;
     }
+
+    comp.complete(WebDataCourseResponse.fromJson(jsonBody));
+
   }
 
 
   static Future<bool?> saveSubject(School school, WebDataSubjectSignupRequest body) async 
   {
-    return await _callFunction<bool?>(_saveSubject, school, body);
+    return await _callFunctionRaw<bool?>(_saveSubject, school, body);
   }
     
     
     
-  static Future<bool?> _saveSubject(School school, WebDataContainer body) async
+  static Future<void> _saveSubject(School school, WebDataContainer body, Completer comp) async
   {
-    try{
 
-      var resp = await client.post(school.Url! + '/SaveSubject',
-        data: body.toJson(),);
+    var resp = await client.post(school.Url! + '/SaveSubject',
+      data: body.toJson(),);
 
-      Map<String,dynamic> jsonBody = resp.data;
+    Map<String,dynamic> jsonBody = resp.data;
 
-      _testResponse(jsonBody);
+    var e = _testResponse(jsonBody);
 
-      return (body as WebDataSubjectSignupRequest).SubjectSignin;
-
-    }
-    catch(e)
+    if( e != null)
     {
-
       Vesta.logger.e('Let me look at the calendar... Yeh, it\'s empty.', e);
-      Vesta.showSnackbar(Text('$e'));
-      return null;
-
+      Vesta.showSnackbar(Text(e));
+      comp.complete(null);
+      return;
     }
+
+    comp.complete((body as WebDataSubjectSignupRequest).SubjectSignin);
+
   }
 
   static Future<WebDataExamResponse?> getExams(School school, WebDataExamRequest body)
@@ -740,27 +650,24 @@ abstract class WebServices
     return _callFunction<WebDataExamResponse>(_getExams, school, body);
   }
 
-  static Future<WebDataExamResponse?> _getExams(School school, WebDataContainer body) async
+  static Future<void> _getExams(School school, WebDataContainer body, Completer comp) async
   {
-    try{
-
       var resp = await client.post(school.Url! + '/GetExams',
-        data: body.toJson(),);
+      data: body.toJson(),);
 
-      Map<String,dynamic> jsonBody = resp.data;
+    Map<String,dynamic> jsonBody = resp.data;
 
-      _testResponse(jsonBody);
+    var e = _testResponse(jsonBody);
 
-      return WebDataExamResponse.fromJson(jsonBody, (body as WebDataExamRequest).ExamType);
-
-    }
-    catch(e)
+    if( e != null)
     {
-
       Vesta.logger.e('The test of bravery and mind. But still failed.', e);
-      return null;
-
+      comp.complete(null);
+      return;
     }
+
+    comp.complete(WebDataExamResponse.fromJson(jsonBody, (body as WebDataExamRequest).ExamType));
+ 
   }
 
   static Future<WebDataExamDetailsResponse?> getExamDetails(School school, WebDataExamDetailsRequest body)
@@ -768,83 +675,109 @@ abstract class WebServices
     return _callFunction<WebDataExamDetailsResponse>(_getExamDetails, school, body);
   }
 
-  static Future<WebDataExamDetailsResponse?> _getExamDetails(School school, WebDataContainer body) async 
+  static Future<void> _getExamDetails(School school, WebDataContainer body, Completer comp) async 
   {
-    try{
+  
 
-      var resp = await client.post(school.Url! + '/GetExamDetails',
-        data: body.toJson(),);
+    var resp = await client.post(school.Url! + '/GetExamDetails',
+      data: body.toJson(),);
 
-      Map<String,dynamic> jsonBody = resp.data;
+    Map<String,dynamic> jsonBody = resp.data;
 
-      _testResponse(jsonBody);
+    var e = _testResponse(jsonBody);
 
-      return WebDataExamDetailsResponse.fromJson(jsonBody);
-
-    }
-    catch(e)
+    if(e != null)
     {
-
       Vesta.logger.e('The devil is in the details.', e);
-      return null;
-
+      comp.complete(null);
+      return;
     }
+
+    comp.complete(WebDataExamDetailsResponse.fromJson(jsonBody));
+
   }
 
   static Future<WebDataExamSignupResponse?> setExamSigning(School school, WebDataExamSignup body) async
   {
-    return _callFunction<WebDataExamSignupResponse?>(_SetExamSigning, school, body);
+    return _callFunction<WebDataExamSignupResponse>(_SetExamSigning, school, body);
   }
 
-  static Future<WebDataExamSignupResponse?> _SetExamSigning(School school, WebDataContainer body) async
+  static Future<void> _SetExamSigning(School school, WebDataContainer body, Completer comp) async
   {
-    
 
-    try{
+    var resp = await client.post(school.Url! + '/SetExamSigning',
+      data: body.toJson(),);
 
-      var resp = await client.post(school.Url! + '/SetExamSigning',
-        data: body.toJson(),);
+    Map<String,dynamic> jsonBody = resp.data;
 
-      Map<String,dynamic> jsonBody = resp.data;
+    var e = _testResponse(jsonBody);
 
-      _testResponse(jsonBody);
-
-      return WebDataExamSignupResponse.fromJson(jsonBody);
-
-    }
-    catch(e)
-    {
-
+    if(e != null){
       Vesta.logger.e('Show me where to sign.', e);
-      return null;
-
+      comp.complete(null);
+      return;
     }
+
+    comp.complete(WebDataExamSignupResponse.fromJson(jsonBody));
+
   }
 
-  static Future<String?> getAppPrivacyPolicy()
+  static Future<String?> getSchoolsPrivacyPolicy(School school) async
   {
-    return (() async { Object? obj;
+
+    var comp = Completer<String>();
 
     var clb = () async
     {
-      obj = await _getAppPrivacyPolicy();
+      await _getSchoolsPrivacyPolicy(comp, school);
     };
 
     _callbacks.add(clb);
 
-    await Future.doWhile(() async
-    {
-      await Future.delayed(Duration(milliseconds: 50));
-
-      return obj == null;
-    });
-
-    return obj as String?;})();
+    return comp.future;
   }
 
-  static Future<String> _getAppPrivacyPolicy() async
+  static Future<void> _getSchoolsPrivacyPolicy(Completer<String> comp, School school) async
   {
-    return (await client.get('https://bitbucket.org/Balint66/vesta/raw/3d2c4a037d6253f8ed607a4e3efcfda63a037b8a/repository_assets/PRIVACY_POLICY.md')).data.toString();
+
+    var resp = await client.post(school.Url! + '/GetPrivacyStatement');
+
+    Map<String, dynamic> json = resp.data;
+
+    var url = json['URL'] as String?;
+
+    if(url == null)
+    {
+      comp.complete('No data to display');
+      return;
+    }
+
+    comp.complete((await client.get(url)).data.toString());
+
+  }
+
+
+  static Future<String?> getAppPrivacyPolicy()
+  {
+
+    var comp = Completer<String>();
+
+    var clb = () async
+    {
+      await _getAppPrivacyPolicy(comp);
+    };
+
+    _callbacks.add(clb);
+
+    return comp.future;
+
+  }
+
+  static Future<void> _getAppPrivacyPolicy( Completer comp ) async
+  {
+    comp.complete(
+      (await client.get('https://bitbucket.org/Balint66/vesta/raw/3d2c4a037d6253f8ed607a4e3efcfda63a037b8a/repository_assets/PRIVACY_POLICY.md'))
+        .data.toString());
   }
 
 }

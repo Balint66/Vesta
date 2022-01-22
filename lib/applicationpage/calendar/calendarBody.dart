@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:vesta/applicationpage/MainProgram.dart';
 import 'package:vesta/applicationpage/calendar/calendarDataDetailedDisplay.dart';
 import 'package:vesta/datastorage/calendarData.dart';
@@ -44,7 +43,7 @@ class CalendarBody extends StatelessWidget{
                       Text(_formatDate(_data)),
                       Container(
                         padding: EdgeInsets.only(left:10),
-                        child: Icon(_data.type.icon, color: _data.eventColor, size: 30,),
+                        child: Icon(_data.type.icon, color: _data.eventColor, size: 23,),
                       )
                     ],
                   ),

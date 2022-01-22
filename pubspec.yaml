@@ -15,7 +15,7 @@ version: 0.0.2+1
 publish_to: none
 
 environment:
-  sdk: ">=2.11.0-213.0.dev <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -29,16 +29,9 @@ dependencies:
     git:
       url: https://github.com/MaikuB/flutter_local_notifications
       path: flutter_local_notifications/
-      ref: nnbd
-  fluro:
-    git:
-      url: https://github.com/theyakka/fluro
-      version: ^1.7.8
-      ref: null-safety
   url_launcher:
     git:
       url: https://github.com/flutter/plugins
-      ref: url_launcher-v6.0.0-nullsafety.6
       path: packages/url_launcher/url_launcher/
   logger:
     git:
@@ -51,7 +44,6 @@ dependencies:
     git:
       url: https://github.com/flutter/plugins
       path: packages/path_provider/path_provider/
-      ref: path_provider-v2.0.0-nullsafety
   #flutter_svg:
   #  git:
   #    url: https://github.com/dnfield/flutter_svg
@@ -63,20 +55,19 @@ dependencies:
   dio_cookie_manager:
     git:
       url: https://github.com/flutterchina/dio.git
-      ref: "4.0"
       path: plugins/cookie_manager
   duration_picker:
     git:
       url: https://github.com/juliansteenbakker/duration_picker
-
+  i18n_extension: ^4.1.0
   universal_html: 
     version: ^2.0.8
   flutter_feather_icons:
     git:
-      url: https://github.com/II11II/flutter_feather_icons
-      version: ^1.0.3
+      url: https://github.com/NikSWE/flutter_feather_icons
+      version: ^2.0.0
   encrypt: ^5.0.0 
-  flutter_secure_storage: ^4.1.0
+  flutter_secure_storage: ^4.2.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -92,7 +83,6 @@ dependency_overrides:
   dio:
     git:
       url: https://github.com/flutterchina/dio.git
-      ref: "4.0"
       path: dio
 
 dev_dependencies:
@@ -126,6 +116,7 @@ flutter:
     - assets/i18n/localization_en.json
     - assets/i18n/localization_hu.json
     - assets/icon/vesta.png
+    - assets/icon/vesta.svg
 
   # To add assets to your application, add an assets section, like this:
   # assets:

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vesta/datastorage/data.dart';
 import 'package:vesta/datastorage/Lists/schoolList.dart';
-import 'package:vesta/i18n/appTranslations.dart';
+import 'login.i18n.dart';
 
 class SchoolSelectionButton extends StatefulWidget
 {
@@ -34,7 +34,7 @@ class SchoolButtonState extends State<SchoolSelectionButton>
   Widget build(BuildContext context)
   {
 
-    text = Data.school == null ? (AppTranslations.of(context).translate('login_schools_button')) : Data.school?.Name;
+    text = Data.school == null ? ('schools_button'.i18n) : Data.school?.Name;
 
     return Column(
       children: getErrorTextedButton(context),
@@ -84,7 +84,7 @@ class SchoolButtonState extends State<SchoolSelectionButton>
           title: Container(
             padding: EdgeInsets.fromLTRB(0,0,0,24),
             decoration: BoxDecoration(border: Border(bottom: BorderSide(width: 1))),
-            child: Center(child: Text(AppTranslations.of(context).translate('login_schools')), 
+            child: Center(child: Text('schools'.i18n), 
             ),
             ),
           contentPadding: EdgeInsets.fromLTRB(10.0, 12.0, 10.0, 20.0),
@@ -100,7 +100,7 @@ class SchoolButtonState extends State<SchoolSelectionButton>
     {
       widget._formState.didChange(chosen);
       Data.school = chosen;
-      text = chosen != null ? chosen?.Name : AppTranslations.of(context).translate('login_schools_button');
+      text = chosen != null ? chosen?.Name : 'schools_button'.i18n;
     });
 
 

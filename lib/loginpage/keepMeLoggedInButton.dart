@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:vesta/Vesta.dart';
-import 'package:vesta/i18n/appTranslations.dart';
+import 'package:vesta/managers/settingsManager.dart';
+import 'login.i18n.dart';
 
 class KeepMeLoggedInButton extends StatefulWidget
 {
@@ -23,12 +22,12 @@ class _KeepMeLoggedInButtonState extends State<KeepMeLoggedInButton>
       spacing: 5,
       children: <Widget>[
         Checkbox(
-            value: Vesta.of(context).settings.stayLogged,
-            onChanged: (bool? value)=> Vesta.of(context).updateSettings(keepMeLogged: value),
+            value: SettingsManager.INSTANCE.settings.stayLogged,
+            onChanged: (bool? value)=> SettingsManager.INSTANCE.updateSettings(keepMeLogged: value),
         ),
         Container(
           padding: EdgeInsets.only(top: 15),
-          child: Text((AppTranslations.of(context)).translate('login_keepmeloggedin')),
+          child: Text('keepmeloggedin'.i18n),
         ),
       ],
     );

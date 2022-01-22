@@ -4,7 +4,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:overlay_support/overlay_support.dart';
 
 
-class MessageManager
+abstract class MessageManager
 {
 
   static final _defaultAndroidDetail = AndroidNotificationDetails('vesta_main', 'Vesta', 'Vesta notifications', importance: Importance.high, priority: Priority.high, ticker: 'ticker');
@@ -24,7 +24,7 @@ class MessageManager
     return plugin;
   }
 
-  static void showNotification(String text, {NotificationType type = NotificationType.PLAIN, int splitAtCharacters = 20, String payload = '', AndroidBitmap? bitmap})
+  static void showNotification(String text, {NotificationType type = NotificationType.PLAIN, int splitAtCharacters = 20, String payload = '', AndroidBitmap<Object>? bitmap})
   {
 
     switch(type)

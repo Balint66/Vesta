@@ -1,6 +1,6 @@
-import 'dart:ui';
 import 'package:flutter/widgets.dart';
 import 'package:vesta/i18n/appTranslationsDelegate.dart';
+
 class LocalizedApplication extends ChangeNotifier
  {
 

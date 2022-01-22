@@ -16,6 +16,7 @@ class WebDataCourseResponse extends WebDataContainer
   .map((e) => CourseData.fromJson(e)).toList().cast()), base = WebDataBase.fromJson(json);
 
   @override
+  // ignore: must_call_super
   Map<String, dynamic> toJsonMap() 
   {
     throw UnimplementedError();

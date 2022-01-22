@@ -1,0 +1,16 @@
+{
+    "zigLanguageClient": {
+        "path": "/usr/bin/zls",
+    },
+    "spellright.language": [],
+    "spellright.documentTypes": [
+        "markdown",
+        "latex",
+        "plaintext"
+    ],
+    "spellright.parserByClass": {
+        "dart": {
+            "parser": "code"
+        }
+    },
+}

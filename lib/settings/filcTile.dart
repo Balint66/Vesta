@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:vesta/i18n/appTranslations.dart';
 
 class FilcTile extends StatelessWidget

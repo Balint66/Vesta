@@ -3,7 +3,6 @@ import 'package:vesta/Vesta.dart';
 import 'package:vesta/applicationpage/MainProgram.dart';
 import 'package:vesta/applicationpage/common/clickableCard.dart';
 import 'package:vesta/applicationpage/common/kamonjiDisplayer.dart';
-import 'package:vesta/applicationpage/common/popupOptionProvider.dart';
 import 'package:vesta/applicationpage/common/refreshExecuter.dart';
 import 'package:vesta/datastorage/Lists/basedataList.dart';
 import 'package:vesta/applicationpage/messages/messageDisplay.dart';
@@ -32,10 +31,6 @@ with SingleTickerProviderStateMixin
 
   TabController? _tabController;
 
-  static final PopupOptionData data = PopupOptionData(
-    builder:(BuildContext ctx){ return []; }, selector: (int value){}
-  );
-
   @override
   void initState() {
     super.initState();
@@ -50,26 +45,25 @@ with SingleTickerProviderStateMixin
 
     return StreamBuilder(
               stream: messages.getData(),
-              builder: (BuildContext context, AsyncSnapshot<BaseDataList<Message>> snap)
+              builder: (BuildContext context, AsyncSnapshot<BaseDataList<Message?>> snap)
               {
 
                 var unread = translator.translate('messages_unread');
 
                 var ls = <Widget>[];
-                var unreadnum = 0;
+                var unreadnum = messages.unreadMsgCount;
 
                 if(snap.hasData)
                 {
 
                   var readls = (snap.data!
-                      .where((item)=>!item.isNew).toList()
-                      ..sort((Message a, Message b)=>-1*a.time.compareTo(b.time)));
+                      .where((item)=>!item!.isNew).toList()
+                      ..sort((Message? a, Message? b)=>-1*a!.time.compareTo(b!.time)));
 
                   var unreadls = (snap.data!
-                      .where((item)=>item.isNew).toList()
-                      ..sort((Message a, Message b)=>-1*a.time.compareTo(b.time)));
+                      .where((item)=>item!.isNew).toList()
+                      ..sort((Message? a, Message? b)=>-1*a!.time.compareTo(b!.time)));
 
-                  unreadnum = unreadls.length;
 
                   if(unreadls.isNotEmpty){
                     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {_tabController!.animateTo(0);});
@@ -160,19 +154,20 @@ typedef displayFunction = void Function(Message item);
 class SortedMessages extends StatelessWidget
 {
 
-  final List<Message> _messages;
+  final List<Message?> _messages;
   final displayFunction _ontap;
   final displayFunction? _onLongPress;
 
-  SortedMessages(List<Message> msg, displayFunction onTap, {displayFunction? onLongPress}) : _messages = msg,
+  SortedMessages(List<Message?> msg, displayFunction onTap, {displayFunction? onLongPress}) : _messages = msg,
         _ontap = onTap, _onLongPress = onLongPress, super();
 
   @override
   Widget build(BuildContext context)
   {
     return ListView(
+      reverse: true,
       children: List.of( _messages.map  ((item) => 
-        ClickableCard(child: ListTile(title: Text(item.subject),
+        ClickableCard(child: ListTile(title: Text(item!.subject),
             subtitle: Text(item.senderName),
             onTap: () => _ontap(item),
             onLongPress: () => _onLongPress?.call(item),

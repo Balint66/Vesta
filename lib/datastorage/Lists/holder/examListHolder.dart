@@ -1,6 +1,6 @@
 part of 'listDataHolder.dart';
 
-class ExamListHolder extends ListDataHolder<BaseDataList<Exam>>
+class ExamListHolder extends ListDataHolder<BaseDataList<Exam?>>
 {
 
   ExamListHolder(AccountData account) : super(account, BaseDataList<Exam>());

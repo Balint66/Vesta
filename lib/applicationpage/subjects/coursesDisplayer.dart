@@ -9,9 +9,9 @@ class CoursesDisplayer extends StatelessWidget
 {
 
   final CourseSetter _setter;
-  final List<CourseData> _datas;
+  final List<CourseData?> _datas;
 
-  CoursesDisplayer(List<CourseData> data, CourseSetter setter) : _setter = setter, _datas = data, super();
+  CoursesDisplayer(List<CourseData?> data, CourseSetter setter) : _setter = setter, _datas = data, super();
 
   @override
   Widget build(BuildContext context) {
@@ -40,11 +40,11 @@ class CoursesDisplayer extends StatelessWidget
       return Container(padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         child: ClickableCard(child: ListTile(title: Column(children: 
         [
-          Text('${translator.translate("course_code")}: ${item.CourseCode}'),
-          Text('${translator.translate("course_numbers")}: ${item.Letszamok}'),
-          Text('${translator.translate("course_timetable")}: ${item.CourseTimeTableInfo}'),
-          Text('${translator.translate("course_tutor")}: ${item.CourseTutor}'),
-          Text('${translator.translate("course_ranks")}: ${item.RangsorPontszamok}')
+          Text('${translator.translate("course_code")}: ${item?.CourseCode}'),
+          Text('${translator.translate("course_numbers")}: ${item?.Letszamok}'),
+          Text('${translator.translate("course_timetable")}: ${item?.CourseTimeTableInfo}'),
+          Text('${translator.translate("course_tutor")}: ${item?.CourseTutor}'),
+          Text('${translator.translate("course_ranks")}: ${item?.RangsorPontszamok}')
         ]),
          onTap: ()=> _setter(index-1))
        ));

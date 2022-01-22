@@ -1,9 +1,7 @@
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:vesta/Vesta.dart';
+import 'package:vesta/managers/settingsManager.dart';
 
 class ColorSelector extends StatefulWidget
 {
@@ -26,8 +24,8 @@ class _ColorSelectorState extends State<ColorSelector>
 
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
-    var ratio = (width*3)/(height*4);
-    _chosenColor ??= Vesta.of(context).settings.mainColor;
+    var ratio = (width*0.75)/(height);
+    _chosenColor ??= SettingsManager.INSTANCE.settings.mainColor;
 
     return AlertDialog
       (title: Text('Colors'),
@@ -49,8 +47,8 @@ class _ColorSelectorState extends State<ColorSelector>
           child: Text('Cancel'),
         ),
         MaterialButton(
-          onPressed: _chosenColor != Vesta.of(context).settings.mainColor
-              ? (){ Vesta.of(context).updateSettings(mainColor: _chosenColor); Navigator.pop(context);} : null
+          onPressed: _chosenColor != SettingsManager.INSTANCE.settings.mainColor
+              ? (){ SettingsManager.INSTANCE.updateSettings(mainColor: _chosenColor); Navigator.pop(context);} : null
           ,
           child: Text('Apply'),
         ),
@@ -234,7 +232,7 @@ class _ColorSelectorState extends State<ColorSelector>
               _chosenColor = col;
             });
 
-            Vesta.of(context).updateSettings(mainColor: col);
+            SettingsManager.INSTANCE.updateSettings(mainColor: col);
             var nav = Navigator.of(context);
             nav.pop();
             nav.pop();

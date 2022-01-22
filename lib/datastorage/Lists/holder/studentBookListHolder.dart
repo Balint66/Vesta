@@ -1,6 +1,6 @@
 part of 'listDataHolder.dart';
 
-class StudentBookListHolder extends ListDataHolder<BaseDataList<StudentBookData>>
+class StudentBookListHolder extends ListDataHolder<BaseDataList<StudentBookData?>>
 {
 
   static final Duration defaultInterval = Duration(days:1);

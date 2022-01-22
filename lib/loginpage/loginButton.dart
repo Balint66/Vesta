@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:vesta/datastorage/data.dart';
 import 'package:vesta/Vesta.dart';
-import 'package:vesta/i18n/appTranslations.dart';
+import 'package:vesta/managers/settingsManager.dart';
+import 'login.i18n.dart';
 import 'package:vesta/loginpage/loginForm.dart';
 import 'package:vesta/managers/accountManager.dart';
 import 'package:vesta/routing/router.dart';
@@ -39,7 +39,7 @@ class LoginBtnState extends State<LoginButton>
           color: Theme.of(context).primaryColor,
           minWidth: 150.0,
           shape: RoundedRectangleBorder(side: BorderSide(color: Theme.of(context).primaryColor, width:2.0), borderRadius: BorderRadius.circular(20.0)),
-          child: Text(AppTranslations.of(context).translate('login_login_button'), maxLines: 1,),
+          child: Text('login'.i18n, maxLines: 1,),
       );
     }
     else
@@ -49,17 +49,22 @@ class LoginBtnState extends State<LoginButton>
 
           SimpleConatiner? cont;
 
-          try{
-          cont = await WebServices.login(LoginForm.of(context).userName, LoginForm.of(context).password, Data.school,
-          Vesta.of(context).settings.stayLogged);
-          Future.delayed(Duration(seconds:2),()=>setState(() {
-            _loggingIn = false;
-            Navigator.pushReplacementNamed(context, '/app/home');
-          }));
+          try
+          {
+            cont = await WebServices.login(LoginForm.of(context).userName, LoginForm.of(context).password, Data.school,
+            SettingsManager.INSTANCE.settings.stayLogged);
+            Future.delayed(Duration(seconds:2),()=>setState(() {
+              _loggingIn = false;
+              if(cont != null)
+              {
+                (Router.of(context).routerDelegate as MainDelegate).SetPath('/app/home');
+              }
+            }));
+            
           }
           catch(e)
           {
-            Vesta.showSnackbar(Text(AppTranslations.of(context).translate('login_login_error')));
+            Vesta.showSnackbar(Text('login_error'.i18n));
             rethrow;
           }
           return cont;
@@ -75,7 +80,7 @@ class LoginBtnState extends State<LoginButton>
               Vesta.logger.e('LET ME IIIN!', snapshot.error);
             }
 
-            if(VestaRouter.mainKey.currentContext != null)
+            if(MainDelegate.mainKey.currentContext != null)
             {
               AccountManager.currentAccount.refreshListHolders();
             }

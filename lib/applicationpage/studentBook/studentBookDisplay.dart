@@ -23,7 +23,7 @@ class _StudentBookDisplayState extends State<StudentBookDisplay>
   @override
   Widget build(BuildContext context)
   {
-    return StreamBuilder(stream: AccountManager.currentAccount.studentBook.getData(),builder:(BuildContext ctx, AsyncSnapshot<BaseDataList<StudentBookData>> snap)
+    return StreamBuilder(stream: AccountManager.currentAccount.studentBook.getData(),builder:(BuildContext ctx, AsyncSnapshot<BaseDataList<StudentBookData?>> snap)
     {
 
       if(snap.hasData)
@@ -33,7 +33,7 @@ class _StudentBookDisplayState extends State<StudentBookDisplay>
 
         var grades = snap.data!.map((e)=> int.parse(
           ((){
-            var hasMatch = regex.hasMatch(e.Values);
+            var hasMatch = regex.hasMatch(e!.Values);
             if(!hasMatch)
             {
               return '0';
@@ -46,9 +46,9 @@ class _StudentBookDisplayState extends State<StudentBookDisplay>
             }).call()))
           .toList();
 
-        var credIndex = snap.data!.where((e)=> e.Values.isNotEmpty).map((e)=> int.parse((()
+        var credIndex = snap.data!.where((e)=> e!.Values.isNotEmpty).map((e)=> int.parse((()
         {
-          var hasMatch = regex.hasMatch(e.Values);
+          var hasMatch = regex.hasMatch(e!.Values);
             if(!hasMatch)
             {
               return '0';
@@ -58,7 +58,7 @@ class _StudentBookDisplayState extends State<StudentBookDisplay>
               var match = regex.allMatches(e.Values);
               return match.last.group(0)![1];
             }
-        }).call()).toDouble() * e.Credit).fold(0, (prev, element) => (prev! as num) + element) / 30.0;
+        }).call()).toDouble() * e!.Credit).fold(0, (prev, element) => (prev! as num) + element) / 30.0;
 
         double average;
 
@@ -70,8 +70,8 @@ class _StudentBookDisplayState extends State<StudentBookDisplay>
           average = 0.0;
         }
 
-        var credPercent = (snap.data!.where((e)=> e.Values.isNotEmpty).map((e) =>e.Credit).fold(0, (prev, e) => (prev! as num) + e) as int).toDouble() / 
-            (snap.data!.map((e)=> e.Credit).fold(0,(prev, e) => (prev! as num) + e)).toDouble();
+        var credPercent = (snap.data!.where((e)=> e!.Values.isNotEmpty).map((e) =>e!.Credit).fold(0, (prev, e) => (prev! as num) + e) as int).toDouble() / 
+            (snap.data!.map((e)=> e!.Credit).fold(0,(prev, e) => (prev! as num) + e)).toDouble();
 
         var translator = AppTranslations.of(context);
 
@@ -83,7 +83,7 @@ class _StudentBookDisplayState extends State<StudentBookDisplay>
             Container( padding: EdgeInsets.symmetric(horizontal:30, vertical:7),child: Text("${translator.translate("studentbook_ci")}: ${credIndex.toStringAsFixed(2)}"), ),
             Container( padding: EdgeInsets.fromLTRB(30, 7, 30, 15),child: Text("${translator.translate("studentbook_cci")}: ${ (credIndex * credPercent).toStringAsFixed(2)}"), )], ),
           Expanded( child: ListView(children: snap.data!.expand((element) => [Card(child: ListTile(
-          leading: Icon(element.Completed ? Icons.check : Icons.close, color: element.Completed ? Colors.green : Colors.red),
+          leading: Icon(element!.Completed ? Icons.check : Icons.close, color: element.Completed ? Colors.green : Colors.red),
           title: Text(element.SubjectName), 
           subtitle: Text(element.Values.replaceAll('<br/>', '\n'))))]).toList()))]);
           }

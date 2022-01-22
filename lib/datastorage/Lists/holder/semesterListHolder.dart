@@ -1,7 +1,7 @@
 part of 'listDataHolder.dart';
 
 //TODO: Rethink this class
-class SemesterListHolder extends ListDataHolder<BaseDataList<PeriodData>>
+class SemesterListHolder extends ListDataHolder<BaseDataList<PeriodData?>>
 {
 
   static final Duration defaultInterval = Duration(days:1);

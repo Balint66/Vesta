@@ -48,7 +48,7 @@ class SubjectDetailedDisplay extends StatelessWidget
                 return CircularProgressIndicator();
               }
 
-              var coursesByType = groupBy(snap.data!.CourseList, (CourseData obj)=>obj.CourseType_DNAME);
+              var coursesByType = groupBy(snap.data!.CourseList, (CourseData? obj)=>obj?.CourseType_DNAME);
               var courses = List<int>.generate(coursesByType.length, (index) => -1);
               var entries = coursesByType.entries.toList();
 
@@ -63,7 +63,7 @@ class SubjectDetailedDisplay extends StatelessWidget
                     child: Container(
                     color: Theme.of(context).primaryColor,
                       child: ListTile(
-                        title: Center(child: Text(entries[index].key)),
+                        title: Center(child: Text(entries[index].key!)),
                         onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => CoursesDisplayer(entries[index].value,(ind)
                         {
                             setState((){
@@ -71,7 +71,7 @@ class SubjectDetailedDisplay extends StatelessWidget
                             });
                             Navigator.pop(context);
                         }),)),
-                        subtitle: Center(child: Text("${courses[index] < 0 ? 'None' : entries[index].value[courses[index]].CourseCode}"))), ), );
+                        subtitle: Center(child: Text("${courses[index] < 0 ? 'None' : entries[index].value[courses[index]]?.CourseCode}"))), ), );
 
                 }));
 
@@ -91,7 +91,7 @@ class SubjectDetailedDisplay extends StatelessWidget
                         var signed = await WebServices.saveSubject(Data.school!, WebDataSubjectSignupRequest(AccountManager.currentAccount.webBase, TermID: data.TermID,
                         SubjectID: data.SubjectId, CurriculumID: data.CurriculumTemplateID, IsOnSubject: data.IsOnSubject,
                         SubjectSignin: !data.IsOnSubject, CurriculumTemplatelineID: data.CurriculumTemplatelineID,
-                        AllType: entries.map((e) => e.value[0].CourseType).toList(), CourseIDs: (()
+                        AllType: entries.map((e) => e.value[0]!.CourseType).toList(), CourseIDs: (()
                         {
                           var list = List<int>.generate(courses.length, (index) => 0);
 
@@ -101,7 +101,7 @@ class SubjectDetailedDisplay extends StatelessWidget
                               continue;
                             }
 
-                            list[i] = entries[i].value[courses[i]].Id;
+                            list[i] = entries[i].value[courses[i]]!.Id;
                             
                           }
 

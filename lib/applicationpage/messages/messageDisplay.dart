@@ -35,17 +35,25 @@ class MessageDisplay extends StatelessWidget
       body: Container(
         padding: EdgeInsets.fromLTRB(30, 15, 30, 30),
         child: SingleChildScrollView(child: Column(children: <Widget>[
-        Center( child: Text(subject,style: TextStyle(fontSize: 26),)),
+        Center( child:
+          Container(
+            padding: EdgeInsets.fromLTRB(0, 15, 0, 45),
+            child: Text(
+              subject,
+              style: TextStyle(fontSize: 26),
+              ),
+            ),),
         HtmlWidget(
             message.replaceAll('\n', '</br>'),
             textStyle: TextStyle(fontSize: 16),
             onTapUrl: (url) async
             {
               if(await canLaunch(url)){
-                await launch(url);
+                return launch(url);
                 }
               else{
-                Vesta.showSnackbar(Text("${AppTranslations.of(context).translate("message_urllaunch_error")} $url"));
+                  Vesta.showSnackbar(Text("${AppTranslations.of(context).translate("message_urllaunch_error")} $url"));
+                  return false;
                 }
             },
             buildAsync: true,

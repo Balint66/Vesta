@@ -1,6 +1,6 @@
 part of 'listDataHolder.dart';
 
-class CalendarListHolder extends ListDataHolder<BaseDataList<CalendarData>>
+class CalendarListHolder extends ListDataHolder<BaseDataList<CalendarData?>>
 {
 
   static final Duration defaultInterval = Duration(minutes:10);

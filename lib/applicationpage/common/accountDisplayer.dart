@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:vesta/datastorage/acountData.dart';
 
 class AccountDisplayer extends StatelessWidget

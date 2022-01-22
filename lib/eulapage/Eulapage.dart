@@ -1,9 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:vesta/Vesta.dart';
 import 'package:vesta/i18n/appTranslations.dart';
+import 'package:vesta/managers/settingsManager.dart';
+import 'package:vesta/routing/router.dart';
 
 class Eula extends StatefulWidget
 {
@@ -57,8 +57,9 @@ class _EulaState extends State<Eula> with SingleTickerProviderStateMixin
           WidgetSpan(child: ElevatedButton( 
             onPressed: ()
             {
-                Vesta.of(context).updateSettings(eulaWasAccepted:true);
-                Navigator.pushReplacementNamed(context, '/login');
+                SettingsManager.INSTANCE.updateSettings(eulaWasAccepted:true);
+                //Navigator.of(context).pushReplacementNamed('/login');
+                (Router.of(context).routerDelegate as MainDelegate).SetPath('/login');
             },
             style: ButtonStyle(
               shape: MaterialStateProperty.all(RoundedRectangleBorder(

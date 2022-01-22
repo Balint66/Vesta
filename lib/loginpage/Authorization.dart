@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vesta/loginpage/loginForm.dart';
+import 'package:vesta/routing/router.dart';
 
 class Authorization extends StatefulWidget
 {
@@ -18,6 +19,8 @@ class Authorization extends StatefulWidget
 class AuthorizationState extends State<Authorization>
 {
 
+  bool implyLeading = false;
+
   @override
   Widget build(BuildContext context)
   {
@@ -28,10 +31,15 @@ class AuthorizationState extends State<Authorization>
           ),
       ),
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: implyLeading,
         backgroundColor: Color.fromARGB(0,0,0,0),
-        elevation: 0, actions: [TextButton.icon(icon: Icon(Icons.settings), 
-        onPressed: ()=>Navigator.of(context).pushNamed('/settings/main'), label:Container())],), //Custom top for settings buton
+        elevation: 0, 
+        actions: [TextButton.icon(icon: Icon(Icons.settings), 
+        onPressed: ()=>setState((){
+          implyLeading = false;
+          (Router.of(context).routerDelegate as MainDelegate).SetPath('/settings');
+        }),
+        label:Container())],), //Custom top for settings buton
     );
 
   }

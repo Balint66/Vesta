@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:vesta/applicationpage/MainProgram.dart';
 import 'package:vesta/applicationpage/common/accountDisplayer.dart';
-import 'package:vesta/i18n/appTranslations.dart';
+import 'package:vesta/routing/router.dart';
+import 'sidebar.i18n.dart';
 import 'package:vesta/managers/accountManager.dart';
 import 'package:vesta/routing/replacementObserver.dart';
 
@@ -27,8 +28,6 @@ class SideBarState extends State<Sidebar>
   Widget build(BuildContext context) 
   {
 
-    var translator = AppTranslations.of(context);
-
     return Drawer(
         child: Scaffold(
             appBar: AppBar(
@@ -44,7 +43,7 @@ class SideBarState extends State<Sidebar>
                     constraints: BoxConstraints(minHeight: 100.0),
                     child: ListView.builder(shrinkWrap: true, itemCount: ls.length, itemBuilder: (ctx,i) => GestureDetector(
                       onTap: (){
-                        AccountManager.setAscurrent(ls[i]);
+                        AccountManager.setAsCurrent(ls[i]);
                         Navigator.pop(ctx);
                         MainProgram.of(ctx).Reload();
                         },
@@ -60,11 +59,11 @@ class SideBarState extends State<Sidebar>
                 onPressed: ()
                 {
                   Navigator.pop(context);
-                  Navigator.pushNamed(context, '/settings/main');
+                  (Router.of(context).routerDelegate as MainDelegate).SetPath('/settings');
                 },
                 icon:Icon(Icons.settings),
                 label: Text(
-                    translator.translate('sidebar_settings'),
+                    'settings'.i18n,
                     style: TextStyle(fontSize: 20),
                   ),
                   style: ButtonStyle(
@@ -74,13 +73,13 @@ class SideBarState extends State<Sidebar>
             //TODO: implement missing buttons
             body: ListView(
               children: <Widget>[
-                MenuButtons(translator.translate('sidebar_messages'),Icons.message,'/app/messages', key: widget.keys[0],), //Done
-                MenuButtons(translator.translate('sidebar_forum'),Icons.wrap_text,'/app/forums',key: widget.keys[1],), //TODO
-                MenuButtons(translator.translate('sidebar_calendar'),Icons.calendar_today,'/app/calendar',key: widget.keys[2],), //TODO: event specific display
-                MenuButtons(translator.translate('sidebar_subjects'),Icons.book,'/app/subjects',key: widget.keys[3],),//TODO: signing into the subjects (in paper it is implemented but I'm not sure)
-                MenuButtons(translator.translate('sidebar_exams'),Icons.school,'/app/exams',key: widget.keys[4],),//TODO: signing into exams
-                MenuButtons(translator.translate('sidebar_student_book'),Icons.local_library,'/app/student_book',key: widget.keys[5],),//Done
-                MenuButtons(translator.translate('sidebar_semesters'),Icons.hourglass_empty,'/app/semesters',key: widget.keys[6],),//TODO: cacheing the data?
+                MenuButtons('messages'.i18n,Icons.message,'/app/messages', key: widget.keys[0],), // Done
+                MenuButtons('forum'.i18n,Icons.wrap_text,'/app/forums',key: widget.keys[1],), //TODO
+                MenuButtons('calendar'.i18n,Icons.calendar_today,'/app/calendar',key: widget.keys[2],), //TODO: event specific display
+                MenuButtons('subjects'.i18n,Icons.book,'/app/subjects',key: widget.keys[3],),// Done
+                MenuButtons('exams'.i18n,Icons.school,'/app/exams',key: widget.keys[4],),//TODO: signing into exams
+                MenuButtons('student_book'.i18n,Icons.local_library,'/app/student_book',key: widget.keys[5],),//Done
+                MenuButtons('semesters'.i18n,Icons.hourglass_empty,'/app/semesters',key: widget.keys[6],),//TODO: cacheing the data?
               ],
             )
         )
@@ -174,7 +173,7 @@ class MenuButtonState extends State<MenuButtons>
             {
               if(enabled)
               {
-                MainProgram.navKey.currentState!.pushNamedAndRemoveUntil(widget.path, (_) => true);
+                (Router.of(context).routerDelegate as MainDelegate).SetPath('/app/${widget.path}');
                 Navigator.of(context).pop();
               }
             },

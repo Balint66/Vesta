@@ -1,10 +1,8 @@
 import 'dart:async';
-
-import 'package:flutter/cupertino.dart';
+import 'login.i18n.dart';
 import 'package:flutter/material.dart';
 import 'package:vesta/datastorage/data.dart';
 import 'package:vesta/datastorage/Lists/schoolList.dart';
-import 'package:vesta/i18n/appTranslations.dart';
 import 'package:vesta/loginpage/keepMeLoggedInButton.dart';
 import 'package:vesta/loginpage/loginButton.dart';
 import 'package:vesta/loginpage/schoolSelectioButton.dart';
@@ -93,8 +91,6 @@ class LoginFormState extends State<LoginForm>
   Widget build(BuildContext context)
   {
 
-    var translator = AppTranslations.of(context);
-
     _post ??= WebServices.fetchSchools();
 
       return _LoginForm(
@@ -127,7 +123,7 @@ class LoginFormState extends State<LoginForm>
                           onPressed: () => setState(() {
                             _post = null;
                           }),
-                          child: Text(translator.translate('login_retry')),);
+                          child: Text('retry'.i18n),);
 
                       }
 
@@ -147,7 +143,7 @@ class LoginFormState extends State<LoginForm>
                       if(_validSchool) {
                             _validSchool = false;
                       }
-                      return translator.translate('login_select_school');
+                      return 'select_school'.i18n;
                     }
                     if(!_validSchool) {
                           _validSchool = true;
@@ -165,8 +161,8 @@ class LoginFormState extends State<LoginForm>
                     autofocus: true,
                     decoration: InputDecoration(
                       icon:Icon(Icons.person_outline_outlined),
-                      labelText: translator.translate('login_username'),
-                      hintText: translator.translate('login_username_hint'),
+                      labelText: 'username'.i18n,
+                      hintText: 'username_hint'.i18n,
                       border: OutlineInputBorder(borderSide: BorderSide(width: 1))
                     ),
                     maxLines: 1,
@@ -181,7 +177,7 @@ class LoginFormState extends State<LoginForm>
                         if(_validUsername) {
                           _validUsername = false;
                         }
-                        return translator.translate('login_username_character_error');
+                        return 'username_character_error'.i18n;
                       }
                       if(!_validUsername) {
                         _validUsername = true;
@@ -198,7 +194,7 @@ class LoginFormState extends State<LoginForm>
                       autocorrect: false,
                       decoration: InputDecoration(
                         icon: Icon(Icons.lock_outlined),
-                        labelText: translator.translate('login_password'),
+                        labelText: 'password'.i18n,
                         border: OutlineInputBorder(borderSide: BorderSide(width: 1)),
                         suffixIcon: Container(
                       padding: EdgeInsets.fromLTRB(10,0,5,0),
@@ -227,7 +223,7 @@ class LoginFormState extends State<LoginForm>
                           if(_validPassword) {
                               _validPassword = false;
                           }
-                          return translator.translate('login_password_error');
+                          return 'password_error'.i18n;
                         }
                         if(!_validPassword) {
                             _validPassword = true;

@@ -1,11 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:vesta/Vesta.dart';
 import 'package:vesta/datastorage/local/persistentDataManager.dart';
 import 'package:vesta/i18n/appTranslations.dart';
 import 'package:vesta/managers/messageManager.dart';
+import 'package:vesta/managers/settingsManager.dart';
 import 'package:vesta/web/fetchManager.dart';
 
 class AdvancedSettings extends StatefulWidget
@@ -24,7 +24,7 @@ class AdvancedSettingsState extends State<AdvancedSettings>
   Widget build(BuildContext context)
   {
 
-    var data = Vesta.of(context).settings;
+    var data = SettingsManager.INSTANCE.settings;
     var translator = AppTranslations.of(context);
     List cuteMessages = translator.translateRaw('cute_messages');
 
@@ -63,11 +63,11 @@ class AdvancedSettingsState extends State<AdvancedSettings>
                 }, context: context);
 
                 if(val) {
-                  Vesta.of(context).updateSettings(devMode: val);
+                  SettingsManager.INSTANCE.updateSettings(devMode: val);
                 }
               }
               else {
-                Vesta.of(context).updateSettings(devMode: value);
+                SettingsManager.INSTANCE.updateSettings(devMode: value);
               }
             },
             title: Text(translator.translate('settings_dev')),)
@@ -83,10 +83,10 @@ class AdvancedSettingsState extends State<AdvancedSettings>
           ListTile(title: Text(translator.translate('settings_hard_reset')),
           onTap: ()
           {
-            Vesta.of(context).resetSettings();
+            SettingsManager.INSTANCE.resetSettings();
             FileManager.clearAllFileData();
             FetchManager.clearRegistered();
-            Navigator.of(context).pushNamedAndRemoveUntil('/eula', (route) => false);
+            Vesta.of(context).routerDelegate.SetPath('/eula');
           }),
         ]);
         }

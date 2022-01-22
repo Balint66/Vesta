@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:vesta/Vesta.dart';
 import 'package:vesta/i18n/appTranslations.dart';
+import 'package:vesta/managers/settingsManager.dart';
 
 class MenuSelector extends StatefulWidget
 {
@@ -43,7 +42,7 @@ class MenuSelectorState extends State<MenuSelector>
   Widget _item(String str, translator)
   {
     return RadioListTile<String>(value: str, groupValue: _home, title: Text(translator.translate('sidebar_$str')), 
-      onChanged: (i)=> setState((){_home = i as String; Vesta.of(context).updateSettings(route: '/app/'+_home);}));
+      onChanged: (i)=> setState((){_home = i as String; SettingsManager.INSTANCE.updateSettings(route: '/app/'+_home);}));
   }
 
 }

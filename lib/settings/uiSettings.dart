@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:i18n_extension/i18n_widget.dart';
 import 'package:vesta/Vesta.dart';
 import 'package:vesta/i18n/appTranslations.dart';
 import 'package:vesta/i18n/localizedApp.dart';
+import 'package:vesta/managers/settingsManager.dart';
 import 'package:vesta/settings/colorSelector.dart';
 import 'package:vesta/settings/settingsData.dart';
 
@@ -19,7 +20,7 @@ class UISettingsState extends State<UISettings>
   {
 
     var translator = AppTranslations.of(context);
-    var data = Vesta.of(context).settings;
+    var data = SettingsManager.INSTANCE.settings;
 
     var options = <Widget>[
       ListTile(
@@ -36,7 +37,7 @@ class UISettingsState extends State<UISettings>
           ),
           CheckboxListTile(
               value: data.isDarkTheme,
-              onChanged:  (bool? value){Vesta.of(context).updateSettings(isDarkTheme: value);},
+              onChanged:  (bool? value){SettingsManager.INSTANCE.updateSettings(isDarkTheme: value);},
                 title: Text(translator.translate('settings_dark_theme')),
           ),
           CheckboxListTile(
@@ -54,21 +55,21 @@ class UISettingsState extends State<UISettings>
               {
                 if(value)
                 {
-                  switch(Vesta.of(context).settings.language)
+                  switch(SettingsManager.INSTANCE.settings.language)
                   {
                     case 'en':
-                      Vesta.of(context).updateSettings(neptunLang:en_us_LCID);
+                      SettingsManager.INSTANCE.updateSettings(neptunLang:en_us_LCID);
                       //AccountData.setInstance(AccountData.Instance!.username!, AccountData.Instance!.password!, AccountData.Instance!.training, LCID: en_us_LCID);
                       break;
                     case 'hu':
                     default:
-                      Vesta.of(context).updateSettings(neptunLang:hun_LCID);
+                      SettingsManager.INSTANCE.updateSettings(neptunLang:hun_LCID);
                       //AccountData.setInstance(AccountData.Instance!.username!, AccountData.Instance!.password!, AccountData.Instance!.training, LCID: hun_LCID);
                       break;
                   }
                 }
 
-                Vesta.of(context).updateSettings(syncLang: value);
+                SettingsManager.INSTANCE.updateSettings(syncLang: value);
               });
             }),
           PopupMenuButton(itemBuilder: (context) 
@@ -79,7 +80,8 @@ class UISettingsState extends State<UISettings>
             onSelected: (int value)
             {
               application.changeLocal(Locale(application.supportedLanguagesCodes[value]));
-              Vesta.of(context).updateSettings(language: application.supportedLanguagesCodes[value]);
+              SettingsManager.INSTANCE.updateSettings(language: application.supportedLanguagesCodes[value]);
+              I18n.of(context).locale = Locale(application.supportedLanguagesCodes[value]);
 
               if(data.syncLangWithNeptun)
               {
@@ -90,16 +92,16 @@ class UISettingsState extends State<UISettings>
                   switch(value)
                   {
                     case 2:
-                      Vesta.of(context).updateSettings(neptunLang:de_LCID);
+                      SettingsManager.INSTANCE.updateSettings(neptunLang:de_LCID);
                       //AccountData.setInstance(AccountData.Instance!.username!, AccountData.Instance!.password!, AccountData.Instance!.training, LCID: de_LCID);
                       break;
                     case 1:
-                      Vesta.of(context).updateSettings(neptunLang:hun_LCID);
+                      SettingsManager.INSTANCE.updateSettings(neptunLang:hun_LCID);
                       //AccountData.setInstance(AccountData.Instance!.username!, AccountData.Instance!.password!, AccountData.Instance!.training, LCID: hun_LCID);
                       break;
                     case 0:
                     default:
-                      Vesta.of(context).updateSettings(neptunLang:en_us_LCID);
+                      SettingsManager.INSTANCE.updateSettings(neptunLang:en_us_LCID);
                       //AccountData.setInstance(AccountData.Instance!.username!, AccountData.Instance!.password!, AccountData.Instance!.training, LCID: en_us_LCID);
                       break;
                   }
@@ -126,16 +128,16 @@ class UISettingsState extends State<UISettings>
               switch(value)
               {
                 case 2:
-                  Vesta.of(context).updateSettings(neptunLang:de_LCID);
+                  SettingsManager.INSTANCE.updateSettings(neptunLang:de_LCID);
                   //AccountData.setInstance(AccountData.Instance!.username!, AccountData.Instance!.password!, AccountData.Instance!.training, LCID: de_LCID);
                   break;
                 case 1:
-                  Vesta.of(context).updateSettings(neptunLang:en_us_LCID);
+                  SettingsManager.INSTANCE.updateSettings(neptunLang:en_us_LCID);
                   //AccountData.setInstance(AccountData.Instance!.username!, AccountData.Instance!.password!, AccountData.Instance!.training, LCID: en_us_LCID);
                   break;
                 case 0:
                 default:
-                  Vesta.of(context).updateSettings(neptunLang:hun_LCID);
+                  SettingsManager.INSTANCE.updateSettings(neptunLang:hun_LCID);
                   //AccountData.setInstance(AccountData.Instance!.username!, AccountData.Instance!.password!, AccountData.Instance!.training, LCID: hun_LCID);
                   break;
               }

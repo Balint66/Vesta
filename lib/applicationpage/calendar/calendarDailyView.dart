@@ -12,7 +12,7 @@ import 'package:intl/intl.dart';
 
 class CalendarDailyView extends StatefulWidget
 {
-  final BaseDataList<CalendarData> data;
+  final BaseDataList<CalendarData?> data;
 
   CalendarDailyView(this.data, {Key? key}): super(key:key);
 
@@ -23,7 +23,6 @@ class CalendarDailyView extends StatefulWidget
 
 class CalendarDailyViewState extends State<CalendarDailyView>
 {
-
   DateTime day = DateTime.fromMillisecondsSinceEpoch(DateUtil.epochFlooredToDays(DateTime.now()));
 
   @override
@@ -31,7 +30,7 @@ class CalendarDailyViewState extends State<CalendarDailyView>
   {
 
     var response = BaseDataList(other: widget.data
-        .where((element) => element.end.isAfter(day)
+        .where((element) => element!.end.isAfter(day)
           && element.end.isBefore(day.add(Duration(days:1))) ).toList());
 
     late Widget body;
@@ -51,16 +50,16 @@ class CalendarDailyViewState extends State<CalendarDailyView>
     }
     else
     {
-      context.findAncestorStateOfType<LessonDisplayerState>()!.nextEnd = response[0].end;
+      context.findAncestorStateOfType<LessonDisplayerState>()!.nextEnd = response[0]!.end;
       body = ListView.builder(
         shrinkWrap: false,
         physics: AlwaysScrollableScrollPhysics(),
+        reverse: true,
         itemCount: response.length,
         itemBuilder: (BuildContext ctx, int index)
         {
           return ClickableCard(
-            secondColor: response[index].eventColor,
-            child: CalendarBody(response[index]),
+            child: CalendarBody(response[index]!),
           );
         }
       );

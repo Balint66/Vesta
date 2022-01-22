@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:duration_picker/duration_picker.dart';
 import 'package:vesta/Vesta.dart';
+import 'package:vesta/applicationpage/MainProgram.dart';
 import 'package:vesta/applicationpage/calendar/calendarDataDisplay.dart';
 import 'package:vesta/i18n/appTranslations.dart';
 import 'package:vesta/settings/pageSettings/data/calendarPageData.dart';
@@ -52,6 +52,7 @@ class _EmptyState extends PageSettingsState
 {
   
   @override
+  // ignore: must_call_super
   List<BuildFunction> get body => [];
 
   @override

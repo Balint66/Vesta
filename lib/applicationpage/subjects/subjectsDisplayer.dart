@@ -32,17 +32,17 @@ class _SubjectDisplayerState extends State<SubjectDisplayer>
 
     var translator = AppTranslations.of(context);
 
-    return StreamBuilder(stream: AccountManager.currentAccount.subject.getData(), builder: (BuildContext ctx, AsyncSnapshot<BaseDataList<SubjectData>> snap)
+    return StreamBuilder(stream: AccountManager.currentAccount.subject.getData(), builder: (BuildContext ctx, AsyncSnapshot<BaseDataList<SubjectData?>> snap)
       {
         if( !snap.hasData || snap.data == null) {
           return Center(child: CircularProgressIndicator());
         }
 
-        snap.data!.sort((e,k)=>e.SubjectName.compareTo(k.SubjectName));
+        snap.data!.sort((e,k)=>e!.SubjectName.compareTo(k!.SubjectName));
 
         var ls = <Widget>[];
 
-        var completed = groupBy(snap.data!, (SubjectData item)=>item.Completed);
+        var completed = groupBy(snap.data!, (SubjectData? item)=>item!.Completed);
 
         if(completed[true] != null){
           ls.add(ExpansionTile(title: Text(translator.translate('subjects_completed')), children: completed[true]!.map((e) => _visualizeItem(e)).toList()));
@@ -51,7 +51,7 @@ class _SubjectDisplayerState extends State<SubjectDisplayer>
         if(completed[false] != null)
         {
 
-          var isOn = groupBy(completed[false]!, (SubjectData item)=>item.IsOnSubject);
+          var isOn = groupBy(completed[false]!, (SubjectData? item)=>item!.IsOnSubject);
 
           if(isOn[true] != null){
             ls.add(ExpansionTile(title: Text(translator.translate('subjects_selected')), children: isOn[true]!.map((e) => _visualizeItem(e)).toList()));
@@ -65,17 +65,20 @@ class _SubjectDisplayerState extends State<SubjectDisplayer>
 
         return RefreshExecuter(
           asyncCallback: AccountManager.currentAccount.subject.incrementDataIndex,
-          child: ListView(children: ls,),
+          child: ListView(
+            reverse: true,
+            children: ls,
+          ),
         );
 
       }
     );  
   }
 
-  ClickableCard _visualizeItem(SubjectData element)
+  ClickableCard _visualizeItem(SubjectData? element)
   {
     return ClickableCard(
-            child: ListTile(leading: element.IsOnSubject ? Icon(Icons.indeterminate_check_box, color: Colors.blue) 
+            child: ListTile(leading: element!.IsOnSubject ? Icon(Icons.indeterminate_check_box, color: Colors.blue) 
             : element.Completed ? Icon(Icons.check_box , color: Colors.green) : Icon(Icons.check_box_outline_blank, color: Colors.grey),
             title: Text(element.SubjectName), subtitle: Text('${element.SubjectCode}\n${element.SubjectRequirement}'),
             onTap: () {

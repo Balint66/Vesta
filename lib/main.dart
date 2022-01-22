@@ -3,22 +3,22 @@ import 'package:background_fetch/background_fetch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show debugDefaultTargetPlatformOverride;
 import 'package:vesta/Vesta.dart';
+import 'package:vesta/managers/appStateManager.dart';
 import 'package:vesta/web/fetchManager.dart';
-import 'package:vesta/web/webServices.dart';
 
 void main() async
 {
 
-  var alpha = Platform.isWindows || Platform.isLinux || Platform.isMacOS;
-
-  if(alpha)
+  if(Platform.isWindows || Platform.isLinux || Platform.isMacOS) //changehow flutter acts on these platforms
   {
     debugDefaultTargetPlatformOverride = TargetPlatform.android;
   }
   
-  WebServices.init();
+  var manager = AppStateManager();
 
-  runApp(Vesta());
+  await manager.init();
+
+  runApp(Vesta(manager));
   
 
   if(Platform.isAndroid)

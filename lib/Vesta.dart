@@ -1,13 +1,9 @@
 import 'dart:async';
-import 'package:universal_io/io.dart';
-
-import 'package:background_fetch/background_fetch.dart';
+import 'package:i18n_extension/i18n_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:logger/logger.dart';
-import 'package:vesta/applicationpage/innerMainProgRouter.dart';
-import 'package:vesta/datastorage/local/persistentDataManager.dart';
 import 'package:vesta/i18n/appTranslations.dart';
 import 'package:vesta/i18n/localizedApp.dart';
 import 'package:vesta/managers/settingsManager.dart';
@@ -15,12 +11,13 @@ import 'package:vesta/managers/logManager.dart';
 import 'package:vesta/managers/messageManager.dart';
 import 'package:vesta/routing/router.dart';
 import 'package:vesta/settings/pageSettingsData.dart';
-import 'package:vesta/settings/settingsData.dart';
 import 'package:vesta/utils/ColorUtils.dart';
 import 'package:vesta/utils/ColoredThemeData.dart';
 import 'package:vesta/web/fetchManager.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:intl/intl.dart';
+
+import 'managers/appStateManager.dart';
 
 
 class Vesta extends StatefulWidget
@@ -32,18 +29,9 @@ class Vesta extends StatefulWidget
   static final showSnackbar = (Widget widget)=>MessageManager.showSnackBar(widget);
   static final dateFormatter = DateFormat('yy. MM. dd. HH:mm');
 
-  static Route<dynamic>? generateRoutes(RouteSettings settings)
-  {
-    if(settings.name == '/home')
-    {
+  final AppStateManager appManager;
 
-      settings = RouteSettings(name: home,
-          arguments: settings.arguments);
-
-    }
-
-    return VestaRouter.router.generator(settings);
-  }
+  Vesta(this.appManager);
 
   @override
   State<StatefulWidget> createState()
@@ -76,46 +64,20 @@ class _VestaInherited extends InheritedWidget
 class VestaState extends State<Vesta> with WidgetsBindingObserver
 {
 
-  void updateSettings({Color? mainColor, bool? isDarkTheme, bool? keepMeLogged,
-    String? route, bool? eulaWasAccepted, String? language, bool? devMode, bool? syncLang,
-    int? neptunLang})
-  {
-
-    if(mainColor == null && isDarkTheme == null && keepMeLogged == null
-        && route == null && eulaWasAccepted == null && language == null
-        && devMode == null && syncLang == null && neptunLang == null) {
-      return;
-    }
-    setState((){
-      SettingsManager.updateSettings(mainColor:mainColor, isDarkTheme:isDarkTheme, keepMeLogged:keepMeLogged,
-          route:route, eulaWasAccepted:eulaWasAccepted, language:language, devMode:devMode, syncLang:syncLang, neptunLang: neptunLang);
-    });
-  }
-  void resetSettings()
-  {
-    setState(SettingsManager.resetSettings);
-  }
+  final routerDelegate = MainDelegate();
+  final _routerInformationParser = MainRouterInformationParser();
 
   @override
   void initState()
   {
     super.initState();
+    SettingsManager.INSTANCE.addListener(()=>setState((){}));
     application.addListener(onLocaleChanged);
-    initPlatform();
-    _post = Future.delayed(Duration(milliseconds: 1),() async
-    {
 
-      await FileManager.init();
+    application.changeLocal(application.supportedLocales().where((element) 
+        => element.languageCode == SettingsManager.INSTANCE.settings.language).first);
 
-      SettingsManager.loadSettings();
-      
-      application.changeLocal(application.supportedLocales().where((element) 
-        => element.languageCode == settings.language).first);
-
-      MainProgRouter.defaultRoute = '/app' + settings.appHomePage;
-
-      return FileManager.readData();
-    });
+    _post = widget.appManager.appInit();
 
     WidgetsBinding.instance?.addObserver(this);
 
@@ -163,41 +125,15 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
   void updatePageSettings(String page, PageSettingsData data)
   {
 
-    if(!settings.pageSettings.containsKey(page)){
+    if(!SettingsManager.INSTANCE.settings.pageSettings.containsKey(page)){
       return;
     }
 
     setState(() {
-      SettingsManager.updatePageSettings(page, data);
+      SettingsManager.INSTANCE.updatePageSettings(page, data);
       _pagesettings = true;
     });
 
-  }
-
-  SettingsData get settings => SettingsManager.settings;
-
-  Future<void> initPlatform() async
-  {
-    try
-    {
-      if( Platform.isAndroid || Platform.isIOS) {
-        await BackgroundFetch.configure(BackgroundFetchConfig(
-        minimumFetchInterval: 15,
-        stopOnTerminate: false,
-        startOnBoot: true,
-        enableHeadless: true,
-        requiredNetworkType: NetworkType.ANY,
-      ), (String id) async
-      {
-        await FetchManager.fetch();
-        BackgroundFetch.finish(id);
-      });
-      }
-    }
-    catch(e)
-    {
-      Vesta.logger.w('Dabiri-dabirido! What does this button do?\n Unable to configure background fetch. Something is not implemented?', e);
-    }
   }
 
   Future<bool>? _post;
@@ -205,11 +141,6 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
   @override
   Widget build(BuildContext context)
   {
-
-    VestaRouter.registerRoutes();
-
-    FetchManager.init();
-
       return FutureBuilder(future:_post,
           builder: (BuildContext ctx, AsyncSnapshot<bool> snapshot)
           {
@@ -226,22 +157,20 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
               Vesta.home = '/app/home';
             }
 
-          return OverlaySupport(
+          return I18n(child: OverlaySupport(
               child: _VestaInherited(
                 data: this,
-                child: MaterialApp(
+                child: MaterialApp.router(
                   debugShowCheckedModeBanner: false,
                   title: 'Vesta',
                   theme: ColoredThemeData.create(
-                        MaterialColor(settings.mainColor.value, genSwatch()),
+                        MaterialColor(SettingsManager.INSTANCE.settings.mainColor.value, genSwatch()),
                         Brightness.light,
                     ),
                     darkTheme: ColoredThemeData.create(
-                      MaterialColor(settings.mainColor.value, genSwatch()),
+                      MaterialColor(SettingsManager.INSTANCE.settings.mainColor.value, genSwatch()),
                       Brightness.dark,
                     ),
-                    onGenerateRoute: Vesta.generateRoutes,
-                    initialRoute: settings.eulaAccepted ? '/home' : '/eula',
                     localizationsDelegates: 
                     [
                       application.appDelegate,
@@ -252,10 +181,12 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
                       Locale('en'),
                       Locale('hu')
                     ],
-                    themeMode: settings.isDarkTheme ? ThemeMode.dark : ThemeMode.light,
+                    themeMode: SettingsManager.INSTANCE.settings.isDarkTheme ? ThemeMode.dark : ThemeMode.light,
+                    routerDelegate: routerDelegate,
+                    routeInformationParser: _routerInformationParser,
                   )
                 )
-              )
+              ))
           ;}
       );
 
@@ -263,7 +194,7 @@ class VestaState extends State<Vesta> with WidgetsBindingObserver
 
   Map<int, Color> genSwatch()
   {
-      var stringSwatch = ColorUtils.swatchColor(ColorUtils.intToHex(settings.mainColor.value));
+      var stringSwatch = ColorUtils.swatchColor(ColorUtils.intToHex(SettingsManager.INSTANCE.settings.mainColor.value));
 
       var map = <int, Color>{};
 

@@ -4,15 +4,21 @@ import 'package:vesta/datastorage/local/persistentDataManager.dart';
 import 'package:vesta/settings/pageSettingsData.dart';
 import 'package:vesta/settings/settingsData.dart';
 
-abstract class SettingsManager
+abstract class SettingsManager with ChangeNotifier
 {
-  static var _settings = SettingsData();
-  static SettingsData get settings => SettingsData.copyOf(_settings);
 
-  static void resetSettings() =>
+  static final SettingsManager INSTANCE = _Instance();
+
+  var _settings = SettingsData();
+  SettingsData get settings => SettingsData.copyOf(_settings);
+
+  void resetSettings()
+  {
       _settings = SettingsData();
+      notifyListeners();
+  }
   
-  static void updateSettings({Color? mainColor, bool? isDarkTheme, bool? keepMeLogged,
+  void updateSettings({Color? mainColor, bool? isDarkTheme, bool? keepMeLogged,
     String? route, bool? eulaWasAccepted, String? language, bool? devMode, bool? syncLang,
     int? neptunLang})
   {
@@ -54,20 +60,27 @@ abstract class SettingsManager
         _settings.neptunLang = neptunLang;
       }
       FileManager.saveSettings(_settings);
+      notifyListeners();
   }
 
-  static void loadSettings() async
+  void loadSettings() async
   {
     var newSettings = await FileManager.loadSettings();
       if(newSettings != null) {
         _settings = newSettings;
+        notifyListeners();
       }
   }
 
-  static void updatePageSettings(String page, PageSettingsData data)
+  void updatePageSettings(String page, PageSettingsData data)
   {
     _settings.pageSettings[page] = data;
     FileManager.saveSettings(_settings);
+    notifyListeners();
   }
+
+}
+
+class _Instance extends SettingsManager{
 
 }

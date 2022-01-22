@@ -1,6 +1,6 @@
 part of 'listDataHolder.dart';
 
-class SubjectDataListHolder extends ListDataHolder<BaseDataList<SubjectData>>
+class SubjectDataListHolder extends ListDataHolder<BaseDataList<SubjectData?>>
 {
 
   static final Duration defaultInterval = Duration(hours:6);

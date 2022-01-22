@@ -22,7 +22,7 @@ class WebDataStudentBook extends WebDataContainer
   {
     var sup = super.toJsonMap();
 
-    sup.addAll(<String, dynamic>{'MarkBookList':list.expand((element) => [element.toJson()])});
+    sup.addAll(<String, dynamic>{'MarkBookList':list.expand((element) => [element!.toJson()])});
 
     return sup;
   }

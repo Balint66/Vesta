@@ -16,7 +16,7 @@ class CalendarPageSettingsState extends PageSettingsState<CalendarPageSettings>
   List<BuildFunction> get body
   {
     var base = super.body;
-    base.add((conetxt){
+    base.add((ctxt){
       return PopupMenuButton(itemBuilder:
         (context)=>CalendarDisplayModes.values
           .map((e)=>PopupMenuItem<int>( value:e.index, child: Text(e.displayName))).toList(),
@@ -25,6 +25,7 @@ class CalendarPageSettingsState extends PageSettingsState<CalendarPageSettings>
           setState((){
             widget.data!.mode = CalendarDisplayModes.values[value];
             Vesta.of(context).updatePageSettings(widget.page, widget.data!);
+            MainProgram.of(ctxt).Reload();
           });
         },
         child: ListTile(title: Text('Mode: ${widget.data!.mode.displayName}'),)

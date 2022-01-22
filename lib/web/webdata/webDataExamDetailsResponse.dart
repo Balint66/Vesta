@@ -14,6 +14,7 @@ class WebDataExamDetailsResponse extends WebDataContainer
     : examDetails = ExamDetails.fromJson(json['ExamDetails']) , base = WebDataBase.fromJson(json);
 
   @override
+  // ignore: must_call_super
   Map<String, dynamic> toJsonMap() 
   {
     throw UnimplementedError();
