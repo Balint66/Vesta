@@ -28,7 +28,7 @@ packages:
       name: args
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "2.3.0"
   asn1lib:
     dependency: transitive
     description:
@@ -46,12 +46,10 @@ packages:
   background_fetch:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "724a13feeead45dcc491a9d52f867bf6f9c86d50"
-      url: "https://github.com/transistorsoft/flutter_background_fetch"
-    source: git
-    version: "1.0.1"
+      name: background_fetch
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.3"
   boolean_selector:
     dependency: transitive
     description:
@@ -121,7 +119,7 @@ packages:
       name: csslib
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.17.0"
+    version: "0.17.1"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -129,33 +127,34 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.3"
+  dbus:
+    dependency: transitive
+    description:
+      name: dbus
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.6.8"
   dio:
     dependency: "direct overridden"
     description:
-      path: dio
-      ref: HEAD
-      resolved-ref: "20506b496d41d7c2cc71d323e22634e99dc3ef21"
-      url: "https://github.com/flutterchina/dio.git"
-    source: git
-    version: "4.0.0"
+      name: dio
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.0.4"
   dio_cookie_manager:
     dependency: "direct main"
     description:
-      path: "plugins/cookie_manager"
-      ref: HEAD
-      resolved-ref: "20506b496d41d7c2cc71d323e22634e99dc3ef21"
-      url: "https://github.com/flutterchina/dio.git"
-    source: git
+      name: dio_cookie_manager
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "2.0.0"
   duration_picker:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "252dee3e7a24c5006409295e0c28ec19cede9d62"
-      url: "https://github.com/juliansteenbakker/duration_picker"
-    source: git
-    version: "1.0.1"
+      name: duration_picker
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.0+1"
   encrypt:
     dependency: "direct main"
     description:
@@ -199,21 +198,17 @@ packages:
   flutter_feather_icons:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "0ad50a4e1b00bf78831040662a2c3feb5c8b814b"
-      url: "https://github.com/NikSWE/flutter_feather_icons"
-    source: git
+      name: flutter_feather_icons
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "2.0.0+1"
   flutter_launcher_icons:
     dependency: "direct dev"
     description:
-      path: "."
-      ref: null-safety
-      resolved-ref: "856cb7f22985d1cd7af3824b44890f24f74d0008"
-      url: "https://github.com/fluttercommunity/flutter_launcher_icons"
-    source: git
-    version: "0.9.0"
+      name: flutter_launcher_icons
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.9.2"
   flutter_lints:
     dependency: transitive
     description:
@@ -224,19 +219,24 @@ packages:
   flutter_local_notifications:
     dependency: "direct main"
     description:
-      path: flutter_local_notifications
-      ref: HEAD
-      resolved-ref: "025244580d5cb7d54b897e5b05de549dece3b1f4"
-      url: "https://github.com/MaikuB/flutter_local_notifications"
-    source: git
-    version: "8.1.1+1"
+      name: flutter_local_notifications
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "9.2.0"
+  flutter_local_notifications_linux:
+    dependency: transitive
+    description:
+      name: flutter_local_notifications_linux
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.4.1+1"
   flutter_local_notifications_platform_interface:
     dependency: transitive
     description:
       name: flutter_local_notifications_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.1"
+    version: "5.0.0"
   flutter_localizations:
     dependency: "direct main"
     description: flutter
@@ -262,12 +262,17 @@ packages:
   flutter_widget_from_html_core:
     dependency: "direct main"
     description:
-      path: "packages/core"
-      ref: HEAD
-      resolved-ref: ec3834dab87dbc779453ad045a3802e042068e10
-      url: "https://github.com/daohoangson/flutter_widget_from_html"
-    source: git
-    version: "0.7.0-dev.2021082103"
+      name: flutter_widget_from_html_core
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.8.4"
+  fwfh_text_style:
+    dependency: transitive
+    description:
+      name: fwfh_text_style
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.7.2"
   gettext_parser:
     dependency: transitive
     description:
@@ -334,11 +339,9 @@ packages:
   logger:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: a48733eb1a6ee8af398ac6d88748d6a69c724f2e
-      url: "https://github.com/leisim/logger"
-    source: git
+      name: logger
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "1.1.0"
   matcher:
     dependency: transitive
@@ -357,11 +360,9 @@ packages:
   overlay_support:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "40e31cf04545c42fb5c7d81c7b2f1fad0e297746"
-      url: "https://github.com/boyan01/overlay_support"
-    source: git
+      name: overlay_support
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "1.2.1"
   package_config:
     dependency: transitive
@@ -380,12 +381,24 @@ packages:
   path_provider:
     dependency: "direct main"
     description:
-      path: "packages/path_provider/path_provider"
-      ref: HEAD
-      resolved-ref: "56f092a8105d2a21d26844edb1bf8458f79f195e"
-      url: "https://github.com/flutter/plugins"
-    source: git
-    version: "2.0.3"
+      name: path_provider
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.8"
+  path_provider_android:
+    dependency: transitive
+    description:
+      name: path_provider_android
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.11"
+  path_provider_ios:
+    dependency: transitive
+    description:
+      name: path_provider_ios
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.7"
   path_provider_linux:
     dependency: transitive
     description:
@@ -523,7 +536,7 @@ packages:
       name: timezone
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.7.0"
+    version: "0.8.0"
   typed_data:
     dependency: transitive
     description:
@@ -541,21 +554,31 @@ packages:
   universal_io:
     dependency: "direct overridden"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "221ea9a5938d6cac68fe92238b7bf91d09ee566b"
-      url: "https://github.com/dint-dev/universal_io"
-    source: git
+      name: universal_io
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "2.0.4"
   url_launcher:
     dependency: "direct main"
     description:
-      path: "packages/url_launcher/url_launcher"
-      ref: HEAD
-      resolved-ref: "56f092a8105d2a21d26844edb1bf8458f79f195e"
-      url: "https://github.com/flutter/plugins"
-    source: git
-    version: "6.0.10"
+      name: url_launcher
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "6.0.18"
+  url_launcher_android:
+    dependency: transitive
+    description:
+      name: url_launcher_android
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "6.0.14"
+  url_launcher_ios:
+    dependency: transitive
+    description:
+      name: url_launcher_ios
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "6.0.14"
   url_launcher_linux:
     dependency: transitive
     description:
@@ -635,4 +658,4 @@ packages:
     version: "3.1.0"
 sdks:
   dart: ">=2.14.0 <3.0.0"
-  flutter: ">=2.2.0"
+  flutter: ">=2.6.0-0"

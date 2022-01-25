@@ -7,7 +7,8 @@ import 'package:overlay_support/overlay_support.dart';
 abstract class MessageManager
 {
 
-  static final _defaultAndroidDetail = AndroidNotificationDetails('vesta_main', 'Vesta', 'Vesta notifications', importance: Importance.high, priority: Priority.high, ticker: 'ticker');
+  static final _defaultAndroidDetail = AndroidNotificationDetails('vesta_main', 'Vesta',
+              channelDescription: 'Vesta notifications', importance: Importance.high, priority: Priority.high, ticker: 'ticker');
   static final _defaultIOSDetail = IOSNotificationDetails(presentAlert: true, presentSound: true,);
   static final _notificationDetails = NotificationDetails(android: _defaultAndroidDetail, iOS: _defaultIOSDetail);
   static final _notificationPlugin = _initPlugin();
@@ -31,7 +32,8 @@ abstract class MessageManager
     {
       
       case NotificationType.BIGTEXT:
-          var detail = NotificationDetails( android: AndroidNotificationDetails('vesta_main', 'Vesta', 'Vesta notifications', importance: Importance.high,
+          var detail = NotificationDetails( android: AndroidNotificationDetails('vesta_main', 'Vesta',
+             channelDescription: 'Vesta notifications', importance: Importance.high,
           priority: Priority.high, ticker: 'ticker', styleInformation: BigTextStyleInformation(text)),
           iOS: _defaultIOSDetail);
           _notificationPlugin.show(0, 'Vesta', text, detail, payload: payload);
@@ -50,7 +52,8 @@ abstract class MessageManager
 
         });
 
-        var detail = NotificationDetails(android: AndroidNotificationDetails('vetsa_main', 'Vesta', 'Vesta notifications', importance: Importance.high,
+        var detail = NotificationDetails(android: AndroidNotificationDetails('vetsa_main', 'Vesta',
+              channelDescription: 'Vesta notifications', importance: Importance.high,
           priority: Priority.high, ticker: 'ticker', styleInformation: InboxStyleInformation(ls)),
         iOS: _defaultIOSDetail);
 
@@ -62,7 +65,8 @@ abstract class MessageManager
         {
           throw 'No bitmap was specified!';
         }
-        var detail = NotificationDetails( android: AndroidNotificationDetails('vesta_main', 'Vesta', 'Vesta notifications', importance: Importance.high,
+        var detail = NotificationDetails( android: AndroidNotificationDetails('vesta_main', 'Vesta',
+            channelDescription: 'Vesta notifications', importance: Importance.high,
           priority: Priority.high, ticker: 'ticker', styleInformation: BigPictureStyleInformation(bitmap, summaryText: text)),
           iOS: _defaultIOSDetail);
 
