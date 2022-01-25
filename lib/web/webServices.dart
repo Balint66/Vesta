@@ -132,6 +132,7 @@ abstract class WebServices
       (client.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (client)
       {
         client.badCertificateCallback = fn;
+        return client;
       };
     }
     else if(client.httpClientAdapter is BrowserHttpClient)
